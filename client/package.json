@@ -9,7 +9,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "unzip": "^0.1.11",
+    "web-vitals": "^2.1.4",
+    "yauzl": "^2.10.0",
+    "zip": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
