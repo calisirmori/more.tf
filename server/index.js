@@ -9,7 +9,7 @@ const inputToJson = require('./inputToJson');
 app.use(express.json());
 app.use(cors());
 
-var file_url = 'http://logs.tf/logs/log_3295857.log.zip';
+var file_url = 'http://logs.tf/logs/log_3302577.log.zip';
 
 http.get(file_url, function(res) {
   var data = [], dataLen = 0; 
@@ -30,9 +30,8 @@ http.get(file_url, function(res) {
     var zipEntries = zip.getEntries();
 
     for (var i = 0; i < zipEntries.length; i++) {
-      //console.log(zipEntries[i].getData().toString())
       var textFile = zipEntries[i].getData().toString();
-      inputToJson.stringToObject(textFile);
+      console.log(inputToJson.stringToObject(textFile));
       if (zipEntries[i].entryName.match(/readme/))
         console.log(zip.readAsText(zipEntries[i]));
     }
