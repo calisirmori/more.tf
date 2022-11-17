@@ -2,19 +2,14 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-var http = require("http"),
-    zlib = require("zlib");
-var yauzl = require("yauzl");
-var request = require('request');
+const http = require("http");
+const AdmZip = require('adm-zip');
+const inputToJson = require('./inputToJson');
 
 app.use(express.json());
 app.use(cors());
 
-var file_url = 'http://logs.tf/logs/log_3303850.log.zip';
-
-var AdmZip = require('adm-zip');
-var request = require('request');
-
+var file_url = 'http://logs.tf/logs/log_3295857.log.zip';
 
 http.get(file_url, function(res) {
   var data = [], dataLen = 0; 
@@ -33,13 +28,15 @@ http.get(file_url, function(res) {
 
     var zip = new AdmZip(buf);
     var zipEntries = zip.getEntries();
-    console.log(zipEntries.length)
 
     for (var i = 0; i < zipEntries.length; i++) {
-      console.log(zipEntries[i].getData().toString())
+      //console.log(zipEntries[i].getData().toString())
+      var textFile = zipEntries[i].getData().toString();
+      inputToJson.stringToObject(textFile);
       if (zipEntries[i].entryName.match(/readme/))
         console.log(zip.readAsText(zipEntries[i]));
     }
+
   });
 });
 
