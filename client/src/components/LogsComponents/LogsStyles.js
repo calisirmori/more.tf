@@ -406,19 +406,20 @@ export const SvgArrow = styled.svg`
 
 export const FunFacts = styled.div`
     display: flex;
+    margin-bottom: 20px;
 `;
 
 export const BuildingsDestroyed = styled.div`
-    height: 500px;
     margin-left: 20px;
     width: 363px;
     border-radius: 5px;
     background-color: #171616;
+    
 `;
 
 export const Smalls = styled.div`
     display: block;
-    height: 500px;
+    
     width: 354px;
     margin-left: 10px;
     border-radius: 5px;
@@ -426,44 +427,47 @@ export const Smalls = styled.div`
 
 export const PlayersExtinguished = styled.div`
     margin-bottom: 10px;
-    height: 160px;
+    
     width: 354;
     background-color: #fff;
     border-radius: 5px;
     background-color: #171616;
+    padding-top: 0.1px;
+    padding-bottom: 20px;
 `;
 
 export const BuildingCount = styled.div`
     margin-bottom: 10px;
-    height: 160px;
+    padding-bottom: 20px;
     width: 354;
     background-color: #fff;
     border-radius: 5px;
     background-color: #171616;
+    padding-top: 0.1px;
 `;
 
 export const Dominations = styled.div`
-    height: 160px;
+    
+    padding-bottom: 20px;
     width: 354;
     background-color: #fff;
     border-radius: 5px;
     background-color: #171616;
+    padding-top: 0.1px;
 `;
 
 export const AmmoPickup = styled.div`
-    height: 500px;
     width: 363px;
     margin-left: 10px;
     border-radius: 5px;
     background-color: #171616;
-    margin-bottom: 20px;
 `;
 
 export const SmallHeaders = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-content: space-between;
-    margin:10px;
+    margin: 10px 20px;
     align-items: center;
 `;
 export const BlueTeam = styled.div`
@@ -472,8 +476,8 @@ export const BlueTeam = styled.div`
     align-items: center;
     font-family: 'Lilita One';
     color: #fff;
-    font-size: 50px;
-    height: 70px;
+    font-size: 45px;
+    height: 50px;
     border-radius: 5px 0  0 5px;
     border-bottom: 3px solid #395C79;
     background-color: #5B7A8C;
@@ -484,14 +488,14 @@ export const RedTeam = styled.div`
     align-items: center;
     font-family: 'Lilita One';
     color: #fff;
-    font-size: 50px;
-    height: 70px;
-    height: 70px;
+    font-size: 45px;
+    height: 50px;
     border-radius: 0 5px 5px 0;
     border-bottom: 3px solid #9D312F;
     background-color: #BD3B3B;
 `;
-export const SmallStats = styled.div``;
+export const SmallStats = styled.div`
+`;
 export const Label = styled.div`
     margin: 10px;
     display: flex;
@@ -502,7 +506,39 @@ export const Label = styled.div`
     font-size: 24px;
     
 `;
-export const TeamSection = styled.div``;
+export const TeamSection = styled.div`
+    display:grid;
+    grid-template-rows: repeat(18, 1fr);
+    
+    align-content: center;
+    margin-bottom: 20px;
+`;
 export const ClassIcons = styled.div``;
+export const SmallPlayerCard = styled.div`
+    display: grid;
+    grid-template-columns: 20px 200px 1fr;
+    width: 255px;
+    border-radius: 2px;
+    color: #fff;
+    font-size: 14px;
+    padding: 2px 10px;
+    margin-left: 52px;
+    margin-bottom: 2px;
+`;
+export const Name = styled.div`
+    margin-left: -20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+export const Amount = styled.div`
+    text-align: right;
+`;
+export const SmallIcon = styled.img`
+    height:18px;
+    width:18px;
+    margin-top:1px;
+    margin-left: -32px;
+`;
 export const Example = styled.div``;
 

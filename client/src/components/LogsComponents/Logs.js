@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassIcons, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominaions, Dominations, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsScore, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, Smalls, SmallStats, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassIcons, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominaions, Dominations, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsScore, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, Name, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -20,6 +20,8 @@ const Logs = () => {
   const [currentFocusName, setCurrentFocusName] = useState("");
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const [sortedDamage,setSortedDamage] =  useState([0,0,0,0,0,0,0,0,0])
+  const [smallStats, setSmallStats] = useState([]);
+  const [sumAmountsSmallStats, setSumAmountsSmallStats] = useState([]);
   var playersArray =[];
 
   useEffect(() => {
@@ -52,13 +54,49 @@ const Logs = () => {
         playersArray.sort();
         setListOfPlayers(playersArray);
     });
-
     axios.get(`http://localhost:8080/logsplus/${logInfo}`).then((response) => {
       setLocalInput(Object.entries(response.data))
+      var buildingfinder = Object.entries(response.data);
+      var samplearray = [];
+      var sumBlueBD = 0;
+      var sumRedBD = 0;
+      var sumBlueAP = 0;
+      var sumRedAP = 0;
+      //make this a big object with everyone
+      for(var i = 0; i < buildingfinder.length; i++){
+        if(buildingfinder[i][1].team == "blue" ){
+          sumBlueAP += buildingfinder[i][1].ammopickup;
+          sumBlueBD += buildingfinder[i][1].objectkills;
+        } else {
+          sumRedAP += buildingfinder[i][1].ammopickup;
+          sumRedBD += buildingfinder[i][1].objectkills;
+        }
+        
+        samplearray[i]= [nameFinder(buildingfinder[i][0]),
+                          buildingfinder[i][1].team,
+                          buildingfinder[i][1].class,
+                          buildingfinder[i][1].objectkills,
+                          buildingfinder[i][1].ammopickup,
+                          buildingfinder[i][1].extinguished,
+                          buildingfinder[i][1].objectbuilds,
+                          buildingfinder[i][1].domination
+                          ]
+      }
       findTheDamageSpread(9);
+      setSmallStats(samplearray);
+      setSumAmountsSmallStats([sumBlueBD,sumBlueAP,sumRedBD,sumRedAP])
     });
+    console.log("hey")
   }, [])
-  
+
+  function nameFinder(steamid){
+    for(var i = 0; i < listOfPlayers.length; i++){
+      if(steamid == listOfPlayers[i][1]){
+        return listOfPlayers[i][2];
+      }
+    }
+  }
+
   function findTheDamageSpread(inputId) {
     var currentDamageList = [];
     var array = [0,0,0,0,0,0,0,0,0];
@@ -335,11 +373,11 @@ const Logs = () => {
                   var centerLineOffset = 5;
                     return(
                       <KillImage>
-                        <SvgArrow height="600" width="600" style={{position: "absolute", left: 0, top: 0}}>
+                        <SvgArrow height="540" width="540" style={{position: "absolute", left: 0, top: 0}}>
                           <Arrow points={`${location[0]+centerLineOffset+currentOffset[0]},
-                                          ${location[1]+centerLineOffset+400+currentOffset[1]}
+                                          ${location[1]+centerLineOffset+340+currentOffset[1]}
                                           ${location[2]+centerLineOffset+currentOffset[0]},
-                                          ${location[3]+centerLineOffset+400+currentOffset[1]}`} style={{stroke: "#FFC000"}}></Arrow>
+                                          ${location[3]+centerLineOffset+340+currentOffset[1]}`} style={{stroke: "#FFC000"}}></Arrow>
                         </SvgArrow>
                         <Killer style={{left : location[0]+currentOffset[0] , bottom: location[1]+340+currentOffset[1]}}></Killer>
                         <Victim style={{left : location[2]+currentOffset[0] , bottom: location[3]+340+currentOffset[1]}}></Victim>
@@ -352,30 +390,95 @@ const Logs = () => {
             <BuildingsDestroyed>
               <Label>BUILDINGS DESTROYED</Label>
               <SmallHeaders>
-                <BlueTeam>180</BlueTeam>
-                <RedTeam>180</RedTeam>
+                <BlueTeam>{sumAmountsSmallStats[0]}</BlueTeam>
+                <RedTeam>{sumAmountsSmallStats[2]}</RedTeam>
               </SmallHeaders>
               <SmallStats>
-                <TeamSection></TeamSection>
-                <ClassIcons></ClassIcons>
-                <TeamSection></TeamSection>
+                <TeamSection>
+                  { 
+                    smallStats.map((playerinfo) => {
+                      return(
+                        <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
+                          <SmallIcon src={DamageIconMaker(playerinfo[2])}></SmallIcon>
+                          <Name>{playerinfo[0]}</Name>
+                          <Amount>{playerinfo[3]}</Amount>  
+                        </SmallPlayerCard>
+                      )
+                    })
+                  }
+                </TeamSection>
               </SmallStats>
             </BuildingsDestroyed>
             <Smalls>
-              <PlayersExtinguished></PlayersExtinguished>
-              <BuildingCount></BuildingCount>
-              <Dominations></Dominations>
+              <PlayersExtinguished>
+                <Label>PLAYERS EXTINGUISHED</Label>
+                {
+                    smallStats.map((playerinfo) => {
+                      if(playerinfo[5] != 0){
+                        return(
+                          <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
+                            <SmallIcon src={DamageIconMaker(playerinfo[2])}></SmallIcon>
+                            <Name>{playerinfo[0]}</Name>
+                            <Amount>{playerinfo[5]}</Amount>  
+                          </SmallPlayerCard>
+                        )
+                      }
+                    })
+                  }
+              </PlayersExtinguished>
+              <BuildingCount>
+                <Label>BUILDING COUNT</Label>
+                {
+                    smallStats.map((playerinfo) => {
+                      if(playerinfo[6] != 0){
+                        return(
+                          <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
+                            <SmallIcon src={DamageIconMaker(playerinfo[2])}></SmallIcon>
+                            <Name>{playerinfo[0]}</Name>
+                            <Amount>{playerinfo[6]}</Amount>  
+                          </SmallPlayerCard>
+                        )
+                      }
+                    })
+                  }
+              </BuildingCount>
+              <Dominations>
+                <Label>MOST DOMINATIONS</Label>
+                {
+                    smallStats.map((playerinfo) => {
+                      if(playerinfo[7] >= 2){
+                        return(
+                          <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
+                            <SmallIcon src={DamageIconMaker(playerinfo[2])}></SmallIcon>
+                            <Name>{playerinfo[0]}</Name>
+                            <Amount>{playerinfo[7]}</Amount>  
+                          </SmallPlayerCard>
+                        )
+                      }
+                    })
+                  }
+              </Dominations>
             </Smalls>
             <AmmoPickup>
               <Label>AMMO PICKUP</Label>
               <SmallHeaders>
-                <BlueTeam></BlueTeam>
-                <RedTeam></RedTeam>
+                <BlueTeam>{sumAmountsSmallStats[1]}</BlueTeam>
+                <RedTeam>{sumAmountsSmallStats[3]}</RedTeam>
               </SmallHeaders>
               <SmallStats>
-                <TeamSection></TeamSection>
-                <ClassIcons></ClassIcons>
-                <TeamSection></TeamSection>
+                <TeamSection>
+                {
+                    smallStats.map((playerinfo) => {
+                      return(
+                        <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
+                          <SmallIcon src={DamageIconMaker(playerinfo[2])}></SmallIcon>
+                          <Name>{playerinfo[0]}</Name>
+                          <Amount>{playerinfo[4]}</Amount>  
+                        </SmallPlayerCard>
+                      )
+                    })
+                  }
+                </TeamSection>
               </SmallStats>
             </AmmoPickup>
           </FunFacts>
