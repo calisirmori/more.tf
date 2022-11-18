@@ -22,8 +22,10 @@ const Logs = () => {
   const [sortedDamage,setSortedDamage] =  useState([0,0,0,0,0,0,0,0,0])
   const [smallStats, setSmallStats] = useState([]);
   const [sumAmountsSmallStats, setSumAmountsSmallStats] = useState([]);
+  const [number, setNumber] =useState(0);
   var playersArray =[];
-
+  var samplearray = [];
+  
   useEffect(() => {
     axios.get(`https://logs.tf/api/v1/log/${logInfo}`).then((response) => {
         const players = [response.data.players];
@@ -57,7 +59,7 @@ const Logs = () => {
     axios.get(`http://localhost:8080/logsplus/${logInfo}`).then((response) => {
       setLocalInput(Object.entries(response.data))
       var buildingfinder = Object.entries(response.data);
-      var samplearray = [];
+      
       var sumBlueBD = 0;
       var sumRedBD = 0;
       var sumBlueAP = 0;
@@ -126,7 +128,9 @@ const Logs = () => {
     findTheDamageSpread(outputNumber);
     locationsToCordinates(localInput[outputNumber])
   }
+
   const [outputArray, setOutputArray]  = useState([]);
+
   function locationsToCordinates(inputArray){
     var array = Object.entries(inputArray[1].kills)
     var extraarray = [];
@@ -211,6 +215,7 @@ const Logs = () => {
   };
 
   function mapInfo() {
+    
     var outputObject = {
       URL : "",
       xOffset : 0,
@@ -396,6 +401,7 @@ const Logs = () => {
               <SmallStats>
                 <TeamSection>
                   { 
+
                     smallStats.map((playerinfo) => {
                       return(
                         <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
