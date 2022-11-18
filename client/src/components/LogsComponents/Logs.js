@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Arrow, Assists, BlueScore, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominaions, Dominations, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsScore, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RightSideInfo, Score, SectionTitle, SmallButton, Smalls, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassIcons, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominaions, Dominations, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsScore, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, Smalls, SmallStats, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -302,6 +302,7 @@ const Logs = () => {
             <DamageVersus>
               <ClassImage src="https://w.namu.la/s/5f4d7e4da47265254d638e997fab91f8fdb3cc78c05d23cc115495075a68796f373ce51e3dcebd31a0d3bfe2fb271b8984e466b01bd54478135e5400fee71a35085b8daee97fe50a3f4fb8d4b214b2ea"></ClassImage>
               <PlayerVsStats>
+                <Label>DAMAGE TO CLASS</Label>
                 <InfoSection>
                   <PlayerName>{currentFocusName}</PlayerName>
                   <InfoButtons>
@@ -348,13 +349,35 @@ const Logs = () => {
             </KillMap>
           </Individuals>
           <FunFacts>
-            <BuildingsDestroyed></BuildingsDestroyed>
+            <BuildingsDestroyed>
+              <Label>BUILDINGS DESTROYED</Label>
+              <SmallHeaders>
+                <BlueTeam>180</BlueTeam>
+                <RedTeam>180</RedTeam>
+              </SmallHeaders>
+              <SmallStats>
+                <TeamSection></TeamSection>
+                <ClassIcons></ClassIcons>
+                <TeamSection></TeamSection>
+              </SmallStats>
+            </BuildingsDestroyed>
             <Smalls>
               <PlayersExtinguished></PlayersExtinguished>
               <BuildingCount></BuildingCount>
               <Dominations></Dominations>
             </Smalls>
-            <AmmoPickup></AmmoPickup>
+            <AmmoPickup>
+              <Label>AMMO PICKUP</Label>
+              <SmallHeaders>
+                <BlueTeam></BlueTeam>
+                <RedTeam></RedTeam>
+              </SmallHeaders>
+              <SmallStats>
+                <TeamSection></TeamSection>
+                <ClassIcons></ClassIcons>
+                <TeamSection></TeamSection>
+              </SmallStats>
+            </AmmoPickup>
           </FunFacts>
         </MoreLogs>
       </LogsSectionWrapper>

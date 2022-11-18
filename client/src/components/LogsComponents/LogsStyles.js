@@ -57,33 +57,7 @@ export const KillMap = styled.div`
     background-color: #171616;
 `;
 
-export const FunFacts = styled.div`
 
-`;
-
-export const BuildingsDestroyed = styled.div`
-
-`;
-
-export const Smalls = styled.div`
-
-`;
-
-export const PlayersExtinguished = styled.div`
-
-`;
-
-export const BuildingCount = styled.div`
-
-`;
-
-export const Dominations = styled.div`
-
-`;
-
-export const AmmoPickup = styled.div`
-
-`;
 
 export const LeftSideInfo = styled.div`
     background-color: #1d1c1c;
@@ -341,7 +315,7 @@ export const ClassImage = styled.img`
 
 export const PlayerVsStats = styled.div`
     width: 300px;
-    margin: 20px;
+    margin: 5px 20px;
     display: block;
     text-align: center;
 `;
@@ -375,15 +349,16 @@ export const DamageBar = styled.div`
 `;
 export const InfoSection = styled.div``;
 export const PlayerName = styled.div`
-    margin: 5px 10px;
-    font-size: 26px;
+    margin: -10px 10px;
+    margin-bottom: -5px;
+    font-size: 22px;
     height: 40px;
     width: 290px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 800;
-    color: #fff;
+    font-weight: 500;
+    color: #f08149;
 `;
 export const InfoButtons = styled.div`
     display: flex;
@@ -429,4 +404,105 @@ export const SvgArrow = styled.svg`
     transform: scaleY(-1)
 `;
 
+export const FunFacts = styled.div`
+    display: flex;
+`;
+
+export const BuildingsDestroyed = styled.div`
+    height: 500px;
+    margin-left: 20px;
+    width: 363px;
+    border-radius: 5px;
+    background-color: #171616;
+`;
+
+export const Smalls = styled.div`
+    display: block;
+    height: 500px;
+    width: 354px;
+    margin-left: 10px;
+    border-radius: 5px;
+`;
+
+export const PlayersExtinguished = styled.div`
+    margin-bottom: 10px;
+    height: 160px;
+    width: 354;
+    background-color: #fff;
+    border-radius: 5px;
+    background-color: #171616;
+`;
+
+export const BuildingCount = styled.div`
+    margin-bottom: 10px;
+    height: 160px;
+    width: 354;
+    background-color: #fff;
+    border-radius: 5px;
+    background-color: #171616;
+`;
+
+export const Dominations = styled.div`
+    height: 160px;
+    width: 354;
+    background-color: #fff;
+    border-radius: 5px;
+    background-color: #171616;
+`;
+
+export const AmmoPickup = styled.div`
+    height: 500px;
+    width: 363px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #171616;
+    margin-bottom: 20px;
+`;
+
+export const SmallHeaders = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    margin:10px;
+    align-items: center;
+`;
+export const BlueTeam = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lilita One';
+    color: #fff;
+    font-size: 50px;
+    height: 70px;
+    border-radius: 5px 0  0 5px;
+    border-bottom: 3px solid #395C79;
+    background-color: #5B7A8C;
+`;
+export const RedTeam = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lilita One';
+    color: #fff;
+    font-size: 50px;
+    height: 70px;
+    height: 70px;
+    border-radius: 0 5px 5px 0;
+    border-bottom: 3px solid #9D312F;
+    background-color: #BD3B3B;
+`;
+export const SmallStats = styled.div``;
+export const Label = styled.div`
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 24px;
+    
+`;
+export const TeamSection = styled.div``;
+export const ClassIcons = styled.div``;
 export const Example = styled.div``;
+
