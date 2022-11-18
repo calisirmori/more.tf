@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Arrow, Assists, BlueScore, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominaions, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsScore, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RightSideInfo, Score, SectionTitle, SmallButton, Smalls, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Arrow, Assists, BlueScore, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominaions, Dominations, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsScore, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RightSideInfo, Score, SectionTitle, SmallButton, Smalls, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -95,7 +95,7 @@ const Logs = () => {
     for(var i = 0; i < array.length ; i++) {
       var killerLocation = (array[i][1].killer.location).split(" ");
       var victimLocation = (array[i][1].victim.location).split(" ");
-      const scaleIndex = 19;
+      const scaleIndex = 17.8;
       extraarray[i]= [killerLocation[0]/scaleIndex, killerLocation[1]/scaleIndex
                       ,victimLocation[0]/scaleIndex, victimLocation[1]/scaleIndex]
     }  
@@ -171,6 +171,51 @@ const Logs = () => {
     };
     return output;
   };
+
+  function mapInfo() {
+    var outputObject = {
+      URL : "",
+      xOffset : 0,
+      yOffset : 0,
+      scale: 17.8,
+    }
+    if(map.includes("swift")) {
+      outputObject.URL = "https://i.imgur.com/EtCcpOA.png";
+      outputObject.xOffset = 78;
+      outputObject.yOffset = 16;
+    } else if (map.includes("product")) {
+      //
+      outputObject.URL = "https://i.imgur.com/YoSSGDd.png";
+      outputObject.xOffset = 352;
+      outputObject.yOffset = -82;
+    } else if (map.includes("vigil")) {
+      //
+      outputObject.URL = "https://i.imgur.com/g6NzUn1.png";
+      outputObject.xOffset = 180;
+      outputObject.yOffset = -160;
+    } else if (map.includes("upward")) {
+      //?
+      outputObject.URL = "https://i.imgur.com/z8JJgT8.png";
+      outputObject.xOffset = 262;
+      outputObject.yOffset = -55;
+    } else if (map.includes("proot")) {
+      //
+      outputObject.URL = "https://i.imgur.com/hRWgf6O.png";
+      outputObject.xOffset = 270;
+      outputObject.yOffset = -72;
+    } else if (map.includes("ashville")) {
+      //
+      outputObject.URL = "https://i.imgur.com/1RW16HF.png";
+      outputObject.xOffset = 258;
+      outputObject.yOffset = -68;
+    } else if (map.includes("steel")) {
+      //
+      outputObject.URL = "https://i.imgur.com/GBbqE7I.png";
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -43;
+    }
+    return outputObject;
+  }
 
   function sortByRow(row){
     var array = [...listOfPlayers];
@@ -282,19 +327,21 @@ const Logs = () => {
               </PlayerVsStats>
             </DamageVersus>
             <KillMap>
-              <Map src="https://wiki.teamfortress.com/w/images/thumb/c/c5/Swiftwater_overview.png/800px-Swiftwater_overview.png"></Map>
+              <Map src={mapInfo().URL}></Map>
               {
                 outputArray.map((location) => {
-                  var offesIndex = -0;
-                  var currentOffset= [168,11]
-                  console.log(location[2]-location[0],location[3]-location[1] ,location[3], location[2] )
+                  var currentOffset= [mapInfo().xOffset,mapInfo().yOffset]
+                  var centerLineOffset = 5;
                     return(
                       <KillImage>
-                        <SvgArrow height="600" width="600" style={{position: "absolute", left: offesIndex, top: offesIndex}}>
-                          <Arrow points={`${location[0]+Math.abs(offesIndex)+4+currentOffset[0]},${location[1]+Math.abs(offesIndex)+4+400+currentOffset[1]} ${location[2]+Math.abs(offesIndex)+4+currentOffset[0]},${location[3]+Math.abs(offesIndex)+4+400+currentOffset[1]}`} style={{stroke: "#FFC000"}}></Arrow>
+                        <SvgArrow height="600" width="600" style={{position: "absolute", left: 0, top: 0}}>
+                          <Arrow points={`${location[0]+centerLineOffset+currentOffset[0]},
+                                          ${location[1]+centerLineOffset+400+currentOffset[1]}
+                                          ${location[2]+centerLineOffset+currentOffset[0]},
+                                          ${location[3]+centerLineOffset+400+currentOffset[1]}`} style={{stroke: "#FFC000"}}></Arrow>
                         </SvgArrow>
-                        <Killer style={{left : location[0]+167.5 , bottom: location[1]+351}}></Killer>
-                        <Victim style={{left : location[2]+167.5 , bottom: location[3]+351}}></Victim>
+                        <Killer style={{left : location[0]+currentOffset[0] , bottom: location[1]+340+currentOffset[1]}}></Killer>
+                        <Victim style={{left : location[2]+currentOffset[0] , bottom: location[3]+340+currentOffset[1]}}></Victim>
                       </KillImage>
                     );
                 })}
@@ -305,7 +352,7 @@ const Logs = () => {
             <Smalls>
               <PlayersExtinguished></PlayersExtinguished>
               <BuildingCount></BuildingCount>
-              <Dominaions></Dominaions>
+              <Dominations></Dominations>
             </Smalls>
             <AmmoPickup></AmmoPickup>
           </FunFacts>

@@ -77,7 +77,7 @@ export const BuildingCount = styled.div`
 
 `;
 
-export const Dominaions = styled.div`
+export const Dominations = styled.div`
 
 `;
 
@@ -400,7 +400,7 @@ export const SmallButton = styled.img`
 `;
 export const Map = styled.img`
     height: 520px;
-    opacity: 0.5;
+    opacity: 0.9;
 `;
 export const KillImage = styled.div``;
 export const Killer = styled.div`
