@@ -1,16 +1,17 @@
 import './App.css';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import HomePage from './pages/HomePage'
+import LogsPage from './pages/LogsPage'
+
 
 function App() {
-  fetch("https://logs.tf/logs/log_3303850.log.zip").then((r)=>{r.text().then((input)=>{
-
-    console.log(typeof d)
-
-  })})
-  
   return (
-    <div>
-        hi
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage/>}/>
+        <Route path="/log/:matchId" element={<LogsPage/>}/>
+      </Routes>
+    </Router>
   );
 }
 
