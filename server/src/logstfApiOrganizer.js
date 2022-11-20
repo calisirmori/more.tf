@@ -1,46 +1,148 @@
 const axios = require('axios');
 
 async function organize(logsApiInput,textInput,gameId){
-    
-    let idObject = { id: gameId }
-    let matchInfoObject = await matchInfo(logsApiInput.data,gameId)
-
-    let finalObject = {...idObject, ...matchInfoObject}
-    return finalObject;
+  
+  let idObject = { id: gameId }
+  let matchInfoObject = await matchInfo(logsApiInput.data,gameId)
+  let playerObject = playerInfo(logsApiInput.data,textInput)
+  
+  let finalObject = {...idObject, ...matchInfoObject, ...playerObject}
+  return finalObject;
 }
 
 async function matchInfo(logsApiInput,gameId){
-    let randomPlayerID = id3toid64(Object.keys(logsApiInput.players)[0]);
-    let matchInfoObject = {
-        "matchInfo" : {
-        "logs_id" : gameId,
-        "demos_id" : await demostfLinkIdFinder(logsApiInput.info.date,randomPlayerID),
-        "uniqueID" : Math.floor(Math.random() * 90000000 + 10000000),
-        "map": logsApiInput.info.map,
-        "map_image_url": mapStats(logsApiInput.info.map).URL,
-        "offsets":{
-            "x": mapStats(logsApiInput.info.map).xOffset,
-            "y": mapStats(logsApiInput.info.map).yOffset,
-            "scale": mapStats(logsApiInput.info.map).scale,
-        },
-        "total_length": logsApiInput.info.total_length,
-        "title": logsApiInput.info.title,
-        "date": logsApiInput.info.date,
-        }
+  let randomPlayerID = id3toid64(Object.keys(logsApiInput.players)[0]);
+  let matchInfoObject = {
+    "matchInfo" : {
+    "logsID" : gameId,
+    "demosID" : await demostfLinkIdFinder(logsApiInput.info.date,randomPlayerID),
+    "uniqueID" : Math.floor(Math.random() * 90000000 + 10000000),
+    "map": logsApiInput.info.map,
+    "mapImageURL": mapStats(logsApiInput.info.map).URL,
+    "offsets":{
+        "x": mapStats(logsApiInput.info.map).xOffset,
+        "y": mapStats(logsApiInput.info.map).yOffset,
+        "scale": mapStats(logsApiInput.info.map).scale,
+    },
+    "totalLength": logsApiInput.info.total_length,
+    "title": logsApiInput.info.title,
+    "date": logsApiInput.info.date,
     }
-    return(matchInfoObject);
+  }
+  return(matchInfoObject);
+}
+
+function playerInfo(logsApiInput,textInput){
+  let playerIndex = 1;
+  let player = Object.entries(logsApiInput.players)[playerIndex][1];
+
+  let playerObject = {
+      [Object.entries(logsApiInput.players)[playerIndex][0]]: {
+          "userName" : logsApiInput.names[Object.entries(logsApiInput.players)[playerIndex][0]],
+          "team": player.team,
+          "class": player.class_stats[0].type,
+          "classImageURL": DamageIconMaker(player.class_stats[0].type,player.team)[1],
+          "classIconURL": DamageIconMaker(player.class_stats[0].type,player.team)[0],
+          "steamID64": id3toid64(Object.entries(logsApiInput.players)[playerIndex][0]),
+          "classStats": player.class_stats,
+          "kills": player.kills,
+          "deaths": player.deaths,
+          "assists": player.assists,
+          "suicides": player.suicides,
+          "kapd": player.kapd,
+          "kpd": player.kpd,
+          "damage_towards": {
+              "scout": 0,
+              "soldier": 0,
+              "pyro": 0,
+              "demoman": 0,
+              "heavyweapons": 0,
+              "engineer": 0,
+              "medic": 0,
+              "sniper": 0,
+              "spy": 0
+          },
+          "events": [
+              {
+                  "type": "kill",
+                  "weapon": "weapon",
+                  "time": 661,
+                  "victim": "[U:1:65863829]",
+                  "killer_location": "-2006 590",
+                  "victim_location": "-2006 590",
+              },
+          ],
+          "damage": player.dmg,
+          "damageTaken": player.dt,
+          "damageTakenReal": player.dt_real,//?
+          "hr": player.hr,//?
+          "lks": player.lks,//?
+          "airShot": player.as,
+          "DamagePerDeath": player.dapd,
+          "DamagePM": player.dapm,
+          "ubers": player.ubers,
+          "ubertypes": {},
+          "drops": player.drops,
+          "medkits": player.medkits,
+          "medkitsHP": player.medkits_hp,
+          "backstabs": player.backstabs,
+          "headshots": player.headshots,
+          "headshots_hit": player.headshots_hit,
+          "sentries": player.sentries,//?
+          "heal": player.heal,
+          "pointCaps": player.cpc,
+          "ic": player.ic, //?
+          "extinguished": 2,
+          "domination": 0,
+          "objectkills": 1,
+          "objectbuilds": 0,
+          "ammopickup": 12,
+    }
+  }
+  return ({players: playerObject})
 }
 
 async function demostfLinkIdFinder(logTime,playerId){
-    const URL_DEMOS_API = "https://api.demos.tf"
-    let demostfApiResponse = await axios.get(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`);
-    return (demostfApiResponse.data[demostfApiResponse.data.length-1].id)
+  const URL_DEMOS_API = "https://api.demos.tf"
+  let demostfApiResponse = await axios.get(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`);
+  return (demostfApiResponse.data[demostfApiResponse.data.length-1].id)
 }
 
 function id3toid64(userid3) {
-    let steamid64ent1 = 7656, steamid64ent2 = 1197960265728, cleanid3 = userid3.replace(/\]/g, '').split(":")[2]
-    return(steamid64ent1 + String(parseInt(cleanid3)+steamid64ent2))
+  let steamid64ent1 = 7656, steamid64ent2 = 1197960265728, cleanid3 = userid3.replace(/\]/g, '').split(":")[2]
+  return(steamid64ent1 + String(parseInt(cleanid3)+steamid64ent2))
 }
+
+function DamageIconMaker(input,team) {
+  switch (input) {
+    case "scout":
+     return ["https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png", team == "Red" ? "https://i.imgur.com/Uce0Bdj.png" :"https://i.imgur.com/oh8HBK1.png"];
+
+    case "soldier":
+     return ["https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png", team == "Red" ? "https://i.imgur.com/CiyuvEw.png" :"https://i.imgur.com/nneilnw.png"];
+
+    case "pyro":
+     return ["https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png", team == "Red" ? "https://i.imgur.com/qS8EwB4.png" :"https://i.imgur.com/QTNO5VK.png"];
+
+    case "demoman":
+     return ["https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png", team == "Red" ? "https://i.imgur.com/ZDabng6.png" :"https://i.imgur.com/ju7WRcV.png"];
+
+    case "heavyweapons":
+     return ["https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png", team == "Red" ? "https://i.imgur.com/d3hRlNO.png" :"https://i.imgur.com/iLTdXY8.png"];
+
+    case "engineer":
+     return ["https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png", team == "Red" ? "https://i.imgur.com/mBF07Qk.png" :"https://i.imgur.com/yP4PRkq.png"];
+
+    case "medic":
+     return ["https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png", team == "Red" ? "https://i.imgur.com/zKWSg1d.png" :"https://i.imgur.com/BaskmeI.png"];
+
+    case "sniper":
+      return ["https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png", team == "Red" ? "https://i.imgur.com/cf0N6qe.png" :"https://i.imgur.com/0nGnxsH.png"];
+
+    case "spy":
+      return ["https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png", team == "Red" ? "https://i.imgur.com/TaPGIUR.png" :"https://i.imgur.com/QbP4znS.png"];
+  };
+};
 
 function mapStats(map){
     let outputObject = {
