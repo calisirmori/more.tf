@@ -16,10 +16,8 @@ let matchId = 3304362;
 
 async function logstfCalls(){
   let logsApiResponse = await axios.get(`https://logs.tf/api/v1/log/${matchId}`);
-  
-  
 
-  http.get(`http://logs.tf/logs/log_${matchId}.log.zip`, function(res) {
+  http.get(`http://logs.tf/logs/log_${matchId}.log.zip`, async function(res) {
     var data = [], dataLen = 0; 
     
     res.on('data', function(chunk) {
@@ -27,7 +25,7 @@ async function logstfCalls(){
       data.push(chunk);
       dataLen += chunk.length;
   
-    }).on('end', function() {
+    }).on('end', async function() {
 
       var buf = Buffer.alloc(dataLen);
       
@@ -42,7 +40,7 @@ async function logstfCalls(){
       var textFile = zipEntries[0].getData().toString();
       //console.log(inputToJson.stringToObject(textFile));
       //console.log(PlayerDamageParser.damageParser(textFile))
-      console.log(logstfApiOrganizer.organize(logsApiResponse,textFile,matchId))
+       console.log(await logstfApiOrganizer.organize(logsApiResponse,textFile,matchId))
     });
   });
 }

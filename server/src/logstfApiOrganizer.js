@@ -1,9 +1,12 @@
 const axios = require('axios');
 
-function organize(logsApiInput,textInput,gameId){
-    // console.log(textInput)
-    // console.log(logsApiInput.data.info)
-    matchInfo(logsApiInput.data,gameId);
+async function organize(logsApiInput,textInput,gameId){
+    
+    let idObject = { id: gameId }
+    let matchInfoObject = await matchInfo(logsApiInput.data,gameId)
+
+    let finalObject = {...idObject, ...matchInfoObject}
+    return finalObject;
 }
 
 async function matchInfo(logsApiInput,gameId){
@@ -25,7 +28,7 @@ async function matchInfo(logsApiInput,gameId){
         "date": logsApiInput.info.date,
         }
     }
-    console.log(matchInfoObject)
+    return(matchInfoObject);
 }
 
 async function demostfLinkIdFinder(logTime,playerId){
@@ -51,32 +54,26 @@ function mapStats(map){
       outputObject.xOffset = 78;
       outputObject.yOffset = 16;
     } else if (map.includes("product")) {
-      //
       outputObject.URL = "https://i.imgur.com/YoSSGDd.png";
       outputObject.xOffset = 352;
       outputObject.yOffset = -82;
     } else if (map.includes("vigil")) {
-      //
       outputObject.URL = "https://i.imgur.com/g6NzUn1.png";
       outputObject.xOffset = 180;
       outputObject.yOffset = -160;
     } else if (map.includes("upward")) {
-      //?
       outputObject.URL = "https://i.imgur.com/z8JJgT8.png";
       outputObject.xOffset = 262;
       outputObject.yOffset = -55;
     } else if (map.includes("proot")) {
-      //
       outputObject.URL = "https://i.imgur.com/hRWgf6O.png";
       outputObject.xOffset = 270;
       outputObject.yOffset = -72;
     } else if (map.includes("ashville")) {
-      //
       outputObject.URL = "https://i.imgur.com/1RW16HF.png";
       outputObject.xOffset = 258;
       outputObject.yOffset = -68;
     } else if (map.includes("steel")) {
-      //
       outputObject.URL = "https://i.imgur.com/GBbqE7I.png"
       outputObject.xOffset = 255;
       outputObject.yOffset = -43;
