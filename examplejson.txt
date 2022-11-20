@@ -1,0 +1,148 @@
+
+
+"id" : "000000",
+"matchInfo" : {
+    "logs_id" : "000000",
+    "demos_id" : "000000",
+    "uniqueID" : "000000000",
+    "map": "koth_clearcut_b15d",
+    "map_image_url": "",
+    "offsets":{
+        "x": 0;
+        "y": 0;
+        "scale": 0;
+    }
+    "total_length": 887,
+    "title": "RIPSurfed Speed Server: bruh vs BLU",
+    "date": 1667873197,
+},
+"teams":{
+    "Red" : {
+        "score": 0,
+        "kills": 0,
+        "deaths": 0,  
+        "dmg": 0,
+        "charges": 0,
+        "drops": 0,
+        "firstcaps": 0,
+        "caps": 0
+        "ammo_pickup": 0,
+        "object_destroyed": 0,
+    },
+    "Blue": {
+        "score": 0,
+        "kills": 0,
+        "deaths": 0,
+        "dmg": 0,
+        "charges": 0,
+        "drops": 0,
+        "firstcaps": 0,
+        "caps": 0,
+        "ammo_pickup": 0,
+        "object_destroyed": 0,
+    }
+},
+"players": {
+    "[U:1:000000]": {
+        "team": "Blue",
+        "class": "heavyweapons",
+        "position": "main/pocket/roam",
+        "class_image_url": "";
+        "class_icon_url": "";
+        "steam_id_dec": "";
+        "class_stats": {
+            "type": "soldier",
+            "kills": 13,
+            "assists": 2,
+            "deaths": 6,
+            "dmg": 2997,
+            "weapon": {
+              "quake_rl": {
+                "kills": 13,
+                "dmg": 2997,
+                "avg_dmg": 45.40909090909091,
+                "shots": 165,
+                "hits": 58
+              }
+            },
+            "total_time": 887
+        },
+        "kills": 13,
+        "deaths": 6,
+        "assists": 2,
+        "suicides": 0,
+        "kapd": "2.5",
+        "kpd": "2.2",
+        "dmg": 2997,
+        "damage_towards": {
+            "scout": 0,
+            "soldier": 0,
+            "pyro": 0,
+            "demoman": 0,
+            "heavyweapons": 0,
+            "engineer": 0,
+            "medic": 0,
+            "sniper": 0,
+            "spy": 0
+        },
+        "events: [
+            {
+                "type": "kill",
+                "weapon": "weapon",
+                "time": 661,
+                "victim": "[U:1:65863829]",
+                "killer_location": "-2006 590",
+                "victim_location": "-2006 590",
+            },
+        ],
+        "damage": 540,
+        "dt": 1969,
+        "dt_real": 215,
+        "hr": 1184,
+        "lks": 6,
+        "as": 1,
+        "dapd": 499,
+        "dapm": 202,
+        "ubers": 0,
+        "ubertypes": {},
+        "drops": 0,
+        "medkits": 32,
+        "medkits_hp": 1211,
+        "backstabs": 0,
+        "headshots": 0,
+        "headshots_hit": 0,
+        "sentries": 0,
+        "heal": 0,
+        "cpc": 2,
+        "ic": 0,
+        "extinguished": 2,
+        "domination": 0,
+        "objectkills": 1,
+        "objectbuilds": 0,
+        "ammopickup": 12,
+    },
+},
+"charts": {
+    "buildings_destroyed": [
+        "[U:1:000000]",
+        "[U:1:000000]",
+        "[U:1:000000]",
+        "[U:1:000000]",
+    ],
+    "ammopickup": [
+        "[U:1:000000]",
+        "[U:1:000000]",
+        "[U:1:000000]",
+        "[U:1:000000]",
+    ],
+    "buildings_built":[
+        "[U:1:000000]",
+        "[U:1:000000]",
+        "[U:1:000000]",
+    ],
+    "dominations":[
+        "[U:1:000000]",
+        "[U:1:000000]",
+        "[U:1:000000]",
+    ]
+}

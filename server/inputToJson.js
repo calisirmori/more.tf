@@ -143,6 +143,7 @@ function stringToObject(inputString){
         }
     }
     match_info = {...match_info, players, kills}
-    return(match_info.players);
+    console.log("hello");
+    //return(match_info.players);
 }
 module.exports = { stringToObject };

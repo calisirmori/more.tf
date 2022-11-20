@@ -9,6 +9,7 @@ const Logs = () => {
   const idArray = id.split('/');
   const logInfo = idArray[4];
 
+  const [localInput, setLocalInput] = useState([]);
   const [listOfPlayers, setListOfPlayers] = useState([]);
   const [blueTeamScore, setBlueTeamScore] = useState(0);
   const [redTeamScore, setRedTeamScore] = useState(0);
@@ -16,7 +17,6 @@ const Logs = () => {
   const [logTime, setLogTime] = useState();
   const [gameLength, setGameLength] = useState("");
   const [matchTitle, setMatchTitles] = useState("");
-  const [localInput, setLocalInput] = useState([]);
   const [currentFocusName, setCurrentFocusName] = useState("");
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const [sortedDamage,setSortedDamage] =  useState([0,0,0,0,0,0,0,0,0])
@@ -27,45 +27,53 @@ const Logs = () => {
   var samplearray = [];
   
   useEffect(() => {
-    axios.get(`https://logs.tf/api/v1/log/${logInfo}`).then((response) => {
-        const players = [response.data.players];
-        const gameData = [response.data]
-        setBlueTeamScore(gameData[0].teams.Blue.score);
-        setRedTeamScore(gameData[0].teams.Red.score);
-        const gameEndTime = new Date(response.data.info.date*1000);
-        setGameLength(Math.round((response.data.info.total_length)/60) + "mins")
-        setMatchTitles(response.data.info.title);
-        setLogTime(gameEndTime.toLocaleDateString("en-US", options) + " " +gameEndTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))
-        setMap(gameData[0].info.map);
-        for(let i=0; i<Object.entries(players[0]).length ;i++){
-          const currentPlayer = [
-            Object.entries(Object.entries(players[0])[i][1])[0][1],
-            Object.entries(players[0])[i][0],
-            Object.entries(gameData[0].names)[i][1],
-            Object.entries(Object.entries(players[0])[i][1])[1][1][0].type,
-            Object.entries(Object.entries(players[0])[i][1])[2][1],
-            Object.entries(Object.entries(players[0])[i][1])[4][1],
-            Object.entries(Object.entries(players[0])[i][1])[3][1],
-            Object.entries(Object.entries(players[0])[i][1])[8][1],
-            Object.entries(Object.entries(players[0])[i][1])[16][1],
-            Object.entries(Object.entries(players[0])[i][1])[6][1]
-          ];
-          classToIconUrl(currentPlayer);
-          playersArray = ([...playersArray, currentPlayer])
-        }
-        playersArray.sort();
-        setListOfPlayers(playersArray);
-    });
-    axios.get(`http://localhost:8080/logsplus/${logInfo}`).then((response) => {
-      setLocalInput(Object.entries(response.data))
-      var buildingfinder = Object.entries(response.data);
+    async function getData(){
+      let backendResponse = await axios.get(`http://localhost:8080/logsplus/${logInfo}`);
+      let logsResponse = await axios.get(`https://logs.tf/api/v1/log/${logInfo}`);
+
+      const players = [logsResponse.data.players];
+      const gameData = [logsResponse.data]
+      setBlueTeamScore(gameData[0].teams.Blue.score);
+      setRedTeamScore(gameData[0].teams.Red.score);
+      const gameEndTime = new Date(logsResponse.data.info.date*1000);
+      setGameLength(Math.round((logsResponse.data.info.total_length)/60) + "mins")
+      setMatchTitles(logsResponse.data.info.title);
+      setLogTime(gameEndTime.toLocaleDateString("en-US", options) + " " +gameEndTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}))
+      setMap(gameData[0].info.map);
+
+      for(let i=0; i<Object.entries(players[0]).length ;i++){
+        const currentPlayer = [
+          Object.entries(Object.entries(players[0])[i][1])[0][1],
+          Object.entries(players[0])[i][0],
+          Object.entries(gameData[0].names)[i][1],
+          Object.entries(Object.entries(players[0])[i][1])[1][1][0].type,
+          Object.entries(Object.entries(players[0])[i][1])[2][1],
+          Object.entries(Object.entries(players[0])[i][1])[4][1],
+          Object.entries(Object.entries(players[0])[i][1])[3][1],
+          Object.entries(Object.entries(players[0])[i][1])[8][1],
+          Object.entries(Object.entries(players[0])[i][1])[16][1],
+          Object.entries(Object.entries(players[0])[i][1])[6][1]
+        ];
+        classToIconUrl(currentPlayer);
+        playersArray = ([...playersArray, currentPlayer])
+      }
       
-      var sumBlueBD = 0;
-      var sumRedBD = 0;
-      var sumBlueAP = 0;
-      var sumRedAP = 0;
+      playersArray.sort();
+      setListOfPlayers(playersArray);
+
+
+      // console.log(JSON.stringify(backendResponse.data))
+      
+      setLocalInput([...Object.entries(backendResponse.data)])
+      // console.log(localInput);
+      let buildingfinder = Object.entries(backendResponse.data);
+      let sumBlueBD = 0;
+      let sumRedBD = 0;
+      let sumBlueAP = 0;
+      let sumRedAP = 0;
       //make this a big object with everyone
       for(var i = 0; i < buildingfinder.length; i++){
+        // console.log(buildingfinder[i])
         if(buildingfinder[i][1].team == "blue" ){
           sumBlueAP += buildingfinder[i][1].ammopickup;
           sumBlueBD += buildingfinder[i][1].objectkills;
@@ -74,7 +82,7 @@ const Logs = () => {
           sumRedBD += buildingfinder[i][1].objectkills;
         }
         
-        samplearray[i]= [nameFinder(buildingfinder[i][0]),
+        samplearray[i] = [buildingfinder[i][0],
                           buildingfinder[i][1].team,
                           buildingfinder[i][1].class,
                           buildingfinder[i][1].objectkills,
@@ -83,12 +91,17 @@ const Logs = () => {
                           buildingfinder[i][1].objectbuilds,
                           buildingfinder[i][1].domination
                           ]
+
+        // console.log(samplearray[i])
       }
       findTheDamageSpread(9);
       setSmallStats(samplearray);
-      setSumAmountsSmallStats([sumBlueBD,sumBlueAP,sumRedBD,sumRedAP])
-    });
-    console.log("hey")
+      setSumAmountsSmallStats([sumBlueBD,sumBlueAP,sumRedBD,sumRedAP]);
+      console.log("hey")
+    }
+
+    getData();
+
   }, [])
 
   function nameFinder(steamid){
@@ -102,6 +115,7 @@ const Logs = () => {
   function findTheDamageSpread(inputId) {
     var currentDamageList = [];
     var array = [0,0,0,0,0,0,0,0,0];
+    console.log(localInput)
       currentDamageList = Object.entries(localInput[inputId][1].damage);
       for(var i = 0; i < currentDamageList.length; i++){
         var maxLocation =0;
@@ -119,7 +133,7 @@ const Logs = () => {
   }
 
   function changeDamageVs(inputNumber,inputName){
-    var outputNumber =0;
+    var outputNumber = 0;
 
     for( var i =0; i < localInput.length; i++){
       if(inputNumber == localInput[i][0]) outputNumber=i;
@@ -153,7 +167,7 @@ const Logs = () => {
         currentPlayer[3] = "https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png";
         break;
       case "pyro":
-        currentPlayer[3] = "https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png";
+        currentPlayer[3] = "https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"
         break;
       case "demoman":
         currentPlayer[3] = "https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png";
@@ -253,7 +267,7 @@ const Logs = () => {
       outputObject.yOffset = -68;
     } else if (map.includes("steel")) {
       //
-      outputObject.URL = "https://i.imgur.com/GBbqE7I.png";
+      outputObject.URL = "https://i.imgur.com/GBbqE7I.png"
       outputObject.xOffset = 255;
       outputObject.yOffset = -43;
     }
@@ -316,7 +330,7 @@ const Logs = () => {
             <NameInfoTitle>
               <UsernameTitle>Username</UsernameTitle>
             </NameInfoTitle>
-            <StatTitle class="no-click">Class</StatTitle>
+            <StatTitle className="no-click">Class</StatTitle>
             <StatTitle className="Kills" onClick={() =>{sortByRow(4)}}>Kills</StatTitle>
             <StatTitle className="Assists" onClick={() =>{sortByRow(5)}}>Assist</StatTitle>
             <StatTitle className="Deaths" onClick={() =>{sortByRow(6)}}>Death</StatTitle>
