@@ -33,14 +33,14 @@ async function matchInfo(logsApiInput,gameId){
 }
 
 function playerInfo(logsApiInput,textInput){
-  let killsList = eventsHandler(textInput);
+  let events = eventsHandler(textInput,logsApiInput);
   let playerObject;
   for(let playerIndex = 0; playerIndex < Object.entries(logsApiInput.players).length; playerIndex++){
     let player = Object.entries(logsApiInput.players)[playerIndex][1];
     let playerEventsList =[]
-    for(let eventIndex = 0; eventIndex < killsList.length; eventIndex++){
-      if(killsList[eventIndex].killer == Object.entries(logsApiInput.players)[playerIndex][0]){
-        playerEventsList.push(killsList[eventIndex])
+    for(let eventIndex = 0; eventIndex < events.kills.length; eventIndex++){
+      if(events.kills[eventIndex].killer == Object.entries(logsApiInput.players)[playerIndex][0]){
+        playerEventsList.push(events.kills[eventIndex])
       }
     }
     playerObject = {...playerObject,
@@ -58,17 +58,7 @@ function playerInfo(logsApiInput,textInput){
           "suicides": player.suicides,
           "kapd": player.kapd,
           "kpd": player.kpd,
-          "damage_towards": {
-              "scout": 0,
-              "soldier": 0,
-              "pyro": 0,
-              "demoman": 0,
-              "heavyweapons": 0,
-              "engineer": 0,
-              "medic": 0,
-              "sniper": 0,
-              "spy": 0
-          },
+          "damage_towards": events.damageSpread[Object.entries(logsApiInput.players)[playerIndex][0]],
           "events": playerEventsList,
           "damage": player.dmg,
           "damageTaken": player.dt,
@@ -79,7 +69,7 @@ function playerInfo(logsApiInput,textInput){
           "DamagePerDeath": player.dapd,
           "DamagePM": player.dapm,
           "ubers": player.ubers,
-          "ubertypes": {},
+          "ubertypes": player.ubertypes,
           "drops": player.drops,
           "medkits": player.medkits,
           "medkitsHP": player.medkits_hp,
@@ -102,38 +92,72 @@ function playerInfo(logsApiInput,textInput){
   return ({players: playerObject})
 }
 
-function eventsHandler(textInput){
+function eventsHandler(textInput,logsApiInput,outputObject){
+
   let gameIsActive = false;
   let stringArray = textInput.split(/\r?\n/);
-  let killsArray = []
+  let killsArray = [], damageValues = [], damageObject = {}
+
   stringArray.map((eventLog) =>{
-    if(eventLog.includes("Round_Start")) gameIsActive = true;
-    if(eventLog.includes("Round_Win")) gameIsActive = false;
-    if(eventLog.includes(" killed ") && gameIsActive){
-      dateToSeconds(eventLog);
-      currentKillerId = eventLog.slice(eventLog.indexOf('[U:1:'),eventLog.indexOf(']>')+1);
-      currentVictimId = eventLog.slice(eventLog.lastIndexOf('[U:1:'),eventLog.lastIndexOf(']>')+1);
-      currentKillerLocation = eventLog.slice(eventLog.indexOf('attacker_position') + 19 , eventLog.lastIndexOf(') (victim_position')-1 )
-      currentVictimLocation = eventLog.slice(eventLog.indexOf('victim_position') + 17 , eventLog.lastIndexOf('")'))
-      killerWeapon = eventLog.slice(eventLog.indexOf('with "')+6, eventLog.lastIndexOf('" ('))
-      killsArray.push({
-        "type": "kill",
-        "killer": currentKillerId,
-        "killer_location": { 
-          x : currentKillerLocation.split(" ")[0],
-          y : currentKillerLocation.split(" ")[1]
-        },
-        "victim": currentVictimId,
-        "victim_location": { 
-          x : currentVictimLocation.split(" ")[0],
-          y : currentVictimLocation.split(" ")[1]
-        },
-        "weapon": killerWeapon,
-        "time": dateToSeconds(eventLog),
-      })
-    }
+
+  if(eventLog.includes("Round_Start")) gameIsActive = true;
+  else if (eventLog.includes("Round_Win")) gameIsActive = false;
+  else if (eventLog.includes(" killed ") && gameIsActive) killEventParser(eventLog, killsArray);
+  else if(eventLog.includes("damage") && gameIsActive) damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject);
+  
   })
-  return(killsArray);
+
+  return({kills: killsArray, damageSpread: damageObject});
+}
+
+function killEventParser(eventLog, killsArray) {
+  dateToSeconds(eventLog);
+  let currentKillerId = eventLog.slice(eventLog.indexOf('[U:1:'), eventLog.indexOf(']>') + 1);
+  let currentVictimId = eventLog.slice(eventLog.lastIndexOf('[U:1:'), eventLog.lastIndexOf(']>') + 1);
+  let currentKillerLocation = eventLog.slice(eventLog.indexOf('attacker_position') + 19, eventLog.lastIndexOf(') (victim_position') - 1);
+  let currentVictimLocation = eventLog.slice(eventLog.indexOf('victim_position') + 17, eventLog.lastIndexOf('")'));
+  let killerWeapon = eventLog.slice(eventLog.indexOf('with "') + 6, eventLog.lastIndexOf('" ('));
+  killsArray.push({
+    "type": "kill",
+    "killer": currentKillerId,
+    "killer_location": {
+      x: currentKillerLocation.split(" ")[0],
+      y: currentKillerLocation.split(" ")[1]
+    },
+    "victim": currentVictimId,
+    "victim_location": {
+      x: currentVictimLocation.split(" ")[0],
+      y: currentVictimLocation.split(" ")[1]
+    },
+    "weapon": killerWeapon,
+    "time": dateToSeconds(eventLog),
+  });
+}
+
+function damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject) {
+  let damageDealerId = eventLog.slice(eventLog.indexOf('[U:1:'), eventLog.indexOf(']>') + 1);
+  let damageRecieverId = eventLog.slice(eventLog.lastIndexOf('[U:1:'), eventLog.lastIndexOf(']>') + 1);
+  let damageDealt = eventLog.slice(eventLog.indexOf('(damage "') + 9, eventLog.lastIndexOf('") (weapon'));
+  let currentReal = damageDealt;
+  if (eventLog.includes("realdamage")) {
+    damageDealt = eventLog.slice(eventLog.indexOf('(damage "') + 9, eventLog.lastIndexOf('") (realdamage'));
+    currentReal = eventLog.slice(eventLog.lastIndexOf('") (realdamage') + 16, eventLog.lastIndexOf('") (weapon'));
+  }
+  damageValues.push([damageDealerId, damageRecieverId, damageDealt, currentReal, classFinder(damageRecieverId, logsApiInput)]);
+  let damage;
+  try {
+    // console.log(parseInt(currentReal))
+    let damageNow = (damageObject[damageDealerId][classFinder(damageRecieverId, logsApiInput)]);
+    damageNow = damageNow == undefined ? 0 : damageNow;
+    damage = { [classFinder(damageRecieverId, logsApiInput)]: damageNow + parseInt(damageDealt) };
+  } catch (error) {
+    damage = { [classFinder(damageRecieverId, logsApiInput)]: parseInt(damageDealt) };
+  }
+  damageObject[damageDealerId] = { ...damageObject[damageDealerId], ...damage };
+}
+
+function classFinder(userId,logsApiInput){
+  return (logsApiInput.players[userId].class_stats[0].type);
 }
 
 function dateToSeconds(eventLog){
