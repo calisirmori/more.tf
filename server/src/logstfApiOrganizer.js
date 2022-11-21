@@ -43,14 +43,15 @@ function playerInfo(logsApiInput,textInput){
         playerEventsList.push(events.kills[eventIndex])
       }
     }
+    let playerID3 = Object.entries(logsApiInput.players)[playerIndex][0];
     playerObject = {...playerObject,
-      [Object.entries(logsApiInput.players)[playerIndex][0]]: {
-          "userName" : logsApiInput.names[Object.entries(logsApiInput.players)[playerIndex][0]],
+      [playerID3]: {
+          "userName" : logsApiInput.names[playerID3],
           "team": player.team,
           "class": player.class_stats[0].type,
           "classImageURL": DamageIconMaker(player.class_stats[0].type,player.team)[1],
           "classIconURL": DamageIconMaker(player.class_stats[0].type,player.team)[0],
-          "steamID64": id3toid64(Object.entries(logsApiInput.players)[playerIndex][0]),
+          "steamID64": id3toid64(playerID3),
           "classStats": player.class_stats,
           "kills": player.kills,
           "deaths": player.deaths,
@@ -58,7 +59,7 @@ function playerInfo(logsApiInput,textInput){
           "suicides": player.suicides,
           "kapd": player.kapd,
           "kpd": player.kpd,
-          "damage_towards": events.damageSpread[Object.entries(logsApiInput.players)[playerIndex][0]],
+          "damage_towards": events.damageSpread[playerID3],
           "events": playerEventsList,
           "damage": player.dmg,
           "damageTaken": player.dt,
@@ -80,11 +81,11 @@ function playerInfo(logsApiInput,textInput){
           "heal": player.heal,
           "pointCaps": player.cpc,
           "ic": player.ic, //?
-          "extinguished": 2,
-          "domination": 0,
-          "objectkills": 1,
-          "objectbuilds": 0,
-          "ammopickup": 12,
+          "extinguished": events.smallEvents.extinguished[playerID3] == undefined ? 0 : events.smallEvents.extinguished[playerID3],
+          "domination": events.smallEvents.domination[playerID3] == undefined ? 0 : events.smallEvents.domination[playerID3],
+          "objectkills": events.smallEvents.killedobject[playerID3] == undefined ? 0 : events.smallEvents.killedobject[playerID3],
+          "objectbuilds": events.smallEvents.player_builtobject[playerID3] == undefined ? 0 : events.smallEvents.player_builtobject[playerID3],
+          "ammopickup": events.smallEvents.ammopickup[playerID3] == undefined ? 0 : events.smallEvents.ammopickup[playerID3],
       }
     }
   }
@@ -97,17 +98,41 @@ function eventsHandler(textInput,logsApiInput,outputObject){
   let gameIsActive = false;
   let stringArray = textInput.split(/\r?\n/);
   let killsArray = [], damageValues = [], damageObject = {}
+  let smallEvents = {
+    "extinguished": {},
+    "domination": {},
+    "killedobject": {},
+    "player_builtobject": {},
+    "ammopickup": {},
+  }
 
   stringArray.map((eventLog) =>{
-
-  if(eventLog.includes("Round_Start")) gameIsActive = true;
-  else if (eventLog.includes("Round_Win")) gameIsActive = false;
-  else if (eventLog.includes(" killed ") && gameIsActive) killEventParser(eventLog, killsArray);
-  else if(eventLog.includes("damage") && gameIsActive) damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject);
-  
+    if(eventLog.includes("Round_Start")) gameIsActive = true;
+    else if (eventLog.includes("Round_Win")) gameIsActive = false;
+    else if (eventLog.includes(" killed ") && gameIsActive) killEventParser(eventLog, killsArray);
+    else if (eventLog.includes("damage") && gameIsActive) damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject);
+    else if (eventLog.includes("extinguished")) smallStats("extinguished",eventLog, smallEvents)
+    else if (eventLog.includes("killedobject")) smallStats("killedobject",eventLog, smallEvents)
+    else if (eventLog.includes("player_builtobject")) smallStats("player_builtobject",eventLog, smallEvents)
+    else if (eventLog.includes("domination")) smallStats("domination",eventLog, smallEvents)
+    else if (eventLog.includes("picked")) smallStats("picked",eventLog, smallEvents)
   })
+  return({kills: killsArray, damageSpread: damageObject , smallEvents: smallEvents});
+}
 
-  return({kills: killsArray, damageSpread: damageObject});
+function smallStats(eventSearched, eventInput, smallEvents){
+  currentPlayerId = eventInput.slice(eventInput.indexOf('[U:1:'),eventInput.indexOf(']>')+1);
+  if(eventSearched === "picked"){
+    if( eventInput.includes("ammopack_small")){
+      smallEvents.ammopickup[currentPlayerId] == undefined ? smallEvents.ammopickup[currentPlayerId] = 1 : smallEvents.ammopickup[currentPlayerId]++;
+    } else if (eventInput.includes("tf_ammo_pack") || eventInput.includes("ammopack_medium") ){
+      smallEvents.ammopickup[currentPlayerId] == undefined ? smallEvents.ammopickup[currentPlayerId] = 1 : smallEvents.ammopickup[currentPlayerId]+=2;
+    } else if( eventInput.includes("ammopack_large")){
+      smallEvents.ammopickup[currentPlayerId] == undefined ? smallEvents.ammopickup[currentPlayerId] = 1 : smallEvents.ammopickup[currentPlayerId]+=4;
+    }
+  }else {
+    smallEvents[eventSearched][currentPlayerId] == undefined ? smallEvents[eventSearched][currentPlayerId] = 1 : smallEvents[eventSearched][currentPlayerId]++;
+  }
 }
 
 function killEventParser(eventLog, killsArray) {
