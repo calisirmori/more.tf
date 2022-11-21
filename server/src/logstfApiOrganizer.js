@@ -228,7 +228,7 @@ function DamageIconMaker(input,team) {
       return ["https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png", team == "Red" ? "https://i.imgur.com/cf0N6qe.png" :"https://i.imgur.com/0nGnxsH.png"];
 
     case "spy":
-      return ["https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png", team == "Red" ? "https://i.imgur.com/TaPGIUR.png" :"https://i.imgur.com/QbP4znS.png"];
+      return ["https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png", team == "Red" ? "https://i.imgur.com/TaPGIUR.png" :"https://i.imgur.com/QbP4znS.png"];
   };
 };
 

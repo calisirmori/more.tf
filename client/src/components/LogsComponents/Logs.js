@@ -9,44 +9,40 @@ const Logs = () => {
   const idArray = id.split('/');
   const logInfo = idArray[4];
 
-  const [localInput, setLocalInput] = useState([]);
-  const [listOfPlayers, setListOfPlayers] = useState([]);
   const [blueTeamScore, setBlueTeamScore] = useState(0);
   const [redTeamScore, setRedTeamScore] = useState(0);
-  const [currentFocusName, setCurrentFocusName] = useState("");
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const [smallStats, setSmallStats] = useState([]);
   const [sumAmountsSmallStats, setSumAmountsSmallStats] = useState([]);
 
-
   const [apiResponse, setApiResponse] = useState({});
   const [playersResponse, setPlayersResponse] = useState({});
+  const [smallStatsResponse, setSmallStatsResponse] = useState({});
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
 
-  var playersArray =[];
-  var samplearray = [];
-
-  async function apiCall(){
-    console.log("apicall")
-    let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`)
-    setApiResponse(response.data);
-    setPlayersResponse(Object.entries(response.data.players))
-    
-  }
-
+  
   useEffect(() => {
     console.log(apiResponse.matchInfo)
     if(playersResponse.length != undefined){
       sortByRow("team")
       changeDamageVs(Object.entries(apiResponse.players)[0][0])
+      let smallStatsObject = { "objectBuilds" : sortForSmallStats("objectbuilds"), "dominations" : sortForSmallStats("dominations"), "extinguished" : sortForSmallStats("extinguished")}
+      console.log(smallStatsObject)
     }
   },[apiResponse]);
-
+  
   useEffect(() => {
     apiCall()
-
   }, [])
+  
+  async function apiCall(){
+    console.log("apicall")
+    let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`)
+    setApiResponse(response.data);
+    setPlayersResponse(Object.entries(response.data.players))
+    setSmallStatsResponse(Object.entries(response.data.players))
+  }
 
   function changeDamageVs(playerId){
     setFocusedPlayer(playerId);
@@ -91,20 +87,24 @@ const Logs = () => {
     };
     return output;
   };
+  
+  function sortForSmallStats(stat){
+    var array = [];
+    let arrayLength = playersResponse.length;
 
-  const [outputArray, setOutputArray]  = useState([]);
-
-  function locationsToCordinates(inputArray){
-    var array = Object.entries(inputArray[1].kills)
-    var extraarray = [];
-    for(var i = 0; i < array.length ; i++) {
-      var killerLocation = (array[i][1].killer.location).split(" ");
-      var victimLocation = (array[i][1].victim.location).split(" ");
-      const scaleIndex = 17.8;
-      extraarray[i]= [killerLocation[0]/scaleIndex, killerLocation[1]/scaleIndex
-                      ,victimLocation[0]/scaleIndex, victimLocation[1]/scaleIndex]
-    }  
-    setOutputArray(extraarray);
+    for (let outputIndex = 0; outputIndex < arrayLength; outputIndex++){
+      let max = 0;
+      let currentIndex = 0;
+      for(let playerIndex = 0; playerIndex < playersResponse.length; playerIndex++){
+        if(playersResponse[playerIndex][1][stat] >= max){
+          max = playersResponse[playerIndex][1][stat];
+          currentIndex = playerIndex;
+        }
+      }
+      array[outputIndex] = [playersResponse[currentIndex][0],playersResponse[currentIndex][1][stat]];
+      playersResponse.splice(currentIndex, 1)
+    }
+    return array;
   }
 
   function sortByRow(row){
@@ -211,18 +211,17 @@ const Logs = () => {
                   <SectionTitle></SectionTitle>
                   <StatsWrapper>
                       {damageStats.map((player) => {
-                        
                       const widthIndex = damageStats[0][1] /230;
                         return(
                           <VsStat>
                             <ClassAgainst src={classNameToIconURL(player[0])}/>
                             <DamageBar style={{ width: (player[1]/widthIndex), 
                                                 background: `${ apiResponse.players[focusedPlayer] == undefined ?
-                                                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
-                                                                apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`,
-                                                "border-bottom": `${ apiResponse.players[focusedPlayer] == undefined ?
-                                                                      apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                                                      apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" }`}}>{player[1]}</DamageBar>
+                                                                  apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                                                  apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`,
+                                           "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                  apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                  apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" }`}}>{player[1]}</DamageBar>
                           </VsStat>
                         );
                       })}
@@ -231,20 +230,22 @@ const Logs = () => {
               </DamageVersus>
               <KillMap>
                 <Map src={apiResponse.matchInfo.mapImageURL}></Map>
-                {
-                  outputArray.map((location) => {
-                    var currentOffset= []
+                {(apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].events: apiResponse.players[focusedPlayer].events).map((location) => {
+                    let killerX = location.killer_location.x/17.8;
+                    let killerY = location.killer_location.y/17.8;
+                    let victimX = location.victim_location.x/17.8;
+                    let victimY = location.victim_location.y/17.8;
+                    let xOffset = apiResponse.matchInfo.offsets.x;
+                    let yoffset = apiResponse.matchInfo.offsets.y;
                     var centerLineOffset = 5;
                       return(
                         <KillImage>
                           <SvgArrow height="540" width="540" style={{position: "absolute", left: 0, top: 0}}>
-                            <Arrow points={`${location[0]+centerLineOffset+currentOffset[0]},
-                                            ${location[1]+centerLineOffset+340+currentOffset[1]}
-                                            ${location[2]+centerLineOffset+currentOffset[0]},
-                                            ${location[3]+centerLineOffset+340+currentOffset[1]}`} style={{stroke: "#FFC000"}}></Arrow>
+                            <Arrow points={`${killerX+centerLineOffset+xOffset},${killerY+centerLineOffset+340+yoffset}
+                                            ${victimX+centerLineOffset+xOffset},${victimY+centerLineOffset+340+yoffset}`} style={{stroke: "#FFC000"}}></Arrow>
                           </SvgArrow>
-                          <Killer style={{left : location[0]+currentOffset[0] , bottom: location[1]+340+currentOffset[1]}}></Killer>
-                          <Victim style={{left : location[2]+currentOffset[0] , bottom: location[3]+340+currentOffset[1]}}></Victim>
+                          <Killer style={{left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
+                          <Victim style={{left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
                         </KillImage>
                       );
                   })}
@@ -260,13 +261,12 @@ const Logs = () => {
                 <SmallStats>
                   <TeamSection>
                     { 
-  
-                      smallStats.map((playerinfo) => {
+                      playersResponse.map((playerinfo) => {
                         return(
-                          <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
-                            <SmallIcon src=""></SmallIcon>
-                            <Name>{playerinfo[0]}</Name>
-                            <Amount>{playerinfo[3]}</Amount>  
+                          <SmallPlayerCard style={ playerinfo[1].team=="Blue" ? { "backgroundColor": "#5B7A8C"} : { "backgroundColor": "#9D312F"}}>
+                            <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
+                            <Name>{playerinfo[1].userName}</Name>
+                            <Amount>{playerinfo[1].objectkills}</Amount>  
                           </SmallPlayerCard>
                         )
                       })
@@ -278,13 +278,13 @@ const Logs = () => {
                 <PlayersExtinguished>
                   <Label>PLAYERS EXTINGUISHED</Label>
                   {
-                      smallStats.map((playerinfo) => {
-                        if(playerinfo[5] != 0){
+                      playersResponse.map((playerinfo) => {
+                        if(playerinfo[1].extinguished != 0){
                           return(
-                            <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
-                              <SmallIcon src=""></SmallIcon>
-                              <Name>{playerinfo[0]}</Name>
-                              <Amount>{playerinfo[5]}</Amount>  
+                            <SmallPlayerCard style={ playerinfo[1].team=="Blue" ? { "backgroundColor": "#5B7A8C"} : { "backgroundColor": "#9D312F"}}>
+                              <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
+                              <Name>{playerinfo[1].userName}</Name>
+                              <Amount>{playerinfo[1].extinguished}</Amount>  
                             </SmallPlayerCard>
                           )
                         }
@@ -294,13 +294,13 @@ const Logs = () => {
                 <BuildingCount>
                   <Label>BUILDING COUNT</Label>
                   {
-                      smallStats.map((playerinfo) => {
-                        if(playerinfo[6] != 0){
+                       playersResponse.map((playerinfo) => {
+                        if(playerinfo[1].objectbuilds != 0){
                           return(
-                            <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
-                              <SmallIcon src=""></SmallIcon>
-                              <Name>{playerinfo[0]}</Name>
-                              <Amount>{playerinfo[6]}</Amount>  
+                            <SmallPlayerCard style={ playerinfo[1].team=="Blue" ? { "backgroundColor": "#5B7A8C"} : { "backgroundColor": "#9D312F"}}>
+                              <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
+                              <Name>{playerinfo[1].userName}</Name>
+                              <Amount>{playerinfo[1].objectbuilds}</Amount>  
                             </SmallPlayerCard>
                           )
                         }
@@ -310,13 +310,13 @@ const Logs = () => {
                 <Dominations>
                   <Label>MOST DOMINATIONS</Label>
                   {
-                      smallStats.map((playerinfo) => {
-                        if(playerinfo[7] >= 2){
+                      playersResponse.map((playerinfo) => {
+                        if(playerinfo[1].domination >= 2){
                           return(
-                            <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
-                              <SmallIcon src=""></SmallIcon>
-                              <Name>{playerinfo[0]}</Name>
-                              <Amount>{playerinfo[7]}</Amount>  
+                            <SmallPlayerCard style={ playerinfo[1].team=="Blue" ? { "backgroundColor": "#5B7A8C"} : { "backgroundColor": "#9D312F"}}>
+                              <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
+                              <Name>{playerinfo[1].userName}</Name>
+                              <Amount>{playerinfo[1].domination}</Amount>  
                             </SmallPlayerCard>
                           )
                         }
@@ -333,12 +333,12 @@ const Logs = () => {
                 <SmallStats>
                   <TeamSection>
                   {
-                      smallStats.map((playerinfo) => {
+                      playersResponse.map((playerinfo) => {
                         return(
-                          <SmallPlayerCard style={ playerinfo[1]=="blue" ? { "background-color": "#5B7A8C"} : { "background-color": "#9D312F"}}>
-                            <SmallIcon src=""></SmallIcon>
-                            <Name>{playerinfo[0]}</Name>
-                            <Amount>{playerinfo[4]}</Amount>  
+                          <SmallPlayerCard style={ playerinfo[1].team=="Blue" ? { "backgroundColor": "#5B7A8C"} : { "backgroundColor": "#9D312F"}}>
+                            <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
+                            <Name>{playerinfo[1].userName}</Name>
+                            <Amount>{playerinfo[1].ammopickup}</Amount>  
                           </SmallPlayerCard>
                         )
                       })
