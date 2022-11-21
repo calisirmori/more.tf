@@ -307,8 +307,8 @@ export const DamageVersus = styled.div`
 `;
 
 export const ClassImage = styled.img`
-    margin-top: 20px;
-    height: 500px;
+    margin-top: -70px;
+    height: 650px;
     width: 200px;
     object-fit: cover;
 `;
@@ -340,12 +340,12 @@ export const ClassAgainst = styled.img`
     margin-right: 10px;
 `;
 export const DamageBar = styled.div`
-    background-color: #BD3B3B;
+
     color: #fff;
     text-align: right;
     font-weight: 700;
     padding: 4px 16px 4px 8px;
-    border-bottom: 4px solid #9D312F;
+
 `;
 export const InfoSection = styled.div``;
 export const PlayerName = styled.div`

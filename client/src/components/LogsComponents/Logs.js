@@ -15,57 +15,82 @@ const Logs = () => {
   const [redTeamScore, setRedTeamScore] = useState(0);
   const [currentFocusName, setCurrentFocusName] = useState("");
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const [sortedDamage,setSortedDamage] =  useState([0,0,0,0,0,0,0,0,0])
   const [smallStats, setSmallStats] = useState([]);
   const [sumAmountsSmallStats, setSumAmountsSmallStats] = useState([]);
+
+
   const [apiResponse, setApiResponse] = useState({});
   const [playersResponse, setPlayersResponse] = useState({});
+  const [focusedPlayer, setFocusedPlayer] = useState("");
+  const [damageStats, setDamageStats] = useState([]);
+
   var playersArray =[];
   var samplearray = [];
 
   async function apiCall(){
+    console.log("apicall")
     let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`)
     setApiResponse(response.data);
     setPlayersResponse(Object.entries(response.data.players))
+    
   }
 
   useEffect(() => {
     console.log(apiResponse.matchInfo)
+    if(playersResponse.length != undefined){
+      sortByRow("team")
+      changeDamageVs(Object.entries(apiResponse.players)[0][0])
+    }
   },[apiResponse]);
 
   useEffect(() => {
     apiCall()
+
   }, [])
 
-  function findTheDamageSpread(inputId) {
-    var currentDamageList = [];
-    var array = [0,0,0,0,0,0,0,0,0];
-    
-      currentDamageList = Object.entries(localInput[inputId][1].damage);
-      for(var i = 0; i < currentDamageList.length; i++){
-        var maxLocation =0;
-        var max=0;
-        for(var j = 1; j < currentDamageList.length; j++){
-          if (currentDamageList[j][1] >= max){
-            array[i]=[currentDamageList[j][0],currentDamageList[j][1]];
-            max = currentDamageList[j][1];
-            maxLocation = j;
-          }
-        }
-        currentDamageList[maxLocation][1]=-1;
-      }
-      setSortedDamage(array)
+  function changeDamageVs(playerId){
+    setFocusedPlayer(playerId);
+    const sortedDamage = Object.entries(apiResponse.players[playerId].damage_towards)
+    .sort(([,b],[,a]) => a-b)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+    setDamageStats(Object.entries(sortedDamage));
   }
 
-  function changeDamageVs(inputNumber,inputName){
-    var outputNumber = 0;
-    for( var i =0; i < localInput.length; i++){
-      if(inputNumber == localInput[i][0]) outputNumber=i;
+  function classNameToIconURL(input) {
+    var output = "";
+    switch (input) {
+      case "scout":
+        output = "https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png";
+        break;
+      case "soldier":
+        output = "https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png";
+        break;
+      case "pyro":
+        output = "https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png";
+        break;
+      case "demoman":
+        output = "https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png";
+        break;
+      case "heavyweapons":
+        output = "https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png";
+        break;
+      case "engineer":
+        output = "https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png";
+        break;
+      case "medic":
+        output = "https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png";
+        break;
+      case "sniper":
+        output = "https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png";
+        break;
+      case "spy":
+        output = "https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png";
+        break;
+      default:
+        break;
     };
-    setCurrentFocusName(inputName)
-    findTheDamageSpread(outputNumber);
-    locationsToCordinates(localInput[outputNumber])
-  }
+    return output;
+  };
 
   const [outputArray, setOutputArray]  = useState([]);
 
@@ -156,7 +181,7 @@ const Logs = () => {
                 return(
                   <PlayerCard>
                     <Team className={player[1].team}>{player[1].team}</Team>
-                    <PlayerUsername onClick={() =>{changeDamageVs(player[1],player[2])}}>{player[1].userName}</PlayerUsername>
+                    <PlayerUsername onClick={() =>{changeDamageVs(player[0])}}>{player[1].userName}</PlayerUsername>
                     <Class src={player[1].classIconURL}></Class>
                     <Kills>{player[1].kills}</Kills>
                     <Assists>{player[1].assists}</Assists>
@@ -171,11 +196,11 @@ const Logs = () => {
           <MoreLogs>
             <Individuals>
               <DamageVersus>
-                <ClassImage src="https://w.namu.la/s/5f4d7e4da47265254d638e997fab91f8fdb3cc78c05d23cc115495075a68796f373ce51e3dcebd31a0d3bfe2fb271b8984e466b01bd54478135e5400fee71a35085b8daee97fe50a3f4fb8d4b214b2ea"></ClassImage>
+                <ClassImage src={ apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].classImageURL: apiResponse.players[focusedPlayer].classImageURL}></ClassImage>
                 <PlayerVsStats>
                   <Label>DAMAGE TO CLASS</Label>
                   <InfoSection>
-                    <PlayerName>{currentFocusName}</PlayerName>
+                    <PlayerName>{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName: apiResponse.players[focusedPlayer].userName}</PlayerName>
                     <InfoButtons>
                       <SmallButton style={{background : "#BEBDBB"}}src="https://cdn.icon-icons.com/icons2/2248/PNG/512/steam_icon_135152.png"></SmallButton>
                       <SmallButton src="https://avatars.cloudflare.steamstatic.com/e8b64622d8d348f9d3761d51f1aed63233401b26_full.jpg"></SmallButton>
@@ -185,13 +210,19 @@ const Logs = () => {
                   </InfoSection>
                   <SectionTitle></SectionTitle>
                   <StatsWrapper>
-                    {sortedDamage.map((player) => {
-                      var currentIndex = sortedDamage[0][1]/230;
-                      if(sortedDamage[0][1]<230) currentIndex=1000/230;
+                      {damageStats.map((player) => {
+                        
+                      const widthIndex = damageStats[0][1] /230;
                         return(
                           <VsStat>
-                            <ClassAgainst src={ClassAgainst}/>
-                            <DamageBar style={{ width: (player[1]/currentIndex)}}>{player[1]}</DamageBar>
+                            <ClassAgainst src={classNameToIconURL(player[0])}/>
+                            <DamageBar style={{ width: (player[1]/widthIndex), 
+                                                background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                                                apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`,
+                                                "border-bottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                      apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                      apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" }`}}>{player[1]}</DamageBar>
                           </VsStat>
                         );
                       })}
@@ -199,7 +230,7 @@ const Logs = () => {
                 </PlayerVsStats>
               </DamageVersus>
               <KillMap>
-                <Map src=""></Map>
+                <Map src={apiResponse.matchInfo.mapImageURL}></Map>
                 {
                   outputArray.map((location) => {
                     var currentOffset= []
