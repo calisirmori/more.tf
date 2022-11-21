@@ -33,10 +33,17 @@ async function matchInfo(logsApiInput,gameId){
 }
 
 function playerInfo(logsApiInput,textInput){
-  let playerIndex = 1;
-  let player = Object.entries(logsApiInput.players)[playerIndex][1];
-
-  let playerObject = {
+  let killsList = eventsHandler(textInput);
+  let playerObject;
+  for(let playerIndex = 0; playerIndex < Object.entries(logsApiInput.players).length; playerIndex++){
+    let player = Object.entries(logsApiInput.players)[playerIndex][1];
+    let playerEventsList =[]
+    for(let eventIndex = 0; eventIndex < killsList.length; eventIndex++){
+      if(killsList[eventIndex].killer == Object.entries(logsApiInput.players)[playerIndex][0]){
+        playerEventsList.push(killsList[eventIndex])
+      }
+    }
+    playerObject = {...playerObject,
       [Object.entries(logsApiInput.players)[playerIndex][0]]: {
           "userName" : logsApiInput.names[Object.entries(logsApiInput.players)[playerIndex][0]],
           "team": player.team,
@@ -62,16 +69,7 @@ function playerInfo(logsApiInput,textInput){
               "sniper": 0,
               "spy": 0
           },
-          "events": [
-              {
-                  "type": "kill",
-                  "weapon": "weapon",
-                  "time": 661,
-                  "victim": "[U:1:65863829]",
-                  "killer_location": "-2006 590",
-                  "victim_location": "-2006 590",
-              },
-          ],
+          "events": playerEventsList,
           "damage": player.dmg,
           "damageTaken": player.dt,
           "damageTakenReal": player.dt_real,//?
@@ -97,9 +95,50 @@ function playerInfo(logsApiInput,textInput){
           "objectkills": 1,
           "objectbuilds": 0,
           "ammopickup": 12,
+      }
     }
   }
+  // console.log(Object.entries(Object.entries(playerObject)[8])[1][1].events)
   return ({players: playerObject})
+}
+
+function eventsHandler(textInput){
+  let gameIsActive = false;
+  let stringArray = textInput.split(/\r?\n/);
+  let killsArray = []
+  stringArray.map((eventLog) =>{
+    if(eventLog.includes("Round_Start")) gameIsActive = true;
+    if(eventLog.includes("Round_Win")) gameIsActive = false;
+    if(eventLog.includes(" killed ") && gameIsActive){
+      dateToSeconds(eventLog);
+      currentKillerId = eventLog.slice(eventLog.indexOf('[U:1:'),eventLog.indexOf(']>')+1);
+      currentVictimId = eventLog.slice(eventLog.lastIndexOf('[U:1:'),eventLog.lastIndexOf(']>')+1);
+      currentKillerLocation = eventLog.slice(eventLog.indexOf('attacker_position') + 19 , eventLog.lastIndexOf(') (victim_position')-1 )
+      currentVictimLocation = eventLog.slice(eventLog.indexOf('victim_position') + 17 , eventLog.lastIndexOf('")'))
+      killerWeapon = eventLog.slice(eventLog.indexOf('with "')+6, eventLog.lastIndexOf('" ('))
+      killsArray.push({
+        "type": "kill",
+        "killer": currentKillerId,
+        "killer_location": { 
+          x : currentKillerLocation.split(" ")[0],
+          y : currentKillerLocation.split(" ")[1]
+        },
+        "victim": currentVictimId,
+        "victim_location": { 
+          x : currentVictimLocation.split(" ")[0],
+          y : currentVictimLocation.split(" ")[1]
+        },
+        "weapon": killerWeapon,
+        "time": dateToSeconds(eventLog),
+      })
+    }
+  })
+  return(killsArray);
+}
+
+function dateToSeconds(eventLog){
+  let eventArray = eventLog.split(" "),setupDate = eventArray[1].split("/"),setupTime = eventArray[3].split(":");
+  return (new Date(setupDate[2] + "-" + setupDate[0] + "-" + setupDate[1] + "T" + setupTime[0] + ":" + setupTime[1] + ":" + setupTime[2]).getTime() / 1000)
 }
 
 async function demostfLinkIdFinder(logTime,playerId){
