@@ -12,7 +12,7 @@ export const LogsSectionWrapper = styled.div`
     width: 1140px;
     
     background-color: #1d1c1c;
-    margin: 20px;
+    margin: 10px;
     display: block;
 `;
 
