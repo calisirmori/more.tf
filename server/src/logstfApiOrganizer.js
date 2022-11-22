@@ -194,7 +194,12 @@ function dateToSeconds(eventLog){
 async function demostfLinkIdFinder(logTime,playerId){
   const URL_DEMOS_API = "https://api.demos.tf"
   let demostfApiResponse = await axios.get(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`);
-  return (demostfApiResponse.data[demostfApiResponse.data.length-1].id)
+  console.log(demostfApiResponse.data.length)
+  if(demostfApiResponse.data.length == 0 ){
+    return("")
+  } else{
+    return (demostfApiResponse.data[demostfApiResponse.data.length-1].id);
+  } 
 }
 
 function id3toid64(userid3) {

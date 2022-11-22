@@ -336,8 +336,14 @@ const Logs = () => {
         </LogsSectionWrapper>
       </LogsPageWrapper>
     )
+  } else {
+    return(
+      <div id="loader">
+        <div id="shadow"></div>
+        <div id="box"></div>
+      </div>
+    )
   }
-
 }
 
 export default Logs;
