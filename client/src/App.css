@@ -8,3 +8,8 @@
 .Red{
     background: #bd3b3b;
 }
+
+img {
+    height: 40px;
+    border-radius: 5px;
+}

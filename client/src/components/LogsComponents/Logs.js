@@ -9,18 +9,12 @@ const Logs = () => {
   const idArray = id.split('/');
   const logInfo = idArray[4];
 
-  const [blueTeamScore, setBlueTeamScore] = useState(0);
-  const [redTeamScore, setRedTeamScore] = useState(0);
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const [smallStats, setSmallStats] = useState([]);
-  const [sumAmountsSmallStats, setSumAmountsSmallStats] = useState([]);
-
   const [apiResponse, setApiResponse] = useState({});
   const [playersResponse, setPlayersResponse] = useState({});
-  const [smallStatsResponse, setSmallStatsResponse] = useState({});
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
-
+  const [bdBlue, setBdBlue] = useState(0);
   
   useEffect(() => {
     console.log(apiResponse.matchInfo)
@@ -41,7 +35,6 @@ const Logs = () => {
     let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`)
     setApiResponse(response.data);
     setPlayersResponse(Object.entries(response.data.players))
-    setSmallStatsResponse(Object.entries(response.data.players))
   }
 
   function changeDamageVs(playerId){
@@ -142,24 +135,24 @@ const Logs = () => {
             <LeftSideInfo>
               <MatchTitle>{apiResponse.matchInfo.title}</MatchTitle>
               <MapPlayed>{apiResponse.matchInfo.map}</MapPlayed>
-              <Duration>{apiResponse.matchInfo.totalLength}</Duration>
+              <Duration>{`${Math.ceil(apiResponse.matchInfo.totalLength/60)+"mins"}`}</Duration>
             </LeftSideInfo>
             <MatchScore>
               <BlueScore>
                 <TeamName>BLU</TeamName>
-                <Score>{blueTeamScore}</Score>
+                <Score>{apiResponse.teams.Blue.score}</Score>
               </BlueScore>
               <RedScore>
                 <TeamName>RED</TeamName>
-                <Score>{redTeamScore}</Score>
+                <Score>{apiResponse.teams.Red.score}</Score>
               </RedScore>
             </MatchScore>
             <RightSideInfo>
-              <LogNumber>{logInfo}</LogNumber>
-              <MatchDate>{apiResponse.matchInfo.date}</MatchDate>
+              <LogNumber>{"#"+ logInfo}</LogNumber>
+              <MatchDate>{`${(new Date(apiResponse.matchInfo.date*1000)).toLocaleDateString("en-US", options) + " " +(new Date(apiResponse.matchInfo.date*1000)).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`}</MatchDate>
               <MatchLinks>
-                <LogsLink> logs.tf </LogsLink>
-                <DemosLink> demos.tf </DemosLink>
+                <LogsLink href={`https://logs.tf/${logInfo}`} target="_blank"> logs.tf </LogsLink>
+                <DemosLink href={`https://demos.tf/${apiResponse.matchInfo.demosID}`} target="_blank"> demos.tf </DemosLink>
               </MatchLinks>
             </RightSideInfo>
           </MatchHeader>
@@ -202,10 +195,10 @@ const Logs = () => {
                   <InfoSection>
                     <PlayerName>{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName: apiResponse.players[focusedPlayer].userName}</PlayerName>
                     <InfoButtons>
-                      <SmallButton style={{background : "#BEBDBB"}}src="https://cdn.icon-icons.com/icons2/2248/PNG/512/steam_icon_135152.png"></SmallButton>
-                      <SmallButton src="https://avatars.cloudflare.steamstatic.com/e8b64622d8d348f9d3761d51f1aed63233401b26_full.jpg"></SmallButton>
-                      <SmallButton src="https://etf2l.org/wp-content/uploads/2018/07/2018_etf2l_short_nobackground_dark.png"></SmallButton>
-                      <SmallButton src="https://pbs.twimg.com/profile_images/1128657074215432192/gOCZ-jLz_400x400.jpg"></SmallButton>
+                      <SmallButton target="_blank" href={`https://steamcommunity.com/profiles/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://cdn.icon-icons.com/icons2/2248/PNG/512/steam_icon_135152.png"></img></SmallButton>
+                      <SmallButton target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://avatars.cloudflare.steamstatic.com/e8b64622d8d348f9d3761d51f1aed63233401b26_full.jpg"></img></SmallButton>
+                      <SmallButton target="_blank" href={`https://etf2l.org/search/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://etf2l.org/wp-content/uploads/2018/07/2018_etf2l_short_nobackground_dark.png"></img></SmallButton>
+                      <SmallButton target="_blank" href={`https://www.ugcleague.com/players_page.cfm?player_id=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://pbs.twimg.com/profile_images/1128657074215432192/gOCZ-jLz_400x400.jpg"></img></SmallButton>
                     </InfoButtons>
                   </InfoSection>
                   <SectionTitle></SectionTitle>
@@ -254,10 +247,6 @@ const Logs = () => {
             <FunFacts>
               <BuildingsDestroyed>
                 <Label>BUILDINGS DESTROYED</Label>
-                <SmallHeaders>
-                  <BlueTeam>{sumAmountsSmallStats[0]}</BlueTeam>
-                  <RedTeam>{sumAmountsSmallStats[2]}</RedTeam>
-                </SmallHeaders>
                 <SmallStats>
                   <TeamSection>
                     { 
@@ -326,10 +315,6 @@ const Logs = () => {
               </Smalls>
               <AmmoPickup>
                 <Label>AMMO PICKUP</Label>
-                <SmallHeaders>
-                  <BlueTeam>{sumAmountsSmallStats[1]}</BlueTeam>
-                  <RedTeam>{sumAmountsSmallStats[3]}</RedTeam>
-                </SmallHeaders>
                 <SmallStats>
                   <TeamSection>
                   {

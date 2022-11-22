@@ -3,10 +3,11 @@ const axios = require('axios');
 async function organize(logsApiInput,textInput,gameId){
   
   let idObject = { id: gameId }
+  let teamsObject = {teams : logsApiInput.data.teams};
   let matchInfoObject = await matchInfo(logsApiInput.data,gameId)
   let playerObject = playerInfo(logsApiInput.data,textInput)
   
-  let finalObject = {...idObject, ...matchInfoObject, ...playerObject}
+  let finalObject = {...idObject, ...matchInfoObject,...teamsObject, ...playerObject}
   return finalObject;
 }
 

@@ -111,7 +111,7 @@ export const MatchLinks = styled.div`
     justify-content: right;
     background-color: #1d1c1c;
 `;
-export const LogsLink = styled.div`
+export const LogsLink = styled.a`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -122,12 +122,16 @@ export const LogsLink = styled.div`
     margin-right: 10px;
     cursor: pointer;
     border-radius: 3px;
+    text-decoration: none;
+    color: white;
     :hover {
         outline: 1px solid #f08149;
         background-color: #1d1c1c;
     }
 `;
-export const DemosLink = styled.div`
+export const DemosLink = styled.a`
+    text-decoration: none;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -308,6 +312,9 @@ export const DamageVersus = styled.div`
 
 export const ClassImage = styled.img`
     margin-top: -70px;
+    margin-left: 20px;
+    margin-right: -20px;
+
     height: 650px;
     width: 200px;
     object-fit: cover;
@@ -365,7 +372,8 @@ export const InfoButtons = styled.div`
     justify-content: center;
     align-items: center;
 `;
-export const SmallButton = styled.img`
+export const SmallButton = styled.a`
+    text-decoration: none;
     border-radius: 4px;
     margin: 5px 10px;
     height: 40px;
