@@ -20,5 +20,8 @@
     "request": "^2.88.2",
     "yauzl": "^2.10.0",
     "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
