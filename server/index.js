@@ -10,8 +10,11 @@ const axios = require('axios');
 app.use(express.json());
 app.use(cors());
 
-app.get('/logsplus/:id', async (req, result, next) => {
+app.get('/api/season-13-summary',(req,result) => {
+  result.json("good")
+});
 
+app.get('/logsplus/:id', async (req, result, next) => {
   const matchId = req.params.id;
   let logsApiResponse = await axios.get(`https://logs.tf/api/v1/log/${matchId}`);
 

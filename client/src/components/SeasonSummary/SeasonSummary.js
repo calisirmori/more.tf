@@ -22,8 +22,6 @@ const SeasonSummary = () => {
                         <Division style={divisionStyleObject("Advanced")} onClick={() => {setDivisionChoice("Advanced")}}>Advanced</Division>
                         <Division style={divisionStyleObject("Main")} onClick={() => {setDivisionChoice("Main")}}>Main</Division>
                         <Division style={divisionStyleObject("Intermediate")} onClick={() => {setDivisionChoice("Intermediate")}}>Intermediate</Division>
-                        <Division style={divisionStyleObject("Amateur")} onClick={() => {setDivisionChoice("Amateur")}}>Amateur</Division>
-                        <Division style={divisionStyleObject("Newcomer")} onClick={() => {setDivisionChoice("Newcomer")}}>Newcomer</Division>
                     </DivisionSelect>
                     <ClassSelect>
                         <ClassTab style={classStyleObject("Scout")} onClick={() => {setClassChoice("Scout")}}>Scout</ClassTab>

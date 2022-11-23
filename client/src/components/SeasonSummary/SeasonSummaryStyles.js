@@ -37,7 +37,7 @@ export const DivisionSelect = styled.div`
     color: #fff;
 
     font-family: 'Quicksand';
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     height: 40px;
     background: #1d1c1c;
     border-bottom: 3px solid #34302d;

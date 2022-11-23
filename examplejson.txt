@@ -1,4 +1,8 @@
 
-rgl players end of season list,
-
-log loading screen with a tf2 logo filling with water? scales up to reveal logs after
+s13 : {
+    invite : {
+        scout : {
+            
+        }
+    }
+}
