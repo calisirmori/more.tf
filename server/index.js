@@ -6,9 +6,13 @@ const http = require("http");
 const AdmZip = require('adm-zip');
 const logstfApiOrganizer = require('./src/logstfApiOrganizer')
 const axios = require('axios');
+const seasonSummary = require('./src/seasonSummary');
 
 app.use(express.json());
 app.use(cors());
+
+
+console.log(seasonSummary.makeSummary())
 
 app.get('/api/season-13-summary',(req,result) => {
   result.json("good")
