@@ -2,7 +2,7 @@
  Website project for the game Team Fortress 2 and made using MERN stack. It makes connections between two commonly used websites as well as finding unprocessed player  information.
  
  This website gathers information that is sourced by 3 external calls;
-  - logs.tf data api, this call is sent to "http://logs.tf/api/v1/log/<logId>" with the log id given by player.
+  - logs.tf data api, this call is sent to "logs .tf/api/v1/log/log-id-here" with the log id given by player.
   - demos.tf search api, after the logs.tf response the data is used to find the demos.tf demo id.
   - logs.tf raw log file, zip file provided by a link for the raw log text file.
   
@@ -14,7 +14,7 @@
  Some of the information normally not available made possible with this application;
   
   Damage spread of any player compared to classes
-  ![image](https://user-images.githubusercontent.com/104592697/203656208-d5022e74-b7a7-44f4-810f-859b7de12411.png)<br>
+  ![image](https://user-images.githubusercontent.com/104592697/203656208-d5022e74-b7a7-44f4-810f-859b7de12411.png)__
 
  
   Kill map for the players kills, positions of the killer and the victim
