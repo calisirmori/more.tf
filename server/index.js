@@ -11,8 +11,8 @@ const seasonSummary = require('./src/seasonSummary');
 app.use(express.json());
 app.use(cors());
 
-
-console.log(seasonSummary.makeSummary())
+//this is used to create seasonal summary text files
+//console.log( seasonSummary.makeSummary())
 
 app.get('/api/season-13-summary',(req,result) => {
   result.json("good")
