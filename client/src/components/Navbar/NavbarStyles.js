@@ -25,7 +25,10 @@ export const ContentHeaders = styled.div`
     font-size: 20px;
 `;
 
-export const Header = styled.div`
+export const Header = styled(Link)`
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
     margin: 0 30px;
     cursor: pointer;
 `;

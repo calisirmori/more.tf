@@ -9,7 +9,7 @@ const Navbar = () => {
             <ContentHeaders>
                 <Header>About</Header>
                 <Header>Contact</Header>
-                <Header>S13 Summary</Header>
+                <Header to="/season-summary">S13 Summary</Header>
             </ContentHeaders>
         </NavbarWrapper>
     </>
