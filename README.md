@@ -13,11 +13,11 @@
 
  ## __Some of the information normally not available made possible with this application__
   
-  Damage spread of any player compared to classes<br />
+  -Damage spread of any player compared to classes<br />
   ![image](https://user-images.githubusercontent.com/104592697/203656208-d5022e74-b7a7-44f4-810f-859b7de12411.png)<br />
 
-  Kill map for the players kills, positions of the killer and the victim
+  -Kill map for the players kills, positions of the killer and the victim
   ![image](https://user-images.githubusercontent.com/104592697/203656337-4eab8fd3-c111-4888-bd29-149249da88a5.png)
 
-  Making both logs.tf and demos.tf links available in same place without needing to search for each link separetly
+  -Making both logs.tf and demos.tf links available in same place without needing to search for each link separetly
   ![image](https://user-images.githubusercontent.com/104592697/203656472-6b676f85-80ac-4889-9398-4ef30c816b5b.png)
