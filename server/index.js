@@ -7,6 +7,7 @@ const AdmZip = require('adm-zip');
 const logstfApiOrganizer = require('./src/logstfApiOrganizer')
 const axios = require('axios');
 const { summaryObject } = require('./summary');
+const seasonSummary = require('./src/seasonSummary.js');
 
 
 app.use(express.json());

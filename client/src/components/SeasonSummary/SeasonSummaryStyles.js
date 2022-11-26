@@ -166,6 +166,9 @@ export const Username = styled.div`
     font-weight: 600;
     font-size: 18px;
     margin-top: -7px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 export const Team = styled.div`
     font-family: 'Quicksand';

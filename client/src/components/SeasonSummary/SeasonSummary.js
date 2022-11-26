@@ -1,9 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
+import axios from 'axios';
 
 const SeasonSummary = () => {
-    const [divisionChoice, setDivisionChoice] = useState("Invite")
-    const [classChoice, setClassChoice] = useState("Scout")
+    const [divisionChoice, setDivisionChoice] = useState("invite")
+    const [classChoice, setClassChoice] = useState("scout")
+    const [apiResponse, setApiResponse] = useState({})
+    const [displayArray, setDisplayArray] = useState([])
+    useEffect(() => {
+        async function apiCall(){
+            setApiResponse(await axios.get(`http://localhost:8080/api/season-13-summary`))
+            console.log("apicalss")
+        }
+        apiCall()
+    }, [])
+    
+    useEffect(() => {
+        let currentArray= [];
+        let max = 0;
+        try {
+            console.log(apiResponse.data[divisionChoice])
+            apiResponse.data[divisionChoice].map((playerInfo)=>{
+
+                if(Object.entries(playerInfo)[0][1].classPlayed == classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 2 ){
+                    currentArray.push(Object.entries(playerInfo)[0][1])
+                }
+                
+            })
+        } catch (error) {
+            console.log(error)
+        }
+        setDisplayArray(currentArray)
+        console.log(displayArray)
+
+    }, [classChoice,divisionChoice,apiResponse])
+    
 
     function divisionStyleObject(input){
         return( input == divisionChoice ? {background: "#f08149", color: "#121111", "font-weight" : "800"} : {});
@@ -11,6 +42,7 @@ const SeasonSummary = () => {
     function classStyleObject(input){
         return( input == classChoice ? {background: "#f08149", color: "#121111", "font-weight" : "800"} : {});
     }
+
     return (
     <>
         <SummaryPage>
@@ -18,21 +50,21 @@ const SeasonSummary = () => {
                 <SeasonHeader>RGL HIGHLANDER SEASON 13</SeasonHeader>
                 <SummaryTable>
                     <DivisionSelect>
-                        <Division style={divisionStyleObject("Invite")} onClick={() => {setDivisionChoice("Invite")}}>Invite</Division>
-                        <Division style={divisionStyleObject("Advanced")} onClick={() => {setDivisionChoice("Advanced")}}>Advanced</Division>
-                        <Division style={divisionStyleObject("Main")} onClick={() => {setDivisionChoice("Main")}}>Main</Division>
-                        <Division style={divisionStyleObject("Intermediate")} onClick={() => {setDivisionChoice("Intermediate")}}>Intermediate</Division>
+                        <Division style={divisionStyleObject("invite")} onClick={() => {setDivisionChoice("invite")}}>Invite</Division>
+                        <Division style={divisionStyleObject("advanced")} onClick={() => {setDivisionChoice("advanced")}}>Advanced</Division>
+                        <Division style={divisionStyleObject("main")} onClick={() => {setDivisionChoice("main")}}>Main</Division>
+                        <Division style={divisionStyleObject("intermediate")} onClick={() => {setDivisionChoice("intermediate")}}>Intermediate</Division>
                     </DivisionSelect>
                     <ClassSelect>
-                        <ClassTab style={classStyleObject("Scout")} onClick={() => {setClassChoice("Scout")}}>Scout</ClassTab>
-                        <ClassTab style={classStyleObject("Soldier")} onClick={() => {setClassChoice("Soldier")}}>Soldier</ClassTab>
-                        <ClassTab style={classStyleObject("Pyro")} onClick={() => {setClassChoice("Pyro")}}>Pyro</ClassTab>
-                        <ClassTab style={classStyleObject("Demoman")} onClick={() => {setClassChoice("Demoman")}}>Demoman</ClassTab>
-                        <ClassTab style={classStyleObject("Heavy")} onClick={() => {setClassChoice("Heavy")}}>Heavy</ClassTab>
-                        <ClassTab style={classStyleObject("Engineer")} onClick={() => {setClassChoice("Engineer")}}>Engineer</ClassTab>
-                        <ClassTab style={classStyleObject("Medic")} onClick={() => {setClassChoice("Medic")}}>Medic</ClassTab>
-                        <ClassTab style={classStyleObject("Sniper")} onClick={() => {setClassChoice("Sniper")}}>Sniper</ClassTab>
-                        <ClassTab style={classStyleObject("Spy")} onClick={() => {setClassChoice("Spy")}}>Spy</ClassTab>
+                        <ClassTab style={classStyleObject("scout")} onClick={() => {setClassChoice("scout")}}>Scout</ClassTab>
+                        <ClassTab style={classStyleObject("soldier")} onClick={() => {setClassChoice("soldier")}}>Soldier</ClassTab>
+                        <ClassTab style={classStyleObject("pyro")} onClick={() => {setClassChoice("pyro")}}>Pyro</ClassTab>
+                        <ClassTab style={classStyleObject("demoman")} onClick={() => {setClassChoice("demoman")}}>Demoman</ClassTab>
+                        <ClassTab style={classStyleObject("heavyweapons")} onClick={() => {setClassChoice("heavyweapons")}}>Heavy</ClassTab>
+                        <ClassTab style={classStyleObject("engineer")} onClick={() => {setClassChoice("engineer")}}>Engineer</ClassTab>
+                        <ClassTab style={classStyleObject("medic")} onClick={() => {setClassChoice("medic")}}>Medic</ClassTab>
+                        <ClassTab style={classStyleObject("sniper")} onClick={() => {setClassChoice("sniper")}}>Sniper</ClassTab>
+                        <ClassTab style={classStyleObject("spy")} onClick={() => {setClassChoice("spy")}}>Spy</ClassTab>
                     </ClassSelect>
                     <PlayerCards>
                         <Card style={{background: "#f08149"}} >
@@ -47,49 +79,26 @@ const SeasonSummary = () => {
                             <Info style={{color: "#000"}}>PLAYED</Info>
                             <Info style={{color: "#000"}}>SPOT</Info>
                         </Card>
-                        <Card>
-                            <PlayerNameCard>
-                                <Username>treemonkey</Username>
-                                <Team>big brain comp</Team>
-                            </PlayerNameCard>
-                            <Info>9</Info>
-                            <Info>4</Info>
-                            <Info>14</Info>
-                            <Info>345</Info>
-                            <Info>0.6</Info>
-                            <Info>323</Info>
-                            <Info>60</Info>
-                            <Info>6</Info>
-                            <Info>4</Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
-                        <Card>
-                            <PlayerNameCard></PlayerNameCard>
-                            <Info></Info>
-                        </Card>
+                        {displayArray.map((player) =>{
+                            return(
+                                <Card>
+                                    <PlayerNameCard>
+                                        <Username>{player.playerUserName}</Username>
+                                        <Team>big brain comp</Team>
+                                    </PlayerNameCard>
+                                    <Info>{Math.ceil(player.kills/player.gamesPlayed)}</Info>
+                                    <Info>{Math.ceil(player.assists/player.gamesPlayed)}</Info>
+                                    <Info>{Math.round(player.deaths/player.gamesPlayed)}</Info>
+                                    <Info>{Math.ceil(player.damage/player.gamesPlayed)}</Info>
+                                    <Info>{(player.kills/player.deaths).toFixed(2)}</Info>
+                                    <Info>{Math.ceil(player.damageTaken/player.gamesPlayed)}</Info>
+                                    <Info>{Math.ceil(player.medkits/player.gamesPlayed)}</Info>
+                                    <Info>{player.gamesPlayed}</Info>
+                                    <Info>{player.teamPlacement}</Info>
+                                </Card>
+                            )
+                        })}
+                        
                     </PlayerCards>
                 </SummaryTable>
                 <TopStatMedals>
