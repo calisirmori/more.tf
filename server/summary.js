@@ -1,5 +1,43 @@
 
 const summaryObject = {
+    medals : {
+      invite:{
+        kills: ["squirtyay", "wish"],
+        deaths: ["Team Fun", "hyphen_jype"],
+        dpm: ["squirtyay","JohhnyFromCali"],
+        kd: ["Team Fun", "Honesty"],
+        dtm: ["Tunicvex44","Chocc-_-"],
+        heals: [],
+        headshots: [],
+      },
+      advanced:{
+        kills: ["SGSB","t3h PeNgU1N"],
+        deaths: ["bote team","norphel03"],
+        dpm: ["SGSB","t3h PeNgU1N"],
+        kd: ["bote team","brian"],
+        dtm: ["SGSB","MvD"],
+        heals: [],
+        headshots: [],
+      },
+      main:{
+        kills: ["Rooski's IM Team","Phaze"],
+        deaths: ["BigBrainComp?","manfart2021"],
+        dpm: ["Rooski's IM Team","Phaze"],
+        kd: ["Vindicators","drw"],
+        dtm: ["Rooski's IM Team","Boneman"],
+        heals: [],
+        headshots: [],
+      },
+      intermediate:{
+        kills: ["EggSaladSandwich","saaz"],
+        deaths: ["IBB","afd"],
+        dpm: ["nOnames","exeloar(luigi)"],
+        kd: ["IBB","kkkkkkkkkkkkkkkkkkk"],
+        dtm: ["IM Purgatory","Overmatchulation"],
+        heals: [],
+        headshots: [],
+      },
+    },
     invite : [
             {"[U:1:58940450]": {
               "playerID64": "76561198019206178",

@@ -17,7 +17,6 @@ app.use(cors());
 //console.log( seasonSummary.makeSummary())
 
 app.get('/api/season-13-summary',(req,result) => {
-  console.log("200")
   result.json(summaryObject);
 });
 

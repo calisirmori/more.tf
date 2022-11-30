@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
 import axios from 'axios';
-
+import {FaSort} from 'react-icons/fa'
 
 const SeasonSummary = () => {
     const [divisionChoice, setDivisionChoice] = useState("invite")
     const [classChoice, setClassChoice] = useState("scout")
-    const [apiResponse, setApiResponse] = useState({})
+    const [apiResponse, setApiResponse] = useState()
     const [displayArray, setDisplayArray] = useState([])
     const [currentSort, setCurrentSort] = useState("teamPlacement")
 
@@ -22,7 +22,7 @@ const SeasonSummary = () => {
         let currentArray= [];
         try {
             apiResponse.data[divisionChoice].map((playerInfo)=>{
-                if(Object.entries(playerInfo)[0][1].classPlayed == classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3 ){
+                if(Object.entries(playerInfo)[0][1].classPlayed === classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3 ){
                     currentArray.push(Object.entries(playerInfo)[0][1])
                     
                 }
@@ -107,10 +107,10 @@ const SeasonSummary = () => {
     
 
     function divisionStyleObject(input){
-        return( input == divisionChoice ? {background: "#f08149", color: "#121111", "fontWeight" : "800"} : {});
+        return( input === divisionChoice ? {background: "#f08149", color: "#121111", "fontWeight" : "800"} : {});
     }
     function classStyleObject(input){
-        return( input == classChoice ? {background: "#f08149", color: "#121111", "fontWeight" : "800"} : {});
+        return( input === classChoice ? {background: "#f08149", color: "#121111", "fontWeight" : "800"} : {});
     }
 
     return (
@@ -138,16 +138,16 @@ const SeasonSummary = () => {
                     </ClassSelect>
                     <PlayerCards>
                         <Card style={{background: "#f08149"}} >
-                            <PlayerNameCard style={{color: "#000" , "marginTop" : "8px"}} >PLAYERINFO</PlayerNameCard>
-                            <Info onClick = {() => {setCurrentSort("kills")}} style={{color: "#000" , cursor: "pointer"}}>KILLS</Info>
-                            <Info onClick = {() => {setCurrentSort("assists")}} style={{color: "#000" , cursor: "pointer"}}>ASSIST</Info>
-                            <Info onClick = {() => {setCurrentSort("deaths")}} style={{color: "#000" , cursor: "pointer"}}>DEATH</Info>
-                            <Info onClick = {() => {setCurrentSort("damage")}} style={{color: "#000" , cursor: "pointer"}}>DPM</Info>
-                            <Info onClick = {() => {setCurrentSort("kd")}} style={{color: "#000" , cursor: "pointer"}}>KD</Info>
-                            <Info onClick = {() => {setCurrentSort("damageTaken")}} style={{color: "#000" , cursor: "pointer"}}>DTM</Info>
-                            <Info onClick = {() => {setCurrentSort("medkits")}} style={{color: "#000" , cursor: "pointer"}}>HP</Info>
-                            <Info onClick = {() => {setCurrentSort("gamesPlayed")}} style={{color: "#000" , cursor: "pointer"}}>PLAYED</Info>
-                            <Info onClick = {() => {setCurrentSort("teamPlacement")}} style={{color: "#000" , cursor: "pointer"}}>SPOT</Info>
+                            <PlayerNameCard style={{color: "#000" , marginTop : "8px", fontWeight: 500}} >PLAYERINFO</PlayerNameCard>
+                            <Info onClick = {() => {setCurrentSort("kills")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "kills" ? 800 : 500}`}}>KILLS</Info>
+                            <Info onClick = {() => {setCurrentSort("assists")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "assists" ? 800 : 500}`}}>ASSIST</Info>
+                            <Info onClick = {() => {setCurrentSort("deaths")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "deaths" ? 800 : 500}`}}>DEATH</Info>
+                            <Info onClick = {() => {setCurrentSort("damage")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "damage" ? 800 : 500}`}}>DPM</Info>
+                            <Info onClick = {() => {setCurrentSort("kd")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "kd" ? 800 : 500}`}}>KD</Info>
+                            <Info onClick = {() => {setCurrentSort("damageTaken")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "damageTaken" ? 800 : 500}`}}>DTM</Info>
+                            <Info onClick = {() => {setCurrentSort("medkits")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "medkits" ? 800 : 500}`}}>HP</Info>
+                            <Info onClick = {() => {setCurrentSort("gamesPlayed")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "gamesPlayed" ? 800 : 500}`}}>PLAYED</Info>
+                            <Info onClick = {() => {setCurrentSort("teamPlacement")}} style={{color: "#000" , cursor: "pointer" , fontWeight: `${currentSort === "teamPlacement" ? 800 : 500}`}}>SPOT</Info>
                         </Card>
                         {displayArray.map((player) =>{
                             return(
@@ -174,44 +174,44 @@ const SeasonSummary = () => {
                 <TopStatMedals>
                     <Medal>
                         <MedalHeader>KILLS</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                     <Medal>
                         <MedalHeader>DEATHS</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                     <Medal>
                         <MedalHeader>DPM</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                     <Medal>
                         <MedalHeader>KD</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                     <Medal>
                         <MedalHeader>DAMAGE TAKEN</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                     <Medal>
                         <MedalHeader>HEALS</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                     <Medal>
                         <MedalHeader>HEADSHOT</MedalHeader>
-                        <PlayerTeam>bigbraincomp</PlayerTeam>
-                        <PlayerName>dookiemonster33</PlayerName>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[0]}`}</PlayerTeam>
+                        <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[1]}`}</PlayerName>
                         <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
                     </Medal>
                 </TopStatMedals>
