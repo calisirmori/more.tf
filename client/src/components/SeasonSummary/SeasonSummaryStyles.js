@@ -148,7 +148,9 @@ export const PlayerNameCard = styled.div`
     color: #fff;
     font-weight: 600;
     font-size: 18px;
-
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 export const Info = styled.div`
     font-family: 'Quicksand';
@@ -157,17 +159,17 @@ export const Info = styled.div`
     font-size: 18px;
     margin-top: 8px;
 `;
+
 export const Subdivision = styled.div`
 `;
+
 export const Username = styled.a`
     text-decoration: none;
     font-family: 'Quicksand';
     color: #fff;
     font-weight: 600;
+    width: 100px;
     font-size: 18px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 `;
 export const Team = styled.div`
     font-family: 'Quicksand';

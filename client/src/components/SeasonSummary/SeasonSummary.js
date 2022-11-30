@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
 import axios from 'axios';
 
+
 const SeasonSummary = () => {
     const [divisionChoice, setDivisionChoice] = useState("invite")
     const [classChoice, setClassChoice] = useState("scout")
     const [apiResponse, setApiResponse] = useState({})
     const [displayArray, setDisplayArray] = useState([])
+    const [currentSort, setCurrentSort] = useState("teamPlacement")
+
     useEffect(() => {
         async function apiCall(){
             setApiResponse(await axios.get(`http://localhost:8080/api/season-13-summary`))
@@ -17,29 +20,97 @@ const SeasonSummary = () => {
     
     useEffect(() => {
         let currentArray= [];
-        let max = 0;
         try {
-            console.log(apiResponse.data[divisionChoice])
             apiResponse.data[divisionChoice].map((playerInfo)=>{
                 if(Object.entries(playerInfo)[0][1].classPlayed == classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3 ){
                     currentArray.push(Object.entries(playerInfo)[0][1])
+                    
                 }
-                
             })
         } catch (error) {
-            console.log(error)
+            
         }
-        setDisplayArray(currentArray)
-        console.log(displayArray)
-
-    }, [classChoice,divisionChoice,apiResponse])
+        
+        let sortedArray = [];
+        if(currentSort === "teamPlacement"){
+            try {
+                let length = currentArray.length;
+                for (let index = 0; index < length; index++) {
+                    let currentIndex = 0;
+                    let min = Number.MAX_SAFE_INTEGER;
+                    for (let searchIndex = 0; searchIndex < currentArray.length; searchIndex++) {
+                        if (currentArray[searchIndex][currentSort] <= min) {
+                            min = currentArray[searchIndex][currentSort];
+                            currentIndex = searchIndex;
+                        }
+                    }
+                    sortedArray.push(currentArray[currentIndex]);
+                    currentArray.splice(currentIndex, 1);
+                }
+            } catch (error) {
+            }
+        } else if (currentSort === "kd"){
+            try {
+                let length = currentArray.length;
+                for (let index = 0; index < length; index++) {
+                    let currentIndex = 0;
+                    let max = Number.MIN_SAFE_INTEGER;
+                    for (let searchIndex = 0; searchIndex < currentArray.length; searchIndex++) {
+                        if (currentArray[searchIndex].kills/currentArray[searchIndex].deaths >=max) {
+                            max = currentArray[searchIndex].kills/currentArray[searchIndex].deaths;
+                            currentIndex = searchIndex;
+                        }
+                    }
+                    sortedArray.push(currentArray[currentIndex]);
+                    currentArray.splice(currentIndex, 1);
+                }
+            } catch (error) {
+            }
+        }else if (currentSort === "gamesPlayed"){
+            try {
+                let length = currentArray.length;
+                for (let index = 0; index < length; index++) {
+                    let currentIndex = 0;
+                    let max = Number.MIN_SAFE_INTEGER;
+                    for (let searchIndex = 0; searchIndex < currentArray.length; searchIndex++) {
+                        if (currentArray[searchIndex].gamesPlayed >=max) {
+                            max = currentArray[searchIndex].gamesPlayed;
+                            currentIndex = searchIndex;
+                        }
+                    }
+                    sortedArray.push(currentArray[currentIndex]);
+                    currentArray.splice(currentIndex, 1);
+                }
+            } catch (error) {
+            }
+        }else {
+            try {
+                let length = currentArray.length;
+                for (let index = 0; index < length; index++) {
+                    let currentIndex = 0;
+                    let max = Number.MIN_SAFE_INTEGER;
+                    for (let searchIndex = 0; searchIndex < currentArray.length; searchIndex++) {
+                        if (currentArray[searchIndex][currentSort]/currentArray[searchIndex].gamesPlayed >=max) {
+                            max = currentArray[searchIndex][currentSort]/currentArray[searchIndex].gamesPlayed;
+                            currentIndex = searchIndex;
+                        }
+                    }
+                    sortedArray.push(currentArray[currentIndex]);
+                    currentArray.splice(currentIndex, 1);
+                }
+            } catch (error) {
+            }
+        }
+        setDisplayArray(sortedArray);
+        
+    }, [classChoice,divisionChoice,apiResponse,currentSort])
     
 
     function divisionStyleObject(input){
-        return( input == divisionChoice ? {background: "#f08149", color: "#121111", "font-weight" : "800"} : {});
+        return( input == divisionChoice ? {background: "#f08149", color: "#121111", "fontWeight" : "800"} : {});
     }
     function classStyleObject(input){
-        return( input == classChoice ? {background: "#f08149", color: "#121111", "font-weight" : "800"} : {});
+        return( input == classChoice ? {background: "#f08149", color: "#121111", "fontWeight" : "800"} : {});
     }
 
     return (
@@ -67,16 +138,16 @@ const SeasonSummary = () => {
                     </ClassSelect>
                     <PlayerCards>
                         <Card style={{background: "#f08149"}} >
-                            <PlayerNameCard style={{color: "#000" , "margin-top" : "8px"}} >PLAYERINFO</PlayerNameCard>
-                            <Info style={{color: "#000"}}>KILLS</Info>
-                            <Info style={{color: "#000"}}>ASSIST</Info>
-                            <Info style={{color: "#000"}}>DEATH</Info>
-                            <Info style={{color: "#000"}}>DPM</Info>
-                            <Info style={{color: "#000"}}>KD</Info>
-                            <Info style={{color: "#000"}}>DTM</Info>
-                            <Info style={{color: "#000"}}>HP</Info>
-                            <Info style={{color: "#000"}}>PLAYED</Info>
-                            <Info style={{color: "#000"}}>SPOT</Info>
+                            <PlayerNameCard style={{color: "#000" , "marginTop" : "8px"}} >PLAYERINFO</PlayerNameCard>
+                            <Info onClick = {() => {setCurrentSort("kills")}} style={{color: "#000" , cursor: "pointer"}}>KILLS</Info>
+                            <Info onClick = {() => {setCurrentSort("assists")}} style={{color: "#000" , cursor: "pointer"}}>ASSIST</Info>
+                            <Info onClick = {() => {setCurrentSort("deaths")}} style={{color: "#000" , cursor: "pointer"}}>DEATH</Info>
+                            <Info onClick = {() => {setCurrentSort("damage")}} style={{color: "#000" , cursor: "pointer"}}>DPM</Info>
+                            <Info onClick = {() => {setCurrentSort("kd")}} style={{color: "#000" , cursor: "pointer"}}>KD</Info>
+                            <Info onClick = {() => {setCurrentSort("damageTaken")}} style={{color: "#000" , cursor: "pointer"}}>DTM</Info>
+                            <Info onClick = {() => {setCurrentSort("medkits")}} style={{color: "#000" , cursor: "pointer"}}>HP</Info>
+                            <Info onClick = {() => {setCurrentSort("gamesPlayed")}} style={{color: "#000" , cursor: "pointer"}}>PLAYED</Info>
+                            <Info onClick = {() => {setCurrentSort("teamPlacement")}} style={{color: "#000" , cursor: "pointer"}}>SPOT</Info>
                         </Card>
                         {displayArray.map((player) =>{
                             return(
@@ -151,3 +222,5 @@ const SeasonSummary = () => {
 }
 
 export default SeasonSummary;
+
+
