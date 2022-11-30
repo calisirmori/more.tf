@@ -21,8 +21,7 @@ const SeasonSummary = () => {
         try {
             console.log(apiResponse.data[divisionChoice])
             apiResponse.data[divisionChoice].map((playerInfo)=>{
-
-                if(Object.entries(playerInfo)[0][1].classPlayed == classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 2 ){
+                if(Object.entries(playerInfo)[0][1].classPlayed == classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3 ){
                     currentArray.push(Object.entries(playerInfo)[0][1])
                 }
                 
@@ -68,7 +67,7 @@ const SeasonSummary = () => {
                     </ClassSelect>
                     <PlayerCards>
                         <Card style={{background: "#f08149"}} >
-                            <PlayerNameCard style={{color: "#000"}} >PLAYERINFO</PlayerNameCard>
+                            <PlayerNameCard style={{color: "#000" , "margin-top" : "8px"}} >PLAYERINFO</PlayerNameCard>
                             <Info style={{color: "#000"}}>KILLS</Info>
                             <Info style={{color: "#000"}}>ASSIST</Info>
                             <Info style={{color: "#000"}}>DEATH</Info>
@@ -83,8 +82,8 @@ const SeasonSummary = () => {
                             return(
                                 <Card>
                                     <PlayerNameCard>
-                                        <Username>{player.playerUserName}</Username>
-                                        <Team>big brain comp</Team>
+                                        <Username  href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player.playerID64}`} target="_blank">{player.playerUserName}</Username>
+                                        <Team>{player.team}</Team>
                                     </PlayerNameCard>
                                     <Info>{Math.ceil(player.kills/player.gamesPlayed)}</Info>
                                     <Info>{Math.ceil(player.assists/player.gamesPlayed)}</Info>

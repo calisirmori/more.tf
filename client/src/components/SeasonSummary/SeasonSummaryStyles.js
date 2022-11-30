@@ -142,14 +142,13 @@ export const Card = styled.div`
 `;
 export const PlayerNameCard = styled.div`
     display:block;
-
-    margin-top: px;
+    margin-top: 1px;
     margin-left: 20px;
     font-family: 'Quicksand';
     color: #fff;
     font-weight: 600;
     font-size: 18px;
-    margin-top: 8px;
+
 `;
 export const Info = styled.div`
     font-family: 'Quicksand';
@@ -160,12 +159,12 @@ export const Info = styled.div`
 `;
 export const Subdivision = styled.div`
 `;
-export const Username = styled.div`
+export const Username = styled.a`
+    text-decoration: none;
     font-family: 'Quicksand';
     color: #fff;
     font-weight: 600;
     font-size: 18px;
-    margin-top: -7px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
