@@ -35,7 +35,7 @@ export const SummaryTable = styled.div`
 export const DivisionSelect = styled.div`
     display:grid;
     color: #fff;
-
+    grid-gap: 2px;
     font-family: 'Quicksand';
     grid-template-columns: repeat(4, 1fr);
     height: 40px;
@@ -48,6 +48,7 @@ export const ClassSelect = styled.div`
     color: #fff;
     font-family: 'Quicksand';
     grid-template-columns: repeat(9, 1fr);
+    grid-gap: 2px;
     height: 40px;
     background: #1d1c1c;
     border-bottom: 3px solid #34302d;
@@ -56,7 +57,7 @@ export const ClassSelect = styled.div`
 
 export const Medal = styled.div`
     background: #1d1c1c;
-    height:150px;
+
     
 `;
 
@@ -75,12 +76,12 @@ export const ClassTab = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    border: 1px solid #121111;
+
     background: #121111;
     color: #34302d;
     font-weight : 800;
     :hover{
-        border: 1px solid #f08149;
+        outline: 1px solid #f08149;
     }
 `;
 
@@ -89,12 +90,12 @@ export const Division = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    border: 1px solid #121111;
+
     background: #121111;
     color: #34302d;
     font-weight : 800;
     :hover{
-        border: 1px solid #f08149;
+        outline: 1px solid #f08149;
     }
 `;
 
@@ -108,26 +109,33 @@ export const MedalHeader = styled.div`
 `;
 
 export const PlayerName = styled.div`
-    font-weight: 600;
+    margin-top: 5px;
+    font-weight: 800;
+    font-size: 18px;
 `;
 
 export const PlayerTeam = styled.div`
-
-    margin-top: 10px;
-    font-weight: 300;
+    font-size: 14px;
+    font-weight: 500;
     color: #f08149;
 `;
-
 export const MedalImage = styled.img`
     height: 50px;
     width: 120px;
     margin-top: 5px;
 
 `;
+export const MedalInfo = styled.div`
+    font-size: 12px;
+    padding-bottom: 8px;
+    font-weight: 300;
+    margin: 5px 10px;
+`;
+
 
 export const PlayerCards = styled.div`
     display: grid;
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     grid-gap: 5px;
     background-color: #1d1c1c;
     padding: 10px;

@@ -32,6 +32,13 @@ export const Header = styled(Link)`
     margin: 0 30px;
     cursor: pointer;
 `;
+export const ContactHeader = styled.a`
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    margin: 0 30px;
+    cursor: pointer;
+`;
 
 export const Example = styled.div`
 `;

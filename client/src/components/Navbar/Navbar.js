@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContentHeaders, Header, Logo, NavbarWrapper } from './NavbarStyles';
+import { ContactHeader, ContentHeaders, Header, Logo, NavbarWrapper } from './NavbarStyles';
 
 const Navbar = () => {
   return (
@@ -7,8 +7,7 @@ const Navbar = () => {
         <NavbarWrapper>
             <Logo to="/">more.tf</Logo>
             <ContentHeaders>
-                <Header>About</Header>
-                <Header>Contact</Header>
+                <ContactHeader href="https://discord.gg/sBc4gWUA" target="_blank">Contact</ContactHeader>
                 <Header to="/season-summary">S13 Summary</Header>
             </ContentHeaders>
         </NavbarWrapper>

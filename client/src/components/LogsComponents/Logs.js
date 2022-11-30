@@ -162,18 +162,32 @@ const Logs = () => {
               <NameInfoTitle>
                 <UsernameTitle>Username</UsernameTitle>
               </NameInfoTitle>
-              <StatTitle className="no-click">Class</StatTitle>
-              <StatTitle className="Kills" onClick={() =>{sortByRow("kills")}}>Kills</StatTitle>
-              <StatTitle className="Assists" onClick={() =>{sortByRow("assists")}}>Assist</StatTitle>
-              <StatTitle className="Deaths" onClick={() =>{sortByRow("deaths")}}>Death</StatTitle>
-              <StatTitle className="Damage" onClick={() =>{sortByRow("damage")}}>Damage</StatTitle>
-              <StatTitle className="DPM" onClick={() =>{sortByRow("DamagePm")}}>DPM</StatTitle>
-              <StatTitle className="KDA" onClick={() =>{sortByRow("kpd")}}>KDA</StatTitle>
+              <StatTitle className="no-click">C</StatTitle>
+              <StatTitle className="Kills" onClick={() =>{sortByRow("kills")}}>K</StatTitle>
+              <StatTitle className="Assists" onClick={() =>{sortByRow("assists")}}>A</StatTitle>
+              <StatTitle className="Deaths" onClick={() =>{sortByRow("deaths")}}>D</StatTitle>
+              <StatTitle className="Damage" onClick={() =>{sortByRow("damage")}}>DMG</StatTitle>
+              <StatTitle className="DPM" onClick={() =>{sortByRow("DamagePM")}}>DPM</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("kapd")}}>KA/D</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("kpd")}}>K/D</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("damageTaken")}}>DT</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("damageTakenReal")}}>DT/M</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("medkits")}}>HP</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("backstabs")}}>BS</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("headshots_hit")}}>HS</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("airShot")}}>AS</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("pointCaps")}}>CP</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("ammopickup")}}>AP</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("extinguished")}}>E</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("objectbuilds")}}>OB</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("objectkills")}}>OK</StatTitle>
+              <StatTitle onClick={() =>{sortByRow("domination")}}>D</StatTitle>
             </PlayerLogTitle> 
             {playersResponse.map((player) => {
+              console.log(player[1])
                 return(
-                  <PlayerCard>
-                    <Team className={player[1].team}>{player[1].team}</Team>
+                  <PlayerCard style={player[1].team == "Red" ? {background: "#BD3B3B", borderBottom: "3px solid #9D312F"} : {background: "#5B7A8C"} }>
+                    <Team style={player[1].team == "Red" ? {background: "#BD3B3B"} : {background: "#5B7A8C"} }>{player[1].team}</Team>
                     <PlayerUsername onClick={() =>{changeDamageVs(player[0])}}>{player[1].userName}</PlayerUsername>
                     <Class src={player[1].classIconURL}></Class>
                     <Kills>{player[1].kills}</Kills>
@@ -181,7 +195,20 @@ const Logs = () => {
                     <Deaths >{player[1].deaths}</Deaths>
                     <Damage>{player[1].damage}</Damage>
                     <DPM>{player[1].DamagePM}</DPM>
+                    <KDA>{player[1].kapd}</KDA>
                     <KDA>{player[1].kpd}</KDA>
+                    <KDA>{player[1].damageTaken}</KDA>
+                    <KDA>{player[1].damageTakenReal}</KDA>
+                    <KDA>{player[1].medkits}</KDA>
+                    <KDA>{player[1].backstabs}</KDA>
+                    <KDA>{player[1].headshots_hit}</KDA>
+                    <KDA>{player[1].airShot}</KDA>
+                    <KDA>{player[1].pointCaps}</KDA>
+                    <KDA>{player[1].ammopickup}</KDA>
+                    <KDA>{player[1].extinguished}</KDA>
+                    <KDA>{player[1].objectbuilds}</KDA>
+                    <KDA>{player[1].objectkills}</KDA>
+                    <KDA>{player[1].domination}</KDA>
                   </PlayerCard>
                 );
             })}

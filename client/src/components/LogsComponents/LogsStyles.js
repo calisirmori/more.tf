@@ -9,8 +9,7 @@ export const LogsPageWrapper = styled.div`
 `;
 
 export const LogsSectionWrapper = styled.div`
-    width: 1140px;
-    
+    width: 1540px;
     background-color: #1d1c1c;
     margin: 10px;
     display: block;
@@ -20,7 +19,7 @@ export const MatchHeader = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     background-color: #1d1c1c;
-    width: 1100px;
+    width: 1500px;
     height: 100px;
     margin: 20px 20px 0 20px;
     color: #fff;
@@ -29,7 +28,7 @@ export const MatchHeader = styled.div`
 export const ClassicLogs = styled.div`
     background-color: #171616;
     padding: 20px;
-    width: 1060px;
+    width: 1460px;
     border-radius: 5px;
     
     margin: 35px 40px 0px 20px;
@@ -61,7 +60,7 @@ export const KillMap = styled.div`
 
 export const LeftSideInfo = styled.div`
     background-color: #1d1c1c;
-    width: 400px;
+  
 `;
 export const MatchTitle = styled.div`
     margin: 5px 10px;
@@ -88,7 +87,7 @@ export const RightSideInfo = styled.div`
     background-color: #1d1c1c;
     display:block;
     text-align: right;
-    width: 400px;
+    
 `;
 export const LogNumber = styled.div`
 
@@ -123,7 +122,7 @@ export const LogsLink = styled.a`
     cursor: pointer;
     border-radius: 3px;
     text-decoration: none;
-    color: white;
+    
     :hover {
         outline: 1px solid #f08149;
         background-color: #1d1c1c;
@@ -131,7 +130,7 @@ export const LogsLink = styled.a`
 `;
 export const DemosLink = styled.a`
     text-decoration: none;
-    color: white;
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,7 +174,6 @@ export const RedScore = styled.div`
     height: 95px;
     width: 90px;
     background-color: #BD3B3B;
-    margin-right: 20px;
     border-radius: 5px;
     border-bottom: 4px solid #9D312F;
 `;
@@ -188,85 +186,92 @@ export const Score = styled.div`
     margin-top: px;
 `;
 export const PlayerCard = styled.div`
-    display: flex;
-    font-family: 'Fredoka', sans-serif;  
+    display: grid;
+    grid-template-columns: 50px 200px 50px repeat(19, 1fr);
+    font-family: 'Fredoka', sans-serif;
+    grid-border: 1px solid #fff;
     height: 32px;
     background-color: #191818;
-    
+    text-align: center;
     margin-bottom: 4px;
+    font-family: 'Quicksand';
+    font-weight: 700;
 `;
 export const Team = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 65px;
+    color: #000;
 `;
 export const PlayerUsername = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    color: white;
+    display:block;
+    text-align: center;
+    margin: 7.5px 10px 0px 10px;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: pointer;
 `;
 export const Kills = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 110px;
-    color: white;
+
+    
 `;
 export const Assists = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 105px;
-    color: white;
+
+    
 `;
 export const Deaths = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
-    color: white;
+
+    
 `;
 export const Damage = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 140px;
-    color: white;
+
+    
     
 `;
 export const DPM = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 110px;
-    color: white;
+
+    
 `;
 export const KDA = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 110px;
-    color: white;
+
+    
 `;
 export const Class = styled.img`
-    margin: 5px 45px;
+    margin-top: 4px;
+    margin-left: 12.5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 24px;
+    height: 25px;
 `;
 
 export const PlayerLogTitle = styled.div` 
     font-family: 'Fredoka', sans-serif;  
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    padding-bottom: 5px;
+    display: grid;
+    grid-template-columns: 50px 200px 50px repeat(19, 1fr);
     
+    padding-bottom: 5px;
+    text-align: center;
 `;
 
 export const ClassTitle = styled.button`   
@@ -279,22 +284,18 @@ export const ClassTitle = styled.button`
 
 export const NameInfoTitle = styled.div`
     color: #fff;
-    padding: 0 0px;
 `;
 
 export const UsernameTitle = styled.div`
     color: #fff;
-    padding: 0 105px 0 105px;
 `;
 
 export const SteamIdTitle = styled.div` 
     color: #fff;
-    padding: 0 6px;
 `;
 
 export const StatTitle = styled.button`
     color: #fff;
-    margin: 0 25.5px;
     border: none;
     background-color: #171616;
     cursor: pointer;
@@ -378,7 +379,7 @@ export const SmallButton = styled.a`
     margin: 5px 10px;
     height: 40px;
     width: 40px;
-    background-color: white;
+    background-
     cursor: pointer;
 `;
 export const Map = styled.img`

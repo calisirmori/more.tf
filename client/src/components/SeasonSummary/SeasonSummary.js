@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
+import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, MedalInfo, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
 import axios from 'axios';
 import {FaSort} from 'react-icons/fa'
 
@@ -22,7 +22,7 @@ const SeasonSummary = () => {
         let currentArray= [];
         try {
             apiResponse.data[divisionChoice].map((playerInfo)=>{
-                if(Object.entries(playerInfo)[0][1].classPlayed === classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3 ){
+                if(Object.entries(playerInfo)[0][1].classPlayed === classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3  && Object.entries(playerInfo)[0][1].teamPlacement > 0 && Object.entries(playerInfo)[0][1].teamPlacement < 9){
                     currentArray.push(Object.entries(playerInfo)[0][1])
                     
                 }
@@ -90,8 +90,8 @@ const SeasonSummary = () => {
                     let currentIndex = 0;
                     let max = Number.MIN_SAFE_INTEGER;
                     for (let searchIndex = 0; searchIndex < currentArray.length; searchIndex++) {
-                        if (currentArray[searchIndex][currentSort]/currentArray[searchIndex].gamesPlayed >=max) {
-                            max = currentArray[searchIndex][currentSort]/currentArray[searchIndex].gamesPlayed;
+                        if (currentArray[searchIndex][currentSort]/currentArray[searchIndex].totalTime/60 >=max) {
+                            max = currentArray[searchIndex][currentSort]/currentArray[searchIndex].totalTime/60;
                             currentIndex = searchIndex;
                         }
                     }
@@ -134,20 +134,31 @@ const SeasonSummary = () => {
                         <ClassTab style={classStyleObject("engineer")} onClick={() => {setClassChoice("engineer")}}>Engineer</ClassTab>
                         <ClassTab style={classStyleObject("medic")} onClick={() => {setClassChoice("medic")}}>Medic</ClassTab>
                         <ClassTab style={classStyleObject("sniper")} onClick={() => {setClassChoice("sniper")}}>Sniper</ClassTab>
-                        <ClassTab style={classStyleObject("spy")} onClick={() => {setClassChoice("spy")}}>Spy</ClassTab>
+                        <ClassTab style={classStyleObject("spy") } onClick={() => {setClassChoice("spy")}}>Spy</ClassTab>
                     </ClassSelect>
                     <PlayerCards>
                         <Card style={{background: "#f08149"}} >
                             <PlayerNameCard style={{color: "#000" , marginTop : "8px", fontWeight: 500}} >PLAYERINFO</PlayerNameCard>
-                            <Info onClick = {() => {setCurrentSort("kills")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "kills" ? 800 : 500}`}}>KILLS</Info>
-                            <Info onClick = {() => {setCurrentSort("assists")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "assists" ? 800 : 500}`}}>ASSIST</Info>
-                            <Info onClick = {() => {setCurrentSort("deaths")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "deaths" ? 800 : 500}`}}>DEATH</Info>
-                            <Info onClick = {() => {setCurrentSort("damage")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "damage" ? 800 : 500}`}}>DPM</Info>
+                            <Info onClick = {() => {setCurrentSort("kills")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "kills" ? 800 : 500}`}}>Kill/m</Info>
+                            <Info onClick = {() => {setCurrentSort("assists")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "assists" ? 800 : 500}`}}>Assist/m</Info>
+                            <Info onClick = {() => {setCurrentSort("deaths")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "deaths" ? 800 : 500}`}}>Death/m</Info>
+                            <Info onClick = {() => {setCurrentSort("damage")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "damage" ? 800 : 500}`}}>Dmg/m</Info>
                             <Info onClick = {() => {setCurrentSort("kd")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "kd" ? 800 : 500}`}}>KD</Info>
-                            <Info onClick = {() => {setCurrentSort("damageTaken")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "damageTaken" ? 800 : 500}`}}>DTM</Info>
-                            <Info onClick = {() => {setCurrentSort("medkits")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "medkits" ? 800 : 500}`}}>HP</Info>
-                            <Info onClick = {() => {setCurrentSort("gamesPlayed")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "gamesPlayed" ? 800 : 500}`}}>PLAYED</Info>
-                            <Info onClick = {() => {setCurrentSort("teamPlacement")}} style={{color: "#000" , cursor: "pointer" , fontWeight: `${currentSort === "teamPlacement" ? 800 : 500}`}}>SPOT</Info>
+                            <Info onClick = {() => {setCurrentSort("damageTaken")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "damageTaken" ? 800 : 500}`}}>DmgT/m</Info>
+                            {classChoice === "medic" &&
+                                <Info onClick = {() => {setCurrentSort("heal")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "heal" ? 800 : 500}`}}>Heal/m</Info>
+                            }
+                            {classChoice === "sniper" &&
+                                <Info onClick = {() => {setCurrentSort("headshots")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "headshots" ? 800 : 500}`}}>hs/m</Info>
+                            }
+                            {classChoice === "spy" &&
+                                <Info onClick = {() => {setCurrentSort("backstabs")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "backstabs"? 800 : 500}`}}>bs/m</Info>
+                            }
+                            {(classChoice !== "medic" && classChoice !== "spy" && classChoice !== "sniper") &&
+                                <Info onClick = {() => {setCurrentSort("medkits")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "medkits" ? 800 : 500}`}}>Medkits</Info>
+                            }
+                            <Info onClick = {() => {setCurrentSort("gamesPlayed")}} style={{color: "#000" , cursor: "pointer", fontWeight: `${currentSort === "gamesPlayed" ? 800 : 500}`}}>Games</Info>
+                            <Info onClick = {() => {setCurrentSort("teamPlacement")}} style={{color: "#000" , cursor: "pointer" , fontWeight: `${currentSort === "teamPlacement" ? 800 : 500}`}}>Placement</Info>
                         </Card>
                         {displayArray.map((player) =>{
                             return(
@@ -156,13 +167,24 @@ const SeasonSummary = () => {
                                         <Username  href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player.playerID64}`} target="_blank">{player.playerUserName}</Username>
                                         <Team>{player.team}</Team>
                                     </PlayerNameCard>
-                                    <Info>{Math.ceil(player.kills/player.gamesPlayed)}</Info>
-                                    <Info>{Math.ceil(player.assists/player.gamesPlayed)}</Info>
-                                    <Info>{Math.round(player.deaths/player.gamesPlayed)}</Info>
-                                    <Info>{Math.ceil(player.damage/player.gamesPlayed)}</Info>
+                                    <Info>{(player.kills/(player.totalTime/60)).toFixed(2)}</Info>
+                                    <Info>{(player.assists/(player.totalTime/60)).toFixed(2)}</Info>
+                                    <Info>{(player.deaths/(player.totalTime/60)).toFixed(2)}</Info>
+                                    <Info>{Math.ceil(player.damage/(player.totalTime/60))}</Info>
                                     <Info>{(player.kills/player.deaths).toFixed(2)}</Info>
-                                    <Info>{Math.ceil(player.damageTaken/player.gamesPlayed)}</Info>
-                                    <Info>{Math.ceil(player.medkits/player.gamesPlayed)}</Info>
+                                    <Info>{Math.ceil(player.damageTaken/(player.totalTime/60))}</Info>
+                                    {classChoice === "medic" &&
+                                    <Info>{(player.heal/(player.totalTime/60)).toFixed(2)}</Info>
+                                    }
+                                    {classChoice === "sniper" &&
+                                    <Info>{(player.headshots/(player.totalTime/60)).toFixed(2)}</Info>
+                                    }
+                                    {classChoice === "spy" &&
+                                    <Info>{(player.backstabs/(player.totalTime/60)).toFixed(2)}</Info>
+                                    }
+                                    {(classChoice !== "medic" && classChoice !== "spy" && classChoice !== "sniper")&&
+                                    <Info>{(player.medkits/(player.totalTime/60)).toFixed(2)}</Info>
+                                    }
                                     <Info>{player.gamesPlayed}</Info>
                                     <Info>{player.teamPlacement}</Info>
                                 </Card>
@@ -173,46 +195,46 @@ const SeasonSummary = () => {
                 </SummaryTable>
                 <TopStatMedals>
                     <Medal>
-                        <MedalHeader>KILLS</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[0]}`}</PlayerTeam>
+                        <MedalHeader>KILLS/m</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[0]}`}</PlayerTeam>
+                        <MedalInfo> Most kills per minute in the division</MedalInfo>
                     </Medal>
                     <Medal>
-                        <MedalHeader>DEATHS</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[0]}`}</PlayerTeam>
+                        <MedalHeader>DEATHS/m</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[0]}`}</PlayerTeam>
+                        <MedalInfo> Least deaths per minute in the division</MedalInfo>
                     </Medal>
                     <Medal>
-                        <MedalHeader>DPM</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[0]}`}</PlayerTeam>
+                        <MedalHeader>DAMAGE/m</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[0]}`}</PlayerTeam>
+                        <MedalInfo> Most damage dealt per minute in the division</MedalInfo>
                     </Medal>
                     <Medal>
-                        <MedalHeader>KD</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[0]}`}</PlayerTeam>
+                        <MedalHeader>KILL/DEATH</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[0]}`}</PlayerTeam>
+                        <MedalInfo> Best kill per death ratio in the division</MedalInfo>
                     </Medal>
                     <Medal>
-                        <MedalHeader>DAMAGE TAKEN</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[0]}`}</PlayerTeam>
+                        <MedalHeader>DMGTAKEN/m</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[0]}`}</PlayerTeam>
+                        <MedalInfo> Most damage taken per minute in the division</MedalInfo>
                     </Medal>
                     <Medal>
-                        <MedalHeader>HEALS</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[0]}`}</PlayerTeam>
+                        <MedalHeader>HEALS/M</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[0]}`}</PlayerTeam>
+                        <MedalInfo> Most heals per minute in the division</MedalInfo>
                     </Medal>
                     <Medal>
-                        <MedalHeader>HEADSHOT</MedalHeader>
-                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[0]}`}</PlayerTeam>
+                        <MedalHeader>HEADSHOTS/M</MedalHeader>
                         <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[1]}`}</PlayerName>
-                        <MedalImage src="https://i.imgur.com/KwwYkBb.png"></MedalImage>
+                        <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[0]}`}</PlayerTeam>
+                        <MedalInfo> Most headshots per minute in the division</MedalInfo>
                     </Medal>
                 </TopStatMedals>
             </SummaryWrapper>
