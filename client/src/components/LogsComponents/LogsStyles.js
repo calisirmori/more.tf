@@ -13,6 +13,7 @@ export const LogsSectionWrapper = styled.div`
     background-color: #1d1c1c;
     margin: 10px;
     display: block;
+    padding-bottom: 20px;
 `;
 
 export const MatchHeader = styled.div`
@@ -84,6 +85,8 @@ export const MapPlayed = styled.div`
 export const Duration = styled.div`
     background-color: #1d1c1c;
     margin: 5px 10px;
+    font-size: 20px;
+    font-weight: bold;
 `;
 
 export const RightSideInfo = styled.div`
@@ -563,5 +566,109 @@ export const SmallIcon = styled.img`
     margin-top:1px;
     margin-left: -32px;
 `;
+export const TeamTotalStats = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+
+`;
+export const TeamStatsWrapper = styled.div`
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    text-align: center;
+    grid-gap: 3px;
+    background: #171616;
+    padding: 10px;
+    width: 902px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+`;
+export const TeamStatRow = styled.div`
+    display: grid;
+    grid-template-columns: repeat(10,1fr);
+    border-radius: 3px;
+    text-align: center;
+`;
+
+export const TeamStat = styled.div``;
+
+export const PerRoundStats = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+`;
+export const Medics = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 300;
+`;
+
+export const MedicsWrapper = styled.div`
+    display: flex;
+`;
+
+export const Healer = styled.div`
+    padding: 10px;
+    background: #171616;
+    border-radius: 5px;
+    margin: 0 10px;
+`;
+export const HealerHeader = styled.div`
+    text-align: center;
+    background: #BD3B3B;
+    border-bottom: 3px solid #9D312F;
+    border-radius: 2px;
+    font-weight: 600;
+    padding: 3px;
+    margin-bottom: 10px;
+`;
+
+export const HealerStats = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    color: #fff;
+`;
+
+export const HealerStatTitle = styled.div`
+    margin-left: 10px;
+`;
+export const StatNumber = styled.div`
+    text-align: right;
+    margin-right: 10px;
+`;
+export const HealSpread = styled.div`
+    color: #fff;
+    border-top: 3px solid #BD3B3B;
+    display: grid;
+    margin-top: 5px;
+    padding-top: 5px;
+    grid-template-rows: repeat(9, 1fr);
+`;
+
+export const HealedPlayer = styled.div`
+    margin-top: 2px;
+    margin-left: 10px;
+    text-align: center;   
+    display: grid;
+    grid-template-columns:  220px 50px 1fr 1fr;
+`;
+
+export const HealedName = styled.div`
+    text-align: left;
+    
+`;
+
+export const HealedClass = styled.img`
+    height: 25px;
+    margin-left: -8px;
+`;
+export const HealStat = styled.div``;
+
+export const KillsPerPlayer = styled.div``;
+export const Chat = styled.div``;
 export const Example = styled.div``;
 

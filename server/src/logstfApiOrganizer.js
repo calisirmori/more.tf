@@ -83,6 +83,7 @@ function playerInfo(logsApiInput,textInput){
           "backstabs": player.backstabs,
           "headshots": player.headshots,
           "headshots_hit": player.headshots_hit,
+          "medicStats": player.medicstats,
           "sentries": player.sentries,//?
           "heal": player.heal,
           "pointCaps": player.cpc,

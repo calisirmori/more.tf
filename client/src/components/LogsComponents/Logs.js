@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, MoreLogs, Name, NameInfoTitle, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -15,14 +15,13 @@ const Logs = () => {
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
   const [sort, setSort] = useState("");
-  
+  let roundCount = 1;
   useEffect(() => {
-    console.log(apiResponse.matchInfo)
     if(playersResponse.length != undefined){
       sortByRow("team")
       changeDamageVs(Object.entries(apiResponse.players)[0][0])
       let smallStatsObject = { "objectBuilds" : sortForSmallStats("objectbuilds"), "dominations" : sortForSmallStats("dominations"), "extinguished" : sortForSmallStats("extinguished")}
-      console.log(smallStatsObject)
+  
     }
   },[apiResponse]);
   
@@ -126,9 +125,8 @@ const Logs = () => {
       }
       setPlayersResponse(array);
     }
-
   }
-
+  console.log(apiResponse.players)
   if(apiResponse.matchInfo !== undefined ){
     return (
       <LogsPageWrapper>
@@ -137,7 +135,7 @@ const Logs = () => {
             <LeftSideInfo>
               <MatchTitle>{apiResponse.matchInfo.title}</MatchTitle>
               <MapPlayed>{apiResponse.matchInfo.map}</MapPlayed>
-              <Duration>{`${Math.ceil(apiResponse.matchInfo.totalLength/60)+"mins"}`}</Duration>
+              <Duration>{`${Math.ceil(apiResponse.matchInfo.totalLength/60)} : ${(apiResponse.matchInfo.totalLength%60).toString().padStart(2, '0')}`}</Duration>
             </LeftSideInfo>
             <MatchScore>
               <BlueScore>
@@ -186,7 +184,6 @@ const Logs = () => {
               <StatTitle style={sort === "domination" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("domination")}}>D</StatTitle>
             </PlayerLogTitle> 
             {playersResponse.map((player) => {
-              console.log(player[1])
                 return(
                   <PlayerCard style={player[1].team == "Red" ? {background: "#BD3B3B", borderBottom: "3px solid #9D312F"} : {background: "#5B7A8C", borderBottom: "3px solid #395C79"} }>
                     <Team style={player[1].team == "Red" ? {background: "#BD3B3B"} : {background: "#5B7A8C"} }>{player[1].team}</Team>
@@ -362,6 +359,123 @@ const Logs = () => {
               </AmmoPickup>
             </FunFacts>
           </MoreLogs>
+          <TeamTotalStats>
+            <TeamStatsWrapper>
+              <TeamStatRow style={{color : "#fff"}}>
+                <TeamStat>Team</TeamStat>
+                <TeamStat>Kills</TeamStat>
+                <TeamStat>Damage</TeamStat>
+                <TeamStat>Charges</TeamStat>
+                <TeamStat>Drops</TeamStat>
+                <TeamStat>Caps</TeamStat>
+                <TeamStat>Midfights</TeamStat>
+                <TeamStat>Medkits</TeamStat>
+                <TeamStat>Ammo</TeamStat>
+                <TeamStat>Object Kills</TeamStat>
+              </TeamStatRow>
+              <TeamStatRow style={{ background : "#BD3B3B", borderBottom: "3px solid #9D312F"}}>
+                <TeamStat>RED</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.kills}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.dmg}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.charges}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.drops}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.caps}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.firstcaps}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.kills}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.kills}</TeamStat>
+                <TeamStat>{apiResponse.teams.Red.kills}</TeamStat>
+              </TeamStatRow>
+              <TeamStatRow style={{ background : "#5B7A8C", borderBottom: "3px solid #395C79"}}>
+                <TeamStat>BLU</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.kills}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.dmg}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.charges}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.drops}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.caps}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.firstcaps}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.kills}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.kills}</TeamStat>
+                <TeamStat>{apiResponse.teams.Blue.kills}</TeamStat>
+              </TeamStatRow>
+            </TeamStatsWrapper>
+          </TeamTotalStats>
+          <PerRoundStats>
+            <TeamStatsWrapper style={{width: "700px"}}>
+              <TeamStatRow style={{color : "#fff", gridTemplateColumns: "repeat(7,100px)"}}>
+                <TeamStat>Round</TeamStat>
+                <TeamStat>Length</TeamStat>
+                <TeamStat>Score</TeamStat>
+                <TeamStat>Blue Kills</TeamStat>
+                <TeamStat>Red Kills</TeamStat>
+                <TeamStat>Blue DMG</TeamStat>
+                <TeamStat>Red DMG</TeamStat>
+
+              </TeamStatRow>
+              { apiResponse.rounds.map((round)=>{
+                return(
+                  <TeamStatRow style={round.winner === "Blue" ? {background : "#5B7A8C", borderBottom: "3px solid #395C79",gridTemplateColumns: "repeat(7,100px)"} : {background : "#BD3B3B", borderBottom: "3px solid #9D312F", gridTemplateColumns: "repeat(7,100px)"}}>
+                    <TeamStat>{roundCount++}</TeamStat>
+                    <TeamStat>{`${Math.floor(round.length/60)}:${(round.length%60).toString().padStart(2, '0')}`}</TeamStat>
+                    <TeamStat >{`${round.team.Blue.score} - ${round.team.Red.score}`}</TeamStat>
+                    <TeamStat>{round.team.Blue.kills}</TeamStat>
+                    <TeamStat>{round.team.Red.kills}</TeamStat>
+                    <TeamStat>{round.team.Blue.dmg}</TeamStat>
+                    <TeamStat>{round.team.Red.dmg}</TeamStat>
+                  </TeamStatRow>
+                )})}
+            </TeamStatsWrapper>
+          </PerRoundStats>
+          <Medics>
+            <MedicsWrapper>
+              {Object.entries(apiResponse.healSpread).map((healer)=>{
+                return(
+                  <Healer>
+                    <HealerHeader style={apiResponse.players[healer[0]].team === "Blue" ? {background : "#5B7A8C", borderBottom: "3px solid #395C79"} : {background : "#BD3B3B", borderBottom: "3px solid #9D312F"}}>{apiResponse.names[healer[0]]}</HealerHeader>
+                    <HealerStats>
+                      <HealerStatTitle>Healing</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].heal))}</StatNumber>
+                      <HealerStatTitle>Charges</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].heal))}</StatNumber>
+                      <HealerStatTitle>Drops</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].drops))}</StatNumber>
+                      <HealerStatTitle>Avg time to build</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_to_build))}</StatNumber>
+                      <HealerStatTitle>Avg time before using</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_before_using))}</StatNumber>
+                      <HealerStatTitle>Near full charge deaths</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber))}</StatNumber>
+                      <HealerStatTitle>Avg uber length</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_uber_length))}</StatNumber>
+                      <HealerStatTitle>Deaths after charge</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber))}</StatNumber>
+                      <HealerStatTitle>Advantage lost</HealerStatTitle>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.advantages_lost))}</StatNumber>
+                    </HealerStats>
+                    <HealSpread style={apiResponse.players[healer[0]].team === "Blue" ? {borderTop: "3px solid #395C79"} : {borderTop: "3px solid #9D312F"}}>
+                      <HealedPlayer style={{fontWeight: "800"}}>
+                        <HealedName>Heal Target</HealedName>
+                        <HealedName>C</HealedName>
+                        <HealStat>Heal</HealStat>
+                        <HealStat>%</HealStat>
+                      </HealedPlayer>
+                      {Object.entries(healer[1]).map((healTarget)=>{
+                        return(
+                          <HealedPlayer>
+                            <HealedName>{apiResponse.names[healTarget[0]]}</HealedName>
+                            <HealedClass src={apiResponse.players[healTarget[0]].classIconURL}></HealedClass>
+                            <HealStat>{healTarget[1]}</HealStat>
+                            <HealStat>{Math.round(healTarget[1]*100/parseInt(apiResponse.players[healer[0]].heal))}</HealStat>
+                          </HealedPlayer>
+                        )
+                      })}
+                    </HealSpread>
+                  </Healer>
+                );
+              })}
+            </MedicsWrapper>
+          </Medics>
+          <KillsPerPlayer></KillsPerPlayer>
+          <Chat></Chat>
         </LogsSectionWrapper>
       </LogsPageWrapper>
     )
