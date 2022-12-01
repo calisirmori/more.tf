@@ -187,27 +187,27 @@ export const Score = styled.div`
 export const PlayerCard = styled.div`
     display: grid;
     grid-template-columns: 50px 200px 50px repeat(19, 1fr);
-    font-family: 'Fredoka', sans-serif;
-    height: 32px;
-    border-radius: 3px;
+    height: 34px;
+    border-radius: 4px;
     background-color: #191818;
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
     font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+    font-weight: 300;
 `;
 export const Team = styled.div`
 border-radius: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #000;
+    
+    color: #fff;
 `;
 export const PlayerUsername = styled.div`
     display:block;
     text-align: center;
-    margin: 4px 10px 0px 10px;
-    
+    margin: 6px 10px 0px 10px;
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -217,43 +217,44 @@ export const Kills = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    
+    color: #fff;
+    margin-top: 2px;
 `;
 export const Assists = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    
+    color: #fff;
+    margin-top: 2px;
 `;
 export const Deaths = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    
+    color: #fff;
+    margin-top: 2px;
 `;
 export const Damage = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    
+    margin-top: 2px;
+    color: #fff;
     
 `;
 export const DPM = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    
+    color: #fff;
+    margin-top: 2px;
 `;
 export const KDA = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    color: #fff;
+    margin-top: 2px;
 `;
 export const Class = styled.img`
     margin-top: 4px;
@@ -581,6 +582,7 @@ export const TeamStatRow = styled.div`
     grid-template-columns: repeat(10,1fr);
     border-radius: 3px;
     text-align: center;
+    padding-top: 3px;
 `;
 
 export const TeamStat = styled.div``;
@@ -623,9 +625,11 @@ export const HealerStats = styled.div`
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(9, 1fr);
     color: #fff;
+    
 `;
 
 export const HealerStatTitle = styled.div`
+    padding: 2px;
     margin-left: 10px;
 `;
 export const StatNumber = styled.div`
@@ -642,16 +646,21 @@ export const HealSpread = styled.div`
 `;
 
 export const HealedPlayer = styled.div`
-    margin-top: 2px;
+    margin: 2px;
+   
     margin-left: 10px;
     text-align: center;   
     display: grid;
     grid-template-columns:  220px 50px 1fr 1fr;
+    
 `;
 
 export const HealedName = styled.div`
     text-align: left;
-    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
 `;
 
 export const HealedClass = styled.img`

@@ -212,8 +212,8 @@ const Logs = () => {
             </PlayerLogTitle> 
             {playersResponse.map((player) => {
                 return(
-                  <PlayerCard style={player[1].team == "Red" ? {background: "#BD3B3B", borderBottom: "3px solid #9D312F"} : {background: "#5B7A8C", borderBottom: "3px solid #395C79"} }>
-                    <Team style={player[1].team == "Red" ? {background: "#BD3B3B"} : {background: "#5B7A8C"} }>{player[1].team}</Team>
+                  <PlayerCard style={player[1].team == "Red" ? {background: "#a33333", borderBottom: "3px solid #8a2b2b"} : {background: "#4b6473", borderBottom: "3px solid #3a4e59"} }>
+                    <Team style={player[1].team == "Red" ? {background: "#a33333"} : {background: "#4b6473"} }>{player[1].team}</Team>
                     <PlayerUsername onClick={() =>{changeDamageVs(player[0])}}>{player[1].userName}</PlayerUsername>
                     <Class src={player[1].classIconURL}></Class>
                     <Kills>{player[1].kills}</Kills>
@@ -461,24 +461,32 @@ const Logs = () => {
                     <HealerStats>
                       <HealerStatTitle>Healing</HealerStatTitle>
                       <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].heal))}</StatNumber>
-                      <HealerStatTitle>Charges</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].heal))}</StatNumber>
+                      {
+                        Object.entries(apiResponse.players[healer[0]].ubertypes).map((charges)=>{
+                          return (
+                            <>
+                            <HealerStatTitle>{`Charges (${charges[0]})`}</HealerStatTitle>
+                            <StatNumber>{charges[1]}</StatNumber>
+                            </>
+                          )
+                        })
+                      }
                       <HealerStatTitle>Drops</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].drops))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].drops === undefined ? 0 : apiResponse.players[healer[0]].drops))}</StatNumber>
                       <HealerStatTitle>Avg time to build</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_to_build))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_to_build === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_time_to_build))}</StatNumber>
                       <HealerStatTitle>Avg time before using</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_before_using))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_before_using === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_time_before_using))}</StatNumber>
                       <HealerStatTitle>Near full charge deaths</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber === undefined ? 0 : apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber))}</StatNumber>
                       <HealerStatTitle>Avg uber length</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_uber_length))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_uber_length === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_uber_length))}</StatNumber>
                       <HealerStatTitle>Deaths after charge</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber === undefined ? 0 : apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber ))}</StatNumber>
                       <HealerStatTitle>Advantage lost</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.advantages_lost))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.advantages_lost === undefined ? 0 : apiResponse.players[healer[0]].medicStats.advantages_lost))}</StatNumber>
                     </HealerStats>
-                    <HealSpread style={apiResponse.players[healer[0]].team === "Blue" ? {borderTop: "3px solid #395C79"} : {borderTop: "3px solid #9D312F"}}>
+                    <HealSpread style={apiResponse.players[healer[0]].team === "Blue" ? {borderTop: "3px solid #5B7A8C"} : {borderTop: "3px solid #BD3B3B"}}>
                       <HealedPlayer style={{fontWeight: "800"}}>
                         <HealedName>Heal Target</HealedName>
                         <HealedName>C</HealedName>

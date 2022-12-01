@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Link} from 'react-router-dom';
+
 
 
 export const SummaryPage = styled.div`
@@ -13,9 +13,9 @@ export const SummaryPage = styled.div`
 export const SummaryWrapper = styled.div`
     display: block;
     text-align: center;
-    height: 800px;
-    width: 1200px;
-    
+    padding: 20px;
+    border-radius: 5px;
+    background: #34302d;
 `;
 
 export const SeasonHeader = styled.div`
@@ -35,11 +35,9 @@ export const SummaryTable = styled.div`
 export const DivisionSelect = styled.div`
     display:grid;
     color: #fff;
-
     font-family: 'Poppins';
     grid-template-columns: repeat(4, 1fr);
     height: 40px;
-    background: #1d1c1c;
     border-bottom: 3px solid #34302d;
 `;
 
@@ -48,7 +46,6 @@ export const ClassSelect = styled.div`
     color: #fff;
     font-family: 'Poppins';
     grid-template-columns: repeat(9, 1fr);
-    grid-gap: 2px;
     height: 40px;
     background: #1d1c1c;
     border-bottom: 3px solid #34302d;
@@ -76,12 +73,12 @@ export const ClassTab = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    outline: 1px solid #121111;
+    border: 1px solid #121111;
     background: #121111;
     color: #34302d;
     font-weight : 800;
     :hover{
-        outline: 1px solid #f08149;
+        border: 1px solid #f08149;
     }
 `;
 

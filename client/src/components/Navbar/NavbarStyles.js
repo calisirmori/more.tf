@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 export const NavbarWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-
     font-family: 'Poppins';
 `;
 

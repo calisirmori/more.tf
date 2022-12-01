@@ -6,7 +6,15 @@ async function organize(logsApiInput,textInput,gameId){
   let namesObject = {names: logsApiInput.data.names}
   let teamsObject = {teams : logsApiInput.data.teams};
   let roundsObject = {rounds : logsApiInput.data.rounds};
-  let healSpreadsObject = {healSpread : logsApiInput.data.healspread};
+  let sortedHealSpread = {}
+  Object.entries(logsApiInput.data.healspread).map((healer)=>{
+    let currentHealingSpread = Object.entries(healer[1])
+    .sort(([,b],[,a]) => a-b)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+    let currentObject = { [healer[0]] : currentHealingSpread}
+    sortedHealSpread = {...sortedHealSpread, ...currentObject}
+  })
+  let healSpreadsObject = {healSpread : sortedHealSpread};
   let killSpreadObject = {killSpread : logsApiInput.data.classkills};
   let chatObject = {chat : logsApiInput.data.chat};
   let matchInfoObject = await matchInfo(logsApiInput.data,gameId)
@@ -200,7 +208,6 @@ function dateToSeconds(eventLog){
 async function demostfLinkIdFinder(logTime,playerId){
   const URL_DEMOS_API = "https://api.demos.tf"
   let demostfApiResponse = await axios.get(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`);
-  console.log(demostfApiResponse.data.length)
   if(demostfApiResponse.data.length == 0 ){
     return("")
   } else{

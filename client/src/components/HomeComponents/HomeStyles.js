@@ -15,7 +15,7 @@ export const HeroText = styled.div`
 
 export const H3Header = styled.div`
     color: #f08149;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     font-weight: 600;
     font-size: 20px;
     margin-left: 5px;
@@ -31,7 +31,7 @@ export const MainHeader = styled.div`
 
 export const H4Header = styled.div`
     color: #f08149;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     font-weight: 600;
     margin-left: 5px;
     margin-top: 15px;
@@ -53,15 +53,13 @@ export const InputField = styled.input`
     width: 200px;
     height: 30px;
     padding:  0 20px;
-
-    background:#1d1c1c;
-    border: 1px solid #f08149;
+    background:#34302d;
+    border: 3px solid #f08149;
     border-radius: 5px;
     color: #fff;
     white-space: nowrap;
     overflow: hidden;
-    font-family: 'Quicksand';
-
+    font-family: 'Poppins';
     :focus{
         outline: 1px solid #f08149;
     }
@@ -73,8 +71,8 @@ export const InputButton = styled(Link)`
     justify-content: center;
     align-items: center;
 
-    font-family: 'Quicksand';
-    font-weight: 800;
+    font-family: 'Poppins';
+    font-weight: 500;
     color: #1d1c1c;
     height: 35px;
     background:#f08149;
@@ -84,7 +82,7 @@ export const InputButton = styled(Link)`
     margin-left: 20px;
     cursor: pointer;
     :hover{
-        border: 1px solid #f08149;
+        outline: 3px solid #f08149;
         background:#1d1c1c;
         color: #f08149;
     }
