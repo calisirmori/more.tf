@@ -4,7 +4,7 @@ export const NavbarWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
 
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
 `;
 
 export const Logo = styled(Link)`

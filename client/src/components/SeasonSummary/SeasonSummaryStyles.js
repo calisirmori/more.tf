@@ -35,8 +35,8 @@ export const SummaryTable = styled.div`
 export const DivisionSelect = styled.div`
     display:grid;
     color: #fff;
-    grid-gap: 2px;
-    font-family: 'Quicksand';
+
+    font-family: 'Poppins';
     grid-template-columns: repeat(4, 1fr);
     height: 40px;
     background: #1d1c1c;
@@ -46,7 +46,7 @@ export const DivisionSelect = styled.div`
 export const ClassSelect = styled.div`
     display:grid;
     color: #fff;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     grid-template-columns: repeat(9, 1fr);
     grid-gap: 2px;
     height: 40px;
@@ -66,7 +66,7 @@ export const TopStatMedals = styled.div`
     grid-gap: 5px;
     display:grid;
     color: #fff;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     grid-template-columns: repeat(7, 1fr);
 `;
 
@@ -76,7 +76,7 @@ export const ClassTab = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-
+    outline: 1px solid #121111;
     background: #121111;
     color: #34302d;
     font-weight : 800;
@@ -90,12 +90,12 @@ export const Division = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-
+    border: 1px solid #121111;
     background: #121111;
     color: #34302d;
     font-weight : 800;
     :hover{
-        outline: 1px solid #f08149;
+        border: 1px solid #f08149;
     }
 `;
 
@@ -109,9 +109,10 @@ export const MedalHeader = styled.div`
 `;
 
 export const PlayerName = styled.div`
-    margin-top: 5px;
     font-weight: 800;
-    font-size: 18px;
+    font-size: 16px;
+    margin: 0 15px;
+    margin-top: 5px;
 `;
 
 export const PlayerTeam = styled.div`
@@ -126,7 +127,7 @@ export const MedalImage = styled.img`
 
 `;
 export const MedalInfo = styled.div`
-    font-size: 12px;
+    font-size: 11px;
     padding-bottom: 8px;
     font-weight: 300;
     margin: 5px 10px;
@@ -152,7 +153,7 @@ export const PlayerNameCard = styled.div`
     display:block;
     margin-top: 1px;
     margin-left: 20px;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     color: #fff;
     font-weight: 600;
     font-size: 18px;
@@ -161,7 +162,7 @@ export const PlayerNameCard = styled.div`
     white-space: nowrap;
 `;
 export const Info = styled.div`
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     color: #fff;
     font-weight: 600;
     font-size: 18px;
@@ -173,16 +174,16 @@ export const Subdivision = styled.div`
 
 export const Username = styled.a`
     text-decoration: none;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     color: #fff;
     font-weight: 600;
     width: 100px;
     font-size: 18px;
 `;
 export const Team = styled.div`
-    font-family: 'Quicksand';
-    margin-top: -3px;
-    font-weight: 400;
+    font-family: 'Poppins';
+    margin-top: -6px;
+    font-weight: 300;
     font-size: 12px;
     color: #f08149;
 `;

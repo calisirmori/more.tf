@@ -4,7 +4,7 @@ export const LogsPageWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Quicksand';
+    font-family: 'Poppins';
     background-color: #34302d;
 `;
 
@@ -35,7 +35,10 @@ export const ClassicLogs = styled.div`
 `;
 
 export const MoreLogs = styled.div`
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1460px;
 `;
 
 export const Individuals = styled.div`
@@ -109,6 +112,7 @@ export const MatchLinks = styled.div`
     align-items: center;
     justify-content: right;
     background-color: #1d1c1c;
+    
 `;
 export const LogsLink = styled.a`
     display: flex;
@@ -122,7 +126,7 @@ export const LogsLink = styled.a`
     cursor: pointer;
     border-radius: 3px;
     text-decoration: none;
-    
+    color: #fff;
     :hover {
         outline: 1px solid #f08149;
         background-color: #1d1c1c;
@@ -130,7 +134,7 @@ export const LogsLink = styled.a`
 `;
 export const DemosLink = styled.a`
     text-decoration: none;
-    
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -183,21 +187,22 @@ export const TeamName = styled.div``;
 export const Score = styled.div`
     font-family: 'Lilita One';
     font-size: 60px;
-    margin-top: px;
+    margin-top: -6px;
 `;
 export const PlayerCard = styled.div`
     display: grid;
     grid-template-columns: 50px 200px 50px repeat(19, 1fr);
     font-family: 'Fredoka', sans-serif;
-    grid-border: 1px solid #fff;
     height: 32px;
+    border-radius: 3px;
     background-color: #191818;
     text-align: center;
-    margin-bottom: 4px;
-    font-family: 'Quicksand';
+    margin-bottom: 3px;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
 `;
 export const Team = styled.div`
+border-radius: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -206,7 +211,7 @@ export const Team = styled.div`
 export const PlayerUsername = styled.div`
     display:block;
     text-align: center;
-    margin: 7.5px 10px 0px 10px;
+    margin: 4px 10px 0px 10px;
     
     white-space: nowrap;
     overflow: hidden;
@@ -253,7 +258,6 @@ export const KDA = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
     
 `;
 export const Class = styled.img`
@@ -266,10 +270,12 @@ export const Class = styled.img`
 `;
 
 export const PlayerLogTitle = styled.div` 
-    font-family: 'Fredoka', sans-serif;  
+
     display: grid;
     grid-template-columns: 50px 200px 50px repeat(19, 1fr);
-    
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
     padding-bottom: 5px;
     text-align: center;
 `;
@@ -280,14 +286,20 @@ export const ClassTitle = styled.button`
     background-color: #171616;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
 `;
 
 export const NameInfoTitle = styled.div`
     color: #fff;
+    margin-bottom: -4px;
 `;
 
 export const UsernameTitle = styled.div`
-    color: #fff;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    margin-top: 1px;
 `;
 
 export const SteamIdTitle = styled.div` 
@@ -300,6 +312,8 @@ export const StatTitle = styled.button`
     background-color: #171616;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
 `;
 
 export const DamageVersus = styled.div`
@@ -414,7 +428,7 @@ export const SvgArrow = styled.svg`
 `;
 
 export const FunFacts = styled.div`
-    display: flex;
+    display: none;
     margin-bottom: 20px;
 `;
 

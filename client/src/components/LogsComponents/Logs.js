@@ -14,7 +14,7 @@ const Logs = () => {
   const [playersResponse, setPlayersResponse] = useState({});
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
-  const [bdBlue, setBdBlue] = useState(0);
+  const [sort, setSort] = useState("");
   
   useEffect(() => {
     console.log(apiResponse.matchInfo)
@@ -101,15 +101,17 @@ const Logs = () => {
   }
 
   function sortByRow(row){
-
+    setSort(row);
     var array = [];
     let arrayLength = playersResponse.length;
 
-    if(row == "team"){
+    if(row == "team" && sort !== row){
       playersResponse.map((player) =>{
         player[1][row] === "Blue" ? array.unshift(player) : array.push(player);
       })
-    } else {
+      setPlayersResponse(array);
+
+    } else if (sort !== row) {
       for (let outputIndex = 0; outputIndex < arrayLength; outputIndex++){
         let max = 0;
         let currentIndex = 0;
@@ -122,9 +124,9 @@ const Logs = () => {
         array[outputIndex] = playersResponse[currentIndex];
         playersResponse.splice(currentIndex, 1)
       }
+      setPlayersResponse(array);
     }
 
-    setPlayersResponse(array);
   }
 
   if(apiResponse.matchInfo !== undefined ){
@@ -158,35 +160,35 @@ const Logs = () => {
           </MatchHeader>
           <ClassicLogs>
             <PlayerLogTitle>
-              <ClassTitle onClick={() =>{sortByRow("team")}} >Team</ClassTitle>
+              <ClassTitle style={sort === "team" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("team")}} >Team</ClassTitle>
               <NameInfoTitle>
                 <UsernameTitle>Username</UsernameTitle>
               </NameInfoTitle>
-              <StatTitle className="no-click">C</StatTitle>
-              <StatTitle className="Kills" onClick={() =>{sortByRow("kills")}}>K</StatTitle>
-              <StatTitle className="Assists" onClick={() =>{sortByRow("assists")}}>A</StatTitle>
-              <StatTitle className="Deaths" onClick={() =>{sortByRow("deaths")}}>D</StatTitle>
-              <StatTitle className="Damage" onClick={() =>{sortByRow("damage")}}>DMG</StatTitle>
-              <StatTitle className="DPM" onClick={() =>{sortByRow("DamagePM")}}>DPM</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("kapd")}}>KA/D</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("kpd")}}>K/D</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("damageTaken")}}>DT</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("damageTakenReal")}}>DT/M</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("medkits")}}>HP</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("backstabs")}}>BS</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("headshots_hit")}}>HS</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("airShot")}}>AS</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("pointCaps")}}>CP</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("ammopickup")}}>AP</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("extinguished")}}>E</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("objectbuilds")}}>OB</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("objectkills")}}>OK</StatTitle>
-              <StatTitle onClick={() =>{sortByRow("domination")}}>D</StatTitle>
+              <StatTitle >C</StatTitle>
+              <StatTitle style={sort === "kills" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kills")}}>K</StatTitle>
+              <StatTitle style={sort === "assists" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("assists")}}>A</StatTitle>
+              <StatTitle style={sort === "deaths" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("deaths")}}>D</StatTitle>
+              <StatTitle style={sort === "damage" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damage")}}>DMG</StatTitle>
+              <StatTitle style={sort === "DamagePM" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("DamagePM")}}>DPM</StatTitle>
+              <StatTitle style={sort === "kapd" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kapd")}}>KA/D</StatTitle>
+              <StatTitle style={sort === "kpd" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kpd")}}>K/D</StatTitle>
+              <StatTitle style={sort === "damageTaken" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damageTaken")}}>DT</StatTitle>
+              <StatTitle style={sort === "damageTaken" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damageTaken")}}>DT/M</StatTitle>
+              <StatTitle style={sort === "medkits" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("medkits")}}>HP</StatTitle>
+              <StatTitle style={sort === "backstabs" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("backstabs")}}>BS</StatTitle>
+              <StatTitle style={sort === "headshots_hit" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("headshots_hit")}}>HS</StatTitle>
+              <StatTitle style={sort === "airShot" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("airShot")}}>AS</StatTitle>
+              <StatTitle style={sort === "pointCaps" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("pointCaps")}}>CP</StatTitle>
+              <StatTitle style={sort === "ammopickup" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("ammopickup")}}>AP</StatTitle>
+              <StatTitle style={sort === "extinguished" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("extinguished")}}>E</StatTitle>
+              <StatTitle style={sort === "objectbuilds" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("objectbuilds")}}>OB</StatTitle>
+              <StatTitle style={sort === "objectkills" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("objectkills")}}>OK</StatTitle>
+              <StatTitle style={sort === "domination" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("domination")}}>D</StatTitle>
             </PlayerLogTitle> 
             {playersResponse.map((player) => {
               console.log(player[1])
                 return(
-                  <PlayerCard style={player[1].team == "Red" ? {background: "#BD3B3B", borderBottom: "3px solid #9D312F"} : {background: "#5B7A8C"} }>
+                  <PlayerCard style={player[1].team == "Red" ? {background: "#BD3B3B", borderBottom: "3px solid #9D312F"} : {background: "#5B7A8C", borderBottom: "3px solid #395C79"} }>
                     <Team style={player[1].team == "Red" ? {background: "#BD3B3B"} : {background: "#5B7A8C"} }>{player[1].team}</Team>
                     <PlayerUsername onClick={() =>{changeDamageVs(player[0])}}>{player[1].userName}</PlayerUsername>
                     <Class src={player[1].classIconURL}></Class>
@@ -198,7 +200,7 @@ const Logs = () => {
                     <KDA>{player[1].kapd}</KDA>
                     <KDA>{player[1].kpd}</KDA>
                     <KDA>{player[1].damageTaken}</KDA>
-                    <KDA>{player[1].damageTakenReal}</KDA>
+                    <KDA>{Math.ceil(player[1].damageTaken/(apiResponse.matchInfo.totalLength/60))}</KDA>
                     <KDA>{player[1].medkits}</KDA>
                     <KDA>{player[1].backstabs}</KDA>
                     <KDA>{player[1].headshots_hit}</KDA>
