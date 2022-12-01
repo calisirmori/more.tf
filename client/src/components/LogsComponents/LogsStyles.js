@@ -5,12 +5,12 @@ export const LogsPageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     font-family: 'Poppins';
-    background-color: #34302d;
+    
 `;
 
 export const LogsSectionWrapper = styled.div`
     width: 1540px;
-    background-color: #1d1c1c;
+    background-color: #1c1c1c;
     margin: 10px;
     display: block;
     padding-bottom: 20px;
@@ -19,9 +19,10 @@ export const LogsSectionWrapper = styled.div`
 export const MatchHeader = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    background-color: #1d1c1c;
-    width: 1500px;
-    height: 100px;
+    background-color: #171616;
+    border-radius: 5px;
+    width: 1480px;
+    padding: 10px;
     margin: 20px 20px 0 20px;
     color: #fff;
 `;
@@ -32,7 +33,7 @@ export const ClassicLogs = styled.div`
     width: 1460px;
     border-radius: 5px;
     
-    margin: 35px 40px 0px 20px;
+    margin: 20px 40px 0px 20px;
 `;
 
 export const MoreLogs = styled.div`
@@ -63,12 +64,10 @@ export const KillMap = styled.div`
 
 
 export const LeftSideInfo = styled.div`
-    background-color: #1d1c1c;
   
 `;
 export const MatchTitle = styled.div`
     margin: 5px 10px;
-    background-color: #1d1c1c;
     font-size: 20px;
     font-weight: 600;
     color: #f08149;
@@ -76,21 +75,18 @@ export const MatchTitle = styled.div`
 `;
 
 export const MapPlayed = styled.div`
-    background-color: #1d1c1c;
     margin: 5px 10px;
     font-weight: 500;
     font-size: 19px;
 `;
 
 export const Duration = styled.div`
-    background-color: #1d1c1c;
     margin: 5px 10px;
     font-size: 20px;
     font-weight: bold;
 `;
 
 export const RightSideInfo = styled.div`
-    background-color: #1d1c1c;
     display:block;
     text-align: right;
     
@@ -98,13 +94,11 @@ export const RightSideInfo = styled.div`
 export const LogNumber = styled.div`
 
     margin: 5px 10px;
-    background-color: #1d1c1c;
     font-size: 20px;
     font-weight: 600;
     color: #f08149;
 `;
 export const MatchDate = styled.div`
-    background-color: #1d1c1c;
     margin: 0 10px;
     font-weight: 500;
     font-size: 18px;
@@ -114,7 +108,6 @@ export const MatchLinks = styled.div`
     margin: 10px;
     align-items: center;
     justify-content: right;
-    background-color: #1d1c1c;
     
 `;
 export const LogsLink = styled.a`
@@ -156,7 +149,6 @@ export const MatchScore = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1d1c1c;
 `;
 
 export const BlueScore = styled.div`
@@ -646,7 +638,7 @@ export const HealSpread = styled.div`
     display: grid;
     margin-top: 5px;
     padding-top: 5px;
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-rows: repeat(8, 1fr);
 `;
 
 export const HealedPlayer = styled.div`
@@ -668,7 +660,40 @@ export const HealedClass = styled.img`
 `;
 export const HealStat = styled.div``;
 
-export const KillsPerPlayer = styled.div``;
+export const KillsPerPlayer = styled.div`
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-weight: 300;
+`;
+
+export const KillsPerPlayerWrapper = styled.div`
+    padding: 10px;
+    background: #171616;
+    border-radius: 5px;
+`;
+export const PerPlayerCard = styled.div`
+    text-align: center;
+    display: grid;
+    grid-template-columns: 80px 250px repeat(11, 60px);
+    grid-gap: 2px;
+    
+`;
+export const PerPlayerStat = styled.div`
+    border-left: 1px solid #070807;
+    padding: 5px 0;
+    
+`;
+export const PerPlayerClass = styled.img`
+    height: 25px;
+    padding: 5px 18px;
+
+    border-radius: 0;
+    border-left: 1px solid #070807;
+`;
+
 export const Chat = styled.div``;
 export const Example = styled.div``;
 

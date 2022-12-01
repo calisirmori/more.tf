@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -15,25 +15,33 @@ const Logs = () => {
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
   const [sort, setSort] = useState("");
+  const [killSpreadArray, setKillSpreadArray] = useState();
+  const [killSpreadSort, setKillSpreadSort] = useState("kills");
   let roundCount = 1;
+  let currentRow = 0;
+
   useEffect(() => {
     if(playersResponse.length != undefined){
-      sortByRow("team")
-      changeDamageVs(Object.entries(apiResponse.players)[0][0])
-      let smallStatsObject = { "objectBuilds" : sortForSmallStats("objectbuilds"), "dominations" : sortForSmallStats("dominations"), "extinguished" : sortForSmallStats("extinguished")}
-  
+      sortByRow("team");
+      changeDamageVs(Object.entries(apiResponse.players)[0][0]);
+      sortKillSpread("kills");
     }
   },[apiResponse]);
   
+  useEffect(() => {
+    
+  }, [killSpreadArray])
+  
+
   useEffect(() => {
     apiCall()
   }, [])
   
   async function apiCall(){
-    console.log("apicall")
-    let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`)
+    console.log("apicall");
+    let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`);
     setApiResponse(response.data);
-    setPlayersResponse(Object.entries(response.data.players))
+    setPlayersResponse(Object.entries(response.data.players));
   }
 
   function changeDamageVs(playerId){
@@ -42,6 +50,44 @@ const Logs = () => {
     .sort(([,b],[,a]) => a-b)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     setDamageStats(Object.entries(sortedDamage));
+  }
+
+  function sortKillSpread(row){
+    setKillSpreadSort(row);
+    let sortedArray = [];
+    let currentResponse = apiResponse;
+    let SpreadArray = Object.entries(apiResponse.killSpread);
+    if(row === "kills"){
+      for(let index = 0; index < Object.entries(apiResponse.killSpread).length; index++){
+        let indexFound = 0;
+        let max = -1;
+        for(let innerIndex = 0; innerIndex<SpreadArray.length; innerIndex++){
+          
+          if(parseInt(currentResponse.players[SpreadArray[innerIndex][0]].kills) > max){
+            max = parseInt(apiResponse.players[SpreadArray[innerIndex][0]].kills);
+            indexFound = innerIndex;
+          }
+        }
+        sortedArray.push(SpreadArray[indexFound])
+        SpreadArray.splice(indexFound, 1);
+      };
+      setKillSpreadArray(sortedArray);
+    }else {
+      for(let index = 0; index < Object.entries(apiResponse.killSpread).length; index++){
+        let indexFound = 0;
+        let max = -9999999999999;
+        for(let innerIndex = 0; innerIndex<SpreadArray.length; innerIndex++){
+          if(SpreadArray[innerIndex][1][row] !== undefined && parseInt(SpreadArray[innerIndex][1][row]) > max){
+            max = parseInt(SpreadArray[innerIndex][1][row]);
+            indexFound = innerIndex;
+            
+          }
+        }
+        sortedArray.push(SpreadArray[indexFound])
+        SpreadArray.splice(indexFound, 1);
+      };
+      setKillSpreadArray(sortedArray);
+    }
   }
 
   function classNameToIconURL(input) {
@@ -79,25 +125,6 @@ const Logs = () => {
     };
     return output;
   };
-  
-  function sortForSmallStats(stat){
-    var array = [];
-    let arrayLength = playersResponse.length;
-
-    for (let outputIndex = 0; outputIndex < arrayLength; outputIndex++){
-      let max = 0;
-      let currentIndex = 0;
-      for(let playerIndex = 0; playerIndex < playersResponse.length; playerIndex++){
-        if(playersResponse[playerIndex][1][stat] >= max){
-          max = playersResponse[playerIndex][1][stat];
-          currentIndex = playerIndex;
-        }
-      }
-      array[outputIndex] = [playersResponse[currentIndex][0],playersResponse[currentIndex][1][stat]];
-      playersResponse.splice(currentIndex, 1)
-    }
-    return array;
-  }
 
   function sortByRow(row){
     setSort(row);
@@ -126,7 +153,7 @@ const Logs = () => {
       setPlayersResponse(array);
     }
   }
-  console.log(apiResponse.players)
+
   if(apiResponse.matchInfo !== undefined ){
     return (
       <LogsPageWrapper>
@@ -474,7 +501,45 @@ const Logs = () => {
               })}
             </MedicsWrapper>
           </Medics>
-          <KillsPerPlayer></KillsPerPlayer>
+          <KillsPerPlayer>
+            <KillsPerPlayerWrapper>
+              <PerPlayerCard style={{borderBottom: "1px solid #070807"}}>
+                <PerPlayerStat style={{border: "none", fontWeight: 800}}>Team</PerPlayerStat>
+                <PerPlayerStat style={{fontWeight: 800}}>Player</PerPlayerStat>
+                <PerPlayerStat style={{fontWeight: 800}}>C</PerPlayerStat>
+                <PerPlayerClass style={killSpreadSort === "scout" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("scout")}} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "soldier" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("soldier")}} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "pyro" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("pyro")}} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "demoman" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("demoman")}} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "heavyweapons" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("heavyweapons")}} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "engineer" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("engineer")}} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "medic" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("medic")}} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "sniper" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("sniper")}} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></PerPlayerClass>
+                <PerPlayerClass style={killSpreadSort === "spy" ? {background: "#f08149",cursor: "pointer"} : {cursor: "pointer"}} onClick={()=>{sortKillSpread("spy")}} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></PerPlayerClass>
+                <PerPlayerStat style={killSpreadSort === "kills" ? {fontWeight: 800, color: "#000",background: "#f08149",cursor: "pointer"} : {fontWeight: 800, cursor: "pointer"}} onClick={()=>{sortKillSpread("kills")}}>K</PerPlayerStat>
+              </PerPlayerCard>
+              {
+                killSpreadArray!=undefined && killSpreadArray.map((player, index) =>{
+                  return(
+                    <PerPlayerCard style={ currentRow++ % 2 == 1 ? {background: "#191919"} : {}}>
+                      <PerPlayerStat style={apiResponse.players[player[0]].team === "Blue" ? {color : "#5B7A8C", border: "none", fontWeight: 800} : {color : "#BD3B3B", border: "none", fontWeight: 800}}>{apiResponse.players[player[0]].team}</PerPlayerStat>
+                      <PerPlayerStat>{apiResponse.names[player[0]]}</PerPlayerStat>
+                      <PerPlayerClass src={apiResponse.players[player[0]].classIconURL}></PerPlayerClass>
+                      <PerPlayerStat style={player[1].scout === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].scout === undefined ? 0 : player[1].scout}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].soldier === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].soldier === undefined ? 0 : player[1].soldier}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].pyro === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].pyro === undefined ? 0 : player[1].pyro}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].demoman === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].demoman === undefined ? 0 : player[1].demoman}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].heavyweapons === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].heavyweapons === undefined ? 0 : player[1].heavyweapons}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].engineer === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].engineer === undefined ? 0 : player[1].engineer}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].medic === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].medic === undefined ? 0 : player[1].medic}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].sniper === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].sniper === undefined ? 0 : player[1].sniper}</PerPlayerStat>
+                      <PerPlayerStat style={player[1].spy === undefined ? {color: "#4d4643"} : {fontWeight: "500"}}>{player[1].spy === undefined ? 0 : player[1].spy}</PerPlayerStat>
+                      <PerPlayerStat style={{fontWeight: "500"}}>{apiResponse.players[player[0]].kills}</PerPlayerStat>
+                    </PerPlayerCard>)
+                })
+              }
+            </KillsPerPlayerWrapper>
+          </KillsPerPlayer>
           <Chat></Chat>
         </LogsSectionWrapper>
       </LogsPageWrapper>
