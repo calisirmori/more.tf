@@ -39,7 +39,7 @@ const Logs = () => {
   
   async function apiCall(){
     console.log("apicall");
-    let response = await axios.get(`http://localhost:8080/logsplus/${logInfo}`);
+    let response = await axios.get(`https://moretf.herokuapp.com/logsplus/${logInfo}`);
     setApiResponse(response.data);
     setPlayersResponse(Object.entries(response.data.players));
   }

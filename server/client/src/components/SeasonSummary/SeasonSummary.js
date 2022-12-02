@@ -12,7 +12,7 @@ const SeasonSummary = () => {
 
     useEffect(() => {
         async function apiCall(){
-            setApiResponse(await axios.get(`http://localhost:8080/api/season-13-summary`))
+            setApiResponse(await axios.get(`https://moretf.herokuapp.com/api/season-13-summary`))
             console.log("apicalss")
         }
         apiCall()

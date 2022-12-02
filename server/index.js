@@ -51,5 +51,11 @@ app.get('/logsplus/:id', async (req, result, next) => {
   });
 });
 
-app.listen(8080, () => console.log('Server is running on : 8080'));
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
+
+app.listen(process.env.PORT || 8000, () => console.log('Server is running on : 8080'));
 
