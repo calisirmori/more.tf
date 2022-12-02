@@ -189,26 +189,26 @@ const Logs = () => {
               <NameInfoTitle>
                 <UsernameTitle>Username</UsernameTitle>
               </NameInfoTitle>
-              <StatTitle >C</StatTitle>
-              <StatTitle style={sort === "kills" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kills")}}>K</StatTitle>
-              <StatTitle style={sort === "assists" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("assists")}}>A</StatTitle>
-              <StatTitle style={sort === "deaths" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("deaths")}}>D</StatTitle>
-              <StatTitle style={sort === "damage" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damage")}}>DMG</StatTitle>
-              <StatTitle style={sort === "DamagePM" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("DamagePM")}}>DPM</StatTitle>
-              <StatTitle style={sort === "kapd" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kapd")}}>KA/D</StatTitle>
-              <StatTitle style={sort === "kpd" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kpd")}}>K/D</StatTitle>
-              <StatTitle style={sort === "damageTaken" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damageTaken")}}>DT</StatTitle>
-              <StatTitle style={sort === "damageTaken" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damageTaken")}}>DT/M</StatTitle>
-              <StatTitle style={sort === "medkits" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("medkits")}}>HP</StatTitle>
-              <StatTitle style={sort === "backstabs" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("backstabs")}}>BS</StatTitle>
-              <StatTitle style={sort === "headshots_hit" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("headshots_hit")}}>HS</StatTitle>
-              <StatTitle style={sort === "airShot" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("airShot")}}>AS</StatTitle>
-              <StatTitle style={sort === "pointCaps" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("pointCaps")}}>CP</StatTitle>
-              <StatTitle style={sort === "ammopickup" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("ammopickup")}}>AP</StatTitle>
-              <StatTitle style={sort === "extinguished" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("extinguished")}}>E</StatTitle>
-              <StatTitle style={sort === "objectbuilds" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("objectbuilds")}}>OB</StatTitle>
-              <StatTitle style={sort === "objectkills" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("objectkills")}}>OK</StatTitle>
-              <StatTitle style={sort === "domination" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("domination")}}>D</StatTitle>
+              <StatTitle tooltip="class" >C</StatTitle>
+              <StatTitle tooltip="kills" style={sort === "kills" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kills")}}>K</StatTitle>
+              <StatTitle tooltip="assists" style={sort === "assists" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("assists")}}>A</StatTitle>
+              <StatTitle tooltip="deaths" style={sort === "deaths" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("deaths")}}>D</StatTitle>
+              <StatTitle tooltip="damage" style={sort === "damage" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damage")}}>DMG</StatTitle>
+              <StatTitle tooltip="damage/minute" style={sort === "DamagePM" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("DamagePM")}}>DPM</StatTitle>
+              <StatTitle tooltip="kills and assist/death" style={sort === "kapd" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kapd")}}>KA/D</StatTitle>
+              <StatTitle tooltip="kills/death" style={sort === "kpd" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("kpd")}}>K/D</StatTitle>
+              <StatTitle tooltip="damage taken" style={sort === "damageTaken" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damageTaken")}}>DT</StatTitle>
+              <StatTitle tooltip="damage taken/minute" style={sort === "damageTaken" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("damageTaken")}}>DT/M</StatTitle>
+              <StatTitle tooltip="healtkit pickup" style={sort === "medkits" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("medkits")}}>HP</StatTitle>
+              <StatTitle tooltip="backstabs" style={sort === "backstabs" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("backstabs")}}>BS</StatTitle>
+              <StatTitle tooltip="headshots" style={sort === "headshots_hit" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("headshots_hit")}}>HS</StatTitle>
+              <StatTitle tooltip="airshots" style={sort === "airShot" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("airShot")}}>AS</StatTitle>
+              <StatTitle tooltip="points capped" style={sort === "pointCaps" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("pointCaps")}}>CP</StatTitle>
+              <StatTitle tooltip="ammokits picked up" style={sort === "ammopickup" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("ammopickup")}}>AP</StatTitle>
+              <StatTitle tooltip="extinguished" style={sort === "extinguished" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("extinguished")}}>E</StatTitle>
+              <StatTitle tooltip="objects built" style={sort === "objectbuilds" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("objectbuilds")}}>OB</StatTitle>
+              <StatTitle tooltip="objects killed" style={sort === "objectkills" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("objectkills")}}>OK</StatTitle>
+              <StatTitle tooltip="dominations" style={sort === "domination" ? {textDecoration : "underline"} : {}} onClick={() =>{sortByRow("domination")}}>D</StatTitle>
             </PlayerLogTitle> 
             {playersResponse.map((player) => {
                 return(
@@ -283,15 +283,15 @@ const Logs = () => {
                     let victimY = location.victim_location.y/17.8;
                     let xOffset = apiResponse.matchInfo.offsets.x;
                     let yoffset = apiResponse.matchInfo.offsets.y;
-                    var centerLineOffset = 5;
+                    var centerLineOffset = 4;
                       return(
                         <KillImage>
                           <SvgArrow height="540" width="540" style={{position: "absolute", left: 0, top: 0}}>
                             <Arrow points={`${killerX+centerLineOffset+xOffset},${killerY+centerLineOffset+340+yoffset}
                                             ${victimX+centerLineOffset+xOffset},${victimY+centerLineOffset+340+yoffset}`} style={{stroke: "#FFC000"}}></Arrow>
                           </SvgArrow>
-                          <Killer style={{left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
-                          <Victim style={{left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
+                          <Killer style={apiResponse.players[focusedPlayer].team == "Blue" ? {background: "#5B7A8C", left : killerX+xOffset , bottom: killerY+340+yoffset}:{background: "#BD3B3B", left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
+                          <Victim style={apiResponse.players[focusedPlayer].team == "Blue" ? {background: "#BD3B3B", left : victimX+xOffset , bottom: victimY+340+yoffset} : {background: "#5B7A8C", left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
                         </KillImage>
                       );
                   })}

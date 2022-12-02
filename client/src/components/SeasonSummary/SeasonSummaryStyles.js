@@ -75,7 +75,7 @@ export const ClassTab = styled.div`
     align-items:center;
     border: 1px solid #121111;
     background: #121111;
-    color: #34302d;
+    color: #BEBDBB;
     font-weight : 800;
     :hover{
         border: 1px solid #f08149;
@@ -89,7 +89,7 @@ export const Division = styled.div`
     align-items:center;
     border: 1px solid #121111;
     background: #121111;
-    color: #34302d;
+    color: #BEBDBB;
     font-weight : 800;
     :hover{
         border: 1px solid #f08149;

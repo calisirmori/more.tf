@@ -50,6 +50,7 @@ export const Individuals = styled.div`
 
 
 export const KillMap = styled.div`
+    
     display: flex;
     position: relative;
     justify-content: center;
@@ -59,6 +60,12 @@ export const KillMap = styled.div`
     border-radius: 5px;
     margin: 20px 20px 20px 0;
     background-color: #171616;
+    :hover {
+        transition-timing-function: ease-in;
+        transition: 0.2s;
+        transform: scale(1.9);
+        left: -250px;
+    }
 `;
 
 
@@ -310,6 +317,29 @@ export const StatTitle = styled.button`
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
+    position: relative;
+
+    &:before{
+        display:none;
+        content: "${props => props.tooltip}";
+        position: absolute;
+        font-weight: 600;
+        top: -2.5rem;
+        color: #000;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        background-color: #f08149;
+        white-space: nowrap;
+        padding-bottom: 12px;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 80%, calc(50% + 5px) 80%, 50% 100%, calc(50% - 5px) 80%, 0% 80%);
+    }
+
+    &:hover{
+        &:before{
+            display: block;
+        }
+    }
 `;
 
 export const DamageVersus = styled.div`
@@ -394,15 +424,16 @@ export const SmallButton = styled.a`
 `;
 export const Map = styled.img`
     height: 520px;
-    opacity: 0.9;
+    opacity: 1;
 `;
-export const KillImage = styled.div``;
+export const KillImage = styled.div`
+`;
 export const Killer = styled.div`
-    height:7px;
-    width:7px;
-    border-radius: 5px;
+    height:4px;
+    width:4px;
+    border-radius: 10px;
     background-color: #BD3B3B;
-    border: 1px solid #fff;
+    border: 2px solid #fff;
     position: absolute;
 `;
 
@@ -412,11 +443,11 @@ export const Arrow = styled.polyline`
 `;
 
 export const Victim = styled.div`
-    height:7px;
-    width:7px;
+    height:4px;
+    width:4px;
     border-radius: 5px;
     background-color: #395C79;
-    border: 1px solid #ffff;
+    border: 2px solid #ffff;
     position: absolute;
 `;
 export const SvgArrow = styled.svg`
@@ -567,6 +598,7 @@ export const TeamTotalStats = styled.div`
 
 `;
 export const TeamStatsWrapper = styled.div`
+
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     text-align: center;
@@ -583,6 +615,7 @@ export const TeamStatRow = styled.div`
     border-radius: 3px;
     text-align: center;
     padding-top: 3px;
+    color: #fff;
 `;
 
 export const TeamStat = styled.div``;
@@ -618,6 +651,7 @@ export const HealerHeader = styled.div`
     font-weight: 600;
     padding: 3px;
     margin-bottom: 10px;
+    color: #fff;
 `;
 
 export const HealerStats = styled.div`
