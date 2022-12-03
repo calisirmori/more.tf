@@ -131,9 +131,6 @@ function eventsHandler(textInput,logsApiInput,outputObject){
     else if (eventLog.includes("player_builtobject")) smallStats("player_builtobject",eventLog, smallEvents)
     else if (eventLog.includes("domination")) smallStats("domination",eventLog, smallEvents)
     else if (eventLog.includes("picked")) smallStats("picked",eventLog, smallEvents)
-    else if (eventLog.includes("Pause_Length"))
-    else if (eventLog.includes("Game_Over"))
-    
   })
   return({kills: killsArray, damageSpread: damageObject , smallEvents: smallEvents});
 }
