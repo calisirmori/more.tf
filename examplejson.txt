@@ -1,3 +1,0 @@
-
-this game was paused for this amount
-combined log detection witg "Game_Over"
