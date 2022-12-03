@@ -8,6 +8,7 @@ const logstfApiOrganizer = require('./src/logstfApiOrganizer')
 const axios = require('axios');
 const { summaryObject } = require('./summary');
 const seasonSummary = require('./src/seasonSummary.js');
+const path = require('path');
 
 
 app.use(express.json());
