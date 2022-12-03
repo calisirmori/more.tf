@@ -429,11 +429,11 @@ export const Map = styled.img`
 export const KillImage = styled.div`
 `;
 export const Killer = styled.div`
-    height:4px;
-    width:4px;
+    height:5px;
+    width:5px;
     border-radius: 10px;
     background-color: #BD3B3B;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     position: absolute;
 `;
 
@@ -443,11 +443,11 @@ export const Arrow = styled.polyline`
 `;
 
 export const Victim = styled.div`
-    height:4px;
-    width:4px;
+    height:5px;
+    width:5px;
     border-radius: 5px;
     background-color: #395C79;
-    border: 2px solid #ffff;
+    border: 1px solid #ffff;
     position: absolute;
 `;
 export const SvgArrow = styled.svg`
