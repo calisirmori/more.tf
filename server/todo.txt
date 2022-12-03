@@ -1,0 +1,38 @@
+more.tf v1.1 todo;
+
+    Match Pause timer
+
+    Match Combined or not
+
+    Map rework clear indication of killer and victim
+        - potential hover and pop up
+        - show class indication of kills
+        - time
+        - clear indications for map/mvp page, 
+            - class icons on the left, player name shows on hover
+            - red and blue background letting them pick
+
+    Deeper dive into individual players
+        - weapons accuricies++
+        - damage recieved from individual class
+
+    Medic maps show deaths instead of kills
+
+    mvp per game?
+
+    "throphy room" where these are displayed with a throphy format
+        season fun facts,
+        longest match this season,
+        longest pause this season,
+        fastest game,
+        player with most deaths total,
+
+    round dropdown
+
+    team total spot total medkits per team, total ammo, total object kills
+
+    chat
+
+    word cloud
+
+    ##s13 summary align

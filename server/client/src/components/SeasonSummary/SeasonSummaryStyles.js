@@ -5,15 +5,13 @@ import styled from 'styled-components'
 export const SummaryPage = styled.div`
     display:flex;
     justify-content:center;
-    align-items:center;
-    height: 875px;
-    
 `;
 
 export const SummaryWrapper = styled.div`
     display: block;
     text-align: center;
     padding: 20px;
+    padding-bottom: 10px;
     border-radius: 5px;
     background: #34302d;
 `;
@@ -23,7 +21,7 @@ export const SeasonHeader = styled.div`
     font-family: 'Lilita One';
     font-size: 60px;
     line-height: 70px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 `;
 
 export const SummaryTable = styled.div`
@@ -183,4 +181,10 @@ export const Team = styled.div`
     font-weight: 300;
     font-size: 12px;
     color: #f08149;
+`;
+export const SeasonDisclaimer = styled.div`
+    color: #fff;
+    font-family: 'Poppins';
+    font-size: 20px;
+    margin-top: 10px;
 `;

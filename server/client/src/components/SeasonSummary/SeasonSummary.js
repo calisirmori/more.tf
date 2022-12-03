@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, MedalInfo, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
+import { Card, ClassSelect, ClassTab, Division, DivisionSelect, Info, Medal, MedalHeader, MedalImage, MedalInfo, PlayerCards, PlayerName, PlayerNameCard, PlayerTeam, SeasonDisclaimer, SeasonHeader, SummaryPage, SummaryTable, SummaryWrapper, Team, TopStatMedals, Username } from './SeasonSummaryStyles';
 import axios from 'axios';
 import {FaSort} from 'react-icons/fa'
 
@@ -118,6 +118,7 @@ const SeasonSummary = () => {
         <SummaryPage>
             <SummaryWrapper>
                 <SeasonHeader>RGL HIGHLANDER SEASON 13</SeasonHeader>
+                
                 <SummaryTable>
                     <DivisionSelect>
                         <Division style={divisionStyleObject("invite")} onClick={() => {setDivisionChoice("invite")}}>Invite</Division>
@@ -237,6 +238,7 @@ const SeasonSummary = () => {
                         <MedalInfo> Most headshots per minute in the division</MedalInfo>
                     </Medal>
                 </TopStatMedals>
+                <SeasonDisclaimer>Only players who played more than half the season and on top 8 is displayed </SeasonDisclaimer>
             </SummaryWrapper>
         </SummaryPage>
     </>
