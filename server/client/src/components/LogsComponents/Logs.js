@@ -290,8 +290,8 @@ const Logs = () => {
                             <Arrow points={`${killerX+centerLineOffset+xOffset},${killerY+centerLineOffset+340+yoffset}
                                             ${victimX+centerLineOffset+xOffset},${victimY+centerLineOffset+340+yoffset}`} style={{stroke: "#FFC000"}}></Arrow>
                           </SvgArrow>
-                          <Killer style={apiResponse.players[focusedPlayer].team == "Blue" ? {background: "#5B7A8C", left : killerX+xOffset , bottom: killerY+340+yoffset}:{background: "#BD3B3B", left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
-                          <Victim style={apiResponse.players[focusedPlayer].team == "Blue" ? {background: "#BD3B3B", left : victimX+xOffset , bottom: victimY+340+yoffset} : {background: "#5B7A8C", left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
+                          <Killer style={{background: "#5B7A8C", left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
+                          <Victim style={{background: "#BD3B3B", left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
                         </KillImage>
                       );
                   })}
