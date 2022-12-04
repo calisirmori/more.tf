@@ -18,7 +18,17 @@ more.tf v1.1 todo;
 
     Medic maps show deaths instead of kills
 
-    mvp per game?
+    round dropdown
+
+    team total spot total medkits per team, total ammo, total object kills
+
+    chat
+
+    try button
+
+    ##s13 summary align
+
+more.tf non urgent todo;
 
     "throphy room" where these are displayed with a throphy format
         season fun facts,
@@ -27,12 +37,6 @@ more.tf v1.1 todo;
         fastest game,
         player with most deaths total,
 
-    round dropdown
-
-    team total spot total medkits per team, total ammo, total object kills
-
-    chat
+    mvp per game?
 
     word cloud
-
-    ##s13 summary align

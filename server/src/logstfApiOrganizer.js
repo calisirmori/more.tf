@@ -1,4 +1,8 @@
+
 const axios = require('axios');
+
+let gameIsCombined = 0;
+let totalPauseLength = 0;
 
 async function organize(logsApiInput,textInput,gameId){
   
@@ -17,9 +21,8 @@ async function organize(logsApiInput,textInput,gameId){
   let healSpreadsObject = {healSpread : sortedHealSpread};
   let killSpreadObject = {killSpread : logsApiInput.data.classkills};
   let chatObject = {chat : logsApiInput.data.chat};
-  let matchInfoObject = await matchInfo(logsApiInput.data,gameId)
   let playerObject = playerInfo(logsApiInput.data,textInput)
-  
+  let matchInfoObject = await matchInfo(logsApiInput.data,gameId)  
   let finalObject = {...idObject, ...matchInfoObject,...teamsObject, ...playerObject, ...namesObject, ...roundsObject, ...healSpreadsObject, ...killSpreadObject, ...chatObject}
   return finalObject;
 }
@@ -41,6 +44,8 @@ async function matchInfo(logsApiInput,gameId){
     "totalLength": logsApiInput.info.total_length,
     "title": logsApiInput.info.title,
     "date": logsApiInput.info.date,
+    "combined": gameIsCombined,
+    "pause": totalPauseLength
     }
   }
   return(matchInfoObject);
@@ -74,6 +79,7 @@ function playerInfo(logsApiInput,textInput){
           "kapd": player.kapd,
           "kpd": player.kpd,
           "damage_towards": events.damageSpread[playerID3],
+          "damage_from": events.recievedSpread[playerID3],
           "events": playerEventsList,
           "damage": player.dmg,
           "damageTaken": player.dt,
@@ -104,7 +110,6 @@ function playerInfo(logsApiInput,textInput){
       }
     }
   }
-  // console.log(Object.entries(Object.entries(playerObject)[8])[1][1].events)
   return ({players: playerObject})
 }
 
@@ -112,7 +117,7 @@ function eventsHandler(textInput,logsApiInput,outputObject){
 
   let gameIsActive = false;
   let stringArray = textInput.split(/\r?\n/);
-  let killsArray = [], damageValues = [], damageObject = {}
+  let killsArray = [], damageValues = [], damageObject = {}, recievedDamage = {};
   let smallEvents = {
     "extinguished": {},
     "domination": {},
@@ -125,14 +130,18 @@ function eventsHandler(textInput,logsApiInput,outputObject){
     if(eventLog.includes("Round_Start")) gameIsActive = true;
     else if (eventLog.includes("Round_Win")) gameIsActive = false;
     else if (eventLog.includes(" killed ") && gameIsActive) killEventParser(eventLog, killsArray);
-    else if (eventLog.includes("damage") && gameIsActive) damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject);
-    else if (eventLog.includes("extinguished")) smallStats("extinguished",eventLog, smallEvents)
-    else if (eventLog.includes("killedobject")) smallStats("killedobject",eventLog, smallEvents)
-    else if (eventLog.includes("player_builtobject")) smallStats("player_builtobject",eventLog, smallEvents)
-    else if (eventLog.includes("domination")) smallStats("domination",eventLog, smallEvents)
-    else if (eventLog.includes("picked")) smallStats("picked",eventLog, smallEvents)
+    else if (eventLog.includes("damage") && gameIsActive) damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject, recievedDamage);
+    else if (eventLog.includes("extinguished")) smallStats("extinguished",eventLog, smallEvents);
+    else if (eventLog.includes("killedobject")) smallStats("killedobject",eventLog, smallEvents);
+    else if (eventLog.includes("player_builtobject")) smallStats("player_builtobject",eventLog, smallEvents);
+    else if (eventLog.includes("domination")) smallStats("domination",eventLog, smallEvents);
+    else if (eventLog.includes("picked")) smallStats("picked",eventLog, smallEvents);
+    else if (eventLog.includes("Game_Over")) gameIsCombined++;
+    else if (eventLog.includes("Pause_Length")) {
+      totalPauseLength += parseInt(eventLog.split('"')[3]);
+    };
   })
-  return({kills: killsArray, damageSpread: damageObject , smallEvents: smallEvents});
+  return({kills: killsArray, damageSpread: damageObject , recievedSpread: recievedDamage, smallEvents: smallEvents, pause: totalPauseLength, combined: gameIsCombined > 1 ? true : false});
 }
 
 function smallStats(eventSearched, eventInput, smallEvents){
@@ -145,7 +154,7 @@ function smallStats(eventSearched, eventInput, smallEvents){
     } else if( eventInput.includes("ammopack_large")){
       smallEvents.ammopickup[currentPlayerId] == undefined ? smallEvents.ammopickup[currentPlayerId] = 1 : smallEvents.ammopickup[currentPlayerId]+=4;
     }
-  }else {
+  } else {
     smallEvents[eventSearched][currentPlayerId] == undefined ? smallEvents[eventSearched][currentPlayerId] = 1 : smallEvents[eventSearched][currentPlayerId]++;
   }
 }
@@ -174,7 +183,9 @@ function killEventParser(eventLog, killsArray) {
   });
 }
 
-function damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject) {
+let sum =0;
+let realsum =0;
+function damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject, recievedDamage) {
   let damageDealerId = eventLog.slice(eventLog.indexOf('[U:1:'), eventLog.indexOf(']>') + 1);
   let damageRecieverId = eventLog.slice(eventLog.lastIndexOf('[U:1:'), eventLog.lastIndexOf(']>') + 1);
   let damageDealt = eventLog.slice(eventLog.indexOf('(damage "') + 9, eventLog.lastIndexOf('") (weapon'));
@@ -185,15 +196,29 @@ function damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject) 
   }
   damageValues.push([damageDealerId, damageRecieverId, damageDealt, currentReal, classFinder(damageRecieverId, logsApiInput)]);
   let damage;
+  let damageRecieved;
+  let player="Olive";
   try {
-    // console.log(parseInt(currentReal))
+    if(eventLog.includes(player) && eventLog.includes("crit") && eventLog.includes("damage") && 26==eventLog.indexOf(player)){
+      console.log(eventLog)
+      console.log(realsum+=parseInt(currentReal));
+      console.log(damageDealt)
+      console.log(sum+=(parseInt(damageDealt)))
+    };
+    
     let damageNow = (damageObject[damageDealerId][classFinder(damageRecieverId, logsApiInput)]);
-    damageNow = damageNow == undefined ? 0 : damageNow;
-    damage = { [classFinder(damageRecieverId, logsApiInput)]: damageNow + parseInt(damageDealt) };
+    let damageRecievedNow = (recievedDamage[damageRecieverId][classFinder(damageDealerId, logsApiInput)]);
+    damageNow = damageNow === undefined ? 0 : damageNow;
+    damageRecievedNow = damageRecievedNow === undefined ? 0 : damageRecievedNow;
+    damage = { [classFinder(damageRecieverId, logsApiInput)]: damageNow + parseInt(damageDealt > 450 ? 450 : damageDealt) };
+    damageRecieved = { [classFinder(damageDealerId, logsApiInput)]: damageRecievedNow + parseInt(damageDealt > 450 ? 450 : damageDealt) };
   } catch (error) {
-    damage = { [classFinder(damageRecieverId, logsApiInput)]: parseInt(damageDealt) };
+    damage = { [classFinder(damageRecieverId, logsApiInput)]: parseInt(damageDealt > 450 ? 450 : damageDealt) };
+    damageRecieved = { [classFinder(damageRecieverId, logsApiInput)]: parseInt(damageDealt > 450 ? 450 : damageDealt) };
   }
+  recievedDamage[damageRecieverId] = {...recievedDamage[damageRecieverId], ...damageRecieved}
   damageObject[damageDealerId] = { ...damageObject[damageDealerId], ...damage };
+  
 }
 
 function classFinder(userId,logsApiInput){

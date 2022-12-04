@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassImage, ClassTitle, Damage, DamageBar, DamageVersus, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -14,9 +14,11 @@ const Logs = () => {
   const [playersResponse, setPlayersResponse] = useState({});
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
+  const [damageRecieved, setDamageRecieved] = useState({});
   const [sort, setSort] = useState("");
   const [killSpreadArray, setKillSpreadArray] = useState();
   const [killSpreadSort, setKillSpreadSort] = useState("kills");
+  const [playerStatsSort, setPlayerStatSort] = useState("dealt");
   let roundCount = 1;
   let currentRow = 0;
 
@@ -39,7 +41,7 @@ const Logs = () => {
   
   async function apiCall(){
     console.log("apicall");
-    let response = await axios.get(`https://moretf.herokuapp.com/logsplus/${logInfo}`);
+    let response = await axios.get(`http://localhost:3000/logsplus/${logInfo}`);
     setApiResponse(response.data);
     setPlayersResponse(Object.entries(response.data.players));
   }
@@ -50,6 +52,18 @@ const Logs = () => {
     .sort(([,b],[,a]) => a-b)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     setDamageStats(Object.entries(sortedDamage));
+    if(apiResponse.players[playerId].damage_from["scout"] === undefined) apiResponse.players[playerId].damage_from.scout = 0;
+    else if(apiResponse.players[playerId].damage_from["soldier"] === undefined) apiResponse.players[playerId].damage_from.soldier = 0;
+    else if(apiResponse.players[playerId].damage_from["pyro"] === undefined) apiResponse.players[playerId].damage_from.pyro = 0;
+    else if(apiResponse.players[playerId].damage_from["demoman"] === undefined) apiResponse.players[playerId].damage_from.demoman = 0;
+    else if(apiResponse.players[playerId].damage_from["heavyweapons"] === undefined) apiResponse.players[playerId].damage_from.heavyweapons = 0;
+    else if(apiResponse.players[playerId].damage_from["engineer"] === undefined) apiResponse.players[playerId].damage_from.engineer = 0;
+    else if(apiResponse.players[playerId].damage_from["medic"] === undefined) apiResponse.players[playerId].damage_from.medic = 0;
+    else if(apiResponse.players[playerId].damage_from["sniper"] === undefined) apiResponse.players[playerId].damage_from.sniper = 0;
+    else if(apiResponse.players[playerId].damage_from["spy"] === undefined) apiResponse.players[playerId].damage_from.spy = 0;
+    setDamageRecieved( Object.entries(apiResponse.players[playerId].damage_from)
+    .sort(([,b],[,a]) => a-b)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}));
   }
 
   function sortKillSpread(row){
@@ -163,6 +177,7 @@ const Logs = () => {
               <MatchTitle>{apiResponse.matchInfo.title}</MatchTitle>
               <MapPlayed>{apiResponse.matchInfo.map}</MapPlayed>
               <Duration>{`${Math.ceil(apiResponse.matchInfo.totalLength/60)} : ${(apiResponse.matchInfo.totalLength%60).toString().padStart(2, '0')}`}</Duration>
+              <Duration >{apiResponse.matchInfo.pause > 0 ? `Pause ${Math.floor(apiResponse.matchInfo.pause/60)} : ${(apiResponse.matchInfo.pause%60).toString().padStart(2, '0')}` : ''}</Duration>
             </LeftSideInfo>
             <MatchScore>
               <BlueScore>
@@ -181,6 +196,8 @@ const Logs = () => {
                 <LogsLink href={`https://logs.tf/${logInfo}`} target="_blank"> logs.tf </LogsLink>
                 <DemosLink href={`https://demos.tf/${apiResponse.matchInfo.demosID}`} target="_blank"> demos.tf </DemosLink>
               </MatchLinks>
+              <Duration style={{fontSize:"16px", fontWeight: 400}}>{`${apiResponse.matchInfo.combined === true ? "This is a combined log" : ""}`}</Duration>
+
             </RightSideInfo>
           </MatchHeader>
           <ClassicLogs>
@@ -241,38 +258,98 @@ const Logs = () => {
           </ClassicLogs>
           <MoreLogs>
             <Individuals>
+              <ClassIconsWrapper>
+                <TeamIcons>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIcon>
+                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIcon>
+                </TeamIcons>
+                <TeamIcons>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIcon>
+                  <ClassIcon src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIcon>
+                </TeamIcons>
+              </ClassIconsWrapper>
               <DamageVersus>
-                <ClassImage src={ apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].classImageURL: apiResponse.players[focusedPlayer].classImageURL}></ClassImage>
-                <PlayerVsStats>
-                  <Label>DAMAGE TO CLASS</Label>
-                  <InfoSection>
-                    <PlayerName>{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName: apiResponse.players[focusedPlayer].userName}</PlayerName>
-                    <InfoButtons>
-                      <SmallButton target="_blank" href={`https://steamcommunity.com/profiles/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://cdn.icon-icons.com/icons2/2248/PNG/512/steam_icon_135152.png"></img></SmallButton>
-                      <SmallButton target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://avatars.cloudflare.steamstatic.com/e8b64622d8d348f9d3761d51f1aed63233401b26_full.jpg"></img></SmallButton>
-                      <SmallButton target="_blank" href={`https://etf2l.org/search/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://etf2l.org/wp-content/uploads/2018/07/2018_etf2l_short_nobackground_dark.png"></img></SmallButton>
-                      <SmallButton target="_blank" href={`https://www.ugcleague.com/players_page.cfm?player_id=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} ><img src="https://pbs.twimg.com/profile_images/1128657074215432192/gOCZ-jLz_400x400.jpg"></img></SmallButton>
-                    </InfoButtons>
-                  </InfoSection>
-                  <SectionTitle></SectionTitle>
-                  <StatsWrapper>
-                      {damageStats.map((player) => {
-                      const widthIndex = damageStats[0][1] /230;
-                        return(
-                          <VsStat>
-                            <ClassAgainst src={classNameToIconURL(player[0])}/>
-                            <DamageBar style={{ width: (player[1]/widthIndex), 
-                                                background: `${ apiResponse.players[focusedPlayer] == undefined ?
-                                                                  apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
-                                                                  apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`,
-                                           "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
-                                                                  apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                                                  apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" }`}}>{player[1]}</DamageBar>
-                          </VsStat>
-                        );
-                      })}
-                  </StatsWrapper>
-                </PlayerVsStats>
+                  <DamageVersusHeader >{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName: apiResponse.players[focusedPlayer].userName}</DamageVersusHeader>
+                <PlayerStatsWrapper>
+                  <ClassImage src={ apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].classImageURL: apiResponse.players[focusedPlayer].classImageURL}></ClassImage>
+                  <PlayerVsStats>
+                    <InfoSection>
+                      <InfoButtons>
+                        <SmallButton target="_blank" href={`https://steamcommunity.com/profiles/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} >STEAM</SmallButton>
+                        <SmallButton target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} > RGL</SmallButton>
+                        <SmallButton target="_blank" href={`https://etf2l.org/search/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} >ETF2L</SmallButton>
+                        <SmallButton target="_blank" href={`https://www.ugcleague.com/players_page.cfm?player_id=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64: apiResponse.players[focusedPlayer].steamID64}`} >UGC</SmallButton>
+                      </InfoButtons>
+                    </InfoSection>
+                    <SectionTitle>
+                      <Label onClick={()=>{setPlayerStatSort("recieved")}} style={playerStatsSort === "recieved" ? {textDecoration: "underline", fontWeight: 300,  justifyContent: "right", cursor: "pointer"} : {fontWeight: 300,  justifyContent: "right", cursor: "pointer"}}>Damage Recieved</Label>
+                      <Label style={{fontWeight: 300,  justifyContent: "center"}}>C</Label>
+                      <Label onClick={()=>{setPlayerStatSort("dealt")}} style={playerStatsSort === "recieved" ? {fontWeight: 300,  justifyContent: "left", cursor: "pointer"} : {textDecoration: "underline", fontWeight: 300,  justifyContent: "left", cursor: "pointer"}}>Damage Dealt</Label>
+                    </SectionTitle>
+                    <StatsWrapper>
+                        {playerStatsSort === "dealt" && damageStats.map((player) => {
+                        const widthIndex = damageStats[0][1] /210;
+                        const damageRecievedWidth = Object.entries(damageRecieved)[0][1] /210;
+                          return(
+                            <VsStat>
+                              <DamageRecievedBar style={{ width: (damageRecieved[player[0]]  === undefined ? 0 :damageRecieved[player[0]] /damageRecievedWidth), 
+                                                  background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "#5B7A8C" : "#BD3B3B" }`,
+                                             "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #395C79" : "4px solid #9D312F" }`}}>{damageRecieved[player[0]]  === undefined ? 0 :damageRecieved[player[0]]}</DamageRecievedBar>
+                              <ClassAgainst src={classNameToIconURL(player[0])}/>
+                              <DamageBar style={{ width: (player[1]/widthIndex), 
+                                                  background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`,
+                                             "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" }`}}>{player[1]}</DamageBar>
+                            </VsStat>
+                          );
+                        })}
+                        {playerStatsSort === "recieved" && Object.entries(damageRecieved).map((player) => {
+                        const widthIndex = damageStats[0][1] /210;
+                        const damageRecievedWidth = Object.entries(damageRecieved)[0][1] /210;
+                          return(
+                            <VsStat>
+                              <DamageRecievedBar style={{ width: (player[1]/damageRecievedWidth), 
+                                                  background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "#5B7A8C" : "#BD3B3B" }`,
+                                             "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #395C79" : "4px solid #9D312F" }`}}>{player[1]}</DamageRecievedBar>
+                              <ClassAgainst src={classNameToIconURL(player[0])}/>
+                              <DamageBar style={{ width: (Object.fromEntries(damageStats)[player[0]]  === undefined ? 0 :Object.fromEntries(damageStats)[player[0]] /widthIndex), 
+                                                  background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`,
+                                             "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" }`}}>{Object.fromEntries(damageStats)[player[0]]  === undefined ? 0 :Object.fromEntries(damageStats)[player[0]]}</DamageBar>
+                            </VsStat>
+                          );
+                        })}
+                    </StatsWrapper>
+                  </PlayerVsStats>
+                </PlayerStatsWrapper>
               </DamageVersus>
               <KillMap>
                 <Map src={apiResponse.matchInfo.mapImageURL}></Map>

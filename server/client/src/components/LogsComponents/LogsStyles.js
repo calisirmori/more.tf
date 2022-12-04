@@ -45,6 +45,9 @@ export const MoreLogs = styled.div`
 
 export const Individuals = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
 `;
 
 
@@ -343,57 +346,89 @@ export const StatTitle = styled.button`
 `;
 
 export const DamageVersus = styled.div`
-    display: flex;
-    width:540px;
+    display: block;
+    width: 780px;
     height: 540px;
     border-radius: 5px;
     background-color: #171616;
-    margin: 20px;
+    margin: 0 20px;
+`;
+export const DamageVersusHeader = styled.div`
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin: 10px;
+    background: #BD3B3B;
+    border-bottom: 3px solid #9D312F;
+    border-radius: 2px;
+    font-weight: 600;
+    color: #fff;
+`;
+
+export const PlayerStatsWrapper = styled.div`
+    display: flex;
+    height: 400px;
+    border-radius: 5px;
+    background-color: #171616;
 `;
 
 export const ClassImage = styled.img`
-    margin-top: -70px;
+    margin-top: -100px;
     margin-left: 20px;
     margin-right: -20px;
 
-    height: 650px;
+    height: 580px;
     width: 200px;
     object-fit: cover;
 `;
 
 export const PlayerVsStats = styled.div`
-    width: 300px;
     margin: 5px 20px;
     display: block;
     text-align: center;
 `;
 
 export const SectionTitle = styled.div`
-    margin: 5px 10px;
-    font-size: 26px;
-    font-weight: 800;
+    display: grid;
+    grid-template-columns: 260px 40px 260px;
+
     color: #fff;
+    margin-bottom: -15px;
+
 `;
 export const StatsWrapper = styled.div`
     margin-top: 10px;
     display: block;
 `;
 export const VsStat = styled.div`
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 260px 40px 260px;
+
     height: 40px;
 `;
 export const ClassAgainst = styled.img`
     height:25px;
-    margin-right: 10px;
+    margin: 0 7px;
+    margin-top: 5px;
 `;
 export const DamageBar = styled.div`
-
+    margin-bottom: 10px;
     color: #fff;
     text-align: right;
     font-weight: 700;
     padding: 4px 16px 4px 8px;
 
+`;
+export const DamageRecievedBar = styled.div`
+    color: #fff;
+    text-align: left;
+    font-weight: 700;
+    padding: 4px 26px 4px 8px;
+    margin-left: auto; 
+    margin-right: 0;
+    margin-bottom: 10px;
 `;
 export const InfoSection = styled.div``;
 export const PlayerName = styled.div`
@@ -414,13 +449,22 @@ export const InfoButtons = styled.div`
     align-items: center;
 `;
 export const SmallButton = styled.a`
-    text-decoration: none;
-    border-radius: 4px;
-    margin: 5px 10px;
-    height: 40px;
-    width: 40px;
-    background-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3px;
+    background-color: #34302d;
+    height: 30px;
+    width: 100px;
+    margin-right: 10px;
     cursor: pointer;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #fff;
+    :hover {
+        outline: 1px solid #f08149;
+        background-color: #1d1c1c;
+    }
 `;
 export const Map = styled.img`
     height: 520px;
@@ -738,5 +782,26 @@ export const PerPlayerClass = styled.img`
 `;
 
 export const Chat = styled.div``;
+export const ClassIconsWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+export const TeamIcons = styled.div`
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+`;
+export const ClassIcon = styled.img`
+    cursor: pointer;
+    height: 38px;
+    padding: 5px;
+    margin: 3px;
+    background: #BD3B3B;
+    border: 3px solid #9D312F;
+    :hover {
+        transform: scale(1.1);
+        border: 3px solid #fff;
+    }
+`;
 export const Example = styled.div``;
 

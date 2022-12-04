@@ -12,7 +12,7 @@ const SeasonSummary = () => {
 
     useEffect(() => {
         async function apiCall(){
-            setApiResponse(await axios.get(`https://moretf.herokuapp.com/api/season-13-summary`))
+            setApiResponse(await axios.get(`http://localhost:3000/api/season-13-summary`))
             console.log("apicalss")
         }
         apiCall()
@@ -238,7 +238,7 @@ const SeasonSummary = () => {
                         <MedalInfo> Most headshots per minute in the division</MedalInfo>
                     </Medal>
                 </TopStatMedals>
-                <SeasonDisclaimer>Only players who played more than half the season and on top 8 is displayed </SeasonDisclaimer>
+                <SeasonDisclaimer>Only players who played more than half the season and on top 8 are displayed </SeasonDisclaimer>
             </SummaryWrapper>
         </SummaryPage>
     </>
