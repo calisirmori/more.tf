@@ -2,7 +2,7 @@
 //this page is used to produce 1 object to save and will not be used after that making 200api calls on each load would be insane
 //this will be used at end of each season to produce a summary object
 539
-const axios = require('axios');
+const { fetch, FetchResultTypes } = require('@sapphire/fetch');
 const fs = require('fs');
 
 let inviteLogs   = ["3280749","3280753","3280813","3280830","3284610","3284707","3284680","3284708","3288567","3288537","3288556","3288581","3292425","3292480",
@@ -59,8 +59,7 @@ function makeSummary(){
         for (let index = 0; index < intermediateLogs.length; index++) {
             let gameId = intermediateLogs[index];
           console.log(count + "/" + intermediateLogs.length)
-          let apiCall = await axios.get(`https://logs.tf/api/v1/log/${gameId}`);
-          let apiResponse = apiCall.data;
+          let apiCall = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
           let playersArray = Object.entries(apiResponse.players);
           await new Promise(resolve => setTimeout(resolve, 100));
             playersArray.map((playerStats) => {
