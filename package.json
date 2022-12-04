@@ -9,6 +9,7 @@
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
+    "@sapphire/fetch": "^2.4.1",
     "adm-zip": "^0.5.9",
     "axios": "^1.1.3",
     "cors": "^2.8.5",

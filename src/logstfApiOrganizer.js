@@ -1,5 +1,4 @@
-
-const axios = require('axios');
+const { fetch, FetchResultTypes } = require("@sapphire/fetch");
 
 let gameIsCombined = 0;
 let totalPauseLength = 0;
@@ -224,7 +223,7 @@ function dateToSeconds(eventLog){
 
 async function demostfLinkIdFinder(logTime,playerId){
   const URL_DEMOS_API = "https://api.demos.tf"
-  let demostfApiResponse = await axios.get(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`);
+  let demostfApiResponse = await fetch(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`, FetchResultTypes.JSON);
   if(demostfApiResponse.data.length == 0 ){
     return("")
   } else{
