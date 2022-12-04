@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconBlue, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
-import { fetch } from '@sapphire/fetch';
+import { fetch, FetchResultTypes } from '@sapphire/fetch';
 
 const Logs = () => {
   const id = window.location.href;

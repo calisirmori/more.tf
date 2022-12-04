@@ -12,7 +12,7 @@ const SeasonSummary = () => {
     useEffect(() => {
         async function apiCall() {
             setApiResponse(await fetch(`https://moretf.herokuapp.com/api/season-13-summary`, FetchResultTypes.JSON))
-            console.log("apicalss")
+            console.log("apicall")
         }
         apiCall()
     }, [])
@@ -20,7 +20,7 @@ const SeasonSummary = () => {
     useEffect(() => {
         let currentArray = [];
         try {
-            apiResponse.data[divisionChoice].map((playerInfo) => {
+            apiResponse[divisionChoice].map((playerInfo) => {
                 if (Object.entries(playerInfo)[0][1].classPlayed === classChoice && Object.entries(playerInfo)[0][1].gamesPlayed > 3 && Object.entries(playerInfo)[0][1].teamPlacement > 0 && Object.entries(playerInfo)[0][1].teamPlacement < 9) {
                     currentArray.push(Object.entries(playerInfo)[0][1])
 
@@ -111,7 +111,7 @@ const SeasonSummary = () => {
     function classStyleObject(input) {
         return (input === classChoice ? { background: "#f08149", color: "#121111", "fontWeight": "800" } : {});
     }
-
+    
     return (
         <>
             <SummaryPage>
@@ -196,44 +196,44 @@ const SeasonSummary = () => {
                     <TopStatMedals>
                         <Medal>
                             <MedalHeader>KILLS/m</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kills[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].kills[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].kills[0]}`}</PlayerTeam>
                             <MedalInfo> Most kills per minute in the division</MedalInfo>
                         </Medal>
                         <Medal>
                             <MedalHeader>DEATHS/m</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].deaths[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].deaths[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].deaths[0]}`}</PlayerTeam>
                             <MedalInfo> Least deaths per minute in the division</MedalInfo>
                         </Medal>
                         <Medal>
                             <MedalHeader>DAMAGE/m</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dpm[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].dpm[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].dpm[0]}`}</PlayerTeam>
                             <MedalInfo> Most damage dealt per minute in the division</MedalInfo>
                         </Medal>
                         <Medal>
                             <MedalHeader>KILL/DEATH</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].kd[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].kd[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].kd[0]}`}</PlayerTeam>
                             <MedalInfo> Best kill per death ratio in the division</MedalInfo>
                         </Medal>
                         <Medal>
                             <MedalHeader>DMGTAKEN/m</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].dtm[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].dtm[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].dtm[0]}`}</PlayerTeam>
                             <MedalInfo> Most damage taken per minute in the division</MedalInfo>
                         </Medal>
                         <Medal>
                             <MedalHeader>HEALS/M</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].heals[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].heals[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].heals[0]}`}</PlayerTeam>
                             <MedalInfo> Most heals per minute in the division</MedalInfo>
                         </Medal>
                         <Medal>
                             <MedalHeader>HEADSHOTS/M</MedalHeader>
-                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[1]}`}</PlayerName>
-                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.data.medals[divisionChoice].headshots[0]}`}</PlayerTeam>
+                            <PlayerName>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].headshots[1]}`}</PlayerName>
+                            <PlayerTeam>{`${apiResponse === undefined ? true : apiResponse.medals[divisionChoice].headshots[0]}`}</PlayerTeam>
                             <MedalInfo> Most headshots per minute in the division</MedalInfo>
                         </Medal>
                     </TopStatMedals>
