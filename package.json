@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "@sapphire/fetch": "^2.4.1",
     "adm-zip": "^0.5.9",
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.20"
   }
 }
