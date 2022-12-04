@@ -375,11 +375,10 @@ export const PlayerStatsWrapper = styled.div`
 `;
 
 export const ClassImage = styled.img`
-    margin-top: -100px;
+    margin-top: -60px;
     margin-left: 20px;
     margin-right: -20px;
-
-    height: 580px;
+    height: 480px;
     width: 200px;
     object-fit: cover;
 `;
@@ -447,6 +446,7 @@ export const InfoButtons = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: -215px;
 `;
 export const SmallButton = styled.a`
     display: flex;
@@ -489,7 +489,6 @@ export const Arrow = styled.polyline`
 export const Victim = styled.div`
     height:5px;
     width:5px;
-    border-radius: 5px;
     background-color: #395C79;
     border: 1px solid #ffff;
     position: absolute;
@@ -798,6 +797,18 @@ export const ClassIcon = styled.img`
     margin: 3px;
     background: #BD3B3B;
     border: 3px solid #9D312F;
+    :hover {
+        transform: scale(1.1);
+        border: 3px solid #fff;
+    }
+`;
+export const ClassIconBlue = styled.img`
+    cursor: pointer;
+    height: 38px;
+    padding: 5px;
+    margin: 3px;
+    background: #5B7A8C;
+    border: 3px solid #395C79;
     :hover {
         transform: scale(1.1);
         border: 3px solid #fff;

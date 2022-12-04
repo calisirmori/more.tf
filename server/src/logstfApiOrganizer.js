@@ -197,15 +197,7 @@ function damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject, 
   damageValues.push([damageDealerId, damageRecieverId, damageDealt, currentReal, classFinder(damageRecieverId, logsApiInput)]);
   let damage;
   let damageRecieved;
-  let player="Olive";
   try {
-    if(eventLog.includes(player) && eventLog.includes("crit") && eventLog.includes("damage") && 26==eventLog.indexOf(player)){
-      console.log(eventLog)
-      console.log(realsum+=parseInt(currentReal));
-      console.log(damageDealt)
-      console.log(sum+=(parseInt(damageDealt)))
-    };
-    
     let damageNow = (damageObject[damageDealerId][classFinder(damageRecieverId, logsApiInput)]);
     let damageRecievedNow = (recievedDamage[damageRecieverId][classFinder(damageDealerId, logsApiInput)]);
     damageNow = damageNow === undefined ? 0 : damageNow;
@@ -248,31 +240,31 @@ function id3toid64(userid3) {
 function DamageIconMaker(input,team) {
   switch (input) {
     case "scout":
-     return ["https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png", team == "Red" ? "https://i.imgur.com/Uce0Bdj.png" :"https://i.imgur.com/oh8HBK1.png"];
+     return ["https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png", team == "Red" ? "https://i.imgur.com/MrgFGiQ.png" :"https://i.imgur.com/a5edNsb.png"];
 
     case "soldier":
-     return ["https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png", team == "Red" ? "https://i.imgur.com/CiyuvEw.png" :"https://i.imgur.com/nneilnw.png"];
+     return ["https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png", team == "Red" ? "https://i.imgur.com/B8lOMdg.png" :"https://i.imgur.com/TBKqtpS.png"];
 
     case "pyro":
-     return ["https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png", team == "Red" ? "https://i.imgur.com/qS8EwB4.png" :"https://i.imgur.com/QTNO5VK.png"];
+     return ["https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png", team == "Red" ? "https://i.imgur.com/R64iq2P.png" :"https://i.imgur.com/0hzpADm.png"];
 
     case "demoman":
-     return ["https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png", team == "Red" ? "https://i.imgur.com/ZDabng6.png" :"https://i.imgur.com/ju7WRcV.png"];
+     return ["https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png", team == "Red" ? "https://i.imgur.com/cdmUpXS.png" :"https://i.imgur.com/CdaXozC.png"];
 
     case "heavyweapons":
-     return ["https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png", team == "Red" ? "https://i.imgur.com/d3hRlNO.png" :"https://i.imgur.com/iLTdXY8.png"];
+     return ["https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png", team == "Red" ? "https://i.imgur.com/1BEKUf1.png" :"https://i.imgur.com/vZDsPNS.png"];
 
     case "engineer":
-     return ["https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png", team == "Red" ? "https://i.imgur.com/mBF07Qk.png" :"https://i.imgur.com/yP4PRkq.png"];
+     return ["https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png", team == "Red" ? "https://i.imgur.com/xsghB77.png" :"https://i.imgur.com/uFGR01S.png"];
 
     case "medic":
-     return ["https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png", team == "Red" ? "https://i.imgur.com/zKWSg1d.png" :"https://i.imgur.com/BaskmeI.png"];
+     return ["https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png", team == "Red" ? "https://i.imgur.com/49i0zGE.png" :"https://i.imgur.com/zPLKIvS.png"];
 
     case "sniper":
-      return ["https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png", team == "Red" ? "https://i.imgur.com/cf0N6qe.png" :"https://i.imgur.com/0nGnxsH.png"];
+      return ["https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png", team == "Red" ? "https://i.imgur.com/d4G69R5.png" :"https://i.imgur.com/y2ZhbXI.png"];
 
     case "spy":
-      return ["https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png", team == "Red" ? "https://i.imgur.com/TaPGIUR.png" :"https://i.imgur.com/QbP4znS.png"];
+      return ["https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png", team == "Red" ? "https://i.imgur.com/S949eCG.png" :"https://i.imgur.com/LHmKp72.png"];
   };
 };
 

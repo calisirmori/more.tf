@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconBlue, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -19,6 +19,7 @@ const Logs = () => {
   const [killSpreadArray, setKillSpreadArray] = useState();
   const [killSpreadSort, setKillSpreadSort] = useState("kills");
   const [playerStatsSort, setPlayerStatSort] = useState("dealt");
+  const [playerStatIconsFocused, setPlayerStatIconsFocused] = useState("Red-engineer")
   let roundCount = 1;
   let currentRow = 0;
 
@@ -41,7 +42,7 @@ const Logs = () => {
   
   async function apiCall(){
     console.log("apicall");
-    let response = await axios.get(`http://localhost:3000/logsplus/${logInfo}`);
+    let response = await axios.get(`https://moretf.herokuapp.com/logsplus/${logInfo}`);
     setApiResponse(response.data);
     setPlayersResponse(Object.entries(response.data.players));
   }
@@ -64,6 +65,13 @@ const Logs = () => {
     setDamageRecieved( Object.entries(apiResponse.players[playerId].damage_from)
     .sort(([,b],[,a]) => a-b)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}));
+  }
+
+  function playerFinder(team, classPlayed){
+    setPlayerStatIconsFocused(`${team}-${classPlayed}`);
+    playersResponse.map((player) => {
+      if(player[1].team === team && player[1].class === classPlayed )changeDamageVs(player[0])
+    })
   }
 
   function sortKillSpread(row){
@@ -260,32 +268,37 @@ const Logs = () => {
             <Individuals>
               <ClassIconsWrapper>
                 <TeamIcons>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIcon>
-                  <ClassIcon style={{ background: "#5B7A8C", border: "3px solid #395C79"}} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIcon>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-scout" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "scout")}} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-soldier" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "soldier")}} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-pyro" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "pyro")}} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-demoman" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "demoman")}} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-heavyweapons" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "heavyweapons")}} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-engineer" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "engineer")}} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-medic" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "medic")}} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-sniper" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "sniper")}} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIconBlue>
+                  <ClassIconBlue style={playerStatIconsFocused === "Blue-spy" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Blue", "spy")}} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIconBlue>
                 </TeamIcons>
                 <TeamIcons>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIcon>
-                  <ClassIcon src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-scout" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "scout")}} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-soldier" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "soldier")}} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-pyro" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "pyro")}} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-demoman" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "demoman")}} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-heavyweapons" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "heavyweapons")}} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-engineer" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "engineer")}} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-medic" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "medic")}} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-sniper" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "sniper")}} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIcon>
+                  <ClassIcon style={playerStatIconsFocused === "Red-spy" ? {border: "3px solid #fff"} : {}} onClick={() => {playerFinder("Red", "spy")}} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIcon>
                 </TeamIcons>
               </ClassIconsWrapper>
               <DamageVersus>
-                  <DamageVersusHeader >{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName: apiResponse.players[focusedPlayer].userName}</DamageVersusHeader>
+                  <DamageVersusHeader style={{ background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Blue" ? "#5B7A8C" : "#BD3B3B" }`,
+                                             "borderBottom": `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                                                    apiResponse.players[focusedPlayer].team == "Blue" ? "4px solid #395C79" : "4px solid #9D312F" }`}}>{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName: apiResponse.players[focusedPlayer].userName}</DamageVersusHeader>
                 <PlayerStatsWrapper>
-                  <ClassImage src={ apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].classImageURL: apiResponse.players[focusedPlayer].classImageURL}></ClassImage>
+                  <ClassImage src={ apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].classImageURL: apiResponse.players[focusedPlayer].classImageURL}></ClassImage>
                   <PlayerVsStats>
                     <InfoSection>
                       <InfoButtons>
@@ -367,8 +380,12 @@ const Logs = () => {
                             <Arrow points={`${killerX+centerLineOffset+xOffset},${killerY+centerLineOffset+340+yoffset}
                                             ${victimX+centerLineOffset+xOffset},${victimY+centerLineOffset+340+yoffset}`} style={{stroke: "#FFC000"}}></Arrow>
                           </SvgArrow>
-                          <Killer style={{background: "#5B7A8C", left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
-                          <Victim style={{background: "#BD3B3B", left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
+                          <Killer style={{background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C" }`, left : killerX+xOffset , bottom: killerY+340+yoffset}}></Killer>
+                          <Victim style={{background: `${ apiResponse.players[focusedPlayer] == undefined ?
+                                                                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                                                    apiResponse.players[focusedPlayer].team == "Blue" ? "#BD3B3B" : "#5B7A8C" }`, left : victimX+xOffset , bottom: victimY+340+yoffset}}></Victim>
                         </KillImage>
                       );
                   })}
