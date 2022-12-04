@@ -51,6 +51,7 @@ const Logs = () => {
       .sort(([, b], [, a]) => a - b)
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     setDamageStats(Object.entries(sortedDamage));
+    setPlayerStatIconsFocused(`${apiResponse.players[playerId].team}-${apiResponse.players[playerId].class}`);
     if (apiResponse.players[playerId].damage_from["scout"] === undefined) apiResponse.players[playerId].damage_from.scout = 0;
     else if (apiResponse.players[playerId].damage_from["soldier"] === undefined) apiResponse.players[playerId].damage_from.soldier = 0;
     else if (apiResponse.players[playerId].damage_from["pyro"] === undefined) apiResponse.players[playerId].damage_from.pyro = 0;
