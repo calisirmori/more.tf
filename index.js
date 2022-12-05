@@ -24,9 +24,9 @@ app.get('/logsplus/:id', async (req, res) => {
   const matchId = req.params.id;
   const logsApiResponse = await fetch(`https://logs.tf/api/v1/log/${matchId}`, FetchResultTypes.JSON);
 
-  const blob = await fetch(`http://logs.tf/logs/log_${matchId}.log.zip`, FetchResultTypes.Blob);
+  const buffer = await fetch(`http://logs.tf/logs/log_${matchId}.log.zip`, FetchResultTypes.Buffer);
 
-  const zip = new AdmZip(blob);
+  const zip = new AdmZip(buffer);
   const zipEntries = zip.getEntries();
   const textFile = zipEntries[0].getData().toString();
 

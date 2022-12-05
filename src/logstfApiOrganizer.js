@@ -6,11 +6,11 @@ let totalPauseLength = 0;
 async function organize(logsApiInput,textInput,gameId){
   
   let idObject = { id: gameId }
-  let namesObject = {names: logsApiInput.data.names}
-  let teamsObject = {teams : logsApiInput.data.teams};
-  let roundsObject = {rounds : logsApiInput.data.rounds};
+  let namesObject = {names: logsApiInput.names}
+  let teamsObject = {teams : logsApiInput.teams};
+  let roundsObject = {rounds : logsApiInput.rounds};
   let sortedHealSpread = {}
-  Object.entries(logsApiInput.data.healspread).map((healer)=>{
+  Object.entries(logsApiInput.healspread).map((healer)=>{
     let currentHealingSpread = Object.entries(healer[1])
     .sort(([,b],[,a]) => a-b)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
@@ -18,10 +18,10 @@ async function organize(logsApiInput,textInput,gameId){
     sortedHealSpread = {...sortedHealSpread, ...currentObject}
   })
   let healSpreadsObject = {healSpread : sortedHealSpread};
-  let killSpreadObject = {killSpread : logsApiInput.data.classkills};
-  let chatObject = {chat : logsApiInput.data.chat};
-  let playerObject = playerInfo(logsApiInput.data,textInput)
-  let matchInfoObject = await matchInfo(logsApiInput.data,gameId)  
+  let killSpreadObject = {killSpread : logsApiInput.classkills};
+  let chatObject = {chat : logsApiInput.chat};
+  let playerObject = playerInfo(logsApiInput,textInput)
+  let matchInfoObject = await matchInfo(logsApiInput,gameId)  
   let finalObject = {...idObject, ...matchInfoObject,...teamsObject, ...playerObject, ...namesObject, ...roundsObject, ...healSpreadsObject, ...killSpreadObject, ...chatObject}
   return finalObject;
 }
@@ -224,10 +224,10 @@ function dateToSeconds(eventLog){
 async function demostfLinkIdFinder(logTime,playerId){
   const URL_DEMOS_API = "https://api.demos.tf"
   let demostfApiResponse = await fetch(`${URL_DEMOS_API}/profiles/${playerId}?after=${logTime}`, FetchResultTypes.JSON);
-  if(demostfApiResponse.data.length == 0 ){
+  if(demostfApiResponse.length == 0 ){
     return("")
   } else{
-    return (demostfApiResponse.data[demostfApiResponse.data.length-1].id);
+    return (demostfApiResponse[demostfApiResponse.length-1].id);
   } 
 }
 

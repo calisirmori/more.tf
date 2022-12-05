@@ -11,7 +11,7 @@ const SeasonSummary = () => {
 
     useEffect(() => {
         async function apiCall() {
-            setApiResponse(await fetch(`https://moretf.herokuapp.com/api/season-13-summary`, FetchResultTypes.JSON))
+            setApiResponse(await fetch(`http://localhost:3000/api/season-13-summary`, FetchResultTypes.JSON))
             console.log("apicall")
         }
         apiCall()
