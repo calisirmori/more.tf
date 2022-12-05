@@ -40,7 +40,7 @@ const Logs = () => {
 
   async function apiCall() {
     console.log("apicall");
-    let response = await fetch(`http://localhost:3000/logsplus/${logInfo}`, FetchResultTypes.JSON);
+    let response = await fetch(`https://moretf.herokuapp.com/logsplus/${logInfo}`, FetchResultTypes.JSON);
     setApiResponse(response);
     setPlayersResponse(Object.entries(response.players));
   }
