@@ -33,11 +33,6 @@ app.get('/logsplus/:id', async (req, res) => {
   res.json(await logstfApiOrganizer.organize(logsApiResponse, textFile, matchId));
 });
 
-app.use(express.static(path.join(__dirname, "/client/build")));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
-});
 
 app.listen(process.env.PORT || 3000, function () {
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
