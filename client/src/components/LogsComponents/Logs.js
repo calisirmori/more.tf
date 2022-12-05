@@ -47,6 +47,16 @@ const Logs = () => {
 
   function changeDamageVs(playerId) {
     setFocusedPlayer(playerId);
+    if (apiResponse.players[playerId].damage_towards["scout"] === undefined) apiResponse.players[playerId].damage_towards.scout = 0;
+    else if (apiResponse.players[playerId].damage_towards["soldier"] === undefined) apiResponse.players[playerId].damage_towards.soldier = 0;
+    else if (apiResponse.players[playerId].damage_towards["pyro"] === undefined) apiResponse.players[playerId].damage_towards.pyro = 0;
+    else if (apiResponse.players[playerId].damage_towards["demoman"] === undefined) apiResponse.players[playerId].damage_towards.demoman = 0;
+    else if (apiResponse.players[playerId].damage_towards["heavyweapons"] === undefined) apiResponse.players[playerId].damage_towards.heavyweapons = 0;
+    else if (apiResponse.players[playerId].damage_towards["engineer"] === undefined) apiResponse.players[playerId].damage_towards.engineer = 0;
+    else if (apiResponse.players[playerId].damage_towards["medic"] === undefined) apiResponse.players[playerId].damage_towards.medic = 0;
+    else if (apiResponse.players[playerId].damage_towards["sniper"] === undefined) apiResponse.players[playerId].damage_towards.sniper = 0;
+    else if (apiResponse.players[playerId].damage_towards["spy"] === undefined) apiResponse.players[playerId].damage_towards.spy = 0;
+
     const sortedDamage = Object.entries(apiResponse.players[playerId].damage_towards)
       .sort(([, b], [, a]) => a - b)
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
@@ -61,6 +71,7 @@ const Logs = () => {
     else if (apiResponse.players[playerId].damage_from["medic"] === undefined) apiResponse.players[playerId].damage_from.medic = 0;
     else if (apiResponse.players[playerId].damage_from["sniper"] === undefined) apiResponse.players[playerId].damage_from.sniper = 0;
     else if (apiResponse.players[playerId].damage_from["spy"] === undefined) apiResponse.players[playerId].damage_from.spy = 0;
+
     setDamageRecieved(Object.entries(apiResponse.players[playerId].damage_from)
       .sort(([, b], [, a]) => a - b)
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}));
