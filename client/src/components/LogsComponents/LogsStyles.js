@@ -348,7 +348,7 @@ export const StatTitle = styled.button`
 export const DamageVersus = styled.div`
     display: block;
     width: 780px;
-    height: 540px;
+    padding-bottom:10px;
     border-radius: 5px;
     background-color: #171616;
     margin: 20px 20px;
@@ -369,13 +369,13 @@ export const DamageVersusHeader = styled.div`
 
 export const PlayerStatsWrapper = styled.div`
     display: flex;
-    height: 400px;
+
     border-radius: 5px;
     background-color: #171616;
+    
 `;
 
 export const ClassImage = styled.img`
-    margin-top: -60px;
     margin-left: 20px;
     margin-right: -20px;
     height: 480px;
@@ -387,6 +387,7 @@ export const PlayerVsStats = styled.div`
     margin: 5px 20px;
     display: block;
     text-align: center;
+    
 `;
 
 export const SectionTitle = styled.div`
@@ -399,6 +400,7 @@ export const SectionTitle = styled.div`
 `;
 export const StatsWrapper = styled.div`
     margin-top: 10px;
+    
     display: block;
 `;
 export const VsStat = styled.div`
@@ -417,7 +419,9 @@ export const DamageBar = styled.div`
     color: #fff;
     text-align: right;
     font-weight: 700;
-    padding: 4px 16px 4px 8px;
+    padding: 4px 8px 4px 8px;
+    margin-right: auto; 
+    margin-left: 0;
 
 `;
 export const DamageRecievedBar = styled.div`
@@ -788,23 +792,23 @@ export const ClassIconsWrapper = styled.div`
 `;
 export const TeamIcons = styled.div`
     display: grid;
-    grid-template-rows: repeat(9, 1fr);
+    grid-template-rows: repeat(1, 1fr);
 `;
 export const ClassIcon = styled.img`
     cursor: pointer;
-    height: 38px;
     padding: 5px;
     margin: 3px;
     background: #BD3B3B;
     border: 3px solid #9D312F;
-    :hover {
+    height: 30px;
+    :hover{
         transform: scale(1.1);
         border: 3px solid #fff;
     }
 `;
 export const ClassIconBlue = styled.img`
     cursor: pointer;
-    height: 38px;
+    height: 30px;
     padding: 5px;
     margin: 3px;
     background: #5B7A8C;

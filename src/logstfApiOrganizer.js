@@ -3,7 +3,6 @@ const { fetch, FetchResultTypes } = require("@sapphire/fetch");
 
 
 async function organize(logsApiInput,textInput,gameId){
-  
   let idObject = { id: gameId }
   let namesObject = {names: logsApiInput.names}
   let teamsObject = {teams : logsApiInput.teams};
@@ -193,19 +192,19 @@ function damageSpreadParser(eventLog, damageValues, logsApiInput, damageObject, 
     damageDealt = eventLog.slice(eventLog.indexOf('(damage "') + 9, eventLog.lastIndexOf('") (realdamage'));
     currentReal = eventLog.slice(eventLog.lastIndexOf('") (realdamage') + 16, eventLog.lastIndexOf('") (weapon'));
   }
-  damageValues.push([damageDealerId, damageRecieverId, damageDealt, currentReal, classFinder(damageRecieverId, logsApiInput)]);
+  damageValues.push([damageDealerId, damageRecieverId, damageDealt, currentReal, damageRecieverId]);
   let damage;
   let damageRecieved;
   try {
-    let damageNow = (damageObject[damageDealerId][classFinder(damageRecieverId, logsApiInput)]);
-    let damageRecievedNow = (recievedDamage[damageRecieverId][classFinder(damageDealerId, logsApiInput)]);
+    let damageNow = (damageObject[damageDealerId][damageRecieverId]);
+    let damageRecievedNow = (recievedDamage[damageRecieverId][damageDealerId]);
     damageNow = damageNow === undefined ? 0 : damageNow;
     damageRecievedNow = damageRecievedNow === undefined ? 0 : damageRecievedNow;
-    damage = { [classFinder(damageRecieverId, logsApiInput)]: damageNow + parseInt(damageDealt > 450 ? 450 : damageDealt) };
-    damageRecieved = { [classFinder(damageDealerId, logsApiInput)]: damageRecievedNow + parseInt(damageDealt > 450 ? 450 : damageDealt) };
+    damage = { [damageRecieverId]: damageNow + parseInt(damageDealt > 450 ? 450 : damageDealt) };
+    damageRecieved = { [damageDealerId]: damageRecievedNow + parseInt(damageDealt > 450 ? 450 : damageDealt) };
   } catch (error) {
-    damage = { [classFinder(damageRecieverId, logsApiInput)]: parseInt(damageDealt > 450 ? 450 : damageDealt) };
-    damageRecieved = { [classFinder(damageRecieverId, logsApiInput)]: parseInt(damageDealt > 450 ? 450 : damageDealt) };
+    damage = { [damageRecieverId]: parseInt(damageDealt > 450 ? 450 : damageDealt) };
+    damageRecieved = { [damageRecieverId]: parseInt(damageDealt > 450 ? 450 : damageDealt) };
   }
   recievedDamage[damageRecieverId] = {...recievedDamage[damageRecieverId], ...damageRecieved}
   damageObject[damageDealerId] = { ...damageObject[damageDealerId], ...damage };

@@ -10,6 +10,7 @@ const Logs = () => {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const [apiResponse, setApiResponse] = useState({});
   const [playersResponse, setPlayersResponse] = useState({});
+  const [playerIconResponse, setPlayerIconResponse] = useState({});
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
   const [damageRecieved, setDamageRecieved] = useState({});
@@ -17,7 +18,7 @@ const Logs = () => {
   const [killSpreadArray, setKillSpreadArray] = useState();
   const [killSpreadSort, setKillSpreadSort] = useState("kills");
   const [playerStatsSort, setPlayerStatSort] = useState("dealt");
-  const [playerStatIconsFocused, setPlayerStatIconsFocused] = useState("Red-engineer")
+
   let roundCount = 1;
   let currentRow = 0;
 
@@ -42,51 +43,25 @@ const Logs = () => {
     console.log("apicall");
     let response = await fetch(`http://localhost:3000/logsplus/${logInfo}`, FetchResultTypes.JSON);
     setApiResponse(response);
-    console.log(response)
     setPlayersResponse(Object.entries(response.players));
+    setPlayerIconResponse(Object.entries(response.players));
   }
 
   function changeDamageVs(playerId) {
     setFocusedPlayer(playerId);
-    while (Object.entries(apiResponse.players[playerId].damage_towards).length !== 9){
-      if (apiResponse.players[playerId].damage_towards["scout"] === undefined) apiResponse.players[playerId].damage_towards.scout = 0;
-      else if (apiResponse.players[playerId].damage_towards["soldier"] === undefined) apiResponse.players[playerId].damage_towards.soldier = 0;
-      else if (apiResponse.players[playerId].damage_towards["pyro"] === undefined) apiResponse.players[playerId].damage_towards.pyro = 0;
-      else if (apiResponse.players[playerId].damage_towards["demoman"] === undefined) apiResponse.players[playerId].damage_towards.demoman = 0;
-      else if (apiResponse.players[playerId].damage_towards["heavyweapons"] === undefined) apiResponse.players[playerId].damage_towards.heavyweapons = 0;
-      else if (apiResponse.players[playerId].damage_towards["engineer"] === undefined) apiResponse.players[playerId].damage_towards.engineer = 0;
-      else if (apiResponse.players[playerId].damage_towards["medic"] === undefined) apiResponse.players[playerId].damage_towards.medic = 0;
-      else if (apiResponse.players[playerId].damage_towards["sniper"] === undefined) apiResponse.players[playerId].damage_towards.sniper = 0;
-      else if (apiResponse.players[playerId].damage_towards["spy"] === undefined) apiResponse.players[playerId].damage_towards.spy = 0;
-    }
+
+    playerIconResponse.map((player) => {
+      if(apiResponse.players[playerId].damage_towards[player[0]] === undefined && apiResponse.players[playerId].team !==  apiResponse.players[player[0]].team) apiResponse.players[playerId].damage_towards[player[0]] = 0;
+      if(apiResponse.players[playerId].damage_from[player[0]] === undefined && apiResponse.players[playerId].team !==  apiResponse.players[player[0]].team) apiResponse.players[playerId].damage_from[player[0]] = 0;
+    })
+
     const sortedDamage = Object.entries(apiResponse.players[playerId].damage_towards)
       .sort(([, b], [, a]) => a - b)
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     setDamageStats(Object.entries(sortedDamage));
-    setPlayerStatIconsFocused(`${apiResponse.players[playerId].team}-${apiResponse.players[playerId].class}`);
-    while (Object.entries(apiResponse.players[playerId].damage_from).length !== 9){
-      if (apiResponse.players[playerId].damage_from["scout"] === undefined) apiResponse.players[playerId].damage_from.scout = 0;
-      else if (apiResponse.players[playerId].damage_from["soldier"] === undefined) apiResponse.players[playerId].damage_from.soldier = 0;
-      else if (apiResponse.players[playerId].damage_from["pyro"] === undefined) apiResponse.players[playerId].damage_from.pyro = 0;
-      else if (apiResponse.players[playerId].damage_from["demoman"] === undefined) apiResponse.players[playerId].damage_from.demoman = 0;
-      else if (apiResponse.players[playerId].damage_from["heavyweapons"] === undefined) apiResponse.players[playerId].damage_from.heavyweapons = 0;
-      else if (apiResponse.players[playerId].damage_from["engineer"] === undefined) apiResponse.players[playerId].damage_from.engineer = 0;
-      else if (apiResponse.players[playerId].damage_from["medic"] === undefined) apiResponse.players[playerId].damage_from.medic = 0;
-      else if (apiResponse.players[playerId].damage_from["sniper"] === undefined) apiResponse.players[playerId].damage_from.sniper = 0;
-      else if (apiResponse.players[playerId].damage_from["spy"] === undefined) apiResponse.players[playerId].damage_from.spy = 0;
-    }
-
-
     setDamageRecieved(Object.entries(apiResponse.players[playerId].damage_from)
       .sort(([, b], [, a]) => a - b)
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}));
-  }
-
-  function playerFinder(team, classPlayed) {
-    setPlayerStatIconsFocused(`${team}-${classPlayed}`);
-    playersResponse.map((player) => {
-      if (player[1].team === team && player[1].class === classPlayed) changeDamageVs(player[0])
-    })
   }
 
   function sortKillSpread(row) {
@@ -191,7 +166,6 @@ const Logs = () => {
     }
   }
   if (apiResponse.matchInfo !== undefined) {
-    console.log(apiResponse.matchInfo)
     return (
       <LogsPageWrapper>
         <LogsSectionWrapper>
@@ -283,26 +257,22 @@ const Logs = () => {
             <Individuals>
               <ClassIconsWrapper>
                 <TeamIcons>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-scout" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "scout") }} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-soldier" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "soldier") }} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-pyro" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "pyro") }} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-demoman" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "demoman") }} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-heavyweapons" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "heavyweapons") }} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-engineer" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "engineer") }} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-medic" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "medic") }} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-sniper" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "sniper") }} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIconBlue>
-                  <ClassIconBlue style={playerStatIconsFocused === "Blue-spy" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Blue", "spy") }} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIconBlue>
+                {playerIconResponse.map((player) => {
+                  if(player[1].team === "Blue"){
+                    return( 
+                    <ClassIconBlue style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIconBlue>
+                    )
+                  }
+                })}
                 </TeamIcons>
                 <TeamIcons>
-                  <ClassIcon style={playerStatIconsFocused === "Red-scout" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "scout") }} src="https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-soldier" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "soldier") }} src="https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-pyro" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "pyro") }} src="https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-demoman" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "demoman") }} src="https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-heavyweapons" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "heavyweapons") }} src="https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-engineer" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "engineer") }} src="https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-medic" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "medic") }} src="https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-sniper" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "sniper") }} src="https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png"></ClassIcon>
-                  <ClassIcon style={playerStatIconsFocused === "Red-spy" ? { border: "3px solid #fff" } : {}} onClick={() => { playerFinder("Red", "spy") }} src="https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png"></ClassIcon>
+                {playerIconResponse.map((player) => {
+                  if(player[1].team === "Red"){
+                    return( 
+                    <ClassIcon tooltip="hey" style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIcon>
+                    )
+                  }
+                })}
                 </TeamIcons>
               </ClassIconsWrapper>
               <DamageVersus>
@@ -332,20 +302,20 @@ const Logs = () => {
                     </SectionTitle>
                     <StatsWrapper>
                       {playerStatsSort === "dealt" && damageStats.map((player) => {
-                        const widthIndex = damageStats[0][1] / 210;
-                        const damageRecievedWidth = Object.entries(damageRecieved)[0][1] / 210;
+                        const widthIndex = (Object.entries(damageRecieved)[0][1] > damageStats[0][1] ? Object.entries(damageRecieved)[0][1] : damageStats[0][1]) / 210
                         return (
                           <VsStat>
                             <DamageRecievedBar style={{
-                              width: (damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]] / damageRecievedWidth),
+                              width: (damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]] / widthIndex),
                               background: `${apiResponse.players[focusedPlayer] === undefined ?
                                 apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
                                 apiResponse.players[focusedPlayer].team === "Red" ? "#5B7A8C" : "#BD3B3B"}`,
                               "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
                                 apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`,
+                              padding: `${damageRecieved[player[0]] < 200 ? "4px 0px 4px 0px" : "4px 8px 4px 8px"}`,
                             }}>{damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]]}</DamageRecievedBar>
-                            <ClassAgainst src={classNameToIconURL(player[0])} />
+                            <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
                             <DamageBar style={{
                               width: (player[1] / widthIndex),
                               background: `${apiResponse.players[focusedPlayer] === undefined ?
@@ -353,26 +323,27 @@ const Logs = () => {
                                 apiResponse.players[focusedPlayer].team === "Red" ? "#BD3B3B" : "#5B7A8C"}`,
                               "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
                                 apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`,
+                              padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
                             }}>{player[1]}</DamageBar>
                           </VsStat>
                         );
                       })}
                       {playerStatsSort === "recieved" && Object.entries(damageRecieved).map((player) => {
-                        const widthIndex = damageStats[0][1] / 210;
-                        const damageRecievedWidth = Object.entries(damageRecieved)[0][1] / 210;
+                        const widthIndex = (Object.entries(damageRecieved)[0][1] > damageStats[0][1] ? Object.entries(damageRecieved)[0][1] : damageStats[0][1]) / 210
                         return (
                           <VsStat>
                             <DamageRecievedBar style={{
-                              width: (player[1] / damageRecievedWidth),
+                              width: (player[1] / widthIndex),
                               background: `${apiResponse.players[focusedPlayer] === undefined ?
                                 apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
                                 apiResponse.players[focusedPlayer].team === "Red" ? "#5B7A8C" : "#BD3B3B"}`,
                               "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
                                 apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`,
+                              padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
                             }}>{player[1]}</DamageRecievedBar>
-                            <ClassAgainst src={classNameToIconURL(player[0])} />
+                            <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
                             <DamageBar style={{
                               width: (Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]] / widthIndex),
                               background: `${apiResponse.players[focusedPlayer] === undefined ?
@@ -380,7 +351,8 @@ const Logs = () => {
                                 apiResponse.players[focusedPlayer].team === "Red" ? "#BD3B3B" : "#5B7A8C"}`,
                               "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
                                 apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`,
+                                padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
                             }}>{Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]]}</DamageBar>
                           </VsStat>
                         );
