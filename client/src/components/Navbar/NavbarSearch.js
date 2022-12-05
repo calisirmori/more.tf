@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ContactHeader, ContentHeaders, Header, InputButton, InputField, InputSection, Logo, NavbarWrapper } from './NavbarStyles';
 
-const Navbar = () => {
+const NavbarSearch = () => {
   const [logInput, setLogInput] = useState("");
 
   useEffect(() => {
@@ -21,8 +21,12 @@ const Navbar = () => {
   }
   return (
     <>
-        <NavbarWrapper style={{gridTemplateColumns: "1fr 1fr"}}>
+        <NavbarWrapper>
             <Logo to="/">more.tf</Logo>
+            <InputSection>
+                  <InputField placeholder="logs.tf/3307591" onChange={e => setLogInput(e.target.value)} value={logInput}></InputField>
+                  <InputButton to = {`${linkMaker(logInput)}`}>GO</InputButton>
+            </InputSection>
             <ContentHeaders>
                 <ContactHeader href="https://discord.gg/ZbYQGWbUnx" target="_blank">Contact</ContactHeader>
                 <Header to="/season-summary">S13 Summary</Header>
@@ -32,4 +36,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar;
+export default NavbarSearch;

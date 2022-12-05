@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BlueTeam, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconBlue, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayerName, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RedTeam, RightSideInfo, Score, SectionTitle, SmallButton, SmallHeaders, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconBlue, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RightSideInfo, Score, SectionTitle, SmallButton, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 
 const Logs = () => {
@@ -22,7 +22,7 @@ const Logs = () => {
   let currentRow = 0;
 
   useEffect(() => {
-    if (playersResponse.length != undefined) {
+    if (playersResponse.length !== undefined) {
       sortByRow("team");
       changeDamageVs(Object.entries(apiResponse.players)[0][0]);
       sortKillSpread("kills");
@@ -40,14 +40,15 @@ const Logs = () => {
 
   async function apiCall() {
     console.log("apicall");
-    let response = await fetch(`https://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
+    let response = await fetch(`http://localhost:3000/logsplus/${logInfo}`, FetchResultTypes.JSON);
     setApiResponse(response);
+    console.log(response)
     setPlayersResponse(Object.entries(response.players));
   }
 
   function changeDamageVs(playerId) {
     setFocusedPlayer(playerId);
-    while (Object.entries(apiResponse.players[playerId].damage_towards).length != 9){
+    while (Object.entries(apiResponse.players[playerId].damage_towards).length !== 9){
       if (apiResponse.players[playerId].damage_towards["scout"] === undefined) apiResponse.players[playerId].damage_towards.scout = 0;
       else if (apiResponse.players[playerId].damage_towards["soldier"] === undefined) apiResponse.players[playerId].damage_towards.soldier = 0;
       else if (apiResponse.players[playerId].damage_towards["pyro"] === undefined) apiResponse.players[playerId].damage_towards.pyro = 0;
@@ -63,8 +64,7 @@ const Logs = () => {
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
     setDamageStats(Object.entries(sortedDamage));
     setPlayerStatIconsFocused(`${apiResponse.players[playerId].team}-${apiResponse.players[playerId].class}`);
-    console.log(Object.entries(apiResponse.players[playerId].damage_from).length)
-    while (Object.entries(apiResponse.players[playerId].damage_from).length != 9){
+    while (Object.entries(apiResponse.players[playerId].damage_from).length !== 9){
       if (apiResponse.players[playerId].damage_from["scout"] === undefined) apiResponse.players[playerId].damage_from.scout = 0;
       else if (apiResponse.players[playerId].damage_from["soldier"] === undefined) apiResponse.players[playerId].damage_from.soldier = 0;
       else if (apiResponse.players[playerId].damage_from["pyro"] === undefined) apiResponse.players[playerId].damage_from.pyro = 0;
@@ -168,7 +168,7 @@ const Logs = () => {
     var array = [];
     let arrayLength = playersResponse.length;
 
-    if (row == "team" && sort !== row) {
+    if (row === "team" && sort !== row) {
       playersResponse.map((player) => {
         player[1][row] === "Blue" ? array.unshift(player) : array.push(player);
       })
@@ -190,8 +190,8 @@ const Logs = () => {
       setPlayersResponse(array);
     }
   }
-
   if (apiResponse.matchInfo !== undefined) {
+    console.log(apiResponse.matchInfo)
     return (
       <LogsPageWrapper>
         <LogsSectionWrapper>
@@ -252,8 +252,8 @@ const Logs = () => {
             </PlayerLogTitle>
             {playersResponse.map((player) => {
               return (
-                <PlayerCard style={player[1].team == "Red" ? { background: "#a33333", borderBottom: "3px solid #8a2b2b" } : { background: "#4b6473", borderBottom: "3px solid #3a4e59" }}>
-                  <Team style={player[1].team == "Red" ? { background: "#a33333" } : { background: "#4b6473" }}>{player[1].team}</Team>
+                <PlayerCard style={player[1].team === "Red" ? { background: "#a33333", borderBottom: "3px solid #8a2b2b" } : { background: "#4b6473", borderBottom: "3px solid #3a4e59" }}>
+                  <Team style={player[1].team === "Red" ? { background: "#a33333" } : { background: "#4b6473" }}>{player[1].team}</Team>
                   <PlayerUsername onClick={() => { changeDamageVs(player[0]) }}>{player[1].userName}</PlayerUsername>
                   <Class src={player[1].classIconURL}></Class>
                   <Kills>{player[1].kills}</Kills>
@@ -307,22 +307,22 @@ const Logs = () => {
               </ClassIconsWrapper>
               <DamageVersus>
                 <DamageVersusHeader style={{
-                  background: `${apiResponse.players[focusedPlayer] == undefined ?
-                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
-                    apiResponse.players[focusedPlayer].team == "Blue" ? "#5B7A8C" : "#BD3B3B"}`,
-                  "borderBottom": `${apiResponse.players[focusedPlayer] == undefined ?
-                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
-                    apiResponse.players[focusedPlayer].team == "Blue" ? "4px solid #395C79" : "4px solid #9D312F"}`
-                }}>{apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName : apiResponse.players[focusedPlayer].userName}</DamageVersusHeader>
+                  background: `${apiResponse.players[focusedPlayer] === undefined ?
+                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                    apiResponse.players[focusedPlayer].team === "Blue" ? "#5B7A8C" : "#BD3B3B"}`,
+                  "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                    apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                    apiResponse.players[focusedPlayer].team === "Blue" ? "4px solid #395C79" : "4px solid #9D312F"}`
+                }}>{apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].userName : apiResponse.players[focusedPlayer].userName}</DamageVersusHeader>
                 <PlayerStatsWrapper>
                   <ClassImage src={apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].classImageURL : apiResponse.players[focusedPlayer].classImageURL}></ClassImage>
                   <PlayerVsStats>
                     <InfoSection>
                       <InfoButtons>
-                        <SmallButton target="_blank" href={`https://steamcommunity.com/profiles/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >STEAM</SmallButton>
-                        <SmallButton target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} > RGL</SmallButton>
-                        <SmallButton target="_blank" href={`https://etf2l.org/search/${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >ETF2L</SmallButton>
-                        <SmallButton target="_blank" href={`https://www.ugcleague.com/players_page.cfm?player_id=${apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >UGC</SmallButton>
+                        <SmallButton target="_blank" href={`https://steamcommunity.com/profiles/${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >STEAM</SmallButton>
+                        <SmallButton target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} > RGL</SmallButton>
+                        <SmallButton target="_blank" href={`https://etf2l.org/search/${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >ETF2L</SmallButton>
+                        <SmallButton target="_blank" href={`https://www.ugcleague.com/players_page.cfm?player_id=${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >UGC</SmallButton>
                       </InfoButtons>
                     </InfoSection>
                     <SectionTitle>
@@ -338,22 +338,22 @@ const Logs = () => {
                           <VsStat>
                             <DamageRecievedBar style={{
                               width: (damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]] / damageRecievedWidth),
-                              background: `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "#5B7A8C" : "#BD3B3B"}`,
-                              "borderBottom": `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`
+                              background: `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "#5B7A8C" : "#BD3B3B"}`,
+                              "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`
                             }}>{damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]]}</DamageRecievedBar>
                             <ClassAgainst src={classNameToIconURL(player[0])} />
                             <DamageBar style={{
                               width: (player[1] / widthIndex),
-                              background: `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C"}`,
-                              "borderBottom": `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`
+                              background: `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "#BD3B3B" : "#5B7A8C"}`,
+                              "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`
                             }}>{player[1]}</DamageBar>
                           </VsStat>
                         );
@@ -365,22 +365,22 @@ const Logs = () => {
                           <VsStat>
                             <DamageRecievedBar style={{
                               width: (player[1] / damageRecievedWidth),
-                              background: `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "#5B7A8C" : "#BD3B3B"}`,
-                              "borderBottom": `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`
+                              background: `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "#5B7A8C" : "#BD3B3B"}`,
+                              "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`
                             }}>{player[1]}</DamageRecievedBar>
                             <ClassAgainst src={classNameToIconURL(player[0])} />
                             <DamageBar style={{
                               width: (Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]] / widthIndex),
-                              background: `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C"}`,
-                              "borderBottom": `${apiResponse.players[focusedPlayer] == undefined ?
-                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
-                                apiResponse.players[focusedPlayer].team == "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`
+                              background: `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "#BD3B3B" : "#5B7A8C"}`,
+                              "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`
                             }}>{Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]]}</DamageBar>
                           </VsStat>
                         );
@@ -389,9 +389,9 @@ const Logs = () => {
                   </PlayerVsStats>
                 </PlayerStatsWrapper>
               </DamageVersus>
-              <KillMap>
+              <KillMap style={apiResponse.matchInfo.combined === true ? {display: "none"} : {}}>
                 <Map src={apiResponse.matchInfo.mapImageURL}></Map>
-                {(apiResponse.players[focusedPlayer] == undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].events : apiResponse.players[focusedPlayer].events).map((location) => {
+                {(apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].events : apiResponse.players[focusedPlayer].events).map((location) => {
                   let killerX = location.killer_location.x / 17.8;
                   let killerY = location.killer_location.y / 17.8;
                   let victimX = location.victim_location.x / 17.8;
@@ -406,14 +406,14 @@ const Logs = () => {
                                             ${victimX + centerLineOffset + xOffset},${victimY + centerLineOffset + 340 + yoffset}`} style={{ stroke: "#FFC000" }}></Arrow>
                       </SvgArrow>
                       <Killer style={{
-                        background: `${apiResponse.players[focusedPlayer] == undefined ?
-                          apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Red" ? "#BD3B3B" : "#5B7A8C" :
-                          apiResponse.players[focusedPlayer].team == "Red" ? "#BD3B3B" : "#5B7A8C"}`, left: killerX + xOffset, bottom: killerY + 340 + yoffset
+                        background: `${apiResponse.players[focusedPlayer] === undefined ?
+                          apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "#BD3B3B" : "#5B7A8C" :
+                          apiResponse.players[focusedPlayer].team === "Red" ? "#BD3B3B" : "#5B7A8C"}`, left: killerX + xOffset, bottom: killerY + 340 + yoffset
                       }}></Killer>
                       <Victim style={{
-                        background: `${apiResponse.players[focusedPlayer] == undefined ?
-                          apiResponse.players[Object.entries(apiResponse.players)[0][0]].team == "Blue" ? "#BD3B3B" : "#5B7A8C" :
-                          apiResponse.players[focusedPlayer].team == "Blue" ? "#BD3B3B" : "#5B7A8C"}`, left: victimX + xOffset, bottom: victimY + 340 + yoffset
+                        background: `${apiResponse.players[focusedPlayer] === undefined ?
+                          apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                          apiResponse.players[focusedPlayer].team === "Blue" ? "#BD3B3B" : "#5B7A8C"}`, left: victimX + xOffset, bottom: victimY + 340 + yoffset
                       }}></Victim>
                     </KillImage>
                   );
@@ -428,7 +428,7 @@ const Logs = () => {
                     {
                       playersResponse.map((playerinfo) => {
                         return (
-                          <SmallPlayerCard style={playerinfo[1].team == "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
+                          <SmallPlayerCard style={playerinfo[1].team === "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
                             <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
                             <Name>{playerinfo[1].userName}</Name>
                             <Amount>{playerinfo[1].objectkills}</Amount>
@@ -444,9 +444,9 @@ const Logs = () => {
                   <Label>PLAYERS EXTINGUISHED</Label>
                   {
                     playersResponse.map((playerinfo) => {
-                      if (playerinfo[1].extinguished != 0) {
+                      if (playerinfo[1].extinguished !== 0) {
                         return (
-                          <SmallPlayerCard style={playerinfo[1].team == "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
+                          <SmallPlayerCard style={playerinfo[1].team === "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
                             <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
                             <Name>{playerinfo[1].userName}</Name>
                             <Amount>{playerinfo[1].extinguished}</Amount>
@@ -460,9 +460,9 @@ const Logs = () => {
                   <Label>BUILDING COUNT</Label>
                   {
                     playersResponse.map((playerinfo) => {
-                      if (playerinfo[1].objectbuilds != 0) {
+                      if (playerinfo[1].objectbuilds !== 0) {
                         return (
-                          <SmallPlayerCard style={playerinfo[1].team == "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
+                          <SmallPlayerCard style={playerinfo[1].team === "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
                             <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
                             <Name>{playerinfo[1].userName}</Name>
                             <Amount>{playerinfo[1].objectbuilds}</Amount>
@@ -478,7 +478,7 @@ const Logs = () => {
                     playersResponse.map((playerinfo) => {
                       if (playerinfo[1].domination >= 2) {
                         return (
-                          <SmallPlayerCard style={playerinfo[1].team == "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
+                          <SmallPlayerCard style={playerinfo[1].team === "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
                             <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
                             <Name>{playerinfo[1].userName}</Name>
                             <Amount>{playerinfo[1].domination}</Amount>
@@ -496,7 +496,7 @@ const Logs = () => {
                     {
                       playersResponse.map((playerinfo) => {
                         return (
-                          <SmallPlayerCard style={playerinfo[1].team == "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
+                          <SmallPlayerCard style={playerinfo[1].team === "Blue" ? { "backgroundColor": "#5B7A8C" } : { "backgroundColor": "#9D312F" }}>
                             <SmallIcon src={playerinfo[1].classIconURL}></SmallIcon>
                             <Name>{playerinfo[1].userName}</Name>
                             <Amount>{playerinfo[1].ammopickup}</Amount>
@@ -651,9 +651,9 @@ const Logs = () => {
                 <PerPlayerStat style={killSpreadSort === "kills" ? { fontWeight: 800, color: "#000", background: "#f08149", cursor: "pointer" } : { fontWeight: 800, cursor: "pointer" }} onClick={() => { sortKillSpread("kills") }}>K</PerPlayerStat>
               </PerPlayerCard>
               {
-                killSpreadArray != undefined && killSpreadArray.map((player, index) => {
+                killSpreadArray !== undefined && killSpreadArray.map((player, index) => {
                   return (
-                    <PerPlayerCard style={currentRow++ % 2 == 1 ? { background: "#191919" } : {}}>
+                    <PerPlayerCard style={currentRow++ % 2 === 1 ? { background: "#191919" } : {}}>
                       <PerPlayerStat style={apiResponse.players[player[0]].team === "Blue" ? { color: "#5B7A8C", border: "none", fontWeight: 800 } : { color: "#BD3B3B", border: "none", fontWeight: 800 }}>{apiResponse.players[player[0]].team}</PerPlayerStat>
                       <PerPlayerStat>{apiResponse.names[player[0]]}</PerPlayerStat>
                       <PerPlayerClass src={apiResponse.players[player[0]].classIconURL}></PerPlayerClass>

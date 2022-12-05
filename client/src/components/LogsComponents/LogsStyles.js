@@ -351,7 +351,7 @@ export const DamageVersus = styled.div`
     height: 540px;
     border-radius: 5px;
     background-color: #171616;
-    margin: 0 20px;
+    margin: 20px 20px;
 `;
 export const DamageVersusHeader = styled.div`
     height: 35px;

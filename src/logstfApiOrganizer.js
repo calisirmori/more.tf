@@ -1,7 +1,6 @@
 const { fetch, FetchResultTypes } = require("@sapphire/fetch");
 
-let gameIsCombined = 0;
-let totalPauseLength = 0;
+
 
 async function organize(logsApiInput,textInput,gameId){
   
@@ -21,13 +20,14 @@ async function organize(logsApiInput,textInput,gameId){
   let killSpreadObject = {killSpread : logsApiInput.classkills};
   let chatObject = {chat : logsApiInput.chat};
   let playerObject = playerInfo(logsApiInput,textInput)
-  let matchInfoObject = await matchInfo(logsApiInput,gameId)  
-  let finalObject = {...idObject, ...matchInfoObject,...teamsObject, ...playerObject, ...namesObject, ...roundsObject, ...healSpreadsObject, ...killSpreadObject, ...chatObject}
+  let matchInfoObject = await matchInfo(logsApiInput,gameId,playerObject.combined,playerObject.pause)  
+  let finalObject = {...idObject, ...matchInfoObject,...teamsObject, ...{players: playerObject.players}, ...namesObject, ...roundsObject, ...healSpreadsObject, ...killSpreadObject, ...chatObject}
   return finalObject;
 }
 
-async function matchInfo(logsApiInput,gameId){
+async function matchInfo(logsApiInput,gameId,combinedStatus, pauseLentgh){
   let randomPlayerID = id3toid64(Object.keys(logsApiInput.players)[0]);
+  
   let matchInfoObject = {
     "matchInfo" : {
     "logsID" : gameId,
@@ -43,8 +43,8 @@ async function matchInfo(logsApiInput,gameId){
     "totalLength": logsApiInput.info.total_length,
     "title": logsApiInput.info.title,
     "date": logsApiInput.info.date,
-    "combined": gameIsCombined,
-    "pause": totalPauseLength
+    "combined": combinedStatus,
+    "pause": pauseLentgh
     }
   }
   return(matchInfoObject);
@@ -109,11 +109,12 @@ function playerInfo(logsApiInput,textInput){
       }
     }
   }
-  return ({players: playerObject})
+  return ({players: playerObject, combined: events.combined, pause: events.pause})
 }
 
 function eventsHandler(textInput,logsApiInput,outputObject){
-
+  let gameIsCombined = 0;
+  let totalPauseLength = 0;
   let gameIsActive = false;
   let stringArray = textInput.split(/\r?\n/);
   let killsArray = [], damageValues = [], damageObject = {}, recievedDamage = {};
@@ -124,7 +125,6 @@ function eventsHandler(textInput,logsApiInput,outputObject){
     "player_builtobject": {},
     "ammopickup": {},
   }
-
   stringArray.map((eventLog) =>{
     if(eventLog.includes("Round_Start")) gameIsActive = true;
     else if (eventLog.includes("Round_Win")) gameIsActive = false;
@@ -136,7 +136,7 @@ function eventsHandler(textInput,logsApiInput,outputObject){
     else if (eventLog.includes("domination")) smallStats("domination",eventLog, smallEvents);
     else if (eventLog.includes("picked")) smallStats("picked",eventLog, smallEvents);
     else if (eventLog.includes("Game_Over")) gameIsCombined++;
-    else if (eventLog.includes("Pause_Length")) {
+    else if (eventLog.includes("Pause_Length"))  {
       totalPauseLength += parseInt(eventLog.split('"')[3]);
     };
   })
