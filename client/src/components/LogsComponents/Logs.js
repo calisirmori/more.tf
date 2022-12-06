@@ -41,7 +41,7 @@ const Logs = () => {
 
   async function apiCall() {
     console.log("apicall");
-    let response = await fetch(`http://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
+    let response = await fetch(`https://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
     setApiResponse(response);
     setPlayersResponse(Object.entries(response.players));
     setPlayerIconResponse(Object.entries(response.players));
