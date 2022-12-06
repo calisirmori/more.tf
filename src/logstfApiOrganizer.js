@@ -268,9 +268,9 @@ function DamageIconMaker(input,team) {
 
 function mapStats(map){
     let outputObject = {
-      URL : "",
-      xOffset : 0,
-      yOffset : 0,
+      URL : "https://i.imgur.com/kFvrhXW.png",
+      xOffset : 255,
+      yOffset : -43,
       scale: 17.8,
     }
     if(map.includes("swift")) {
@@ -297,6 +297,38 @@ function mapStats(map){
       outputObject.URL = "https://i.imgur.com/1RW16HF.png";
       outputObject.xOffset = 258;
       outputObject.yOffset = -68;
+    } else if (map.includes("steel")) {
+      outputObject.URL = "https://i.imgur.com/GBbqE7I.png"
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -43;
+    } else if (map.includes("sunshine")) {
+      outputObject.URL = "https://i.imgur.com/NLFt2qZ.png"
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -43;
+    } else if (map.includes("snake")) {
+      outputObject.URL = "https://i.imgur.com/Pq5OgYF.png"
+      outputObject.xOffset = 230;
+      outputObject.yOffset = -43;
+      outputObject.scale = 24;
+    } else if (map.includes("metal")) {
+      outputObject.URL = "https://i.imgur.com/p9oXMvy.png"
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -43;
+    } else if (map.includes("gully")) {
+      outputObject.URL = "https://i.imgur.com/4mH3BYJ.png"
+      outputObject.xOffset = 225;
+      outputObject.yOffset = -43;
+      outputObject.scale = 21;
+    } else if (map.includes("process")) {
+      outputObject.URL = "https://i.imgur.com/04uFy10.png"
+      outputObject.xOffset = 260;
+      outputObject.yOffset = -65;
+      outputObject.scale = 21;
+    } else if (map.includes("bagel")) {
+      outputObject.URL = "https://i.imgur.com/2qbaVMG.png"
+      outputObject.xOffset = 270;
+      outputObject.yOffset = -57;
+      outputObject.scale = 23;
     } else if (map.includes("steel")) {
       outputObject.URL = "https://i.imgur.com/GBbqE7I.png"
       outputObject.xOffset = 255;
