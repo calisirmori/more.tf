@@ -8,6 +8,7 @@ const NavbarSearch = () => {
   }, [logInput])
   
   function linkMaker(inputLink){
+    console.log(inputLink)
     if(inputLink.includes("logs.tf") && !inputLink.includes("#")){
       inputLink.split("/")
       return("/log/"+inputLink.slice(inputLink.lastIndexOf("/")+1))
@@ -25,7 +26,7 @@ const NavbarSearch = () => {
             <Logo to="/">more.tf</Logo>
             <InputSection>
                   <InputField placeholder="logs.tf/3307591" onChange={e => setLogInput(e.target.value)} value={logInput}></InputField>
-                  <InputButton to = {`${linkMaker(logInput)}`}>GO</InputButton>
+                  <InputButton to= {linkMaker(logInput)}>GO</InputButton>
             </InputSection>
             <ContentHeaders>
                 <ContactHeader href="https://discord.gg/ZbYQGWbUnx" target="_blank">Contact</ContactHeader>

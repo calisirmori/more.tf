@@ -26,7 +26,7 @@ const Home = () => {
           <HeroText>
             <H3Header>LEARN MORE FROM TF2</H3Header>
             <MainHeader>NUMBERS BEHIND YOUR GAME</MainHeader>
-            <H4Header>Get a better look into your statistics and learn more about how you play, simply put in your logs.tf link to learn so much more!</H4Header>
+            <H4Header>Get a better look into your statistics and learn more about how you play, simply put in your matches logs.tf link to learn so much more!</H4Header>
             <InputSection>
               <InputField placeholder="logs.tf/3307591" onChange={e => setLogInput(e.target.value)} value={logInput}></InputField>
               <InputButton to = {`${linkMaker(logInput)}`}>GET STARTED</InputButton>

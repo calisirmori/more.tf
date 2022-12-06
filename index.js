@@ -20,17 +20,25 @@ app.get('/api/season-13-summary', (req, result) => {
   result.json(summaryObject);
 });
 
-app.get('/logsplus/:id', async (req, res) => {
-  const matchId = req.params.id;
-  const logsApiResponse = await fetch(`https://logs.tf/api/v1/log/${matchId}`, FetchResultTypes.JSON);
+app.get('/logsplus/:id', async (req, res, error) => {
+  let matchId = req.params.id;
+  matchId = parseInt(matchId)
+  if( !isNaN(parseInt(matchId, 10)) > 0 && matchId < Number.MAX_SAFE_INTEGER){
+    try {
+      const logsApiResponse = await fetch(`https://logs.tf/api/v1/log/${matchId}`, FetchResultTypes.JSON);
 
-  const buffer = await fetch(`http://logs.tf/logs/log_${matchId}.log.zip`, FetchResultTypes.Buffer);
-
-  const zip = new AdmZip(buffer);
-  const zipEntries = zip.getEntries();
-  const textFile = zipEntries[0].getData().toString();
-
-  res.json(await logstfApiOrganizer.organize(logsApiResponse, textFile, matchId));
+      const buffer = await fetch(`http://logs.tf/logs/log_${matchId}.log.zip`, FetchResultTypes.Buffer);
+      
+      const zip = new AdmZip(buffer);
+      const zipEntries = zip.getEntries();
+      const textFile = zipEntries[0].getData().toString();
+  
+      res.json(await logstfApiOrganizer.organize(logsApiResponse, textFile, matchId));
+    } catch (error) {
+      res.status(404).json('Bad Log ID');
+    }
+    
+  }
 });
 
 app.use(express.static(path.join(__dirname, "/client/build")));

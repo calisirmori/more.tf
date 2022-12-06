@@ -6,7 +6,6 @@ const Logs = () => {
   const id = window.location.href;
   const idArray = id.split('/');
   const logInfo = idArray[4];
-
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const [apiResponse, setApiResponse] = useState({});
   const [playersResponse, setPlayersResponse] = useState({});
@@ -18,7 +17,6 @@ const Logs = () => {
   const [killSpreadArray, setKillSpreadArray] = useState();
   const [killSpreadSort, setKillSpreadSort] = useState("kills");
   const [playerStatsSort, setPlayerStatSort] = useState("dealt");
-
   let roundCount = 1;
   let currentRow = 0;
 
@@ -41,10 +39,14 @@ const Logs = () => {
 
   async function apiCall() {
     console.log("apicall");
-    let response = await fetch(`https://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
-    setApiResponse(response);
-    setPlayersResponse(Object.entries(response.players));
-    setPlayerIconResponse(Object.entries(response.players));
+    try {
+      let response = await fetch(`https://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
+      setApiResponse(response);
+      setPlayersResponse(Object.entries(response.players));
+      setPlayerIconResponse(Object.entries(response.players));
+    } catch (error) {
+      console.log("bad")
+    }
   }
 
   function changeDamageVs(playerId) {

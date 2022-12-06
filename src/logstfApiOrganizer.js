@@ -303,8 +303,9 @@ function mapStats(map){
       outputObject.yOffset = -43;
     } else if (map.includes("sunshine")) {
       outputObject.URL = "https://i.imgur.com/NLFt2qZ.png"
-      outputObject.xOffset = 255;
-      outputObject.yOffset = -43;
+      outputObject.xOffset = 555;
+      outputObject.yOffset = -335;
+      outputObject.scale = 21;
     } else if (map.includes("snake")) {
       outputObject.URL = "https://i.imgur.com/Pq5OgYF.png"
       outputObject.xOffset = 230;
