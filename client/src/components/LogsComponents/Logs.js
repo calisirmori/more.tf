@@ -41,7 +41,7 @@ const Logs = () => {
 
   async function apiCall() {
     console.log("apicall");
-    let response = await fetch(`http://localhost:3000/logsplus/${logInfo}`, FetchResultTypes.JSON);
+    let response = await fetch(`http://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
     setApiResponse(response);
     setPlayersResponse(Object.entries(response.players));
     setPlayerIconResponse(Object.entries(response.players));
@@ -101,42 +101,6 @@ const Logs = () => {
       setKillSpreadArray(sortedArray);
     }
   }
-
-  function classNameToIconURL(input) {
-    var output = "";
-    switch (input) {
-      case "scout":
-        output = "https://wiki.teamfortress.com/w/images/a/ad/Leaderboard_class_scout.png";
-        break;
-      case "soldier":
-        output = "https://wiki.teamfortress.com/w/images/9/96/Leaderboard_class_soldier.png";
-        break;
-      case "pyro":
-        output = "https://wiki.teamfortress.com/w/images/8/80/Leaderboard_class_pyro.png";
-        break;
-      case "demoman":
-        output = "https://wiki.teamfortress.com/w/images/4/47/Leaderboard_class_demoman.png";
-        break;
-      case "heavyweapons":
-        output = "https://wiki.teamfortress.com/w/images/5/5a/Leaderboard_class_heavy.png";
-        break;
-      case "engineer":
-        output = "https://wiki.teamfortress.com/w/images/1/12/Leaderboard_class_engineer.png";
-        break;
-      case "medic":
-        output = "https://wiki.teamfortress.com/w/images/e/e5/Leaderboard_class_medic.png";
-        break;
-      case "sniper":
-        output = "https://wiki.teamfortress.com/w/images/f/fe/Leaderboard_class_sniper.png";
-        break;
-      case "spy":
-        output = "https://wiki.teamfortress.com/w/images/3/33/Leaderboard_class_spy.png";
-        break;
-      default:
-        break;
-    };
-    return output;
-  };
 
   function sortByRow(row) {
     setSort(row);
@@ -549,7 +513,7 @@ const Logs = () => {
             </TeamStatsWrapper>
           </PerRoundStats>
           <Medics>
-            <MedicsWrapper>
+            <MedicsWrapper style={Object.entries(apiResponse.healSpread).length < 3 ? {display: "flex"} : {gridTemplateColumns:" repeat(3, 1fr)"}}>
               {Object.entries(apiResponse.healSpread).map((healer) => {
                 return (
                   <Healer>
@@ -570,17 +534,17 @@ const Logs = () => {
                       <HealerStatTitle>Drops</HealerStatTitle>
                       <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].drops === undefined ? 0 : apiResponse.players[healer[0]].drops))}</StatNumber>
                       <HealerStatTitle>Avg time to build</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_to_build === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_time_to_build))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_time_to_build))}</StatNumber>
                       <HealerStatTitle>Avg time before using</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_time_before_using === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_time_before_using))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_time_before_using))}</StatNumber>
                       <HealerStatTitle>Near full charge deaths</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber === undefined ? 0 : apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats === undefined ? 0 : apiResponse.players[healer[0]].medicStats.deaths_with_95_99_uber))}</StatNumber>
                       <HealerStatTitle>Avg uber length</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.avg_uber_length === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_uber_length))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats === undefined ? 0 : apiResponse.players[healer[0]].medicStats.avg_uber_length))}</StatNumber>
                       <HealerStatTitle>Deaths after charge</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber === undefined ? 0 : apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats === undefined ? 0 : apiResponse.players[healer[0]].medicStats.deaths_within_20s_after_uber))}</StatNumber>
                       <HealerStatTitle>Advantage lost</HealerStatTitle>
-                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats.advantages_lost === undefined ? 0 : apiResponse.players[healer[0]].medicStats.advantages_lost))}</StatNumber>
+                      <StatNumber>{Math.ceil(parseInt(apiResponse.players[healer[0]].medicStats === undefined ? 0 : apiResponse.players[healer[0]].medicStats.advantages_lost))}</StatNumber>
                     </HealerStats>
                     <HealSpread style={apiResponse.players[healer[0]].team === "Blue" ? { borderTop: "3px solid #5B7A8C" } : { borderTop: "3px solid #BD3B3B" }}>
                       <HealedPlayer style={{ fontWeight: "800" }}>

@@ -681,14 +681,16 @@ export const Medics = styled.div`
 `;
 
 export const MedicsWrapper = styled.div`
-    display: flex;
+    display: grid;
+
 `;
 
 export const Healer = styled.div`
     padding: 10px;
     background: #171616;
     border-radius: 5px;
-    margin: 0 10px;
+    margin: 10px 10px;
+
 `;
 export const HealerHeader = styled.div`
     text-align: center;
