@@ -41,7 +41,7 @@ const Logs = () => {
 
   async function apiCall() {
     console.log("apicall");
-    let response = await fetch(`http://localhost:3000/logsplus/${logInfo}`, FetchResultTypes.JSON);
+    let response = await fetch(`https://more.tf/logsplus/${logInfo}`, FetchResultTypes.JSON);
     setApiResponse(response);
     setPlayersResponse(Object.entries(response.players));
     setPlayerIconResponse(Object.entries(response.players));
@@ -49,11 +49,10 @@ const Logs = () => {
 
   function changeDamageVs(playerId) {
     setFocusedPlayer(playerId);
-    console.log(apiResponse.players)
     playerIconResponse.map((player) => {
       if(apiResponse.players[playerId].damage_towards === undefined ? apiResponse.players[playerId].damage_towards = {} : "")
-      if(apiResponse.players[playerId].damage_from[player[0]] === undefined || apiResponse.players[playerId].damage_towards[player[0]] === apiResponse.players[playerId].damage_towards && apiResponse.players[playerId].team !==  apiResponse.players[player[0]].team) apiResponse.players[playerId].damage_towards[player[0]] = 0;
-      if(apiResponse.players[playerId].damage_from[player[0]] === undefined && apiResponse.players[playerId].team !==  apiResponse.players[player[0]].team) apiResponse.players[playerId].damage_from[player[0]] = 0;
+      if((apiResponse.players[playerId].damage_from[player[0]] === undefined || apiResponse.players[playerId].damage_from[player[0]] === apiResponse.players[playerId].damage_from )&& apiResponse.players[playerId].team !==  apiResponse.players[player[0]].team) apiResponse.players[playerId].damage_from[player[0]] = 0;
+      if((apiResponse.players[playerId].damage_towards[player[0]] === undefined || apiResponse.players[playerId].damage_towards[player[0]] === apiResponse.players[playerId].damage_towards )&& apiResponse.players[playerId].team !==  apiResponse.players[player[0]].team) apiResponse.players[playerId].damage_towards[player[0]] = 0;
     })
 
     const sortedDamage = Object.entries(apiResponse.players[playerId].damage_towards)
