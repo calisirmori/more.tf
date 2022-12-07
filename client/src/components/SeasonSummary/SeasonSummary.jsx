@@ -11,7 +11,7 @@ const SeasonSummary = () => {
 
     useEffect(() => {
         async function apiCall() {
-            setApiResponse(await fetch(`https://more.tf/api/season-13-summary`, FetchResultTypes.JSON))
+            setApiResponse(await fetch(`/api/season-13-summary`, FetchResultTypes.JSON))
             console.log("apicall")
         }
         apiCall()
