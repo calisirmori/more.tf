@@ -23,7 +23,7 @@ app.get("/logsplus/:id", async (req, res) => {
   let matchId = req.params.id;
   matchId = parseInt(matchId);
 
-  if (!isNaN(parseInt(matchId, 10)) > 0 && matchId < Number.MAX_SAFE_INTEGER) {
+  if (isNaN(parseInt(matchId, 10)) || matchId > Number.MAX_SAFE_INTEGER) {
     return res
       .status(400)
       .json({ errorCode: 400, message: "Bad logs ID", error: "Bad Request" });
@@ -53,10 +53,10 @@ app.get("/logsplus/:id", async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, "/client/build")));
+app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (_, res) => {
-  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
+  res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
 });
 
 app.listen(process.env.PORT || 3000, function () {
