@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconBlue, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RightSideInfo, Score, SectionTitle, SmallButton, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
+import { AmmoPickup, Amount, Arrow, Assists, BlueScore, BuildingCount, BuildingsDestroyed, Chat, Class, ClassAgainst, ClassicLogs, ClassIcon, ClassIconBlue, ClassIconsWrapper, ClassImage, ClassTitle, Damage, DamageBar, DamageRecievedBar, DamageVersus, DamageVersusHeader, Deaths, DemosLink, Dominations, DPM, Duration, FunFacts, HealedClass, HealedName, HealedPlayer, Healer, HealerHeader, HealerStats, HealerStatTitle, HealSpread, HealStat, IconHoverWrapper, Individuals, InfoButtons, InfoSection, KDA, Killer, KillImage, KillMap, Kills, KillsPerPlayer, KillsPerPlayerWrapper, Label, LeftSideInfo, LogNumber, LogsLink, LogsPageWrapper, LogsSectionWrapper, Map, MapPlayed, MatchDate, MatchHeader, MatchLinks, MatchScore, MatchTitle, Medics, MedicsWrapper, MoreLogs, Name, NameInfoTitle, PerPlayerCard, PerPlayerClass, PerPlayerStat, PerRoundStats, PlayerCard, PlayerLogTitle, PlayersExtinguished, PlayerStatsWrapper, PlayerUsername, PlayerVsStats, RedScore, RightSideInfo, Score, SectionTitle, SmallButton, SmallIcon, SmallPlayerCard, Smalls, SmallStats, StatNumber, StatsWrapper, StatTitle, SvgArrow, Team, TeamIcons, TeamName, TeamSection, TeamStat, TeamStatRow, TeamStatsWrapper, TeamTotalStats, UsernameTitle, Victim, VsStat } from './LogsStyles';
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 
 const Logs = () => {
@@ -13,6 +13,7 @@ const Logs = () => {
   const [focusedPlayer, setFocusedPlayer] = useState("");
   const [damageStats, setDamageStats] = useState([]);
   const [damageRecieved, setDamageRecieved] = useState({});
+  const [damageDealtByClass, setDamageDealtByClass] = useState({});
   const [sort, setSort] = useState("");
   const [killSpreadArray, setKillSpreadArray] = useState();
   const [killSpreadSort, setKillSpreadSort] = useState("kills");
@@ -40,10 +41,22 @@ const Logs = () => {
   async function apiCall() {
     console.log("apicall");
     try {
-      let response = await fetch(`/logsplus/${logInfo}`, FetchResultTypes.JSON);
+      let response = await fetch(`http://localhost:8080/logsplus/${logInfo}`, FetchResultTypes.JSON);
       setApiResponse(response);
       setPlayersResponse(Object.entries(response.players));
-      setPlayerIconResponse(Object.entries(response.players));
+      let sortedByClass = [];
+      let unsoretedPlayers = Object.entries(response.players);
+      let classes = ["scout","soldier","pyro","demoman","heavyweapons","engineer","medic","sniper","spy"];
+      for( let classIndex = 0; classIndex < classes.length; classIndex++){
+        for( let playerIndex = 0; playerIndex < unsoretedPlayers.length; playerIndex++){
+          if(classes[classIndex] === unsoretedPlayers[playerIndex][1].class){
+            sortedByClass.push(unsoretedPlayers[playerIndex]);
+            unsoretedPlayers.splice(playerIndex, 1);
+            playerIndex = -1;
+          }
+        }
+      }
+      setPlayerIconResponse(sortedByClass);
     } catch (error) {
       console.log("bad")
     }
@@ -64,6 +77,20 @@ const Logs = () => {
     setDamageRecieved(Object.entries(apiResponse.players[playerId].damage_from)
       .sort(([, b], [, a]) => a - b)
       .reduce((r, [k, v]) => ({ ...r, [k]: v }), {}));
+
+    let sortedByClass = [];
+    let unsoretedPlayers = Object.entries(apiResponse.players[playerId].damage_towards);
+    let classes = ["scout","soldier","pyro","demoman","heavyweapons","engineer","medic","sniper","spy"];
+    for( let classIndex = 0; classIndex < classes.length; classIndex++){
+      for( let playerIndex = 0; playerIndex < unsoretedPlayers.length; playerIndex++){
+        if(classes[classIndex] === apiResponse.players[unsoretedPlayers[playerIndex][0]].class && unsoretedPlayers[playerIndex][0] !== playerId){
+          sortedByClass.push(unsoretedPlayers[playerIndex]);
+          unsoretedPlayers.splice(playerIndex, 1);
+          playerIndex = -1;
+        }
+      }
+    }
+    setDamageDealtByClass(sortedByClass);
   }
 
   function sortKillSpread(row) {
@@ -226,16 +253,21 @@ const Logs = () => {
                 {playerIconResponse.map((player) => {
                   if(player[1].team === "Blue"){
                     return( 
-                    <ClassIconBlue style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIconBlue>
+                                          
+                        <ClassIconBlue style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIconBlue>
+                      
                     )
                   }
                 })}
                 </TeamIcons>
                 <TeamIcons>
                 {playerIconResponse.map((player) => {
+                  const playerName = player[1].userName;
                   if(player[1].team === "Red"){
                     return( 
-                    <ClassIcon tooltip="hey" style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIcon>
+                      
+                        <ClassIcon style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIcon>
+                      
                     )
                   }
                 })}
@@ -263,8 +295,8 @@ const Logs = () => {
                     </InfoSection>
                     <SectionTitle>
                       <Label onClick={() => { setPlayerStatSort("recieved") }} style={playerStatsSort === "recieved" ? { textDecoration: "underline", fontWeight: 300, justifyContent: "right", cursor: "pointer" } : { fontWeight: 300, justifyContent: "right", cursor: "pointer" }}>Damage Recieved</Label>
-                      <Label style={{ fontWeight: 300, justifyContent: "center" }}>C</Label>
-                      <Label onClick={() => { setPlayerStatSort("dealt") }} style={playerStatsSort === "recieved" ? { fontWeight: 300, justifyContent: "left", cursor: "pointer" } : { textDecoration: "underline", fontWeight: 300, justifyContent: "left", cursor: "pointer" }}>Damage Dealt</Label>
+                      <Label onClick={() => { setPlayerStatSort("class") }} style={playerStatsSort === "class" ? { textDecoration: "underline", fontWeight: 300, justifyContent: "center", cursor: "pointer"  } : { fontWeight: 300, justifyContent: "center", cursor: "pointer"}}>C</Label>
+                      <Label onClick={() => { setPlayerStatSort("dealt") }} style={playerStatsSort === "dealt" ? { textDecoration: "underline", fontWeight: 300, justifyContent: "left", cursor: "pointer" } : { fontWeight: 300, justifyContent: "left", cursor: "pointer" } }>Damage Dealt</Label>
                     </SectionTitle>
                     <StatsWrapper>
                       {playerStatsSort === "dealt" && damageStats.map((player) => {
@@ -281,7 +313,9 @@ const Logs = () => {
                                 apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`,
                               padding: `${damageRecieved[player[0]] < 200 ? "4px 0px 4px 0px" : "4px 8px 4px 8px"}`,
                             }}>{damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]]}</DamageRecievedBar>
-                            <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                            
+                              <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                            
                             <DamageBar style={{
                               width: (player[1] / widthIndex),
                               background: `${apiResponse.players[focusedPlayer] === undefined ?
@@ -309,7 +343,9 @@ const Logs = () => {
                                 apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`,
                               padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
                             }}>{player[1]}</DamageRecievedBar>
-                            <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                            
+                              <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                            
                             <DamageBar style={{
                               width: (Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]] / widthIndex),
                               background: `${apiResponse.players[focusedPlayer] === undefined ?
@@ -320,6 +356,36 @@ const Logs = () => {
                                 apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`,
                                 padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
                             }}>{Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]]}</DamageBar>
+                          </VsStat>
+                        );
+                      })}
+                      {playerStatsSort === "class" && damageDealtByClass.map((player) => {
+                        const widthIndex = (Object.entries(damageRecieved)[0][1] > damageStats[0][1] ? Object.entries(damageRecieved)[0][1] : damageStats[0][1]) / 210
+                        return (
+                          <VsStat>
+                            <DamageRecievedBar style={{
+                              width: (damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]] / widthIndex),
+                              background: `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "#BD3B3B" : "#5B7A8C" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "#5B7A8C" : "#BD3B3B"}`,
+                              "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Blue" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #395C79" : "4px solid #9D312F"}`,
+                              padding: `${damageRecieved[player[0]] < 200 ? "4px 0px 4px 0px" : "4px 8px 4px 8px"}`,
+                            }}>{damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]]}</DamageRecievedBar>
+                            
+                              <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                            
+                            <DamageBar style={{
+                              width: (player[1] / widthIndex),
+                              background: `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "#BD3B3B" : "#5B7A8C" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "#BD3B3B" : "#5B7A8C"}`,
+                              "borderBottom": `${apiResponse.players[focusedPlayer] === undefined ?
+                                apiResponse.players[Object.entries(apiResponse.players)[0][0]].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79" :
+                                apiResponse.players[focusedPlayer].team === "Red" ? "4px solid #9D312F" : "4px solid #395C79"}`,
+                              padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
+                            }}>{player[1]}</DamageBar>
                           </VsStat>
                         );
                       })}

@@ -406,14 +406,40 @@ export const StatsWrapper = styled.div`
 export const VsStat = styled.div`
     display: grid;
     grid-template-columns: 260px 40px 260px;
-
+    position: relative;
     height: 40px;
 `;
 export const ClassAgainst = styled.img`
-    height:25px;
+    height: 25px;
     margin: 0 7px;
     margin-top: 5px;
 `;
+export const IconHoverWrapper = styled.div`
+
+    position: relative;
+    &:before{
+        display:none;
+        content: "${props => props.name}";
+        position: absolute;
+        font-weight: 600;
+        top: -1.5rem;
+        color: #000;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        background-color: #f08149;
+        white-space: nowrap;
+        padding-bottom: 12px;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 80%, calc(50% + 5px) 80%, 50% 100%, calc(50% - 5px) 80%, 0% 80%);
+    }
+
+    &:hover{
+        &:before{
+            display: grid;
+        }
+    }
+`;
+
 export const DamageBar = styled.div`
     margin-bottom: 10px;
     color: #fff;
@@ -799,7 +825,7 @@ export const TeamIcons = styled.div`
 export const ClassIcon = styled.img`
     cursor: pointer;
     padding: 5px;
-    margin: 3px;
+    margin: 3px 3px;
     background: #BD3B3B;
     border: 3px solid #9D312F;
     height: 30px;
@@ -812,7 +838,7 @@ export const ClassIconBlue = styled.img`
     cursor: pointer;
     height: 30px;
     padding: 5px;
-    margin: 3px;
+    margin: 3px 3px;
     background: #5B7A8C;
     border: 3px solid #395C79;
     :hover {

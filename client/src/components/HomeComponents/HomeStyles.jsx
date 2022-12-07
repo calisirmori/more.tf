@@ -78,12 +78,26 @@ export const InputButton = styled(Link)`
     background:#f08149;
     border: 1px solid #1d1c1c;
     border-radius: 50px;
-    padding: 0 30px;
+    padding: 0 10px;
     margin-left: 20px;
     cursor: pointer;
     :hover{
         outline: 3px solid #f08149;
         background:#1d1c1c;
+        color: #f08149;
+    }
+    
+`;
+export const TryButton = styled(Link)`
+    text-decoration: none;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins';
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    :hover{
         color: #f08149;
     }
     

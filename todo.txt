@@ -1,8 +1,8 @@
 more.tf v1.1 todo;
 
-    Match Pause timer
+    ##Match Pause timer
 
-    Match Combined or not
+    ##Match Combined or not
 
     Map rework clear indication of killer and victim
         - potential hover and pop up
@@ -14,7 +14,6 @@ more.tf v1.1 todo;
 
     Deeper dive into individual players
         - weapons accuricies++
-        - damage recieved from individual class
 
     Medic maps show deaths instead of kills
 
@@ -40,8 +39,6 @@ more.tf non urgent todo;
     mvp per game?
 
     word cloud
-
-    all chat? to attach on logs page.
 
     stopwatch can be filtered by attack defense and all 
 
