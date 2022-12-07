@@ -24,7 +24,7 @@ app.get("/logsplus/:id", async (req, res) => {
   matchId = parseInt(matchId);
 
   if (!isNaN(parseInt(matchId, 10)) > 0 && matchId < Number.MAX_SAFE_INTEGER) {
-    res
+    return res
       .status(400)
       .json({ errorCode: 400, message: "Bad logs ID", error: "Bad Request" });
   }
@@ -48,6 +48,7 @@ app.get("/logsplus/:id", async (req, res) => {
       await logstfApiOrganizer.organize(logsApiResponse, textFile, matchId)
     );
   } catch (error) {
+    console.error(error);
     res.status(500).json({ errorCode: 500, message: "Internal Server Error" });
   }
 });
