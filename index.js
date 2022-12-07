@@ -23,7 +23,7 @@ app.get("/logsplus/:id", async (req, res) => {
   let matchId = req.params.id;
   matchId = parseInt(matchId);
 
-  if (!isNaN(parseInt(matchId, 10)) > 0 && matchId < Number.MAX_SAFE_INTEGER) {
+  if (isNaN(parseInt(matchId, 10)) || matchId > Number.MAX_SAFE_INTEGER) {
     return res
       .status(400)
       .json({ errorCode: 400, message: "Bad logs ID", error: "Bad Request" });
