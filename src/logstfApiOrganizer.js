@@ -314,7 +314,8 @@ function mapStats(map){
     } else if (map.includes("metal")) {
       outputObject.URL = "https://i.imgur.com/p9oXMvy.png"
       outputObject.xOffset = 255;
-      outputObject.yOffset = -43;
+      outputObject.yOffset = -25;
+      outputObject.scale = 22;
     } else if (map.includes("gully")) {
       outputObject.URL = "https://i.imgur.com/4mH3BYJ.png"
       outputObject.xOffset = 225;
@@ -326,12 +327,26 @@ function mapStats(map){
       outputObject.yOffset = -65;
       outputObject.scale = 21;
     } else if (map.includes("bagel")) {
-      outputObject.URL = "https://i.imgur.com/2qbaVMG.png"
+      outputObject.URL = "https://i.imgur.com/XP6AIkx.png"
       outputObject.xOffset = 270;
       outputObject.yOffset = -57;
       outputObject.scale = 23;
-    } else if (map.includes("steel")) {
-      outputObject.URL = "https://i.imgur.com/GBbqE7I.png"
+    } else if (map.includes("clearcut")) {
+      outputObject.URL = "https://i.imgur.com/2qbaVMG.png"
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -43;
+    } else if (map.includes("reckoner")) {
+      outputObject.URL = "https://i.imgur.com/Qk1F2lt.png"
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -80;
+      outputObject.scale = 23;
+    } else if (map.includes("sultry")) {
+      outputObject.URL = "https://i.imgur.com/tefw5Mh.png"
+      outputObject.xOffset = 255;
+      outputObject.yOffset = -78;
+      outputObject.scale = 23;
+    } else if (map.includes("villa")) {
+      outputObject.URL = "https://i.imgur.com/M0tlVEu.png"
       outputObject.xOffset = 255;
       outputObject.yOffset = -43;
     }
