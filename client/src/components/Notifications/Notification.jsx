@@ -10,7 +10,7 @@ const NotificationWrapper = styled.div`
 
 const Notifications = () => {
   return (
-    <NotificationWrapper>This feature is still really early in the making please contact me if you find a bug or if you have ideas you would like to see</NotificationWrapper>
+    <NotificationWrapper>This website is still really early in the making please contact me if you find a bug or if you have ideas you would like to see</NotificationWrapper>
   )
 }
 
