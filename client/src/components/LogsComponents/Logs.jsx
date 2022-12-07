@@ -41,7 +41,7 @@ const Logs = () => {
   async function apiCall() {
     console.log("apicall");
     try {
-      let response = await fetch(`http://localhost:8080/logsplus/${logInfo}`, FetchResultTypes.JSON);
+      let response = await fetch(`/logsplus/${logInfo}`, FetchResultTypes.JSON);
       setApiResponse(response);
       setPlayersResponse(Object.entries(response.players));
       let sortedByClass = [];
