@@ -46,3 +46,13 @@ more.tf non urgent todo;
 
     combined logs section, player dumps the logs into the page, gets visuals they like and one click "upload this to logs.tf"
         where I handle the upload with an api call and forward them to the link.
+
+    player profile, percentages.
+    how many games per day in average.
+    format average.
+    bar with different colors 6s/ hl/ 4s/ ultiduo (loading type)
+    medals/ such.
+    first game played.
+    las game played.
+    total logs.
+
