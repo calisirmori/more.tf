@@ -14,9 +14,7 @@ const PlayerProfile = () => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const [lastLogResponse, setLastLogResponse] = useState({});
     const [formatObject, setFormatObject] = useState({});
-    const playerID3 = "[U:1:" + (1198068401396-1197960265728) + "]";
-
-    
+    const playerID3 = "[U:1:" + (playerId.slice(4)-1197960265728) + "]";
 
     useEffect(() => {
         try {
@@ -24,6 +22,7 @@ const PlayerProfile = () => {
             const currentResponse = apiResponse;
             setCurrentLogs(currentResponse.logs.slice(currentPage*25, currentPage*25+25))
             logstfApiCall(lastLogId);
+            
         } catch (error) {
             console.log("not yet")
         }
@@ -45,7 +44,6 @@ const PlayerProfile = () => {
     async function apiCall(map, players){
         let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}&limit=10000`, FetchResultTypes.JSON);
         let playerProfile = await fetch(`https://more.tf/api/steamid/${playerId}`, FetchResultTypes.JSON);
-        console.log(playerProfile.response.players[0])
         format = {
             total: 0,
             hl : 0,
@@ -93,6 +91,7 @@ const PlayerProfile = () => {
         }
 
         setLastLogResponse(logsApiResponse)
+        
     }
     function formatFinder(players){
         if (players > 3 && players < 6){
