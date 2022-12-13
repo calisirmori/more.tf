@@ -41,10 +41,10 @@ const PlayerProfile = () => {
         fours: 0,
         UandBBAL : 0,
     }
-    
+
     async function apiCall(map, players){
         let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}&limit=10000`, FetchResultTypes.JSON);
-        let playerProfile = await fetch(`http://localhost:8080/api/steamid/${playerId}`, FetchResultTypes.JSON);
+        let playerProfile = await fetch(`https://more.tf/api/steamid/${playerId}`, FetchResultTypes.JSON);
         console.log(playerProfile.response.players[0])
         format = {
             total: 0,
