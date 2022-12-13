@@ -175,10 +175,10 @@ const PlayerProfile = () => {
                         <FormatPercentage>
                             <FormatHeader>FORMATS PLAYED</FormatHeader>
                             <PercentageBar style={{gridTemplateColumns: `${(formatObject.sixes/formatObject.total)*450}px ${(formatObject.hl/formatObject.total)*450}px ${(formatObject.fours/formatObject.total)*450}px ${(formatObject.UandBBAL/formatObject.total)*450}px`}}>
-                                <Format style={{background: "#8650AC"}}>{Math.round(formatObject.sixes/formatObject.total*100)+"%"}</Format>
-                                <Format style={{background: "#4D7455"}}>{Math.round(formatObject.hl/formatObject.total*100) > 10 ? Math.round(formatObject.hl/formatObject.total*100)+"%" : ""}</Format>
-                                <Format style={{background: "#476291"}}>{Math.round(formatObject.fours/formatObject.total*100) > 10 ? Math.round(formatObject.fours/formatObject.total*100)+"%" : ""}</Format>
-                                <Format style={{background: "#BD3B3B"}}>{Math.round(formatObject.UandBBAL/formatObject.total*100) > 10 ? Math.round(formatObject.UandBBAL/formatObject.total*100)+"%" : ""}</Format>
+                                <Format tooltip={formatObject.sixes} style={{background: "#8650AC"}}>{Math.round(formatObject.sixes/formatObject.total*100) > 10 ? Math.round(formatObject.sixes/formatObject.total*100)+"%" : ""}</Format>
+                                <Format tooltip={formatObject.hl} style={{background: "#4D7455"}}>{Math.round(formatObject.hl/formatObject.total*100) > 10 ? Math.round(formatObject.hl/formatObject.total*100)+"%" : ""}</Format>
+                                <Format tooltip={formatObject.fours} style={{background: "#476291"}}>{Math.round(formatObject.fours/formatObject.total*100) > 10 ? Math.round(formatObject.fours/formatObject.total*100)+"%" : ""}</Format>
+                                <Format tooltip={formatObject.UandBBAL} style={{background: "#BD3B3B"}}>{Math.round(formatObject.UandBBAL/formatObject.total*100) > 10 ? Math.round(formatObject.UandBBAL/formatObject.total*100)+"%" : ""}</Format>
                             </PercentageBar>
                             <FormatFooter>
                                 <FormatWrapper>

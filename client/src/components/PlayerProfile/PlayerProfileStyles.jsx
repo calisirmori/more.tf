@@ -30,7 +30,7 @@ export const Profile = styled.div`
 `;
 
 export const MostRecentMatch = styled.div`
-
+    
     margin-top: 20px;
     background: #171616;
     color: #fff;
@@ -251,7 +251,9 @@ export const StatHeader = styled.div`
 `;
 
 export const StatInfo = styled.div`
-    font-weight: 200;
+    font-weight: 400;
+    font-family: 'Roboto Mono', monospace;
+
 `;
 
 export const FormatPercentage = styled.div`
@@ -264,7 +266,31 @@ export const FormatPercentage = styled.div`
 `;
 
 export const Format = styled.div`
+
     padding-left: 10px;
+    position: relative;
+
+    &:before{
+        display:none;
+        content: "${props => props.tooltip}";
+        position: absolute;
+        font-weight: 600;
+        top: -2.5rem;
+        color: #000;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        background-color: #f08149;
+        white-space: nowrap;
+        padding-bottom: 12px;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 80%, calc(50% + 5px) 80%, 50% 100%, calc(50% - 5px) 80%, 0% 80%);
+    }
+
+    &:hover{
+        &:before{
+            display: block;
+        }
+    }
 `;
 
 export const FormatHeader = styled.div`
