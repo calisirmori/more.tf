@@ -1,6 +1,6 @@
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 import React, { useEffect, useState } from 'react'
-import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, Format, FormatFooter, FormatHeader, FormatPercentage, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PercentageBar, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, Score, ScoreInfo, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Username } from './PlayerProfileStyles';
+import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, Format, FormatFooter, FormatHeader, FormatPercentage, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PageBox, PageNumber, PercentageBar, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, Score, ScoreInfo, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Username } from './PlayerProfileStyles';
 
 const PlayerProfile = () => {
     const [apiResponse, setApiResponse] = useState({});
@@ -17,14 +17,14 @@ const PlayerProfile = () => {
     useEffect(() => {
         try {
             const lastLogId = apiResponse.logs[0].id
-            let logsArray= apiResponse.logs.splice(currentPage, 25);
-            setCurrentLogs(logsArray)
+            const currentResponse = apiResponse;
+            setCurrentLogs(currentResponse.logs.slice(currentPage*25, currentPage*25+25))
             logstfApiCall(lastLogId);
         } catch (error) {
             console.log("not yet")
         }
         
-    }, [apiResponse])
+    }, [apiResponse,currentPage])
 
     useEffect(() => {
         apiCall();
@@ -154,48 +154,46 @@ const PlayerProfile = () => {
                                 <LogInfo>
                                     <StatWrapper>
                                         <StatHeader>Last Match</StatHeader>
-                                        <StatInfo>01/04/2120</StatInfo>
+                                        <StatInfo>{(new Date(lastLogResponse.info.date * 1000)).toLocaleDateString('en-US')}</StatInfo>
                                     </StatWrapper>
                                     <StatWrapper>
                                         <StatHeader>First Match</StatHeader>
-                                        <StatInfo>01/04/2120</StatInfo>
+                                        <StatInfo>{(new Date(apiResponse.logs[apiResponse.logs.length-1].date*1000)).toLocaleDateString('en-US')}</StatInfo>
                                     </StatWrapper>
                                     <StatWrapper>
                                         <StatHeader>Total Matches</StatHeader>
-                                        <StatInfo>3215</StatInfo>
+                                        <StatInfo>{apiResponse.logs.length}</StatInfo>
                                     </StatWrapper>
                                 </LogInfo>
-                                <FormatPercentage>
-                                    <FormatHeader>FORMATS PLAYED</FormatHeader>
-                                    <PercentageBar style={{gridTemplateColumns: `${(formatObject.sixes/formatObject.total)*450}px ${(formatObject.hl/formatObject.total)*450}px ${(formatObject.fours/formatObject.total)*450}px ${(formatObject.UandBBAL/formatObject.total)*450}px`}}>
-                                        <Format style={{background: "#8650AC"}}>{Math.round(formatObject.sixes/formatObject.total*100)+"%"}</Format>
-                                        <Format style={{background: "#4D7455"}}>{Math.round(formatObject.hl/formatObject.total*100) > 10 ? Math.round(formatObject.hl/formatObject.total*100)+"%" : ""}</Format>
-                                        <Format style={{background: "#476291"}}>{Math.round(formatObject.fours/formatObject.total*100) > 10 ? Math.round(formatObject.fours/formatObject.total*100)+"%" : ""}</Format>
-                                        <Format style={{background: "#BD3B3B"}}>{Math.round(formatObject.UandBBAL/formatObject.total*100) > 10 ? Math.round(formatObject.UandBBAL/formatObject.total*100)+"%" : ""}</Format>
-                                    </PercentageBar>
-                                    <FormatFooter>
-                                        <FormatWrapper>
-                                            <ColorBox style={{background: "#8650AC"}}></ColorBox>
-                                            <FormatText> 6s </FormatText>
-                                        </FormatWrapper>
-                                        <FormatWrapper>
-                                            <ColorBox style={{background: "#4D7455"}}></ColorBox>
-                                            <FormatText> HL</FormatText>
-                                        </FormatWrapper>
-                                        <FormatWrapper>
-                                            <ColorBox  style={{background: "#476291"}}></ColorBox>
-                                            <FormatText> 4s </FormatText>
-                                        </FormatWrapper>
-                                        <FormatWrapper>
-                                            <ColorBox  style={{background: "#BD3B3B"}}></ColorBox>
-                                            <FormatText>Ultiduo/BBAL</FormatText>
-                                        </FormatWrapper>
-                                    </FormatFooter>
-                                    <FormatHeader>MEDALS</FormatHeader>
-                                    
-                                </FormatPercentage>
                             </PlayerFunFact>
                         </Profile>
+                        <FormatPercentage>
+                            <FormatHeader>FORMATS PLAYED</FormatHeader>
+                            <PercentageBar style={{gridTemplateColumns: `${(formatObject.sixes/formatObject.total)*450}px ${(formatObject.hl/formatObject.total)*450}px ${(formatObject.fours/formatObject.total)*450}px ${(formatObject.UandBBAL/formatObject.total)*450}px`}}>
+                                <Format style={{background: "#8650AC"}}>{Math.round(formatObject.sixes/formatObject.total*100)+"%"}</Format>
+                                <Format style={{background: "#4D7455"}}>{Math.round(formatObject.hl/formatObject.total*100) > 10 ? Math.round(formatObject.hl/formatObject.total*100)+"%" : ""}</Format>
+                                <Format style={{background: "#476291"}}>{Math.round(formatObject.fours/formatObject.total*100) > 10 ? Math.round(formatObject.fours/formatObject.total*100)+"%" : ""}</Format>
+                                <Format style={{background: "#BD3B3B"}}>{Math.round(formatObject.UandBBAL/formatObject.total*100) > 10 ? Math.round(formatObject.UandBBAL/formatObject.total*100)+"%" : ""}</Format>
+                            </PercentageBar>
+                            <FormatFooter>
+                                <FormatWrapper>
+                                    <ColorBox style={{background: "#8650AC"}}></ColorBox>
+                                    <FormatText> 6s </FormatText>
+                                </FormatWrapper>
+                                <FormatWrapper>
+                                    <ColorBox style={{background: "#4D7455"}}></ColorBox>
+                                    <FormatText> HL</FormatText>
+                                </FormatWrapper>
+                                <FormatWrapper>
+                                    <ColorBox  style={{background: "#476291"}}></ColorBox>
+                                    <FormatText> 4s </FormatText>
+                                </FormatWrapper>
+                                <FormatWrapper>
+                                    <ColorBox  style={{background: "#BD3B3B"}}></ColorBox>
+                                    <FormatText>Ultiduo/BBAL</FormatText>
+                                </FormatWrapper>
+                            </FormatFooter>
+                        </FormatPercentage>
                         <MostRecentMatch style={lastMatchWon === true ? {borderBottom: "5px solid green"}:{borderBottom: "5px solid red"}}>
                             <SectionHeader>LAST MATCH PLAYED</SectionHeader>
                             <MatchInfo>
@@ -226,11 +224,22 @@ const PlayerProfile = () => {
                                         <MatchTitle>{log.title}</MatchTitle>
                                         <MathMap>{log.map}</MathMap>
                                         <MatchFormat>{formatFinder(log.players)}</MatchFormat>
-                                        <MatchDate>{`${(new Date(log.date * 1000)).toLocaleString("en-US", options).split(",").splice(1,2) + " " + (new Date(log.date * 1000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</MatchDate>
+                                        <MatchDate>{`${(new Date(log.date * 1000)).toLocaleString("en-US").split(",").splice(0,1) + " " + (new Date(log.date * 1000)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}</MatchDate>
                                     </MatchLogCard>
                                 )
                             })}
                         </LogsList>
+                        <PageNumber>
+                            {currentPage > 2 && <PageBox onClick ={()=>{setCurrentPage(0)}}>{1}</PageBox>}
+                            {currentPage > 2 && <PageBox>{`...`}</PageBox>}
+                            {currentPage > 1 && <PageBox onClick ={()=>{setCurrentPage(currentPage-2)}}>{currentPage-1}</PageBox>}
+                            {currentPage > 0 && <PageBox onClick ={()=>{setCurrentPage(currentPage-1)}}>{currentPage}</PageBox>}
+                            {currentPage >= 0 && <PageBox onClick ={()=>{setCurrentPage(currentPage)}}>{currentPage+1}</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)-1) && <PageBox onClick ={()=>{setCurrentPage(currentPage+1)}}>{currentPage + 2}</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)-2) && <PageBox onClick ={()=>{setCurrentPage(currentPage+2)}}>{currentPage + 3}</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)-3) && <PageBox style={{cursor: "default"}}>...</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)) && <PageBox onClick ={()=>{setCurrentPage(Math.floor(apiResponse.logs.length/25))}}>{Math.floor(apiResponse.logs.length/25)+1}</PageBox>}
+                        </PageNumber>
                     </PlayerMatchLogs>
                 </ProfileSections>
             </PlayerProfileWrapper>

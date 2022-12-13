@@ -22,7 +22,7 @@ export const Profile = styled.div`
     background: #171616;
     color: #fff;
     border-radius: 5px;
-    height: 530px;
+    margin-bottom: 20px;
     width: 480px;
     padding: 10px;
     display: block;
@@ -74,10 +74,9 @@ export const MatchLogCard = styled(Link)`
     background: #171616;
     display: grid;
     text-align: center;
-    grid-template-columns: 20px 80px 1fr 180px 50px 250px;
+    grid-template-columns: 20px 90px 1fr 180px 50px 200px;
     cursor: pointer;
     border: 1px solid #171616;
-    
     :hover{
         border: 1px solid #f08149;
     }
@@ -89,6 +88,7 @@ export const CheckBox = styled.div`
 
 export const MatchId = styled.div`
     border-left: 2px solid #f08149;
+    font-family: 'Roboto Mono', monospace;
 `;
 
 export const MatchTitle = styled.div`
@@ -99,6 +99,10 @@ export const MatchTitle = styled.div`
 
 export const MathMap = styled.div`
     border-left: 2px solid #f08149;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px;
 `;
 
 export const MatchFormat = styled.div`
@@ -107,6 +111,8 @@ export const MatchFormat = styled.div`
 
 export const MatchDate = styled.div`
     border-left: 2px solid #f08149;
+    font-family: 'Roboto Mono', monospace;
+
 `;
 
 export const MatchInfo = styled.div`
@@ -249,7 +255,12 @@ export const StatInfo = styled.div`
 `;
 
 export const FormatPercentage = styled.div`
-
+    background: #171616;
+    color: #fff;
+    border-radius: 5px;
+    width: 480px;
+    padding: 10px;
+    display: block;
 `;
 
 export const Format = styled.div`
@@ -262,7 +273,7 @@ export const FormatHeader = styled.div`
     font-weight: bold;
     font-size: 20px;
     padding-top: 10px;
-    border-top: 2px solid #fff;
+   
 `;
 
 export const PercentageBar = styled.div`
@@ -298,6 +309,22 @@ export const FormatText = styled.div`
 
 `;
 
+export const PageNumber = styled.div`
+    display: flex;
+    justify-content: right;
+    margin: 10px 30px;
+`;
+export const PageBox = styled.div`
+    font-family: 'Roboto Mono', monospace;
+    padding: 4px 12px;
+    font-weight: 500;
+    outline: 1px solid #f08149;
+    cursor: pointer;
+    :hover{
+        background: #f08149;
+        color: #1c1c1c;
+    }
+`;
 export const Example = styled.div`
 
 `;
