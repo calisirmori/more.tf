@@ -14,7 +14,7 @@ function App() {
         <Route path="/bad-id" element={<InvalidPage />} />
         <Route path="/log/:matchId" element={<LogsPage />} />
         <Route path="/season-summary" element={<SeasonSummaryPage />} />
-        <Route path="/player" element={<PlayerProfilePage />} />
+        <Route path="/player/:id" element={<PlayerProfilePage />} />
       </Routes>
     </Router>
   );

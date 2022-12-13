@@ -12,8 +12,25 @@ const { fetch, FetchResultTypes } = require("@sapphire/fetch");
 app.use(express.json());
 app.use(cors());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //this is used to create seasonal summary text files
 //console.log( seasonSummary.makeSummary())
+
+app.get('/api/steamid/:id', async(req, res) => {
+  const userId = req.params.id;
+  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=18D6B8C4F205B3A1BD6608A68EC83C3F&steamids=${userId}`;
+
+  const logsApiResponse = await fetch(
+    URL,
+    FetchResultTypes.JSON
+  );
+  res.send(logsApiResponse);
+});
 
 app.get("/api/season-13-summary", (_, result) => {
   result.json(summaryObject);

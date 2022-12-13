@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, Format, FormatFooter, FormatHeader, FormatPercentage, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PageBox, PageNumber, PercentageBar, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, Score, ScoreInfo, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Username } from './PlayerProfileStyles';
 
 const PlayerProfile = () => {
+    const id = window.location.href;
+    const idArray = id.split('/');
+    const playerId = idArray[4];
     const [apiResponse, setApiResponse] = useState({});
+    const [playerResponse, setPlayerResponse] = useState({});
     const [currentPage, setCurrentPage] = useState(0);
     const [currentLogs, setCurrentLogs] = useState([]);
     const [lastMatchWon, setLastMatchWon] = useState(true);
@@ -37,9 +41,11 @@ const PlayerProfile = () => {
         fours: 0,
         UandBBAL : 0,
     }
+    
     async function apiCall(map, players){
-        let response = await fetch(`https://logs.tf/api/v1/log?player=76561198068401396&limit=10000`, FetchResultTypes.JSON);
-        
+        let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}&limit=10000`, FetchResultTypes.JSON);
+        let playerProfile = await fetch(`http://localhost:8080/api/steamid/${playerId}`, FetchResultTypes.JSON);
+        console.log(playerProfile.response.players[0])
         format = {
             total: 0,
             hl : 0,
@@ -63,7 +69,7 @@ const PlayerProfile = () => {
                 format.total++;
             } 
         })
-
+        setPlayerResponse(playerProfile.response.players[0]);
         setFormatObject(format);
         setApiResponse(response);
     }
@@ -140,15 +146,15 @@ const PlayerProfile = () => {
                     <PlayerInfo>
                         <Profile>
                             <SteamInfo>
-                                <ProfilePicture src="https://avatars.akamai.steamstatic.com/0462901bf034ef06615019cdb2bbfc9bc747b256_full.jpg"></ProfilePicture>
-                                <Username>mori</Username>
+                                <ProfilePicture src={playerResponse.avatarfull}></ProfilePicture>
+                                <Username>{playerResponse.personaname}</Username>
                             </SteamInfo>
                             <PlayerLinks>
-                                <PlayerLink href="google.com" target="_blank">STEAM</PlayerLink>
-                                <PlayerLink href="google.com" target="_blank">RGL</PlayerLink>
-                                <PlayerLink href="google.com" target="_blank">UGC</PlayerLink>
-                                <PlayerLink href="google.com" target="_blank">ETF2L</PlayerLink>
-                                <PlayerLink href="google.com" target="_blank">OZ</PlayerLink>
+                                <PlayerLink href={`https://steamcommunity.com/profiles/${playerId}`} target="_blank">STEAM</PlayerLink>
+                                <PlayerLink href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${playerId}`} target="_blank">RGL</PlayerLink>
+                                <PlayerLink href={`http://www.ugcleague.com/players_page.cfm?player_id=${playerId}`} target="_blank">UGC</PlayerLink>
+                                <PlayerLink href={`http://etf2l.org/search/${playerId}`} target="_blank">ETF2L</PlayerLink>
+                                <PlayerLink href={`https://ozfortress.com/users?utf8=✓&q=${playerId}&button=`} target="_blank">OZ</PlayerLink>
                             </PlayerLinks>
                             <PlayerFunFact>
                                 <LogInfo>
