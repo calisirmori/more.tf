@@ -105,7 +105,7 @@ const PlayerProfile = () => {
                 format.total++;
             } 
         })
-        
+
         setPlayerResponse(playerProfile.response.players[0]);
         setFormatObject(format);
         setApiResponse(response);
@@ -282,20 +282,6 @@ const PlayerProfile = () => {
                                 </Element>
                                 <SearchButton onClick={()=> {logSearch(format)}}>SEARCH</SearchButton>
                             </SearchElements>
-                            <SearchTags>
-                                <Tag>
-                                    koth_product
-                                    <RemoveButton>X</RemoveButton>
-                                </Tag>
-                                <Tag>
-                                    6s
-                                    <RemoveButton>X</RemoveButton>
-                                </Tag>
-                                <Tag>
-                                    december
-                                    <RemoveButton>X</RemoveButton>
-                                </Tag>
-                            </SearchTags>
                         </LogsHeader>
                         <LogsList>
                             {currentLogs.map((log)=>{

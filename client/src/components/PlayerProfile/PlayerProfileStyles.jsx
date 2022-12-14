@@ -55,7 +55,7 @@ export const LogsHeader = styled.div`
     height: 65px;
     width: 970px;
     padding: 5px;
-    margin-bottom: 35px;
+    margin: 10px 0;
     display: grid;
     justify-content: center;
 `;
