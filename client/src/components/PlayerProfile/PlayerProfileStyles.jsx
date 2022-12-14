@@ -256,7 +256,7 @@ export const Username = styled.div`
 `;
 
 export const PlayerLinks = styled.div`
-    margin-left: 45px;
+    margin-left: 40px;
     display: grid;
     grid-template-columns: repeat(5, 80px);
 `;

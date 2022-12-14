@@ -67,7 +67,7 @@ const PlayerProfile = () => {
         
         let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}${player === "" ? "" : `,` + player}
                                                                       &limit=10000`, FetchResultTypes.JSON);
-        console.log(response)
+        
         let logsArray = [];
 
         response.logs.map((log)=>{
@@ -194,7 +194,8 @@ const PlayerProfile = () => {
                                 <PlayerLink href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${playerId}`} target="_blank">RGL</PlayerLink>
                                 <PlayerLink href={`http://www.ugcleague.com/players_page.cfm?player_id=${playerId}`} target="_blank">UGC</PlayerLink>
                                 <PlayerLink href={`http://etf2l.org/search/${playerId}`} target="_blank">ETF2L</PlayerLink>
-                                <PlayerLink href={`https://ozfortress.com/users?utf8=✓&q=${playerId}&button=`} target="_blank">OZ</PlayerLink>
+                                
+                                <PlayerLink style={{width: "90px"}} href={`https://trends.tf/player/${playerId}/`} target="_blank">trends.tf</PlayerLink>
                             </PlayerLinks>
                             <PlayerFunFact>
                                 <LogInfo>
