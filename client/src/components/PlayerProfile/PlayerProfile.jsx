@@ -264,7 +264,7 @@ const PlayerProfile = () => {
                             <SearchElements>
                                 <Element>
                                     <ElementHeader>PLAYER WITH</ElementHeader>
-                                    <PlayerAdd onChange={e => setPlayer(e.target.value)} value={player}></PlayerAdd>
+                                    <PlayerAdd placeholder="SteamId64 ONLY!!" onChange={e => setPlayer(e.target.value)} value={player}></PlayerAdd>
                                 </Element>
                                 <Element>
                                     <ElementHeader>MAP</ElementHeader>
