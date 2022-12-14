@@ -1,33 +1,41 @@
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 import React, { useEffect, useState } from 'react'
-import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, Format, FormatFooter, FormatHeader, FormatPercentage, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PageBox, PageNumber, PercentageBar, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, Score, ScoreInfo, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Username } from './PlayerProfileStyles';
+import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, DateSearch, Element, ElementHeader, Format, FormatFooter, FormatHeader, FormatPercentage, FormatSearch, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MapSearch, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PageBox, PageNumber, PercentageBar, PlayerAdd, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, RemoveButton, Score, ScoreInfo, SearchButton, SearchElements, SearchTag, SearchTags, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Tag, Username } from './PlayerProfileStyles';
 
 const PlayerProfile = () => {
     const id = window.location.href;
     const idArray = id.split('/');
     const playerId = idArray[4];
+
     const [apiResponse, setApiResponse] = useState({});
     const [playerResponse, setPlayerResponse] = useState({});
     const [currentPage, setCurrentPage] = useState(0);
     const [currentLogs, setCurrentLogs] = useState([]);
     const [lastMatchWon, setLastMatchWon] = useState(true);
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const [lastLogResponse, setLastLogResponse] = useState({});
     const [formatObject, setFormatObject] = useState({});
     const playerID3 = "[U:1:" + (playerId.slice(4)-1197960265728) + "]";
+    const [formatSearch, setFormatSearch] = useState("");
+    const [map, setMap] = useState("");
+    const [player, setPlayer] = useState("");
+    const [searchedArray, setSearchedArray] = useState([])
+    const [logsLegth, setLogsLength] = useState(0);
 
     useEffect(() => {
         try {
             const lastLogId = apiResponse.logs[0].id
             const currentResponse = apiResponse;
-            setCurrentLogs(currentResponse.logs.slice(currentPage*25, currentPage*25+25))
-            logstfApiCall(lastLogId);
+
+            if(searchedArray.length === 0) setCurrentLogs(currentResponse.logs.slice(currentPage*25, currentPage*25+25));
+            else setCurrentLogs(searchedArray.slice(currentPage*25, currentPage*25+25));
             
+
+            logstfApiCall(lastLogId);
         } catch (error) {
             console.log("not yet")
         }
         
-    }, [apiResponse,currentPage])
+    }, [apiResponse,currentPage,map,player,logsLegth])
 
     useEffect(() => {
         apiCall();
@@ -41,6 +49,36 @@ const PlayerProfile = () => {
         UandBBAL : 0,
     }
 
+    async function logSearch(){
+        let playerLow = 0, playerHigh = 30;
+        if (formatSearch === "hl"){
+            playerLow =15;
+            playerHigh =22;
+        } else if (formatSearch === "6s"){
+            playerLow =11;
+            playerHigh =15;
+        } else if (formatSearch === "4s"){
+            playerLow =6;
+            playerHigh =11;
+        } else if (formatSearch === "2s"){
+            playerLow =3;
+            playerHigh =6;
+        }
+        
+        let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}${player === "" ? "" : `,` + player}
+                                                                      &limit=10000`, FetchResultTypes.JSON);
+        console.log(response)
+        let logsArray = [];
+
+        response.logs.map((log)=>{
+            if(log.players >= playerLow && log.players <= playerHigh && log.map.includes(map)) logsArray.push(log);
+        });
+        setCurrentLogs(logsArray.slice(currentPage*25, currentPage*25+25));
+        setSearchedArray(logsArray);
+        setLogsLength(logsArray.length);
+        setCurrentPage(0);
+    }
+    
     async function apiCall(map, players){
         let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}&limit=10000`, FetchResultTypes.JSON);
         let playerProfile = await fetch(`https://more.tf/api/steamid/${playerId}`, FetchResultTypes.JSON);
@@ -67,9 +105,12 @@ const PlayerProfile = () => {
                 format.total++;
             } 
         })
+        
         setPlayerResponse(playerProfile.response.players[0]);
         setFormatObject(format);
         setApiResponse(response);
+        setLogsLength(response.logs.length);
+        setCurrentPage(0);
     }
     
     async function logstfApiCall(matchId){
@@ -219,7 +260,43 @@ const PlayerProfile = () => {
                         </MostRecentMatch>
                     </PlayerInfo>
                     <PlayerMatchLogs>
-                        <LogsHeader></LogsHeader>
+                        <LogsHeader>
+                            <SearchElements>
+                                <Element>
+                                    <ElementHeader>PLAYER WITH</ElementHeader>
+                                    <PlayerAdd onChange={e => setPlayer(e.target.value)} value={player}></PlayerAdd>
+                                </Element>
+                                <Element>
+                                    <ElementHeader>MAP</ElementHeader>
+                                    <MapSearch onChange={e => setMap(e.target.value)} value={map}></MapSearch>
+                                </Element>
+                                <Element>
+                                    <ElementHeader>FORMAT</ElementHeader>
+                                    <FormatSearch onChange={e => {setFormatSearch(e.target.value)}}>
+                                        <SearchTag value="any" >any</SearchTag>
+                                        <SearchTag value="hl" >hl</SearchTag>
+                                        <SearchTag value="6s" >6s</SearchTag>
+                                        <SearchTag value="4s" >4s</SearchTag>
+                                        <SearchTag value="2s" >2s</SearchTag>                                
+                                    </FormatSearch>
+                                </Element>
+                                <SearchButton onClick={()=> {logSearch(format)}}>SEARCH</SearchButton>
+                            </SearchElements>
+                            <SearchTags>
+                                <Tag>
+                                    koth_product
+                                    <RemoveButton>X</RemoveButton>
+                                </Tag>
+                                <Tag>
+                                    6s
+                                    <RemoveButton>X</RemoveButton>
+                                </Tag>
+                                <Tag>
+                                    december
+                                    <RemoveButton>X</RemoveButton>
+                                </Tag>
+                            </SearchTags>
+                        </LogsHeader>
                         <LogsList>
                             {currentLogs.map((log)=>{
                                 return(
@@ -233,17 +310,18 @@ const PlayerProfile = () => {
                                     </MatchLogCard>
                                 )
                             })}
+                            
                         </LogsList>
                         <PageNumber>
                             {currentPage > 2 && <PageBox onClick ={()=>{setCurrentPage(0)}}>{1}</PageBox>}
                             {currentPage > 2 && <PageBox>{`...`}</PageBox>}
                             {currentPage > 1 && <PageBox onClick ={()=>{setCurrentPage(currentPage-2)}}>{currentPage-1}</PageBox>}
                             {currentPage > 0 && <PageBox onClick ={()=>{setCurrentPage(currentPage-1)}}>{currentPage}</PageBox>}
-                            {currentPage >= 0 && <PageBox onClick ={()=>{setCurrentPage(currentPage)}}>{currentPage+1}</PageBox>}
-                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)-1) && <PageBox onClick ={()=>{setCurrentPage(currentPage+1)}}>{currentPage + 2}</PageBox>}
-                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)-2) && <PageBox onClick ={()=>{setCurrentPage(currentPage+2)}}>{currentPage + 3}</PageBox>}
-                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)-3) && <PageBox style={{cursor: "default"}}>...</PageBox>}
-                            {(currentPage >= 0 && currentPage < Math.floor(apiResponse.logs.length/25)) && <PageBox onClick ={()=>{setCurrentPage(Math.floor(apiResponse.logs.length/25))}}>{Math.floor(apiResponse.logs.length/25)+1}</PageBox>}
+                            {currentPage >= 0 && <PageBox style={{fontWeight: 800}} onClick ={()=>{setCurrentPage(currentPage)}}>{currentPage+1}</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(logsLegth/25)-1) && <PageBox onClick ={()=>{setCurrentPage(currentPage+1)}}>{currentPage + 2}</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(logsLegth/25)-2) && <PageBox onClick ={()=>{setCurrentPage(currentPage+2)}}>{currentPage + 3}</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(logsLegth/25)-3) && <PageBox style={{cursor: "default"}}>...</PageBox>}
+                            {(currentPage >= 0 && currentPage < Math.floor(logsLegth/25)) && <PageBox onClick ={()=>{setCurrentPage(Math.floor(logsLegth/25))}}>{Math.floor(logsLegth/25)+1}</PageBox>}
                         </PageNumber>
                     </PlayerMatchLogs>
                 </ProfileSections>

@@ -30,7 +30,6 @@ export const Profile = styled.div`
 `;
 
 export const MostRecentMatch = styled.div`
-    
     margin-top: 20px;
     background: #171616;
     color: #fff;
@@ -51,11 +50,14 @@ export const PlayerMatchLogs = styled.div`
 `;
 
 export const LogsHeader = styled.div`
-    background: #000;
+    background: #171616;
     border-radius: 5px;
-    height: 110px;
-    width: 980px;
-    margin-bottom: 10px;
+    height: 65px;
+    width: 970px;
+    padding: 5px;
+    margin-bottom: 35px;
+    display: grid;
+    justify-content: center;
 `;
 
 export const LogsList = styled.div`
@@ -168,6 +170,30 @@ export const KDA = styled.div`
     font-size: 50px;
     text-align: center;
     font-weight: 800;
+    position: relative;
+
+    &:before{
+        display:none;
+        content: "${props => props.tooltip}";
+        position: absolute;
+        font-weight: 600;
+        top: -1.8rem;
+        font-size: 20px;
+        color: #000;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        background-color: #f08149;
+        white-space: nowrap;
+        padding-bottom: 12px;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 80%, calc(50% + 5px) 80%, 50% 100%, calc(50% - 5px) 80%, 0% 80%);
+    }
+
+    &:hover{
+        &:before{
+            display: block;
+        }
+    }
 `;
 
 export const Damage = styled.div`
@@ -175,6 +201,30 @@ export const Damage = styled.div`
     text-align: center;
     font-weight: 800;
     margin-top: -10px;
+    position: relative;
+
+    &:before{
+        display:none;
+        content: "${props => props.tooltip}";
+        position: absolute;
+        font-weight: 600;
+        top: -2.5rem;
+        font-size: 20px;
+        color: #000;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px;
+        background-color: #f08149;
+        white-space: nowrap;
+        padding-bottom: 12px;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 80%, calc(50% + 5px) 80%, 50% 100%, calc(50% - 5px) 80%, 0% 80%);
+    }
+
+    &:hover{
+        &:before{
+            display: block;
+        }
+    }
 `;
 
 
@@ -196,7 +246,7 @@ export const SteamInfo = styled.div`
 
 export const ProfilePicture = styled.img`
     height: 64px;
-    border-radius: 0;
+    border-radius: 3px;
 `;
 
 export const Username = styled.div`
@@ -343,7 +393,7 @@ export const PageNumber = styled.div`
 export const PageBox = styled.div`
     font-family: 'Roboto Mono', monospace;
     padding: 4px 12px;
-    font-weight: 500;
+    font-weight: 200;
     outline: 1px solid #f08149;
     cursor: pointer;
     :hover{
@@ -351,7 +401,123 @@ export const PageBox = styled.div`
         color: #1c1c1c;
     }
 `;
-export const Example = styled.div`
+export const SearchElements = styled.div`
+    display: flex;
+    height: 65px;
+    margin: 5px;
+`;
+
+export const PlayerAdd = styled.input`
+    width: 180px;
+    height: 1.7em;
+    padding: 0 1em 0 1em;
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    color: #f08149;
+    font-weight: bold;
+    margin-right: 10px;
+`;
+
+export const MapSearch = styled.input`
+    width: 180px;
+    height: 1.7em;
+    padding: 0 1em 0 1em;
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    color: #f08149;
+    font-weight: bold;
+    margin-right: 10px;
+`;
+export const DateSearch = styled.input`
 
 `;
+export const FormatSearch = styled.select`
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    width: 85px;
+    height: 1.7em;
+    padding: 0 1em 0 1em;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+        no-repeat right 0em center / 1.4em,
+      linear-gradient(to left, rgba(255, 255, 255, 0.3) 1.5em, rgba(255, 255, 255, 0.2) 1.5em);
+    color: #f08149;
+    font-weight: bold;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+`;
+
+export const SearchTag = styled.option`
+    color: #f08149;
+    background: #1c1c1c;
+`;
+
+export const RemoveButton = styled.div`
+    padding-left: 10px;
+    
+    font-weight: 500;
+    cursor: pointer;
+    :hover{
+        color: #fff;
+    }
+`;
+
+export const SearchTags = styled.div`
+    display: flex;
+    margin-left: -150px;
+`;
+export const Tag = styled.div`
+    display: flex;
+    color: #1c1c1c;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    height: 20px;
+    padding: 0px 10px;
+    background-color: #f08149;
+    margin: 3px 5px;
+`;
+
+export const Element = styled.div`
+
+`;
+
+export const ElementHeader = styled.div`
+
+`;
+export const SearchButton = styled.button`
+    text-decoration: none;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins';
+    font-weight: 600;
+    color: #1d1c1c;
+    margin-top: 5px;
+    height: 45px;
+    background:#f08149;
+    border: 1px solid #1d1c1c;
+    border-radius: 10px;
+    padding: 0 30px;
+    margin-left: 30px;
+    cursor: pointer;
+    :hover{
+        outline: 3px solid #f08149;
+        background:#1d1c1c;
+        color: #f08149;
+    }
+`;
+
 
