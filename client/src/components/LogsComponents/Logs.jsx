@@ -254,7 +254,7 @@ const Logs = () => {
                   if(player[1].team === "Blue"){
                     return( 
                                           
-                        <ClassIconBlue style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIconBlue>
+                      <IconHoverWrapper data-tooltip={`${apiResponse.players[player[0]].userName}`}><ClassIconBlue style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL} ></ClassIconBlue></IconHoverWrapper>
                       
                     )
                   }
@@ -266,7 +266,7 @@ const Logs = () => {
                   if(player[1].team === "Red"){
                     return( 
                       
-                        <ClassIcon style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL}></ClassIcon>
+                        <IconHoverWrapper data-tooltip={`${apiResponse.players[player[0]].userName}`}><ClassIcon style={focusedPlayer === player[0] ? { border: "3px solid #fff" } : {}} onClick={() => { changeDamageVs(player[0]) }} src={player[1].classIconURL} ></ClassIcon></IconHoverWrapper>
                       
                     )
                   }
@@ -314,7 +314,7 @@ const Logs = () => {
                               padding: `${damageRecieved[player[0]] < 200 ? "4px 0px 4px 0px" : "4px 8px 4px 8px"}`,
                             }}>{damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]]}</DamageRecievedBar>
                             
-                              <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                              <IconHoverWrapper data-tooltip={`${apiResponse.players[player[0]].userName}`}><ClassAgainst src={apiResponse.players[player[0]].classIconURL} /></IconHoverWrapper>
                             
                             <DamageBar style={{
                               width: (player[1] / widthIndex),
@@ -344,7 +344,7 @@ const Logs = () => {
                               padding: `${player[1] < 200 ? "4px 0px 4px 4px" : "4px 8px 4px 8px"}`
                             }}>{player[1]}</DamageRecievedBar>
                             
-                              <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                              <IconHoverWrapper data-tooltip={`${apiResponse.players[player[0]].userName}`}><ClassAgainst src={apiResponse.players[player[0]].classIconURL} /></IconHoverWrapper>
                             
                             <DamageBar style={{
                               width: (Object.fromEntries(damageStats)[player[0]] === undefined ? 0 : Object.fromEntries(damageStats)[player[0]] / widthIndex),
@@ -374,7 +374,7 @@ const Logs = () => {
                               padding: `${damageRecieved[player[0]] < 200 ? "4px 0px 4px 0px" : "4px 8px 4px 8px"}`,
                             }}>{damageRecieved[player[0]] === undefined ? 0 : damageRecieved[player[0]]}</DamageRecievedBar>
                             
-                              <ClassAgainst src={apiResponse.players[player[0]].classIconURL} />
+                              <IconHoverWrapper data-tooltip={`${apiResponse.players[player[0]].userName}`}><ClassAgainst src={apiResponse.players[player[0]].classIconURL} /></IconHoverWrapper>
                             
                             <DamageBar style={{
                               width: (player[1] / widthIndex),
