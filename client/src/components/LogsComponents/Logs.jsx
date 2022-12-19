@@ -287,6 +287,7 @@ const Logs = () => {
                   <PlayerVsStats>
                     <InfoSection>
                       <InfoButtons>
+                        <SmallButton target="_blank" href={`https://more.tf/player/${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >PROFILE</SmallButton>
                         <SmallButton target="_blank" href={`https://steamcommunity.com/profiles/${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >STEAM</SmallButton>
                         <SmallButton target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} > RGL</SmallButton>
                         <SmallButton target="_blank" href={`https://etf2l.org/search/${apiResponse.players[focusedPlayer] === undefined ? apiResponse.players[Object.entries(apiResponse.players)[0][0]].steamID64 : apiResponse.players[focusedPlayer].steamID64}`} >ETF2L</SmallButton>
