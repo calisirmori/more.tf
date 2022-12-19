@@ -63,10 +63,12 @@ export const KillMap = styled.div`
     border-radius: 5px;
     margin: 20px 20px 20px 0;
     background-color: #171616;
+    left: 0;
+
     :hover {
         transition-timing-function: ease-in;
         transition: 0.2s;
-        transform: scale(1.9);
+        transform: scale(1.95);
         left: -250px;
     }
 `;
@@ -415,14 +417,17 @@ export const ClassAgainst = styled.img`
     margin-top: 5px;
 `;
 export const IconHoverWrapper = styled.div`
-
     position: relative;
-    &:before{
+    margin: 0px;
+    padding: 0px;
+
+    &:before {
+        pointer-events: none;
         display:none;
-        content: "${props => props.name}";
+        content: attr(data-tooltip);
         position: absolute;
         font-weight: 600;
-        top: -1.5rem;
+        top: -2rem;
         color: #000;
         left: 50%;
         transform: translateX(-50%);
@@ -431,6 +436,7 @@ export const IconHoverWrapper = styled.div`
         white-space: nowrap;
         padding-bottom: 12px;
         clip-path: polygon(0% 0%, 100% 0%, 100% 80%, calc(50% + 5px) 80%, 50% 100%, calc(50% - 5px) 80%, 0% 80%);
+        z-index: 10000;
     }
 
     &:hover{
@@ -825,26 +831,30 @@ export const TeamIcons = styled.div`
 export const ClassIcon = styled.img`
     cursor: pointer;
     padding: 5px;
-    margin: 3px 3px;
+    margin: 0px 3px;
     background: #BD3B3B;
     border: 3px solid #9D312F;
     height: 30px;
-    :hover{
-        transform: scale(1.1);
-        border: 3px solid #fff;
-    }
-`;
-export const ClassIconBlue = styled.img`
-    cursor: pointer;
-    height: 30px;
-    padding: 5px;
-    margin: 3px 3px;
-    background: #5B7A8C;
-    border: 3px solid #395C79;
+
     :hover {
         transform: scale(1.1);
         border: 3px solid #fff;
     }
 `;
+
+export const ClassIconBlue = styled.img`
+    cursor: pointer;
+    height: 30px;
+    padding: 5px;
+    margin: 0px 3px;
+    background: #5B7A8C;
+    border: 3px solid #395C79;
+
+    :hover {
+        transform: scale(1.1);
+        border: 3px solid #fff;
+    }
+`;
+
 export const Example = styled.div``;
 
