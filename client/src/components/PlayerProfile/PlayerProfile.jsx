@@ -82,7 +82,7 @@ const PlayerProfile = () => {
     async function apiCall(map, players){
         let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}&limit=10000`, FetchResultTypes.JSON);
         let playerProfile = await fetch(`https://more.tf/api/steamid/${playerId}`, FetchResultTypes.JSON);
-        let rglApiResponse = await fetch(`http://localhost:8080/api/rgl-profile/${playerId}`, FetchResultTypes.JSON);
+        let rglApiResponse = await fetch(`/api/rgl-profile/${playerId}`, FetchResultTypes.JSON);
         console.log(rglApiResponse);
         format = {
             total: 0,
