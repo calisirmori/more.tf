@@ -1,6 +1,6 @@
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 import React, { useEffect, useState } from 'react'
-import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, DateSearch, Element, ElementHeader, Format, FormatFooter, FormatHeader, FormatPercentage, FormatSearch, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MapSearch, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PageBox, PageNumber, PercentageBar, PlayerAdd, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, RemoveButton, Score, ScoreInfo, SearchButton, SearchElements, SearchTag, SearchTags, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Tag, Username } from './PlayerProfileStyles';
+import { CheckBox, ClassPlayed, ColorBox, Damage, DateAndID, DateSearch, Element, ElementHeader, Format, FormatFooter, FormatHeader, FormatLabel, FormatPercentage, FormatSearch, FormatText, FormatWrapper, GameDate, KDA, LogInfo, LogsHeader, LogsList, MapPlayed, MapSearch, MatchDate, MatchFormat, MatchID, MatchId, MatchInfo, MatchLogCard, MatchTitle, MathMap, MostRecentMatch, PageBox, PageNumber, PercentageBar, PlayerAdd, PlayerFunFact, PlayerInfo, PlayerLink, PlayerLinks, PlayerMatchLogs, PlayerName, PlayerProfileWrapper, PlayerStats, Profile, ProfilePicture, ProfileSections, RemoveButton, RGLTeamsLayout, Score, ScoreInfo, SearchButton, SearchElements, SearchTag, SearchTags, SectionHeader, StatHeader, StatInfo, StatWrapper, SteamInfo, Tag, TeamName, Username } from './PlayerProfileStyles';
 
 const PlayerProfile = () => {
     const id = window.location.href;
@@ -20,7 +20,7 @@ const PlayerProfile = () => {
     const [player, setPlayer] = useState("");
     const [searchedArray, setSearchedArray] = useState([])
     const [logsLegth, setLogsLength] = useState(0);
-
+    const [RGLTeam, setRGLTeam] = useState("");
     useEffect(() => {
         try {
             const lastLogId = apiResponse.logs[0].id
@@ -82,6 +82,8 @@ const PlayerProfile = () => {
     async function apiCall(map, players){
         let response = await fetch(`https://logs.tf/api/v1/log?player=${playerId}&limit=10000`, FetchResultTypes.JSON);
         let playerProfile = await fetch(`https://more.tf/api/steamid/${playerId}`, FetchResultTypes.JSON);
+        let rglApiResponse = await fetch(`http://localhost:8080/api/rgl-profile/${playerId}`, FetchResultTypes.JSON);
+        console.log(rglApiResponse);
         format = {
             total: 0,
             hl : 0,
@@ -110,6 +112,7 @@ const PlayerProfile = () => {
         setFormatObject(format);
         setApiResponse(response);
         setLogsLength(response.logs.length);
+        setRGLTeam(rglApiResponse);
         setCurrentPage(0);
     }
     
@@ -187,14 +190,15 @@ const PlayerProfile = () => {
                         <Profile>
                             <SteamInfo>
                                 <ProfilePicture src={playerResponse.avatarfull}></ProfilePicture>
-                                <Username>{playerResponse.personaname}</Username>
+                                <Username>
+                                    <PlayerName>{playerResponse.personaname}</PlayerName>
+                                </Username>
                             </SteamInfo>
                             <PlayerLinks>
                                 <PlayerLink href={`https://steamcommunity.com/profiles/${playerId}`} target="_blank">STEAM</PlayerLink>
                                 <PlayerLink href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${playerId}`} target="_blank">RGL</PlayerLink>
                                 <PlayerLink href={`http://www.ugcleague.com/players_page.cfm?player_id=${playerId}`} target="_blank">UGC</PlayerLink>
                                 <PlayerLink href={`http://etf2l.org/search/${playerId}`} target="_blank">ETF2L</PlayerLink>
-                                
                                 <PlayerLink style={{width: "90px"}} href={`https://trends.tf/player/${playerId}/`} target="_blank">trends.tf</PlayerLink>
                             </PlayerLinks>
                             <PlayerFunFact>
@@ -241,6 +245,24 @@ const PlayerProfile = () => {
                                 </FormatWrapper>
                             </FormatFooter>
                         </FormatPercentage>
+                        <RGLTeamsLayout>
+                            <SectionHeader style={{marginBottom: '10px'}}>RGL TEAMS</SectionHeader>
+                                {RGLTeam.currentTeams.sixes !== null && 
+                                    <FormatLabel> Sixes
+                                        <TeamName target="_blank" href={RGLTeam.currentTeams.sixes === null ? "" : `https://rgl.gg/Public/Team.aspx?t=${RGLTeam.currentTeams.sixes.id}&r=24`}>{RGLTeam.currentTeams.sixes === null ? "none" : RGLTeam.currentTeams.sixes.name}</TeamName>
+                                    </FormatLabel>
+                                }
+                                {RGLTeam.currentTeams.highlander !== null && 
+                                    <FormatLabel> Highlander
+                                        <TeamName target="_blank" href={RGLTeam.currentTeams.highlander === null ? "" : `https://rgl.gg/Public/Team.aspx?t=${RGLTeam.currentTeams.highlander.id}&r=24`}>{RGLTeam.currentTeams.highlander === null ? "none" : RGLTeam.currentTeams.highlander.name}</TeamName>
+                                    </FormatLabel>
+                                }
+                                {RGLTeam.currentTeams.prolander !== null && 
+                                    <FormatLabel> Prolander
+                                        <TeamName target="_blank" href={RGLTeam.currentTeams.prolander === null ? "" : `https://rgl.gg/Public/Team.aspx?t=${RGLTeam.currentTeams.prolander.id}&r=24`}>{RGLTeam.currentTeams.prolander === null ? "none" : RGLTeam.currentTeams.prolander.name}</TeamName>
+                                    </FormatLabel>
+                                }
+                        </RGLTeamsLayout>
                         <MostRecentMatch style={lastMatchWon === true ? {borderBottom: "5px solid green"}:{borderBottom: "5px solid red"}}>
                             <SectionHeader>LAST MATCH PLAYED</SectionHeader>
                             <MatchInfo>

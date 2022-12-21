@@ -520,4 +520,33 @@ export const SearchButton = styled.button`
     }
 `;
 
+export const PlayerName = styled.div``;
 
+export const FormatLabel = styled.div`
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+`;
+
+export const RGLTeamsLayout = styled.div`
+    background: #171616;
+    color: #fff;
+    border-radius: 5px;
+    width: 480px;
+    padding: 10px;
+    display: block;
+    margin-top: 20px;
+`;
+export const TeamName = styled.a`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    font-wright: 200;
+    color: #f08149;
+    text-decoration: none;
+    margin-left: 10px;
+    :hover{
+        color: #fff;
+    }
+`;

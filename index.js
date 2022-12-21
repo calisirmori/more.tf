@@ -32,6 +32,18 @@ app.get('/api/steamid/:id', async(req, res) => {
   res.send(logsApiResponse);
 });
 
+app.get('/api/rgl-profile/:id', async(req, res) => {
+  const userId = req.params.id;
+  var URL = ` https://api.rgl.gg/v1/profile/${userId}`;
+
+  const logsApiResponse = await fetch(
+    URL,
+    FetchResultTypes.JSON
+  );
+  
+  res.send(logsApiResponse);
+})
+
 app.get("/api/season-13-summary", (_, result) => {
   result.json(summaryObject);
 });
