@@ -34,7 +34,7 @@ app.get('/api/steamid/:id', async(req, res) => {
 
 app.get('/api/rgl-profile/:id', async(req, res) => {
   const userId = req.params.id;
-  var URL = ` https://api.rgl.gg/v1/profile/${userId}`;
+  var URL = ` https://api.rgl.gg/v0/profile/${userId}`;
 
   const logsApiResponse = await fetch(
     URL,
