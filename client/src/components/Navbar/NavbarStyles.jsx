@@ -5,6 +5,7 @@ export const NavbarWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     font-family: 'Poppins';
+   
 `;
 
 export const Logo = styled(Link)`
@@ -31,6 +32,10 @@ export const Header = styled(Link)`
     font-weight: 500;
     margin: 0 30px;
     cursor: pointer;
+    @media (max-width: 800px) {
+        margin: 0 20px;
+        font-size: 14px;
+    }
 `;
 export const ContactHeader = styled.a`
     text-decoration: none;
@@ -38,6 +43,10 @@ export const ContactHeader = styled.a`
     font-weight: 500;
     margin: 0 30px;
     cursor: pointer;
+    @media (max-width: 800px) {
+        font-size: 14px;
+        margin: 0 10px;
+    }
 `;
 
 export const InputSection = styled.div`

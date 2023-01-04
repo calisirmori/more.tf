@@ -11,6 +11,11 @@ export const HeroText = styled.div`
     display: block;
     width: 440px;
     margin-right: 50px;
+    @media (max-width: 1200px) {
+        margin-right: 0px;
+        text-align: center;
+        margin-top: -150px;
+    }
 `;
 
 export const H3Header = styled.div`
@@ -47,6 +52,11 @@ export const InputSection = styled.div`
 export const HeroImage = styled.img`
     height: 600px;
     width: 800px;
+
+    @media (max-width: 1200px) {
+        display:none;
+    }
+
 `;
 
 export const InputField = styled.input`

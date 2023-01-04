@@ -6,6 +6,24 @@ const NotificationWrapper = styled.div`
     font-family: "Poppins";
     background: #f08149;
     font-weight: bold;
+    @media (max-width: 1500px) {
+      zoom: 0.9;
+    }
+    @media (max-width: 1200px) {
+        zoom: 0.8;
+    }
+    @media (max-width: 1050px) {
+        zoom: 0.6;
+    }
+    @media (max-width: 800px) {
+        zoom: 0.5;
+    }
+    @media (max-width: 600px) {
+        zoom: 0.6;
+    }
+    @media (max-width: 500px) {
+        zoom: 0.4;
+    }
 `;
 
 const Notifications = () => {

@@ -5,7 +5,26 @@ export const LogsPageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     font-family: 'Poppins';
-    
+     
+    @media (max-width: 1500px) {
+        zoom: 0.8;
+    }
+    @media (max-width: 1200px) {
+        zoom: 0.7;
+    }
+    @media (max-width: 1050px) {
+        zoom: 0.5;
+    }
+    @media (max-width: 800px) {
+        zoom: 0.4;
+    }
+    @media (max-width: 600px) {
+        zoom: 0.3;
+    }
+    @media (max-width: 500px) {
+        zoom: 0.25;
+    }
+
 `;
 
 export const LogsSectionWrapper = styled.div`

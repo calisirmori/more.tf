@@ -5,6 +5,22 @@ import styled from 'styled-components'
 export const SummaryPage = styled.div`
     display:flex;
     justify-content:center;
+    @media (max-width: 1500px) {
+        zoom: 0.8;
+    }
+    @media (max-width: 1200px) {
+        zoom: 0.7;
+    }
+    @media (max-width: 1050px) {
+        zoom: 0.5;
+    }
+    @media (max-width: 800px) {
+        zoom: 0.4;
+    }
+    @media (max-width: 600px) {
+        zoom: 0.3;
+    }
+    
 `;
 
 export const SummaryWrapper = styled.div`
