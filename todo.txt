@@ -1,9 +1,5 @@
 more.tf v1.1 todo;
 
-    ##Match Pause timer
-
-    ##Match Combined or not
-
     Map rework clear indication of killer and victim
         - potential hover and pop up
         - show class indication of kills
@@ -22,10 +18,6 @@ more.tf v1.1 todo;
     team total spot total medkits per team, total ammo, total object kills
 
     chat
-
-    try button
-
-    ##s13 summary align
 
 more.tf non urgent todo;
 
