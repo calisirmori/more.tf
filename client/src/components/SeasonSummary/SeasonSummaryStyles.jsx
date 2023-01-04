@@ -6,37 +6,35 @@ export const SummaryPage = styled.div`
     display:flex;
     justify-content:center;
     @media (max-width: 1500px) {
-        -webkit-transform: scale(0.8);
-transform: scale(0.8);
-       
-
+        -webkit-transform: scale(0.9);
+transform: scale(0.9);
     }
     @media (max-width: 1200px) {
-        -webkit-transform: scale(0.7);
-transform: scale(0.7);
-        
+        -webkit-transform: scale(0.8);
+transform: scale(0.8);
+margin-top: -20px;
     }
     @media (max-width: 1050px) {
-        -webkit-transform: scale(0.5);
-transform: scale(0.5);
+        -webkit-transform: scale(0.6);
+transform: scale(0.6);
         
-
+margin-top: -40px;
     }
     @media (max-width: 800px) {
-        -webkit-transform: scale(0.4);
-transform: scale(0.4);
-        
+        -webkit-transform: scale(0.45);
+transform: scale(0.45);
+margin-top: -60px;
 
     }
     @media (max-width: 600px) {
-        -webkit-transform: scale(0.3);
-transform: scale(0.3);
-        
+        -webkit-transform: scale(0.4);
+transform: scale(0.4);
+margin-top: -80px;
     }
     @media (max-width: 500px) {
-        -webkit-transform: scale(0.28);
-transform: scale(0.28);
-        
+        -webkit-transform: scale(0.32);
+transform: scale(0.32);
+        margin-top: -100px;
     }
 
     

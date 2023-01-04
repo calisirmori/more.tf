@@ -35,8 +35,8 @@ transform: scale(0.3);
         height: 115vh;
     }
     @media (max-width: 500px) {
-        -webkit-transform: scale(0.28);
-transform: scale(0.28);
+        -webkit-transform: scale(0.25);
+transform: scale(0.25);
         height: 108vh;
     }
 
