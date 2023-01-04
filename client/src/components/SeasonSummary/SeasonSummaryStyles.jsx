@@ -6,20 +6,39 @@ export const SummaryPage = styled.div`
     display:flex;
     justify-content:center;
     @media (max-width: 1500px) {
-        zoom: 0.8;
+        -webkit-transform: scale(0.8);
+transform: scale(0.8);
+       
+
     }
     @media (max-width: 1200px) {
-        zoom: 0.7;
+        -webkit-transform: scale(0.7);
+transform: scale(0.7);
+        
     }
     @media (max-width: 1050px) {
-        zoom: 0.5;
+        -webkit-transform: scale(0.5);
+transform: scale(0.5);
+        
+
     }
     @media (max-width: 800px) {
-        zoom: 0.4;
+        -webkit-transform: scale(0.4);
+transform: scale(0.4);
+        
+
     }
     @media (max-width: 600px) {
-        zoom: 0.3;
+        -webkit-transform: scale(0.3);
+transform: scale(0.3);
+        
     }
+    @media (max-width: 500px) {
+        -webkit-transform: scale(0.28);
+transform: scale(0.28);
+        
+    }
+
     
 `;
 
@@ -36,6 +55,9 @@ export const SeasonHeader = styled.div`
     color: #f08149;
     font-family: 'Lilita One';
     font-size: 60px;
+    @media (max-width: 800px) {
+        font-size: 40px;
+    }
     line-height: 70px;
     margin-bottom: 15px;
 `;
@@ -115,6 +137,9 @@ export const MedalHeader = styled.div`
     padding-bottom: 5px;
     border-bottom: 3px solid #181818;
     font-size: 20px;
+    @media (max-width: 800px) {
+        font-size: 14px;
+    }
     font-family: 'Lilita One';
     color: #f08149;
 `;
@@ -122,12 +147,18 @@ export const MedalHeader = styled.div`
 export const PlayerName = styled.div`
     font-weight: 800;
     font-size: 16px;
+    @media (max-width: 800px) {
+        font-size: 12px;
+    }
     margin: 0 15px;
     margin-top: 5px;
 `;
 
 export const PlayerTeam = styled.div`
     font-size: 14px;
+    @media (max-width: 800px) {
+        font-size: 10px;
+    }
     font-weight: 500;
     color: #f08149;
 `;
@@ -140,6 +171,9 @@ export const MedalImage = styled.img`
 export const MedalInfo = styled.div`
     font-size: 11px;
     padding-bottom: 8px;
+    @media (max-width: 800px) {
+        font-size: 14px;
+    }
     font-weight: 300;
     margin: 5px 10px;
 `;

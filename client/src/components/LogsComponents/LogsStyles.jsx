@@ -5,24 +5,39 @@ export const LogsPageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     font-family: 'Poppins';
-     
+    
     @media (max-width: 1500px) {
-        zoom: 0.8;
+        -webkit-transform: scale(0.8);
+transform: scale(0.8);
+        height: 310vh;
+
     }
     @media (max-width: 1200px) {
-        zoom: 0.7;
+        -webkit-transform: scale(0.7);
+transform: scale(0.7);
+        height: 270vh;
     }
     @media (max-width: 1050px) {
-        zoom: 0.5;
+        -webkit-transform: scale(0.5);
+transform: scale(0.5);
+        height: 195vh;
+
     }
     @media (max-width: 800px) {
-        zoom: 0.4;
+        -webkit-transform: scale(0.4);
+transform: scale(0.4);
+        height: 155vh;
+
     }
     @media (max-width: 600px) {
-        zoom: 0.3;
+        -webkit-transform: scale(0.3);
+transform: scale(0.3);
+        height: 115vh;
     }
     @media (max-width: 500px) {
-        zoom: 0.25;
+        -webkit-transform: scale(0.28);
+transform: scale(0.28);
+        height: 108vh;
     }
 
 `;
