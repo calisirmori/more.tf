@@ -34,8 +34,6 @@ more.tf non urgent todo;
 
     stopwatch can be filtered by attack defense and all 
 
-    ##have section under navbar for notices
-
     combined logs section, player dumps the logs into the page, gets visuals they like and one click "upload this to logs.tf"
         where I handle the upload with an api call and forward them to the link.
 
