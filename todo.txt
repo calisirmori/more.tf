@@ -48,5 +48,3 @@ more.tf non urgent todo;
 
 	past 20 games average compared to last game per/minute stats
 
-    404 page
-
