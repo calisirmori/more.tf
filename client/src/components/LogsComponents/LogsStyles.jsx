@@ -5,7 +5,6 @@ export const LogsPageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     font-family: 'Poppins';
-    
     @media (max-width: 1500px) {
         -webkit-transform: scale(0.8);
 transform: scale(0.8);
