@@ -8,6 +8,10 @@ const { summaryObject } = require("./summary");
 const seasonSummary = require("./src/seasonSummary.js");
 const path = require("path");
 const { fetch, FetchResultTypes } = require("@sapphire/fetch");
+const rgl = require("./src/rgl");
+
+// this is used to create summary for rgl player spread
+// console.log( rgl.getData() );
 
 app.use(express.json());
 app.use(cors());
