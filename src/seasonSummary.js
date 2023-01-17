@@ -1,10 +1,9 @@
 
 //this page is used to produce 1 object to save and will not be used after that making 200api calls on each load would be insane
 //this will be used at end of each season to produce a summary object
-539
+
 const { fetch, FetchResultTypes } = require('@sapphire/fetch');
 const fs = require('fs');
-console.log();
 let inviteLogs   = ["3280749","3280753","3280813","3280830","3284610","3284707","3284680","3284708","3288567","3288537","3288556","3288581","3292425","3292480",
                     "3292458","3292488","3296366","3295902","3296343","3295889","3300486","3300529","3300533","3300558","3304444","3304396","3304455"];
 
