@@ -1,6 +1,6 @@
 {
   "1": {
-    "seasonName": "P7 Season 1",
+    "seasonName": "P7 Season 2",
     "totalMatches": 63,
     "totalTeams": 30,
     "totalPlayers": 183,
