@@ -6,7 +6,7 @@ function App() {
 
 
   return (
-    <div className=' text-blue-300'> hello
+    <div className='bg-stone-900 min-h-screen'>
     </div>
   )
 }
