@@ -20,6 +20,15 @@ module.exports = {
         'grayscale-0': '#CFCFCF',
       }
     },
+    fontFamily: {
+        cantarell: ['Cantarell', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        quicksand: ['Quicksand', 'sans-serif'],
+        rajdhani: ['Rajdhani', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
+        robotomono: ['Roboto Mono', 'monospace'],
+        ubuntu: ['Ubuntu', 'sans-serif']
+    }
   },
   plugins: [],
 }
