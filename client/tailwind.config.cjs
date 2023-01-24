@@ -5,7 +5,21 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'tf2orange': '#F08149',
+        'grayscale-9': '#0F1012',
+        'grayscale-8': '#15171A',
+        'grayscale-7': '#202225',
+        'grayscale-6': '#2C2E30',
+        'grayscale-5': '#36383A',
+        'grayscale-4': '#424346',
+        'grayscale-3': '#595A5C',
+        'grayscale-2': '#6F7072',
+        'grayscale-1': '#9B9C9D',
+        'grayscale-0': '#CFCFCF',
+      }
+    },
   },
   plugins: [],
 }
