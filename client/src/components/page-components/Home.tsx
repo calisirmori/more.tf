@@ -66,11 +66,36 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="border border-pink-500">
-              <div></div>
-              <div>
-                <div></div>
-                <div></div>
+            <div className="flex justify-center items-center w-[36rem] h-full">
+              <div className="grid grid-cols-3 w-full h-60 gap-3">
+                <div className="relative">
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
+                    YOUR LAST GAME
+                  </span>
+                  <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
+                    <div className="font-light flex justify-center items-center font-robotomono py-1 bg-grayscale-7 drop-shadow-md rounded-t-md">#330694</div>
+                    <div className="flex justify-center items-center">
+                      <div className=" rounded-full bg-gradient-to-b from-black to-grayscale-8 drop-shadow-lg mt-4">
+                        <img
+                          className="border-2 border-orange-600 h-14 w-14 object-contain m-1.5 rounded-full"
+                          src="https://st2.depositphotos.com/3336339/8196/i/450/depositphotos_81969890-stock-photo-red-chaotic-cubes-wall-background.jpg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center mt-3 font-quicksand">
+                      koth_ashville_rc1
+                    </div>
+                    <div className="flex justify-center -mt-1 font-quicksand text-orange-400">
+                      Highlander
+                    </div>
+                    <div className="flex font-quicksand justify-center text-gray-400 mt-4">
+                      2:00PM 01/24/2023
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-grayscale-8 rounded-md border-2 border-gray-600 hover:border-gray-400 cursor-pointer"></div>
+                <div className="bg-grayscale-8 rounded-md border-2 border-gray-600 hover:border-gray-400 cursor-pointer"></div>
               </div>
             </div>
           </div>
