@@ -4,17 +4,17 @@ import Navbar from "../shared-components/Navbar";
 const Home = () => {
   return (
     <div className="bg-grayscale-8 min-h-screen pt-3 ">
-      <div className=" absolute z-10 w-full top-0 pt-3 ">
+      <div className=" absolute z-10 w-screen top-0 pt-3 ">
         <Navbar />
       </div>
-      <div className="bg-black w-full h-screen absolute z-0 top-0 ">
+      <div className="bg-black h-screen w-full absolute z-0 top-0 ">
         <img
           src="https://i.imgur.com/0YGCnmh.jpeg"
           alt=""
           className=" absolute h-screen object-cover w-full z-0 opacity-10 top-0"
         />
         <div className="text-white w-full absolute z-10 top-16">
-          <div className="grid md:grid-cols-2 max-md:grid-rows-2 max-md:px-0 max-lg:px-10 max-lg:gap-10  h-96 gap-32 px-48 my-20 ">
+          <div className="grid xl:grid-cols-2 max-md:px-0 max-lg:px-10 max-xl:gap-10 xl:h-[36rem]  gap-32 px-48 mt-20 mb-0">
             <div className="flex justify-center items-center">
               <div className="w-full max-lg:w-96 max-xl:w-96 max-md:w-96 max-sm:w-screen max-sm:px-4">
                 <div className="block text-center">
@@ -66,10 +66,10 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center items-center w-[36rem] h-full ">
-              <div className="grid grid-cols-3 w-full h-60 gap-3 ">
+            <div className="flex justify-center items-center w-[36rem] h-full max-xl:w-full max-md:px-10  max-sm:px-2 max-sm:scale-90 duration-100" >
+              <div className="grid grid-cols-3 w-full lg:h-60 gap-3 ">
                 <div className="relative">
-                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
                     YOUR LAST GAME
                   </span>
                   <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
@@ -85,19 +85,21 @@ const Home = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex justify-center mt-3 font-quicksand">
+                    <div className="flex justify-center mt-3 font-quicksand max-md:text-sm  max-sm:text-xs">
                       koth_ashville_rc1
                     </div>
-                    <div className="flex justify-center -mt-1 font-quicksand text-orange-400">
+                    <div className="flex justify-center -mt-1 font-quicksand text-orange-400 max-md:text-sm ">
                       Highlander
                     </div>
-                    <div className="flex font-quicksand justify-center text-gray-400 mt-4">
-                      2:00PM 01/24/2023
+                    <div className="flex font-quicksand justify-center text-gray-400 mt-4 max-md:text-sm  max-sm:text-xs">
+                      <span className="max-sm:hidden">2:00PM </span> 
+                      <span>01/24/2023</span>
+                      
                     </div>
                   </div>
                 </div>
                 <div className="relative">
-                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
                     SIXES S10 MVP
                   </span>
                   <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
@@ -110,17 +112,17 @@ const Home = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex justify-center mt-3 font-quicksand font-semibold">
+                    <div className="flex justify-center mt-3 font-quicksand font-semibold max-md:text-sm">
                       BigJoe
                     </div>
-                    <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400">
+                    <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400 max-md:text-sm">
                       BestTeamEver
                     </div>
                   </div>
                 </div>
                 <div className="relative">
-                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
-                    HIGHLANDER S13 MVP
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
+                    HL S13 MVP
                   </span>
                   <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
                     <div className="flex justify-center items-center">
@@ -132,10 +134,10 @@ const Home = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex justify-center mt-3 font-quicksand font-semibold">
+                    <div className="flex justify-center mt-3 font-quicksand font-semibold max-md:text-sm">
                       SmallerJoe
                     </div>
-                    <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400">
+                    <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400 max-md:text-sm">
                       NotSoBestTeam
                     </div>
                   </div>
@@ -143,8 +145,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="w-full h-20 bg-gradient-to-t from-grayscale-9 opacity-95"></div>
-          <div className="w-full h-[15.7rem] bg-grayscale-9 opacity-95"></div>
+
         </div>
       </div>
     </div>
