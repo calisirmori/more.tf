@@ -12,7 +12,7 @@ const Navbar = () => {
         <span className="text-white font-semibold text-2xl px-2">mori</span>
         <img
           className="h-8 rounded-full drop-shadow border-tf2orange"
-          src="https://st2.depositphotos.com/3336339/8196/i/450/depositphotos_81969890-stock-photo-red-chaotic-cubes-wall-background.jpg"
+          src="https://i1.sndcdn.com/avatars-o3aKLC4MdTH7WA8t-4WjbyQ-t500x500.jpg"
           alt=""
         />
       </div>

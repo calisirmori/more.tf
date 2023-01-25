@@ -3,18 +3,18 @@ import Navbar from "../shared-components/Navbar";
 
 const Home = () => {
   return (
-    <div className="bg-grayscale-8 min-h-screen pt-3">
-      <div className=" absolute z-10 w-full top-0 pt-3">
+    <div className="bg-grayscale-8 min-h-screen pt-3 ">
+      <div className=" absolute z-10 w-full top-0 pt-3 ">
         <Navbar />
       </div>
-      <div className="bg-black w-full h-screen absolute z-0 top-0">
+      <div className="bg-black w-full h-screen absolute z-0 top-0 ">
         <img
           src="https://i.imgur.com/0YGCnmh.jpeg"
           alt=""
           className=" absolute h-screen object-cover w-full z-0 opacity-10 top-0"
         />
-        <div className="text-white absolute z-10 top-16">
-          <div className="grid md:grid-cols-2 max-md:grid-rows-2 max-md:px-0 max-lg:px-10 max-lg:gap-10  w-screen h-96 gap-32 px-48 my-20 ">
+        <div className="text-white w-full absolute z-10 top-16">
+          <div className="grid md:grid-cols-2 max-md:grid-rows-2 max-md:px-0 max-lg:px-10 max-lg:gap-10  h-96 gap-32 px-48 my-20 ">
             <div className="flex justify-center items-center">
               <div className="w-full max-lg:w-96 max-xl:w-96 max-md:w-96 max-sm:w-screen max-sm:px-4">
                 <div className="block text-center">
@@ -66,19 +66,21 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center items-center w-[36rem] h-full">
-              <div className="grid grid-cols-3 w-full h-60 gap-3">
+            <div className="flex justify-center items-center w-[36rem] h-full ">
+              <div className="grid grid-cols-3 w-full h-60 gap-3 ">
                 <div className="relative">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
                     YOUR LAST GAME
                   </span>
                   <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
-                    <div className="font-light flex justify-center items-center font-robotomono py-1 bg-grayscale-7 drop-shadow-md rounded-t-md">#330694</div>
+                    <div className="font-light flex justify-center items-center font-robotomono py-1 bg-grayscale-7 drop-shadow-md rounded-t-md">
+                      #330694
+                    </div>
                     <div className="flex justify-center items-center">
                       <div className=" rounded-full bg-gradient-to-b from-black to-grayscale-8 drop-shadow-lg mt-4">
                         <img
-                          className="border-2 border-orange-600 h-14 w-14 object-contain m-1.5 rounded-full"
-                          src="https://st2.depositphotos.com/3336339/8196/i/450/depositphotos_81969890-stock-photo-red-chaotic-cubes-wall-background.jpg"
+                          className="border-2 border-orange-600 h-14 w-14 object-cover m-1.5 rounded-full"
+                          src="https://i1.sndcdn.com/avatars-o3aKLC4MdTH7WA8t-4WjbyQ-t500x500.jpg"
                           alt=""
                         />
                       </div>
@@ -94,11 +96,55 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-grayscale-8 rounded-md border-2 border-gray-600 hover:border-gray-400 cursor-pointer"></div>
-                <div className="bg-grayscale-8 rounded-md border-2 border-gray-600 hover:border-gray-400 cursor-pointer"></div>
+                <div className="relative">
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
+                    SIXES S10 MVP
+                  </span>
+                  <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
+                    <div className="flex justify-center items-center">
+                      <div className=" rounded-full bg-gradient-to-b from-black to-grayscale-8 drop-shadow-lg mt-12">
+                        <img
+                          className="border-2 border-orange-600 h-14 w-14 object-cover m-1.5 rounded-full"
+                          src="https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center mt-3 font-quicksand font-semibold">
+                      BigJoe
+                    </div>
+                    <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400">
+                      BestTeamEver
+                    </div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300">
+                    HIGHLANDER S13 MVP
+                  </span>
+                  <div className="bg-grayscale-8 relative rounded-md border-2 border-gray-600 h-56 hover:border-gray-400 cursor-pointer duration-100">
+                    <div className="flex justify-center items-center">
+                      <div className=" rounded-full bg-gradient-to-b from-black to-grayscale-8 drop-shadow-lg mt-12">
+                        <img
+                          className="border-2 border-orange-600 h-14 w-14 object-cover m-1.5 rounded-full"
+                          src="https://marketplace.canva.com/EAEeKH905XY/2/0/1600w/canva-yellow-and-black-gamer-grunge-twitch-profile-picture-Yf5RCMJroQI.jpg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center mt-3 font-quicksand font-semibold">
+                      SmallerJoe
+                    </div>
+                    <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400">
+                      NotSoBestTeam
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <div className="w-full h-20 bg-gradient-to-t from-grayscale-9 opacity-95"></div>
+          <div className="w-full h-[15.7rem] bg-grayscale-9 opacity-95"></div>
         </div>
       </div>
     </div>
