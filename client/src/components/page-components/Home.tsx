@@ -98,7 +98,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                <div className="relative">
+                <a href="/profile" className="relative">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
                     SIXES S10 MVP
                   </span>
@@ -119,7 +119,7 @@ const Home = () => {
                       BestTeamEver
                     </div>
                   </div>
-                </div>
+                </a>
                 <div className="relative">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
                     HL S13 MVP
