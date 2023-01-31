@@ -7,9 +7,12 @@ things to consider : all of the weapon ids need to be matched with ingame name l
         demosID: number, | "demos.tf ID" (this is found by crossreferencing)
         date: date,
         matchLength: date,
+        playebleSeconds: number, | the number of seconds that were played: elapsedSeconds - humiliation rounds - pauses
         pauseLength: number,
         combined: boolean,
         map: string,
+        matchFormat: string,
+        winner: string,
         title: string,
     }
     teams: {
@@ -37,6 +40,7 @@ things to consider : all of the weapon ids need to be matched with ingame name l
     players:{
         "SteamID3":{
             userName: string,
+            joinedGame: date,
             team: blue/red,
             class: string,
             steamID64: string,
@@ -70,6 +74,10 @@ things to consider : all of the weapon ids need to be matched with ingame name l
             suicides": number,
             killAssistPerDeath: number,
             killsPerDeath: number,
+            longestKillStreak: number,
+            longestDeathStreak: number,
+            medPicksTotal: number,
+            medPicksDroppedUber: number,
             damageDivision: {
                 damageTowards:{},
                 damageFrom:{},
@@ -80,20 +88,31 @@ things to consider : all of the weapon ids need to be matched with ingame name l
                     killer:{
                         id: STEAMID3,
                         class: string,
-                        xCordinate: number,
-                        yCordinate: number,
-                        weapon: string,
+                        position: {
+                            x: number,
+                            y: number,
+                            z: number.
+                        },
                         damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
                     },
                     victim:{
                         id: STEAMID3,
                         class: string,
-                        xCordinate: number,
-                        yCordinate: number,
+                        position: {
+                            x: number,
+                            y: number,
+                            z: number.
+                        },
+                        damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
                     },
+                    assister:{
+
+                    }
+                    weapon: string,
+                    customkill: string,
                     distance: number,
                     time: date,
-                }
+                },
             ],
             damage : number, | total damage
             damageReal : number, | actual damage to enemy (ex: discount 450 shot to a scout to 125 to 125)
