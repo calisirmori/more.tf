@@ -82,38 +82,6 @@ things to consider : all of the weapon ids need to be matched with ingame name l
                 damageTowards:{},
                 damageFrom:{},
             },
-            events:[
-                {
-                    isKiller: boolean, 
-                    killer:{
-                        id: STEAMID3,
-                        class: string,
-                        position: {
-                            x: number,
-                            y: number,
-                            z: number.
-                        },
-                        damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
-                    },
-                    victim:{
-                        id: STEAMID3,
-                        class: string,
-                        position: {
-                            x: number,
-                            y: number,
-                            z: number.
-                        },
-                        damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
-                    },
-                    assister:{
-
-                    }
-                    weapon: string,
-                    customkill: string,
-                    distance: number,
-                    time: date,
-                },
-            ],
             damage : number, | total damage
             damageReal : number, | actual damage to enemy (ex: discount 450 shot to a scout to 125 to 125)
             damageTaken : number,
@@ -149,6 +117,47 @@ things to consider : all of the weapon ids need to be matched with ingame name l
             selfDamage: number,
         },
     },
+    events:[
+        {
+            type: kill,
+            killerId: id64,
+            assisterId: id64,
+            victimId: id64, 
+            time: date,
+            elapsedSeconds: number
+            killer:{
+                class: string,
+                position: {
+                    x: number,
+                    y: number,
+                    z: number.
+                },
+                damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
+            },
+            victim:{
+                class: string,
+                position: {
+                    x: number,
+                    y: number,
+                    z: number.
+                },
+                damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
+            },
+            assister:
+                class: string,
+                position: {
+                    x: number,
+                    y: number,
+                    z: number.
+                },
+                damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
+            }
+            weapon: string,
+            customkill: string,
+            distance: number,      
+        },
+    ],
+    
     rounds: [
         {
             roundBegin: date,
