@@ -44,6 +44,7 @@ things to consider : all of the weapon ids need to be matched with ingame name l
             team: blue/red,
             class: string,
             steamID64: string,
+            combatScore: number,
             classStats: {
                 "type": "heavyweapons",
                 "kills": 11,
@@ -53,15 +54,13 @@ things to consider : all of the weapon ids need to be matched with ingame name l
                 "weapon": {
                   "holiday_punch": {
                     "kills": 10,
-                    "dmg": 5395,
-                    "avg_dmg": 65,
+                    "damage": 5395,
                     "shots": 0,
                     "hits": 0
                   },
                   "taunt_heavy": {
                     "kills": 1,
-                    "dmg": 450,
-                    "avg_dmg": 450,
+                    "damage": 450,
                     "shots": 0,
                     "hits": 0
                   }
@@ -79,7 +78,7 @@ things to consider : all of the weapon ids need to be matched with ingame name l
             medPicksTotal: number,
             medPicksDroppedUber: number,
             damageDivision: {
-                damageTowards:{},
+                damageTo:{},
                 damageFrom:{},
             },
             damage : number, | total damage
@@ -187,7 +186,7 @@ things to consider : all of the weapon ids need to be matched with ingame name l
                 }
             ],
             playerPerformance:{
-                "STEAMID3" :{
+                "STEAMID64" :{
                     team: string,
                     kills: number,
                     damage: number,
