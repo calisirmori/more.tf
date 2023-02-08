@@ -4,11 +4,32 @@ const cors = require("cors");
 const AdmZip = require("adm-zip");
 const path = require("path");
 const { fetch, FetchResultTypes } = require("@sapphire/fetch");
+const parser = require("./parser/main.js");
 
-// this is used to create summary for rgl player spread
-// console.log( rgl.getData() );
+async function testCall(logId){
+  try {
+    const buffer = await fetch(
+      `http://logs.tf/logs/log_${logId}.log.zip`,
+      FetchResultTypes.Buffer
+    );
 
-//console.log(acswork.getData() );
+    const zip = new AdmZip(buffer);
+    const zipEntries = zip.getEntries();
+    const textFile = zipEntries[0].getData().toString();
+
+    console.log(parser.parse(textFile));
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ errorCode: 500, message: "Internal Server Error" });
+  }
+  console.log(logId)
+}
+
+for (let index = 0; index < 1; index++) {
+  testCall(3352970+index);
+}
+
 
 app.use(express.json());
 app.use(cors());
@@ -19,10 +40,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-//this is used to create seasonal summary text files
-//console.log( seasonSummary.makeSummary())
-
-app.get('/api/steamid/:id', async(req, res) => {
+app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
   var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=18D6B8C4F205B3A1BD6608A68EC83C3F&steamids=${userId}`;
 
@@ -41,15 +59,10 @@ app.get('/api/rgl-profile/:id', async(req, res) => {
     URL,
     FetchResultTypes.JSON
   );
-  
   res.send(logsApiResponse);
 })
 
-app.get("/api/season-13-summary", (_, result) => {
-  result.json(summaryObject);
-});
-
-app.get("/api/:id", async (req, res) => {
+app.get("/api/log/:id", async (req, res) => {
   let matchId = req.params.id;
   matchId = parseInt(matchId);
 
