@@ -7,6 +7,8 @@ function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder){
         chatMessage(unparsedEvent, finalObject, playerIDFinder);
     } else if (unparsedEvent.includes('changed role to')){
         playerConnected(unparsedEvent, finalObject, playerIDFinder);
+    } else if (unparsedEvent.includes('picked up item')){
+        resupEvents(unparsedEvent, finalObject, playerIDFinder)
     }
     // else {
     //     console.log(unparsedEvent);
@@ -17,7 +19,7 @@ function chatMessage(unparsedEvent, finalObject, playerIDFinder){
     if (unparsedEvent.includes('" say "')){
         let chatterId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
         let chatObject = {
-            userId : playerIDFinder[chatterId3] !== undefined ? playerIDFinder[chatterId3] : ID3toID64Converter(playerIDFinder, chatterId3),
+            userId : playerIDFinder[chatterId3],
             time: eventDateToSeconds(unparsedEvent),
             message: unparsedEvent.slice(unparsedEvent.indexOf('" say "') + 7, unparsedEvent.lastIndexOf('"'))
         };
@@ -35,8 +37,8 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder){
     // Kill event is made here
     let eventObject = {
         type: "kill",
-        killerId: playerIDFinder[killerId3] !== undefined ? playerIDFinder[killerId3] : ID3toID64Converter(playerIDFinder, killerId3),
-        victimId: playerIDFinder[victimId3] !== undefined ? playerIDFinder[victimId3] : ID3toID64Converter(playerIDFinder, victimId3),
+        killerId: playerIDFinder[killerId3],
+        victimId: playerIDFinder[victimId3],
         time: eventDateToSeconds(unparsedEvent),
         elapsedTime: eventDateToSeconds(unparsedEvent) - finalObject.info.date,
         killer:{
@@ -71,7 +73,27 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder){
     finalObject.events.push(eventObject);
 }
 
-function ammoPickup(unparsedEvent, finalObject, playerIDFinder){  
+function resupEvents(unparsedEvent, finalObject, playerIDFinder){
+    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+
+    if(unparsedEvent.includes('tf_ammo_pack')){
+        finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
+    } else if (unparsedEvent.includes('ammopack_medium')){
+        finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
+    } else if (unparsedEvent.includes('ammopack_small')){
+        finalObject.players[playerIDFinder[userId3]].resup.ammo += 1;
+    } else if (unparsedEvent.includes('ammopack_large')){
+        finalObject.players[playerIDFinder[userId3]].resup.ammo += 4;
+    } else if (unparsedEvent.includes('medkit_medium')){
+        finalObject.players[playerIDFinder[userId3]].resup.medkit += 2;
+        finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone += parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('"')));
+    } else if (unparsedEvent.includes('medkit_small')){
+        finalObject.players[playerIDFinder[userId3]].resup.medkit += 1;
+        finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone += parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('"')));
+    } else if (unparsedEvent.includes('medkit_large')){
+        finalObject.players[playerIDFinder[userId3]].resup.medkit += 4;
+        finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone += parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('"')));
+    }
 }
 
 function playerConnected(unparsedEvent, finalObject, playerIDFinder){
@@ -125,7 +147,7 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         uberTypes:{},
         drops: 0,
         resup: {
-            medkits: 0,
+            medkit: 0,
             medkitsHealingDone: 0,
             ammo: 0,
         },

@@ -89,7 +89,7 @@ async function parse(LogFile){
         //     console.log(unparsedEvent);
         // }
     }
-    //console.log(parsedJSON.players)
+    console.log(parsedJSON.players)
 }
 
 function eventDateToSeconds(unparsedEvent){
