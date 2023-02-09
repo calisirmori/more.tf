@@ -23,7 +23,6 @@ async function testCall(logId){
     console.error(error);
     res.status(500).json({ errorCode: 500, message: "Internal Server Error" });
   }
-  console.log(logId)
 }
 
 for (let index = 0; index < 1; index++) {

@@ -187,6 +187,9 @@ things to consider : all of the weapon ids need to be matched with ingame name l
     ],
     healSpread: {},
     killSpread: {},
+    healOverTime: {
+        med1: [],
+    },
     chat: [
         {
             steamID : SteamID3,

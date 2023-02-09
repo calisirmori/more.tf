@@ -3,6 +3,20 @@
 function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder){
     if(unparsedEvent.includes('" killed "')){
         killEvent(unparsedEvent, finalObject, playerIDFinder);
+    } else if (unparsedEvent.includes('say')){
+        chatMessage(unparsedEvent, finalObject, playerIDFinder);
+    }
+}
+
+function chatMessage(unparsedEvent, finalObject, playerIDFinder){
+    if (unparsedEvent.includes('" say "')){
+        let chatterId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+        let chatObject = {
+            userId : playerIDFinder[chatterId3] !== undefined ? playerIDFinder[chatterId3] : ID3toID64Converter(playerIDFinder, chatterId3),
+            time: eventDateToSeconds(unparsedEvent),
+            message: unparsedEvent.slice(unparsedEvent.indexOf('" say "') + 7, unparsedEvent.lastIndexOf('"'))
+        };
+       finalObject.chat.push(chatObject);
     }
 }
 
@@ -25,7 +39,6 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder){
                 y: killerCordinates[1],
                 z: killerCordinates[2],
             },
-            damageDealt: 00000000000000000000000000000000000000,
         },
         victim:{
             class: 00000000000000000000000000000000000000,
@@ -34,13 +47,19 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder){
                 y: victimCordinates[1],
                 z: victimCordinates[2],
             },
-            damageDealt: 00000000000000000000000000000000000000,
         },
         weapon: killerWeapon,
         customkill: unparsedEvent.includes("custom") ? unparsedEvent.slice(unparsedEvent.indexOf('customkill "') + 12, unparsedEvent.lastIndexOf(') (attacker_position') - 1) : false,
         distance: Math.round(Math.hypot(parseInt(killerCordinates[0])+parseInt(victimCordinates[0]), parseInt(killerCordinates[1])+parseInt(victimCordinates[1]), parseInt(killerCordinates[2])+parseInt(victimCordinates[2])))
     };
-    console.log(eventObject);
+
+    if (finalObject.killSpread[playerIDFinder[killerId3]] === undefined){
+        finalObject.killSpread[playerIDFinder[killerId3]] = {};
+        finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] = 1;
+    } else {
+        finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] === undefined ? (finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] = 1) : (finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]]++);
+    }
+    finalObject.events.push(eventObject);
 }
 
 function ID3toID64Converter(playerIDFinder, userId3){
