@@ -1,6 +1,6 @@
 
-function triggeredEvent(unparsedEvent, finalObject){
-    console.log("triggered")
+function triggeredEvent(unparsedEvent, finalObject, playerIDFinder){
+
     finalObject.event = unparsedEvent;
 }
 

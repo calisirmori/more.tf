@@ -5,11 +5,29 @@ const { triggeredEvent } = require("./triggeredEvents");
 async function parse(LogFile){
 
     unparsedArray = LogFile.split(/\r?\n/);
-    let parsedJSON = {};
+    let parsedJSON = {
+        id: Math.floor(Math.random() * 90000000 + 10000000),
+        info:{
+            isImported: true,
+            logsID: 000000,
+            demosID: 000000,
+            date: eventDateToSeconds(unparsedArray[0]),
+            matchLength: eventDateToSeconds(unparsedArray[unparsedArray.length-2])-eventDateToSeconds(unparsedArray[0])
+        },
+        teams:{},
+        players:{},
+        events:[],
+        rounds:[],
+        healSpread:{},
+        killSpread:{},
+        chat:[]
+    };
+
+    let playerIDFinder = {};
 
     for (let lineIndex = 0; lineIndex < unparsedArray.length; lineIndex++) {
         const unparsedEvent = unparsedArray[lineIndex];
-        unparsedEvent.includes("triggered") ? triggeredEvent(unparsedEvent, parsedJSON) : nonTriggeredEvent();
+        unparsedEvent.includes("triggered") ? triggeredEvent(unparsedEvent, parsedJSON, playerIDFinder) : nonTriggeredEvent(unparsedEvent, parsedJSON, playerIDFinder);
 
         //all triggered events
         // healed | heal event
@@ -63,12 +81,19 @@ async function parse(LogFile){
         // final score | match end scores
         // committed suicide | suicide
         // killed |kill event
+
         // ){
         //     count++;
         //     console.log(unparsedEvent);
         // }
     }
     console.log(parsedJSON)
+}
+
+function eventDateToSeconds(unparsedEvent){
+    dateArray = unparsedEvent.split(' ')[1].split('/');
+    finalDate= dateArray[2]+ "-" + dateArray[0]+ "-" + dateArray[1] + "T" + unparsedEvent.split(' ')[3].slice(0,-1) + "Z";
+    return( new Date(finalDate).getTime()/1000);
 }
 
 module.exports = {parse};

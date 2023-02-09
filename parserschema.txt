@@ -142,18 +142,9 @@ things to consider : all of the weapon ids need to be matched with ingame name l
                 },
                 damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
             },
-            assister:
-                class: string,
-                position: {
-                    x: number,
-                    y: number,
-                    z: number.
-                },
-                damageDealt: number, | damage dealt to the player in last 10 seconds (this is used to find calculate "finished off stat in future"),
-            }
             weapon: string,
             customkill: string,
-            distance: number,      
+            distance: number,
         },
     ],
     
