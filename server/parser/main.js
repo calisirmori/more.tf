@@ -18,9 +18,10 @@ async function parse(LogFile){
         players:{},
         events:[],
         rounds:[],
+        damageSpread:{},
         healSpread:{},
         killSpread:{},
-        chat:[]
+        chat:[] //done
     };
 
     let playerIDFinder = {};
