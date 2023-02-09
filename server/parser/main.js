@@ -16,12 +16,13 @@ async function parse(LogFile){
         },
         teams:{},
         players:{},
-        events:[],
+        events:[], //60% done
         rounds:[],
+        combatScores:{},
         damageSpread:{},
         healSpread:{},
-        killSpread:{},
-        chat:[] //done
+        killSpread:{}, //done needs double checked
+        chat:[] //done needs double checked
     };
 
     let playerIDFinder = {};
@@ -88,7 +89,7 @@ async function parse(LogFile){
         //     console.log(unparsedEvent);
         // }
     }
-    console.log(parsedJSON)
+    //console.log(parsedJSON.players)
 }
 
 function eventDateToSeconds(unparsedEvent){

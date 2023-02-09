@@ -5,7 +5,12 @@ function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder){
         killEvent(unparsedEvent, finalObject, playerIDFinder);
     } else if (unparsedEvent.includes('say')){
         chatMessage(unparsedEvent, finalObject, playerIDFinder);
+    } else if (unparsedEvent.includes('changed role to')){
+        playerConnected(unparsedEvent, finalObject, playerIDFinder);
     }
+    // else {
+    //     console.log(unparsedEvent);
+    // }
 }
 
 function chatMessage(unparsedEvent, finalObject, playerIDFinder){
@@ -26,6 +31,8 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder){
     let killerCordinates = (unparsedEvent.slice(unparsedEvent.indexOf('attacker_position') + 19, unparsedEvent.lastIndexOf(') (victim_position') - 1)).split(" ");
     let victimCordinates = (unparsedEvent.slice(unparsedEvent.indexOf('victim_position') + 17, unparsedEvent.lastIndexOf('")'))).split(" ");
     let killerWeapon = unparsedEvent.slice(unparsedEvent.indexOf('with "') + 6, unparsedEvent.lastIndexOf('" ('));
+
+    // Kill event is made here
     let eventObject = {
         type: "kill",
         killerId: playerIDFinder[killerId3] !== undefined ? playerIDFinder[killerId3] : ID3toID64Converter(playerIDFinder, killerId3),
@@ -53,13 +60,88 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder){
         distance: Math.round(Math.hypot(parseInt(killerCordinates[0])+parseInt(victimCordinates[0]), parseInt(killerCordinates[1])+parseInt(victimCordinates[1]), parseInt(killerCordinates[2])+parseInt(victimCordinates[2])))
     };
 
+    //Kill Spread object is made here
     if (finalObject.killSpread[playerIDFinder[killerId3]] === undefined){
         finalObject.killSpread[playerIDFinder[killerId3]] = {};
         finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] = 1;
     } else {
         finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] === undefined ? (finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] = 1) : (finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]]++);
     }
+
     finalObject.events.push(eventObject);
+}
+
+function ammoPickup(unparsedEvent, finalObject, playerIDFinder){  
+}
+
+function playerConnected(unparsedEvent, finalObject, playerIDFinder){
+    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
+
+    //Player Objects are initialized here
+    finalObject.players[playerIDFinder[userId3]] = {
+        userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
+        steamID3: userId3,
+        joinedGame: eventDateToSeconds(unparsedEvent),
+        leftGame: false,
+        team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
+        class: unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"')),
+        classStats: {
+            [unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"'))]: {
+                kills: 0,
+                assists: 0,
+                deaths: 0,
+                damage: 0,
+                weapon: {},
+                time: 0,
+            }
+        },
+        combatScore: 0,
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        suicides: 0,
+        killAssistPerDeath: 0,
+        killsPerDeath: 0,
+        longestKillStreak: 0,
+        longestDeathStreak: 0,
+        medPicksTotal: 0,
+        medPicksDroppedUber: 0,
+        damageDivision: {
+            damageTo:{},
+            damageFrom:{},
+        },
+        damage : 0,
+        damageReal : 0,
+        damageTaken : 0,
+        damageTakenReal: 0,
+        damagePerMinute: 0,
+        damageTakenPerMinute: 0,
+        deathScreenTime: 0,
+        ubers: 0,
+        ubersawsFed: 0,
+        crossbowHealing: 0,
+        uberHits: 0,
+        uberTypes:{},
+        drops: 0,
+        resup: {
+            medkits: 0,
+            medkitsHealingDone: 0,
+            ammo: 0,
+        },
+        pointCaps: 0,
+        extinguished: 0,
+        dominated: 0,
+        buildingKills: 0,
+        buildings: 0,
+        heal: 0,
+        healRate: 0,
+        airshot: 0,
+        headshots: 0,
+        headshotKills: 0,
+        backstabs: 0,
+        selfDamage: 0,
+    };
 }
 
 function ID3toID64Converter(playerIDFinder, userId3){
