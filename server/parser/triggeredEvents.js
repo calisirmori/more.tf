@@ -8,6 +8,10 @@ function triggeredEvent(unparsedEvent, finalObject, playerIDFinder){
         shotEvents(unparsedEvent, finalObject, playerIDFinder);
     } else if (unparsedEvent.includes(' "damage" ') && finalObject.info.gameIsActive){
         damageEvent(unparsedEvent, finalObject, playerIDFinder);
+    } else if (unparsedEvent.includes(' "kill assist" ') && finalObject.info.gameIsActive){
+        assistEvent(unparsedEvent, finalObject, playerIDFinder);
+    } else if (unparsedEvent.includes(' "healed" ') && finalObject.info.gameIsActive){
+        healEvent(unparsedEvent, finalObject, playerIDFinder);
     }
     // else {
     //     console.log(unparsedEvent);
@@ -51,6 +55,46 @@ function worldEvents(unparsedEvent, finalObject){
         finalObject.rounds[finalObject.rounds.length-1].roundDuration = Math.ceil(parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(seconds ')+10, unparsedEvent.lastIndexOf('"'))));
     } else if(unparsedEvent.includes("Round_Win")){
         finalObject.info.gameIsActive = false;
+    }
+}
+
+function healEvent(unparsedEvent, finalObject, playerIDFinder){
+    let healerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    let recieverId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
+    let healDone = parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('")')));
+
+    //player heals stat
+    finalObject.players[playerIDFinder[healerId3]].heals += healDone;
+    if (finalObject.healSpread[playerIDFinder[healerId3]] === undefined){
+        finalObject.healSpread[playerIDFinder[healerId3]] = {};
+        finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] = healDone;
+    } else {
+        finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] === undefined ? (finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] = healDone) : (finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] += healDone);
+    }
+
+    // heals per interval
+    let timeInterval = 30;
+    let currentIntervalIndex = Math.floor((eventDateToSeconds(unparsedEvent) - finalObject.info.date) / timeInterval);
+    if(finalObject.healsPerInterval[finalObject.players[playerIDFinder[healerId3]].team][currentIntervalIndex] === undefined){
+        finalObject.healsPerInterval[finalObject.players[playerIDFinder[healerId3]].team][currentIntervalIndex] = 0;
+    } else {
+        finalObject.healsPerInterval[finalObject.players[playerIDFinder[healerId3]].team][currentIntervalIndex] += healDone;
+    }
+}
+
+function assistEvent(unparsedEvent, finalObject, playerIDFinder){
+    let assisterId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    let victimId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
+
+    //player stat
+    finalObject.players[playerIDFinder[assisterId3]].assists++;
+
+    //assist Spread object is made here
+    if (finalObject.assistSpread[playerIDFinder[assisterId3]] === undefined){
+        finalObject.assistSpread[playerIDFinder[assisterId3]] = {};
+        finalObject.assistSpread[playerIDFinder[assisterId3]][playerIDFinder[victimId3]] = 1;
+    } else {
+        finalObject.assistSpread[playerIDFinder[assisterId3]][playerIDFinder[victimId3]] === undefined ? (finalObject.assistSpread[playerIDFinder[assisterId3]][playerIDFinder[victimId3]] = 1) : (finalObject.assistSpread[playerIDFinder[assisterId3]][playerIDFinder[victimId3]]++);
     }
 }
 
@@ -139,8 +183,20 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder){
         finalObject.players[playerIDFinder[damageRecieverId3]].damageDivision.damageFrom[playerIDFinder[damageDealerId3]] += damageDealt;
     }
 
-    //round damage
-    
+    //round object damage stat
+    finalObject.rounds[finalObject.rounds.length - 1].teamScores[finalObject.players[playerIDFinder[damageDealerId3]].team].damage += damageDealt;
+
+    //team object damage stat
+    finalObject.teams[finalObject.players[playerIDFinder[damageDealerId3]].team].damage += damageDealt;
+
+    //damage per interval
+    let timeInterval = 30;
+    let currentIntervalIndex = Math.floor((eventDateToSeconds(unparsedEvent) - finalObject.info.date) / timeInterval);
+    if(finalObject.damagePerInterval[finalObject.players[playerIDFinder[damageDealerId3]].team][currentIntervalIndex] === undefined){
+        finalObject.damagePerInterval[finalObject.players[playerIDFinder[damageDealerId3]].team][currentIntervalIndex] = 0;
+    } else {
+        finalObject.damagePerInterval[finalObject.players[playerIDFinder[damageDealerId3]].team][currentIntervalIndex] += damageDealt;
+    }
 }
 
 function eventDateToSeconds(unparsedEvent){

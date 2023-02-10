@@ -17,14 +17,41 @@ async function parse(LogFile){
             date: eventDateToSeconds(unparsedArray[0]),
             matchLength: eventDateToSeconds(unparsedArray[unparsedArray.length-2])-eventDateToSeconds(unparsedArray[0])
         },
-        teams:{},
+        teams:{
+            red:{
+                score: 0,
+                kills: 0,
+                damage: 0,
+                charges: 0,
+                drops: 0,
+                firstcaps: 0,
+                caps: 0,
+            },
+            blue:{
+                score: 0,
+                kills: 0,
+                damage: 0,
+                charges: 0,
+                drops: 0,
+                firstcaps: 0,
+                caps: 0,
+            },
+        },
         players:{},
         events:[], //60% done
         rounds:[],
         combatScores:{},
-        damageSpread:{},
         healSpread:{},
+        healsPerInterval: {
+            red:[],
+            blue:[]
+        },
+        damagePerInterval: {
+            red:[],
+            blue:[]
+        },
         killSpread:{}, //done needs double checked
+        assistSpread:{}, //done needs double checked
         chat:[] //done needs double checked
     };
 
@@ -35,7 +62,7 @@ async function parse(LogFile){
         unparsedEvent.includes("triggered") ? triggeredEvent(unparsedEvent, parsedJSON, playerIDFinder) : nonTriggeredEvent(unparsedEvent, parsedJSON, playerIDFinder, lastDeathTime);
     }
     
-    console.log(parsedJSON.rounds)
+    // console.log(parsedJSON.damagePerInterval)
 }
 
 function eventDateToSeconds(unparsedEvent){

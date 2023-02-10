@@ -41,6 +41,12 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     finalObject.players[playerIDFinder[killerId3]].kills++;
     finalObject.players[playerIDFinder[victimId3]].deaths++;
 
+    //kill to round
+    finalObject.rounds[finalObject.rounds.length - 1].teamScores[finalObject.players[playerIDFinder[killerId3]].team].kills++;
+
+    //team object kill stat
+    finalObject.teams[finalObject.players[playerIDFinder[killerId3]].team].kills ++;
+    
     //Last death time recorded
     lastDeathTime[playerIDFinder[victimId3]] = eventDateToSeconds(unparsedEvent);
 
@@ -167,7 +173,7 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         dominated: 0,
         buildingKills: 0,
         buildings: 0,
-        heal: 0,
+        heals: 0,
         healRate: 0,
         airshot: 0,
         headshots: 0,
