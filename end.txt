@@ -1,0 +1,5 @@
+at the end,
+
+close the open timers for classes,
+calculate per minute stats, like damage, damage taken ...
+organize the damagespread to highest to lowest

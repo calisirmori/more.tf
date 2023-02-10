@@ -26,7 +26,7 @@ async function testCall(logId){
 }
 
 for (let index = 0; index < 1; index++) {
-  testCall(3352970+index);
+  testCall(3353745);
 }
 
 
