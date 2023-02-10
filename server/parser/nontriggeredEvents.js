@@ -50,6 +50,12 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     //Last death time recorded
     lastDeathTime[playerIDFinder[victimId3]] = eventDateToSeconds(unparsedEvent);
 
+    //kill class specific stats
+    let currentKillerClass = finalObject.players[playerIDFinder[killerId3]].class;
+    let currentvictimClass = finalObject.players[playerIDFinder[victimId3]].class;
+    finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].kills++;
+    finalObject.players[playerIDFinder[victimId3]].classStats[currentvictimClass].deaths++;
+    
     // Kill event is made here
     let eventObject = {
         type: "kill",
@@ -58,7 +64,7 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
         time: eventDateToSeconds(unparsedEvent),
         elapsedTime: eventDateToSeconds(unparsedEvent) - finalObject.info.date,
         killer:{
-            class: 00000000000000000000000000000000000000,
+            class: currentKillerClass,
             position:{
                 x: killerCordinates[0],
                 y: killerCordinates[1],
@@ -66,7 +72,7 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
             },
         },
         victim:{
-            class: 00000000000000000000000000000000000000,
+            class: currentvictimClass,
             position:{
                 x: victimCordinates[0],
                 y: victimCordinates[1],
@@ -144,8 +150,8 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         killsPerDeath: 0,
         longestKillStreak: 0,
         longestDeathStreak: 0,
-        medPicksTotal: 0,
-        medPicksDroppedUber: 0,
+        medicPicks: 0,
+        medicDrops: 0,
         damageDivision: {
             damageTo:{},
             damageFrom:{},
@@ -157,20 +163,27 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         damageTakenReal: 0,
         damageTakenPerMinute: 0,
         deathScreenTime: 0,
-        ubers: 0,
         ubersawsFed: 0,
         crossbowHealing: 0,
+        medicStats: {
+            uberTypes:{},
+            ubers: 0,
+            drops: 0,
+            uberLength: 0,
+            nearFullDeaths: 0,
+            healAfterSpawn: 0,
+        },
         uberHits: 0,
-        uberTypes:{},
-        drops: 0,
         resup: {
             medkit: 0,
             medkitsHealingDone: 0,
             ammo: 0,
         },
         pointCaps: 0,
+        capturesBlocked: 0,
         extinguished: 0,
         dominated: 0,
+        revenged: 0,
         buildingKills: 0,
         buildings: 0,
         heals: 0,

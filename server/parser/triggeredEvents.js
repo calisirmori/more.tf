@@ -12,10 +12,25 @@ function triggeredEvent(unparsedEvent, finalObject, playerIDFinder){
         assistEvent(unparsedEvent, finalObject, playerIDFinder);
     } else if (unparsedEvent.includes(' "healed" ') && finalObject.info.gameIsActive){
         healEvent(unparsedEvent, finalObject, playerIDFinder);
+    } else if (unparsedEvent.includes(' "domination" ') && finalObject.info.gameIsActive){
+        commonEvents(unparsedEvent, finalObject, playerIDFinder, "dominated");
+    } else if (unparsedEvent.includes(' "killedobject" ') && finalObject.info.gameIsActive){
+        commonEvents(unparsedEvent, finalObject, playerIDFinder, "buildingKills");
+    } else if (unparsedEvent.includes(' "revenge" ') && finalObject.info.gameIsActive){
+        commonEvents(unparsedEvent, finalObject, playerIDFinder, "revenged");
+    } else if (unparsedEvent.includes(' "player_extinguished" ') && finalObject.info.gameIsActive){
+        commonEvents(unparsedEvent, finalObject, playerIDFinder, "extinguished");
+    } else if (unparsedEvent.includes(' "player_builtobject" ') && finalObject.info.gameIsActive){
+        commonEvents(unparsedEvent, finalObject, playerIDFinder, "buildings");
+    } else if (unparsedEvent.includes(' "captureblocked" ') && finalObject.info.gameIsActive){
+        commonEvents(unparsedEvent, finalObject, playerIDFinder, "capturesBlocked");
+    } else if ((unparsedEvent.includes(' "charge') || unparsedEvent.includes(' "empty_uber') || unparsedEvent.includes('"first_heal_after_spawn"')) && finalObject.info.gameIsActive){
+        uberChargeEvents(unparsedEvent, finalObject, playerIDFinder);
+    } else if ((unparsedEvent.includes(' "medic')) && finalObject.info.gameIsActive){
+        medicEvents(unparsedEvent, finalObject, playerIDFinder);
+    } else if ((unparsedEvent.includes(' "pointcaptured" ')) && finalObject.info.gameIsActive){
+        pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder);
     }
-    // else {
-    //     console.log(unparsedEvent);
-    // }
 }
 
 function worldEvents(unparsedEvent, finalObject){
@@ -43,6 +58,7 @@ function worldEvents(unparsedEvent, finalObject){
                     ubers: 0,
                 }
             },
+            captureEvents: [],
             events:[],
             playerPerformance:{}
         })
@@ -56,6 +72,70 @@ function worldEvents(unparsedEvent, finalObject){
     } else if(unparsedEvent.includes("Round_Win")){
         finalObject.info.gameIsActive = false;
     }
+}
+
+function pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder){
+    eventDateToSeconds(unparsedEvent)
+    
+    // points capped stat
+    let eventPlayerArray = unparsedEvent.split(") (player");
+    for (let index = 1; index < eventPlayerArray.length; index++) {
+        let playerId3 = eventPlayerArray[index].slice(eventPlayerArray[index].indexOf('[U:1:'), eventPlayerArray[index].indexOf(']>') + 1);
+        finalObject.players[playerIDFinder[playerId3]].pointCaps++;
+    }
+
+    //capture events in rounds
+    let captureEventObject = {
+        team: unparsedEvent.slice(unparsedEvent.indexOf('Team "') + 6, unparsedEvent.indexOf('" triggered "pointcaptured')),
+        time: (eventDateToSeconds(unparsedEvent) - finalObject.rounds[finalObject.rounds.length-1].roundBegin),
+        name: unparsedEvent.slice(unparsedEvent.indexOf('"pointcaptured" (cp "') + 21, unparsedEvent.indexOf('") (cpname')),
+    }
+    finalObject.rounds[finalObject.rounds.length-1].captureEvents.push(captureEventObject);
+
+}
+
+function medicEvents(unparsedEvent, finalObject, playerIDFinder){
+    if(unparsedEvent.includes('"medic_death_ex" (uberpct "9')){
+        let medicId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+        finalObject.players[playerIDFinder[medicId3]].medicStats.nearFullDeaths++;
+    } else if(unparsedEvent.includes("medic_death")){
+        let killerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+        let medicId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
+
+        finalObject.players[playerIDFinder[killerId3]].medicPicks++;
+        if(unparsedEvent.includes('ubercharge "1"')){
+            finalObject.players[playerIDFinder[killerId3]].medicDrops++;
+            finalObject.players[playerIDFinder[medicId3]].medicStats.drops++;
+            finalObject.teams[finalObject.players[playerIDFinder[killerId3]].team].drops++;
+        } 
+    }
+}
+
+function uberChargeEvents(unparsedEvent, finalObject, playerIDFinder){
+    let medicId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+
+    //ubers used
+    if(unparsedEvent.includes(' "chargedeployed" ')){
+        let medigunType = unparsedEvent.slice(unparsedEvent.indexOf('" (medigun "') + 12, unparsedEvent.lastIndexOf('")'));
+        finalObject.players[playerIDFinder[medicId3]].medicStats.ubers++;
+        finalObject.teams[finalObject.players[playerIDFinder[medicId3]].team].charges++;
+        if(finalObject.players[playerIDFinder[medicId3]].medicStats.uberTypes[medigunType] === undefined){
+            finalObject.players[playerIDFinder[medicId3]].medicStats.uberTypes[medigunType] = 1
+        } else {
+            finalObject.players[playerIDFinder[medicId3]].medicStats.uberTypes[medigunType]++;
+        }
+    } else if (unparsedEvent.includes(' "chargeended" ')){
+        let uberLength = parseFloat(unparsedEvent.slice(unparsedEvent.indexOf('" (duration "') + 13, unparsedEvent.lastIndexOf('")')));
+        finalObject.players[playerIDFinder[medicId3]].medicStats.uberLength += uberLength;
+    } else if (unparsedEvent.includes('"first_heal_after_spawn"')){
+        let healAfterSpawnTime = parseFloat(unparsedEvent.slice(unparsedEvent.indexOf('(time ') + 7, unparsedEvent.lastIndexOf('")')));
+        finalObject.players[playerIDFinder[medicId3]].medicStats.healAfterSpawn += healAfterSpawnTime;
+    }
+}
+
+function commonEvents(unparsedEvent, finalObject, playerIDFinder, eventType){
+    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    finalObject.players[playerIDFinder[userId3]][eventType]++;
 }
 
 function healEvent(unparsedEvent, finalObject, playerIDFinder){
@@ -88,6 +168,10 @@ function assistEvent(unparsedEvent, finalObject, playerIDFinder){
 
     //player stat
     finalObject.players[playerIDFinder[assisterId3]].assists++;
+
+    //class specific assist events
+    let currentAssisterClass = finalObject.players[playerIDFinder[assisterId3]].class;
+    finalObject.players[playerIDFinder[assisterId3]].classStats[currentAssisterClass].assists++;
 
     //assist Spread object is made here
     if (finalObject.assistSpread[playerIDFinder[assisterId3]] === undefined){
@@ -176,8 +260,8 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder){
     }
 
     if(finalObject.players[playerIDFinder[damageRecieverId3]].damageDivision.damageFrom[playerIDFinder[damageDealerId3]] === undefined ){
-        finalObject.players[playerIDFinder[damageDealerId3]].damageDivision.damageTo[playerIDFinder[damageRecieverId3]] = 0;
-        finalObject.players[playerIDFinder[damageDealerId3]].damageDivision.damageFrom[playerIDFinder[damageRecieverId3]] = 0;
+        finalObject.players[playerIDFinder[damageRecieverId3]].damageDivision.damageTo[playerIDFinder[damageDealerId3]] = 0;
+        finalObject.players[playerIDFinder[damageRecieverId3]].damageDivision.damageFrom[playerIDFinder[damageDealerId3]] = 0;
         finalObject.players[playerIDFinder[damageRecieverId3]].damageDivision.damageFrom[playerIDFinder[damageDealerId3]] += damageDealt;
     } else {
         finalObject.players[playerIDFinder[damageRecieverId3]].damageDivision.damageFrom[playerIDFinder[damageDealerId3]] += damageDealt;

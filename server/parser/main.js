@@ -61,8 +61,7 @@ async function parse(LogFile){
         const unparsedEvent = unparsedArray[lineIndex];
         unparsedEvent.includes("triggered") ? triggeredEvent(unparsedEvent, parsedJSON, playerIDFinder) : nonTriggeredEvent(unparsedEvent, parsedJSON, playerIDFinder, lastDeathTime);
     }
-    
-    // console.log(parsedJSON.damagePerInterval)
+    console.log(parsedJSON.rounds[2].captureEvents)
 }
 
 function eventDateToSeconds(unparsedEvent){
