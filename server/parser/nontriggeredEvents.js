@@ -1,20 +1,43 @@
 
 
 function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
-    if(unparsedEvent.includes('" killed "') && finalObject.info.gameIsActive){
+    if(unparsedEvent.includes('" killed "') && !unparsedEvent.includes("feign_death") && finalObject.info.gameIsActive){
         killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
     } else if (unparsedEvent.includes('say')){
         chatMessage(unparsedEvent, finalObject, playerIDFinder);
-    } else if (unparsedEvent.includes('changed role to') || unparsedEvent.includes('connected, address')){
+    } else if (unparsedEvent.includes('changed role to') || unparsedEvent.includes('connected, address') || unparsedEvent.includes('entered')){
         playerConnected(unparsedEvent, finalObject, playerIDFinder);
     } else if (unparsedEvent.includes('picked up item')){
         resupEvents(unparsedEvent, finalObject, playerIDFinder)
-    } else if (unparsedEvent.includes('spawned as') && finalObject.info.gameIsActive ){
+    } else if (unparsedEvent.includes('spawned as')){
         deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
-    } else if (unparsedEvent.includes('committed suicide with "world"')) {
+    } else if (unparsedEvent.includes('committed suicide with')) {
         suicideEvent(unparsedEvent, finalObject, playerIDFinder);
-    } else if (!unparsedEvent.includes('position_report')) {
-        // console.log(unparsedEvent)
+    } else if (unparsedEvent.includes('score')) {
+        scoreUpdate(unparsedEvent, finalObject)
+    } else if (unparsedEvent.includes('disconnected')) {
+        disconnectEvent(unparsedEvent, finalObject, playerIDFinder)
+    } else if (unparsedEvent.includes('joined team')) {
+        let playerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+        finalObject.players[playerIDFinder[playerId3]].team = unparsedEvent.includes('Red') ? "red" : "blue";
+    } else if (!unparsedEvent.includes('feign_death') 
+    && !unparsedEvent.includes('position_report')
+    && !unparsedEvent.includes('entered') && finalObject.info.gameIsActive) {
+    }
+}
+
+function disconnectEvent(unparsedEvent, finalObject, playerIDFinder){
+    let playerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    finalObject.players[playerIDFinder[playerId3]].leftGame = eventDateToSeconds(unparsedEvent);
+}
+
+function scoreUpdate(unparsedEvent, finalObject){
+    if(unparsedEvent.includes('current score')){
+        unparsedEvent.includes('Red') && (finalObject.rounds[finalObject.rounds.length - 1].teamScores.red.score =  unparsedEvent.slice(unparsedEvent.indexOf('current score "') + 15, unparsedEvent.indexOf('" with')));
+        unparsedEvent.includes('Blue') && (finalObject.rounds[finalObject.rounds.length - 1].teamScores.blue.score = unparsedEvent.slice(unparsedEvent.indexOf('current score "') + 15, unparsedEvent.indexOf('" with')));
+    } else if (unparsedEvent.includes('final score')){
+        unparsedEvent.includes('Red') && (finalObject.teams.red.score =  unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
+        unparsedEvent.includes('Blue') && (finalObject.teams.blue.score = unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
     }
 }
 
@@ -41,18 +64,27 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     finalObject.players[playerIDFinder[killerId3]].kills++;
     finalObject.players[playerIDFinder[victimId3]].deaths++;
 
+    //killer gun stat
+    
     //kill to round
     finalObject.rounds[finalObject.rounds.length - 1].teamScores[finalObject.players[playerIDFinder[killerId3]].team].kills++;
-
+    
     //team object kill stat
     finalObject.teams[finalObject.players[playerIDFinder[killerId3]].team].kills ++;
     
     //Last death time recorded
     lastDeathTime[playerIDFinder[victimId3]] = eventDateToSeconds(unparsedEvent);
-
+    
     //kill class specific stats
     let currentKillerClass = finalObject.players[playerIDFinder[killerId3]].class;
     let currentvictimClass = finalObject.players[playerIDFinder[victimId3]].class;
+
+
+    if(finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] === undefined){
+        finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] = {kills: 0}
+    }
+    
+    finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon].kills++;
     finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].kills++;
     finalObject.players[playerIDFinder[victimId3]].classStats[currentvictimClass].deaths++;
     
@@ -83,6 +115,19 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
         customkill: unparsedEvent.includes("custom") ? unparsedEvent.slice(unparsedEvent.indexOf('customkill "') + 12, unparsedEvent.lastIndexOf(') (attacker_position') - 1) : false,
         distance: Math.round(Math.hypot(parseInt(killerCordinates[0])+parseInt(victimCordinates[0]), parseInt(killerCordinates[1])+parseInt(victimCordinates[1]), parseInt(killerCordinates[2])+parseInt(victimCordinates[2])))
     };
+
+    //Custom kill stats
+    if(unparsedEvent.includes("custom")) {
+        let customKillType = unparsedEvent.slice(unparsedEvent.indexOf('customkill "') + 12, unparsedEvent.lastIndexOf(') (attacker_position') - 1)
+        switch (customKillType) {
+            case "headshot":
+                finalObject.players[playerIDFinder[killerId3]].headshotKills++;
+                break;
+            case "backstab":
+                finalObject.players[playerIDFinder[killerId3]].backstabs++;
+                break;
+        }
+    } 
 
     //Kill Spread object is made here
     if (finalObject.killSpread[playerIDFinder[killerId3]] === undefined){
@@ -148,8 +193,6 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         suicides: 0,
         killAssistPerDeath: 0,
         killsPerDeath: 0,
-        longestKillStreak: 0,
-        longestDeathStreak: 0,
         medicPicks: 0,
         medicDrops: 0,
         damageDivision: {
@@ -163,7 +206,6 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         damageTakenReal: 0,
         damageTakenPerMinute: 0,
         deathScreenTime: 0,
-        ubersawsFed: 0,
         crossbowHealing: 0,
         medicStats: {
             uberTypes:{},
@@ -187,12 +229,11 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         buildingKills: 0,
         buildings: 0,
         heals: 0,
-        healRate: 0,
-        airshot: 0,
+        healsPerMinute: 0,
+        airshots: 0,
         headshots: 0,
         headshotKills: 0,
         backstabs: 0,
-        selfDamage: 0,
     }) : classSwaps(unparsedEvent, finalObject, playerIDFinder);
 }
 
@@ -239,4 +280,4 @@ function eventDateToSeconds(unparsedEvent){
     return( new Date(finalDate).getTime()/1000);
 }
 
-module.exports = {nonTriggeredEvent};
+module.exports = {nonTriggeredEvent, playerConnected};

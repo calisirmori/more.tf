@@ -2,22 +2,30 @@ const { nonTriggeredEvent } = require("./nontriggeredEvents");
 const { triggeredEvent } = require("./triggeredEvents");
 
 
-async function parse(LogFile){
+async function parse(LogFile, matchID, logsApiResponse){
 
     let lastDeathTime = {};
-
     unparsedArray = LogFile.split(/\r?\n/);
     let parsedJSON = {
         id: Math.floor(Math.random() * 90000000 + 10000000),
         info:{
             gameIsActive: false,
             isImported: true,
-            logsID: 000000,
+            logsID: matchID,
             demosID: 000000,
             date: eventDateToSeconds(unparsedArray[0]),
-            matchLength: eventDateToSeconds(unparsedArray[unparsedArray.length-2])-eventDateToSeconds(unparsedArray[0])
+            matchLength: logsApiResponse.length,
+            winner: "live",
+            status: true,
+            pause: {
+                lastPause: 0,
+                pauseSum: 0,
+            },
+            map: logsApiResponse.info.map,
+            logsTitle : logsApiResponse.info.title,
+
         },
-        teams:{
+        teams:{ // done
             red:{
                 score: 0,
                 kills: 0,
@@ -52,16 +60,22 @@ async function parse(LogFile){
         },
         killSpread:{}, //done needs double checked
         assistSpread:{}, //done needs double checked
-        chat:[] //done needs double checked
+        chat:[], //done needs double checked
+        killStreaks: logsApiResponse.killstreaks
     };
 
     let playerIDFinder = {};
-
-    for (let lineIndex = 0; lineIndex < unparsedArray.length; lineIndex++) {
-        const unparsedEvent = unparsedArray[lineIndex];
-        unparsedEvent.includes("triggered") ? triggeredEvent(unparsedEvent, parsedJSON, playerIDFinder) : nonTriggeredEvent(unparsedEvent, parsedJSON, playerIDFinder, lastDeathTime);
+    let count = 0;
+    if (unparsedArray[2].includes("changed role to")){
+        for (let lineIndex = 0; lineIndex < unparsedArray.length; lineIndex++) {
+            const unparsedEvent = unparsedArray[lineIndex];
+            unparsedEvent.includes("triggered") ? triggeredEvent(unparsedEvent, parsedJSON, playerIDFinder) : nonTriggeredEvent(unparsedEvent, parsedJSON, playerIDFinder, lastDeathTime);
+        }
+    } else {
+        return("depreciated logs plugin or combined log")
     }
-    console.log(parsedJSON.rounds[2].captureEvents)
+    // console.log(parsedJSON.teams)
+    return parsedJSON;
 }
 
 function eventDateToSeconds(unparsedEvent){
@@ -112,4 +126,3 @@ module.exports = {parse};
         // joined team | team swap
         // current score |score after a round
         // STV Available at |demos.tf link!! use this if available instead of cross reference
-        // final score | match end scores

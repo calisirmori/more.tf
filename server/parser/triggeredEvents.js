@@ -1,3 +1,4 @@
+const { playerConnected } = require("./nontriggeredEvents");
 
 function triggeredEvent(unparsedEvent, finalObject, playerIDFinder){
     if(unparsedEvent.includes("World")){
@@ -30,6 +31,10 @@ function triggeredEvent(unparsedEvent, finalObject, playerIDFinder){
         medicEvents(unparsedEvent, finalObject, playerIDFinder);
     } else if ((unparsedEvent.includes(' "pointcaptured" ')) && finalObject.info.gameIsActive){
         pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder);
+    } else if (finalObject.info.gameIsActive && !unparsedEvent.includes('object') 
+    && !unparsedEvent.includes('flagevent') 
+    && !unparsedEvent.includes('jarate_attack') 
+    && !unparsedEvent.includes('lost_uber_advantage')) {
     }
 }
 
@@ -71,12 +76,41 @@ function worldEvents(unparsedEvent, finalObject){
         finalObject.rounds[finalObject.rounds.length-1].roundDuration = Math.ceil(parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(seconds ')+10, unparsedEvent.lastIndexOf('"'))));
     } else if(unparsedEvent.includes("Round_Win")){
         finalObject.info.gameIsActive = false;
+    } else if(unparsedEvent.includes("Game_Over")){
+        let finalObjectArray = Object.entries(finalObject.players)
+        let matchEndTime = eventDateToSeconds(unparsedEvent);
+        for (let playerIndex = 0; playerIndex < finalObjectArray.length; playerIndex++) {
+            let currentClass = finalObject.players[finalObjectArray[playerIndex][0]].class;
+            finalObject.players[finalObjectArray[playerIndex][0]].classStats[currentClass].time = matchEndTime - finalObject.players[finalObjectArray[playerIndex][0]].classStats.changedClass;
+            finalObject.players[finalObjectArray[playerIndex][0]].damagePerMinute = Math.ceil(finalObject.players[finalObjectArray[playerIndex][0]].damage / (finalObject.info.matchLength / 60));
+            finalObject.players[finalObjectArray[playerIndex][0]].damageTakenPerMinute = Math.ceil(finalObject.players[finalObjectArray[playerIndex][0]].damageTaken / (finalObject.info.matchLength / 60));
+            finalObject.players[finalObjectArray[playerIndex][0]].healsPerMinute = Math.ceil(finalObject.players[finalObjectArray[playerIndex][0]].heals / (finalObject.info.matchLength / 60));
+            finalObject.players[finalObjectArray[playerIndex][0]].killAssistPerDeath = (Math.round((finalObject.players[finalObjectArray[playerIndex][0]].kills + finalObject.players[finalObjectArray[playerIndex][0]].assists) / (finalObject.players[finalObjectArray[playerIndex][0]].deaths/10)))/10
+            finalObject.players[finalObjectArray[playerIndex][0]].killsPerDeath = (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].kills / (finalObject.players[finalObjectArray[playerIndex][0]].deaths/10)))/10
+            finalObject.players[finalObjectArray[playerIndex][0]].medicStats.ubers !== 0 && (finalObject.players[finalObjectArray[playerIndex][0]].medicStats.uberLength = (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].medicStats.uberLength / (finalObject.players[finalObjectArray[playerIndex][0]].medicStats.ubers/10)))/10)
+            finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageTo = Object.entries(finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageTo)
+                .sort(([,b],[,a]) => a-b)
+                .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+            finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageFrom = Object.entries(finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageFrom)
+                .sort(([,b],[,a]) => a-b)
+                .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+            finalObject.info.winner = finalObject.teams.red.score > finalObject.teams.blue.score ?  "red" : "blue";
+        }
     }
 }
 
 function pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder){
     eventDateToSeconds(unparsedEvent)
     
+    //first cap
+    if (finalObject.rounds[finalObject.rounds.length-1].firstCap === "live"){
+        finalObject.rounds[finalObject.rounds.length-1].firstCap = (unparsedEvent.slice(unparsedEvent.indexOf('Team "') + 6, unparsedEvent.indexOf('" triggered "pointcaptured')) === "Red" ? "red" : "blue");
+        finalObject.teams[unparsedEvent.slice(unparsedEvent.indexOf('Team "') + 6, unparsedEvent.indexOf('" triggered "pointcaptured')) === "Red" ? "red" : "blue"].firstcaps++;
+    } 
+
+    //total caps
+    finalObject.teams[unparsedEvent.slice(unparsedEvent.indexOf('Team "') + 6, unparsedEvent.indexOf('" triggered "pointcaptured')) === "Red" ? "red" : "blue"].caps++;
+
     // points capped stat
     let eventPlayerArray = unparsedEvent.split(") (player");
     for (let index = 1; index < eventPlayerArray.length; index++) {
@@ -143,6 +177,8 @@ function healEvent(unparsedEvent, finalObject, playerIDFinder){
     let recieverId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
     let healDone = parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('")')));
 
+    healDone > 80 && (finalObject.players[playerIDFinder[healerId3]].crossbowHealing += healDone);
+
     //player heals stat
     finalObject.players[playerIDFinder[healerId3]].heals += healDone;
     if (finalObject.healSpread[playerIDFinder[healerId3]] === undefined){
@@ -151,6 +187,11 @@ function healEvent(unparsedEvent, finalObject, playerIDFinder){
     } else {
         finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] === undefined ? (finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] = healDone) : (finalObject.healSpread[playerIDFinder[healerId3]][playerIDFinder[recieverId3]] += healDone);
     }
+
+    //airshot event
+    if(unparsedEvent.includes("airshot")) {
+        finalObject.players[playerIDFinder[healerId3]].airshots++;
+    } 
 
     // heals per interval
     let timeInterval = 30;
@@ -183,13 +224,19 @@ function assistEvent(unparsedEvent, finalObject, playerIDFinder){
 }
 
 function pauseEvents(unparsedEvent, finalObject){
-    console.log(unparsedEvent);
+    if(unparsedEvent.includes("unpause")){
+        finalObject.info.pause.pauseSum = eventDateToSeconds(unparsedEvent) - finalObject.info.pause.lastPuase;
+    } else {
+        finalObject.info.pause.lastPuase = eventDateToSeconds(unparsedEvent);
+    }
 }
 
 function shotEvents(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
     let weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('" (weapon "') + 11, unparsedEvent.lastIndexOf('")'));
     let currentClass = finalObject.players[playerIDFinder[userId3]].class;
+    
+    
 
     //weapon classification is made here
     try {
@@ -210,14 +257,20 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder){
     let damageRecieverId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
     let damageDealt = parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(damage "') + 9, unparsedEvent.lastIndexOf('") (weapon')));
     
+    damageDealt === 0 && finalObject.players[playerIDFinder[damageDealerId3]].uberHits++;
+
     //weapon finder
     let weaponUsed;
     if(unparsedEvent.includes("healing")){
         weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('(weapon') + 9, unparsedEvent.lastIndexOf('") (healing'));
     } else if(unparsedEvent.includes('crit')){
         weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('(weapon') + 9, unparsedEvent.indexOf('") (crit'));
+        if(unparsedEvent.includes(") (headshot")) {
+            finalObject.players[playerIDFinder[damageDealerId3]].headshots++;
+        } 
     } else if(unparsedEvent.includes("airshot")){
         weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('(weapon') + 9, unparsedEvent.lastIndexOf('") (airshot'));
+        finalObject.players[playerIDFinder[damageDealerId3]].airshots++;
     } else {
         weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('(weapon') + 9, unparsedEvent.lastIndexOf('")'));
     }
@@ -281,6 +334,7 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder){
     } else {
         finalObject.damagePerInterval[finalObject.players[playerIDFinder[damageDealerId3]].team][currentIntervalIndex] += damageDealt;
     }
+
 }
 
 function eventDateToSeconds(unparsedEvent){

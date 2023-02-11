@@ -24,11 +24,7 @@ async function testCall(logId){
     res.status(500).json({ errorCode: 500, message: "Internal Server Error" });
   }
 }
-
-for (let index = 0; index < 1; index++) {
-  testCall(3353745);
-}
-
+//  testCall(3352970);
 
 app.use(express.json());
 app.use(cors());
@@ -76,7 +72,6 @@ app.get("/api/log/:id", async (req, res) => {
       `https://logs.tf/api/v1/log/${matchId}`,
       FetchResultTypes.JSON
     );
-
     const buffer = await fetch(
       `http://logs.tf/logs/log_${matchId}.log.zip`,
       FetchResultTypes.Buffer
@@ -87,7 +82,7 @@ app.get("/api/log/:id", async (req, res) => {
     const textFile = zipEntries[0].getData().toString();
 
     res.json(
-      await logstfApiOrganizer.organize(logsApiResponse, textFile, matchId)
+      await parser.parse(textFile, matchId, logsApiResponse)
     );
   } catch (error) {
     console.error(error);
