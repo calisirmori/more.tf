@@ -7,7 +7,7 @@ function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder, lastDeath
         chatMessage(unparsedEvent, finalObject, playerIDFinder);
     } else if (unparsedEvent.includes('changed role to') || unparsedEvent.includes('connected, address') || unparsedEvent.includes('entered')){
         playerConnected(unparsedEvent, finalObject, playerIDFinder);
-    } else if (unparsedEvent.includes('picked up item')){
+    } else if (unparsedEvent.includes('picked up item') && finalObject.info.gameIsActive){
         resupEvents(unparsedEvent, finalObject, playerIDFinder)
     } else if (unparsedEvent.includes('spawned as')){
         deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
@@ -81,9 +81,11 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
 
 
     if(finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] === undefined){
-        finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] = {kills: 0}
+        finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] = {
+            kills: 0
+        }
     }
-    
+
     finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon].kills++;
     finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].kills++;
     finalObject.players[playerIDFinder[victimId3]].classStats[currentvictimClass].deaths++;

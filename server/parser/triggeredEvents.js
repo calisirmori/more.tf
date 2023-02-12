@@ -95,6 +95,7 @@ function worldEvents(unparsedEvent, finalObject){
                 .sort(([,b],[,a]) => a-b)
                 .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
             finalObject.info.winner = finalObject.teams.red.score > finalObject.teams.blue.score ?  "red" : "blue";
+            finalObject.info.matchLength = eventDateToSeconds(unparsedEvent) - finalObject.info.date;
         }
     }
 }
@@ -235,13 +236,11 @@ function shotEvents(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
     let weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('" (weapon "') + 11, unparsedEvent.lastIndexOf('")'));
     let currentClass = finalObject.players[playerIDFinder[userId3]].class;
-    
-    
 
     //weapon classification is made here
-    try {
+    if(finalObject.players[playerIDFinder[userId3]].classStats[currentClass].weapons[weaponUsed] !== undefined) {
         finalObject.players[playerIDFinder[userId3]].classStats[currentClass].weapons[weaponUsed][(unparsedEvent.includes("shot_hit") ? "shotsHit" : "shotsFired")]++;
-    } catch (error) {
+    } else {
         finalObject.players[playerIDFinder[userId3]].classStats[currentClass].weapons[weaponUsed] = {
             kills: 0,
             damage: 0,
@@ -298,6 +297,8 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder){
         finalObject.players[playerIDFinder[damageDealerId3]].classStats[currentClass].weapons[weaponUsed] = {
             kills: 0,
             damage: 0,
+            shotsHit: 0,
+            shotsFired: 0,
         }
         finalObject.players[playerIDFinder[damageDealerId3]].classStats[currentClass].weapons[weaponUsed].damage += damageDealt;
     }
