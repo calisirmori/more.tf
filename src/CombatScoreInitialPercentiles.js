@@ -241,19 +241,19 @@ const statWeights = {
             cp: { kpm: 0.21, apm: 0.19, deathpm: -0.32, dpm: 0.14, dtm: -0.32 }
         },
         medic: {
-            koth: { kpm: -0.04, apm: 0.32, deathpm: -0.48, dpm: -0.07, dtm: -0.37, heals: 0.32 },
-            pl: { kpm: 0.02, apm: 0.27, deathpm: -0.39, dpm: -0.01, dtm: -0.32, heals: 0.23 },
-            cp: { kpm: -0.04, apm: 0.26, deathpm: -0.38, dpm: -0.08, dtm: -0.38, heals: 0.12 }
+            koth: { apm: 0.32, deathpm: -0.48, dtm: -0.37, heals: 0.32 },
+            pl: { apm: 0.27, deathpm: -0.39, dtm: -0.32, heals: 0.23 },
+            cp: { apm: 0.26, deathpm: -0.38, dtm: -0.38, heals: 0.12 }
         },
         sniper: {
-            koth: { kpm: 0.3, apm: 0.11, deathpm: -0.46, dpm: 0.22, dtm: -0.35, hs: 0.21 },
-            pl: { kpm: 0.25, apm: 0.09, deathpm: -0.35, dpm: 0.2, dtm: -0.29, hs: 0.22 },
-            cp: { kpm: 0.28, apm: 0.04, deathpm: -0.38, dpm: 0.21, dtm: -0.29, hs: 0.11 }
+            koth: { kpm: 0.3, apm: 0.11, deathpm: -0.46, dpm: 0.22, dtm: -0.35 },
+            pl: { kpm: 0.25, apm: 0.09, deathpm: -0.35, dpm: 0.2, dtm: -0.29 },
+            cp: { kpm: 0.28, apm: 0.04, deathpm: -0.38, dpm: 0.21, dtm: -0.29 }
         },
         spy: {
-            koth: { kpm: 0.29, apm: 0.21, deathpm: -0.34, dpm: 0.23, dtm: -0.14, bs: 0.18 },
-            pl: { kpm: 0.28, apm: 0.16, deathpm: -0.25, dpm: 0.22, dtm: -0.18, bs: 0.2 },
-            cp: { kpm: 0.23, apm: 0.05, deathpm: -0.3, dpm: 0.19, dtm: -0.16, bs: 0.15 }
+            koth: { kpm: 0.29, apm: 0.21, deathpm: -0.34, dpm: 0.23, dtm: -0.14 },
+            pl: { kpm: 0.28, apm: 0.16, deathpm: -0.25, dpm: 0.22, dtm: -0.18 },
+            cp: { kpm: 0.23, apm: 0.05, deathpm: -0.3, dpm: 0.19, dtm: -0.16 }
         }
     }
 }
