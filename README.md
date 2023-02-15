@@ -21,3 +21,5 @@
 
   - Making both logs.tf and demos.tf links available in same place without needing to search for each link separetly
   ![image](https://user-images.githubusercontent.com/104592697/203656472-6b676f85-80ac-4889-9398-4ef30c816b5b.png)
+
+  - Combat Score contribution by Treemonkey
