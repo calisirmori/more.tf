@@ -14,7 +14,7 @@ const acswork = require("./src/acswork");
 // this is used to create summary for rgl player spread
 // console.log( rgl.getData() );
 
-//console.log(acswork.getData() );
+// console.log(acswork.getData() );
 
 app.use(express.json());
 app.use(cors());
