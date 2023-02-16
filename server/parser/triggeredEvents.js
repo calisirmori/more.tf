@@ -1,3 +1,4 @@
+const { statPercentiles, statWeights, finalScorePercentiles } = require("./combatScoreData");
 const { playerConnected } = require("./nontriggeredEvents");
 
 function triggeredEvent(unparsedEvent, finalObject, playerIDFinder){
@@ -96,6 +97,46 @@ function worldEvents(unparsedEvent, finalObject){
                 .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
             finalObject.info.winner = finalObject.teams.red.score > finalObject.teams.blue.score ?  "red" : "blue";
             finalObject.info.matchLength = eventDateToSeconds(unparsedEvent) - finalObject.info.date;
+
+            let stats = currentClass === "medic" ? ["heals", "apm", "deathpm", "dtm"] : ["kpm", "dpm", "apm", "deathpm", "dtm"];
+            let combatStats = {
+                apm: (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].assists*100 / (finalObject.info.matchLength / 60)))/100,
+                kpm: (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].kills*100 / (finalObject.info.matchLength / 60)))/100,
+                dpm: finalObject.players[finalObjectArray[playerIndex][0]].damagePerMinute,
+                dtm: finalObject.players[finalObjectArray[playerIndex][0]].damageTakenPerMinute,
+                heals: finalObject.players[finalObjectArray[playerIndex][0]].healsPerMinute,
+                deathpm: (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].deaths*100 / (finalObject.info.matchLength / 60)))/100,
+            };
+
+            
+            let currentScoreSum = 0;
+            
+            for (let statIndex = 0; statIndex < stats.length; statIndex++) {
+                let currentStatArray = statPercentiles.highlander[currentClass][finalObject.info.map.split("_")[0]][stats[statIndex]];
+                for (let spotIndex = 0; spotIndex < currentStatArray.length; spotIndex++) {
+                    if(combatStats[stats[statIndex]] <= currentStatArray[spotIndex]) {
+                        currentScoreSum += spotIndex*statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]][stats[statIndex]];
+                        spotIndex = 1000;
+                    }
+                }
+            }
+            
+            if( currentClass != "medic"){
+                currentScoreSum = Math.round((currentScoreSum + (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm*-100 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm*-100) ) / (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].kpm*0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dpm*0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].apm*0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm*-0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm*-0.1))/10
+            } else {
+                currentScoreSum = Math.round((currentScoreSum + (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm*-100 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm*-100) ) / ( statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].heals*0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].apm*0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm*-0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm*-0.1))/10
+            }
+
+            let playerCombatScore = 100;
+            for (let combatScoreIndex = 0; combatScoreIndex < finalScorePercentiles[finalObject.info.map.split("_")[0]][currentClass].length; combatScoreIndex++) {
+                if(finalScorePercentiles[finalObject.info.map.split("_")[0]][currentClass][combatScoreIndex] > currentScoreSum){
+                    playerCombatScore = combatScoreIndex;
+                    combatScoreIndex = 10000;
+                }
+            }
+
+            finalObject.players[finalObjectArray[playerIndex][0]].combatScore = currentScoreSum;
+            console.log(finalObject.players[finalObjectArray[playerIndex][0]].userName, currentScoreSum , playerCombatScore)
         }
     }
 }
