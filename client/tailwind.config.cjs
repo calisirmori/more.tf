@@ -19,6 +19,7 @@ module.exports = {
         'grayscale-1': '#9B9C9D',
         'grayscale-0': '#CFCFCF',
         'warmscale-9':'#0A0909',
+        'warmscale-85':'#0F0E0D',
         'warmscale-8':'#141312',
         'warmscale-7':'#1F1D1B',
         'warmscale-6':'#292624',
