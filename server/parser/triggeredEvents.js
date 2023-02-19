@@ -95,6 +95,11 @@ function worldEvents(unparsedEvent, finalObject){
             finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageFrom = Object.entries(finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageFrom)
                 .sort(([,b],[,a]) => a-b)
                 .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+            if(finalObject.healSpread[finalObjectArray[playerIndex][0]] !== undefined){
+                finalObject.healSpread[finalObjectArray[playerIndex][0]] = Object.entries(finalObject.healSpread[finalObjectArray[playerIndex][0]])
+                .sort(([,b],[,a]) => a-b)
+                .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+            }
             finalObject.info.winner = finalObject.teams.red.score > finalObject.teams.blue.score ?  "red" : "blue";
             finalObject.info.matchLength = eventDateToSeconds(unparsedEvent) - finalObject.info.date;
 

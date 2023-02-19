@@ -20,6 +20,7 @@ module.exports = {
         'grayscale-0': '#CFCFCF',
         'warmscale-9':'#0A0909',
         'warmscale-85':'#0F0E0D',
+        'warmscale-82':'#0C0B0A',
         'warmscale-8':'#141312',
         'warmscale-7':'#1F1D1B',
         'warmscale-6':'#292624',
@@ -43,8 +44,10 @@ module.exports = {
         'tf-orange-dark':'#A35832',
         'tf-red':'#BD3B3B',
         'tf-red-dark':'#802828',
+        'tf-red-dark2':'#4A1B1B',
         'tf-blue':'#395C78',
         'tf-blue-dark':'#273E51',
+        'tf-blue-dark2':'#1B2731',
       }
     },
     fontFamily: {
