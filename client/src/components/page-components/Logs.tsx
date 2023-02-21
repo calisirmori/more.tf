@@ -12,6 +12,19 @@ const Logs = () => {
   const [scoreboard, setScoreboard] = useState([]);
   const [currentScoreboardSort, setScoreboardSort] = useState("team");
   const [sortType, setSortType] = useState("hl");
+  const [currentPerformanceFocus, setPerformanceFocus] = useState("");
+  const [performanceChartSort, setPerformanceChartSort] = useState("dealt")
+  const classOrder = [
+    "scout",
+    "soldier",
+    "pyro",
+    "demoman",
+    "heavyweapons",
+    "engineer",
+    "medic",
+    "sniper",
+    "spy",
+  ];
 
   useEffect(() => {
     apiCall();
@@ -156,7 +169,7 @@ const Logs = () => {
                     className="block text-center rounded-sm bg-tf-red border-b-4 border-tf-red-dark pt-1 px-3"
                   >
                     <div className=" text-lightscale-2 text-2xl font-bold font-cantarell mt-0.5">
-                    {apiResponse.teams.red.score}
+                      {apiResponse.teams.red.score}
                     </div>
                   </div>
                 </div>
@@ -283,9 +296,14 @@ const Logs = () => {
             </div>
             <div
               id="scoreboard-tab "
-              className={`bg-warmscale-8 py-2 ${tab !== "scoreboard" && "hidden "}`}
+              className={`bg-warmscale-8 py-2 ${
+                tab !== "scoreboard" && "hidden "
+              }`}
             >
-              <div id="scoreboard" className="bg-warmscale-85 p-2 rounded-md m-4">
+              <div
+                id="scoreboard"
+                className="bg-warmscale-85 p-2 rounded-md m-4"
+              >
                 <div id="stat-titles">
                   <div className="grid h-8 bg-warmscale-9 grid-cols-[1fr,_40px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_repeat(5,60px)]">
                     <div className="flex items-center ml-4 font-cantarell font-semibold text-lightscale-1">
@@ -294,14 +312,14 @@ const Logs = () => {
                     <div className="flex items-center cursor-pointer justify-center font-cantarell font-semibold text-lightscale-1 border-l border-warmscale-6">
                       C
                     </div>
-                    {statTitle("combatScore" , "CS")}
-                    {statTitle("kills" , "K")}
-                    {statTitle("assists" , "A")}
-                    {statTitle("deaths" , "D")}
-                    {statTitle("damage" , "DMG")}
-                    {statTitle("damagePerMinute" , "DPM")}
-                    {statTitle("killAssistPerDeath" , "KA/D")}
-                    {statTitle("killsPerDeath" , "K/D")}
+                    {statTitle("combatScore", "CS")}
+                    {statTitle("kills", "K")}
+                    {statTitle("assists", "A")}
+                    {statTitle("deaths", "D")}
+                    {statTitle("damage", "DMG")}
+                    {statTitle("damagePerMinute", "DPM")}
+                    {statTitle("killAssistPerDeath", "KA/D")}
+                    {statTitle("killsPerDeath", "K/D")}
                     {statTitle("damageTaken", "DT")}
                     {statTitle("damageTakenPerMinute", "DTM")}
                     {statTitle("damageTakenPerMinute", "HP")}
@@ -374,16 +392,32 @@ const Logs = () => {
                         </div>
                       </div>
                     );
-                    function stat(statInput :String) {
-                      return <div className={`flex items-center ${currentScoreboardSort === statInput && "bg-lightscale-4 bg-opacity-5"} justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6`}>
-                        {playerObject[statInput]}
-                      </div>;
+                    function stat(statInput: String) {
+                      return (
+                        <div
+                          className={`flex items-center ${
+                            currentScoreboardSort === statInput &&
+                            "bg-lightscale-4 bg-opacity-5"
+                          } justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6`}
+                        >
+                          {playerObject[statInput]}
+                        </div>
+                      );
                     }
                   })}
               </div>
-              <div id="team-sums" className="flex justify-center items-center my-10">
-                <div id="team-sums-wrapper" className="w-1/2 p-2 bg-warmscale-85 rounded-md drop-shadow-md">
-                  <div id="team-sum-titles" className="grid font-cantarell text-lightscale-1 font-semibold text-center grid-cols-6">
+              <div
+                id="team-sums"
+                className="flex justify-center items-center my-10"
+              >
+                <div
+                  id="team-sums-wrapper"
+                  className="w-1/2 p-2 bg-warmscale-85 rounded-md drop-shadow-md"
+                >
+                  <div
+                    id="team-sum-titles"
+                    className="grid font-cantarell text-lightscale-1 font-semibold text-center grid-cols-6"
+                  >
                     <div>KILLS</div>
                     <div>DMG</div>
                     <div>UBERS</div>
@@ -391,7 +425,10 @@ const Logs = () => {
                     <div>CAPS</div>
                     <div>MIDS</div>
                   </div>
-                  <div id="blue-team-sums" className="p-1 mt-2 bg-tf-blue-dark border-b-4 border-tf-blue-dark2 rounded-sm grid font-cantarell text-lightscale-1 font-medium text-center grid-cols-6">
+                  <div
+                    id="blue-team-sums"
+                    className="p-1 mt-2 bg-tf-blue-dark border-b-4 border-tf-blue-dark2 rounded-sm grid font-cantarell text-lightscale-1 font-medium text-center grid-cols-6"
+                  >
                     <div>{apiResponse.teams.blue.kills}</div>
                     <div>{apiResponse.teams.blue.damage}</div>
                     <div>{apiResponse.teams.blue.charges}</div>
@@ -399,7 +436,10 @@ const Logs = () => {
                     <div>{apiResponse.teams.blue.caps}</div>
                     <div>{apiResponse.teams.blue.firstcaps}</div>
                   </div>
-                  <div id="red-team-sums" className="p-1 mt-2 bg-tf-red-dark border-b-4 border-tf-red-dark2 rounded-sm grid font-cantarell text-lightscale-1 font-medium text-center grid-cols-6">
+                  <div
+                    id="red-team-sums"
+                    className="p-1 mt-2 bg-tf-red-dark border-b-4 border-tf-red-dark2 rounded-sm grid font-cantarell text-lightscale-1 font-medium text-center grid-cols-6"
+                  >
                     <div>{apiResponse.teams.red.kills}</div>
                     <div>{apiResponse.teams.red.damage}</div>
                     <div>{apiResponse.teams.red.charges}</div>
@@ -410,76 +450,386 @@ const Logs = () => {
                 </div>
               </div>
               <div id="medic-heals">
-                <div id="medic-heals-wrapper" className="flex justify-center gap-4 mb-4">
-                  {Object.entries(apiResponse.players).map(player => {
-                    if(player[1].healsPerMinute > 150){
-                      console.log(player[1].medicStats)
-                    return(
-                    <div id="medic-stats" className="font-cantarell text-lightscale-1 bg-warmscale-85 p-2 rounded-md w-[26rem]">
-                    <div id="player-username" className={`flex justify-center items-center py-1 font-semibold rounded-sm bg-tf-${player[1].team}-dark border-b-4 border-tf-${player[1].team}-dark2`}>{player[1].userName}</div>
-                    <div id="stats">
-                      <div id="stat" className="flex flex-wrap justify-between my-1">
-                        <div>Healing</div>
-                        <div>{player[1].heals}</div>
-                      </div>
-                      <div id="stat" className="flex flex-wrap justify-between my-1">
-                        <div>Charges(total)</div>
-                        <div>{player[1].medicStats.ubers}</div>
-                      </div>
-                      <div className="flex">
-                        {Object.entries(player[1].medicStats.uberTypes).map(uberGun => {
-                          return(
-                          <div id="stat" className="flex ml-4 text-lightscale-4 font-light text-sm -mt-1.5">
-                            <div className=" mr-0.5">{uberGun[0]}</div>
-                            <div>{"("+uberGun[1]+")"}</div>
-                          </div>);
-                        })}
-                      </div>
-                      <div id="stat" className="flex flex-wrap justify-between my-1">
-                        <div>Drops</div>
-                        <div>{player[1].medicStats.drops}</div>
-                      </div>
-                      <div id="stat" className="flex flex-wrap justify-between my-1">
-                        <div>Near full charge deaths (90+)</div>
-                        <div>{player[1].medicStats.nearFullDeaths}</div>
-                      </div>
-                      <div id="stat" className="flex flex-wrap justify-between my-1">
-                        <div>Avg time heal after spawn</div>
-                        <div>{Math.round(player[1].medicStats.healAfterSpawn*10)/10}</div>
-                      </div>
-                      <div id="stat" className="flex flex-wrap justify-between my-1">
-                        <div>Avg uber length</div>
-                        <div>{player[1].medicStats.uberLength}</div>
-                      </div>
-                    </div>
-                    <div id="divider" className={`h-1 my-2 bg-tf-${player[1].team} w-full`}></div>
-                    <div id="heal-division ">
-                      <div id="heal-division-titles" className="font-semibold grid grid-cols-[1fr,_54px,_90px,_50px] mb-2 mx-2 -mr-1">
-                        <div>Heal Target</div>
-                        <div className="text-center">C</div>
-                        <div className="text-center">Heal</div>
-                        <div className="text-center">%</div>
-                      </div>
-                      {Object.entries(apiResponse.healSpread[player[0]]).map(healedPlayer =>{
-                          return(
-                            <div id="healed-player" className="grid grid-cols-[1fr,_50px,_90px,_50px] my-2 mx-2 -mr-1">
-                              <div >{apiResponse.players[healedPlayer[0]].userName} <span className="text-ellipsis text-lightscale-5">{apiResponse.players[healedPlayer[0]].team !== player[1].team && `(enemy)`}</span></div>
-                              <img src={`../../../public/class icons/Leaderboard_class_${apiResponse.players[healedPlayer[0]].class}.png`} alt="" className="h-6 flex ml-3" />
-                              <div className="text-center border-x border-warmscale-5">{healedPlayer[1]}</div>
-                              <div className="text-center">{Math.round((healedPlayer[1]/player[1].heals)*100)}</div>
+                <div
+                  id="medic-heals-wrapper"
+                  className="flex justify-center gap-4 mb-4"
+                >
+                  {Object.entries(apiResponse.players).map((player) => {
+                    if (player[1].healsPerMinute > 150) {
+                      console.log(player[1].medicStats);
+                      return (
+                        <div
+                          id="medic-stats"
+                          className="font-cantarell text-lightscale-1 bg-warmscale-85 p-2 rounded-md w-[26rem]"
+                        >
+                          <div
+                            id="player-username"
+                            className={`flex justify-center items-center py-1 font-semibold rounded-sm bg-tf-${player[1].team}-dark border-b-4 border-tf-${player[1].team}-dark2`}
+                          >
+                            {player[1].userName}
                           </div>
-                          )
-                      })}
-                    </div>
-                  </div>);
+                          <div id="stats">
+                            <div
+                              id="stat"
+                              className="flex flex-wrap justify-between my-1"
+                            >
+                              <div>Healing</div>
+                              <div>{player[1].heals}</div>
+                            </div>
+                            <div
+                              id="stat"
+                              className="flex flex-wrap justify-between my-1"
+                            >
+                              <div>Charges(total)</div>
+                              <div>{player[1].medicStats.ubers}</div>
+                            </div>
+                            <div className="flex">
+                              {Object.entries(
+                                player[1].medicStats.uberTypes
+                              ).map((uberGun) => {
+                                return (
+                                  <div
+                                    id="stat"
+                                    className="flex ml-4 text-lightscale-4 font-light text-sm -mt-1.5"
+                                  >
+                                    <div className=" mr-0.5">{uberGun[0]}</div>
+                                    <div>{"(" + uberGun[1] + ")"}</div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div
+                              id="stat"
+                              className="flex flex-wrap justify-between my-1"
+                            >
+                              <div>Drops</div>
+                              <div>{player[1].medicStats.drops}</div>
+                            </div>
+                            <div
+                              id="stat"
+                              className="flex flex-wrap justify-between my-1"
+                            >
+                              <div>Near full charge deaths (90+)</div>
+                              <div>{player[1].medicStats.nearFullDeaths}</div>
+                            </div>
+                            <div
+                              id="stat"
+                              className="flex flex-wrap justify-between my-1"
+                            >
+                              <div>Avg time heal after spawn</div>
+                              <div>
+                                {Math.round(
+                                  player[1].medicStats.healAfterSpawn * 10
+                                ) / 10}
+                              </div>
+                            </div>
+                            <div
+                              id="stat"
+                              className="flex flex-wrap justify-between my-1"
+                            >
+                              <div>Avg uber length</div>
+                              <div>{player[1].medicStats.uberLength}</div>
+                            </div>
+                          </div>
+                          <div
+                            id="divider"
+                            className={`h-1 my-2 bg-tf-${player[1].team} w-full`}
+                          ></div>
+                          <div id="heal-division ">
+                            <div
+                              id="heal-division-titles"
+                              className="font-semibold grid grid-cols-[1fr,_54px,_90px,_50px] mb-2 mx-2 -mr-1"
+                            >
+                              <div>Heal Target</div>
+                              <div className="text-center">C</div>
+                              <div className="text-center">Heal</div>
+                              <div className="text-center">%</div>
+                            </div>
+                            {Object.entries(
+                              apiResponse.healSpread[player[0]]
+                            ).map((healedPlayer) => {
+                              return (
+                                <div
+                                  id="healed-player"
+                                  className="grid grid-cols-[1fr,_50px,_90px,_50px] my-2 mx-2 -mr-1"
+                                >
+                                  <div>
+                                    {
+                                      apiResponse.players[healedPlayer[0]]
+                                        .userName
+                                    }{" "}
+                                    <span className="text-ellipsis text-lightscale-5">
+                                      {apiResponse.players[healedPlayer[0]]
+                                        .team !== player[1].team && `(enemy)`}
+                                    </span>
+                                  </div>
+                                  <img
+                                    src={`../../../public/class icons/Leaderboard_class_${
+                                      apiResponse.players[healedPlayer[0]].class
+                                    }.png`}
+                                    alt=""
+                                    className="h-6 flex ml-3"
+                                  />
+                                  <div className="text-center border-x border-warmscale-5">
+                                    {healedPlayer[1]}
+                                  </div>
+                                  <div className="text-center">
+                                    {Math.round(
+                                      (healedPlayer[1] / player[1].heals) * 100
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
                     }
                   })}
-                  
                 </div>
               </div>
             </div>
-            <div id="performance-tab" className={`bg-warmscale-8 py-2 ${tab !== "performance" && "hidden "}`}>
-
+            <div
+              id="performance-tab"
+              className={`bg-warmscale-8  py-2 ${
+                tab !== "performance" && "hidden "
+              }`}
+            >
+              <div
+                id="class-icons"
+                className="h-10 flex justify-center items-center my-6"
+              >
+                <div id="red-team-icons" className="flex">
+                  {Object.entries(apiResponse.players).map((player) => {
+                    if (player[1].team === "red") {
+                      return (
+                        <div className="group relative">
+                          <div className="absolute scale-0 text-lightscale-2 font-cantarell left-1/2 transform bottom-16 -translate-x-1/2 truncate font-semibold p-1 px-2 bg-warmscale-9 rounded-md bg-opacity-70 group-hover:scale-100">
+                            {player[1].userName}
+                          </div>
+                          <img
+                            onClick={() => {
+                              setPerformanceFocus(player[0]);
+                            }}
+                            src={`../../../public/class icons/Leaderboard_class_${player[1].class}.png`}
+                            className={` ${
+                              currentPerformanceFocus === player[0]
+                                ? "border-lightscale-2 bg-tf-red hover:border-lightscale-2"
+                                : "bg-tf-red-dark cursor-pointer "
+                            }  h-14 p-1.5 hover:bg-tf-red hover:border-tf-red-dark border-4 rounded-md border-tf-red-dark2 m-1`}
+                            alt=""
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+                <div
+                  id="team-icon-dividers"
+                  className="font-bold text-4xl font-cantarell mx-3 text-lightscale-1"
+                >
+                  VS
+                </div>
+                <div id="blue-team-icons" className="flex">
+                  {Object.entries(apiResponse.players).map((player) => {
+                    if (player[1].team === "blue") {
+                      return (
+                        <div className="group relative">
+                          <div className="absolute scale-0 text-lightscale-2 font-cantarell left-1/2 transform bottom-16 -translate-x-1/2 truncate font-semibold p-1 px-2 bg-warmscale-9 rounded-md bg-opacity-70 group-hover:scale-100">
+                            {player[1].userName}
+                          </div>
+                          <img
+                            onClick={() => {
+                              setPerformanceFocus(player[0]);
+                            }}
+                            src={`../../../class icons/Leaderboard_class_${player[1].class}.png`}
+                            className={` ${
+                              currentPerformanceFocus === player[0]
+                                ? "border-lightscale-2 bg-tf-blue hover:border-lightscale-2"
+                                : "bg-tf-blue-dark cursor-pointer "
+                            }  h-14 p-1.5 hover:bg-tf-blue hover:border-tf-blue-dark border-4 rounded-md border-tf-blue-dark2 m-1`}
+                            alt=""
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+              <div className="flex h-[36rem]">
+                {currentPerformanceFocus !== "" && (
+                  <div className="flex">
+                    <div id="class-image" className=" ml-3 ">
+                      <img
+                        src={`../../../class images/${apiResponse.players[currentPerformanceFocus].class}_${apiResponse.players[currentPerformanceFocus].team}.png`}
+                        className="object-cover h-[36rem] w-80"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 w-[40rem] text-lightscale-1 font-semibold text-xl font-cantarell mb-2">
+                        <div className="text-right cursor-pointer" onClick={()=>{setPerformanceChartSort("taken")}}>Damage Taken</div>
+                        <div className="text-center">C</div>
+                        <div className="cursor-pointer" onClick={()=>{setPerformanceChartSort("dealt")}}>Damage Dealt</div>
+                      </div>
+                      <div>
+                        {performanceChartSort ==="dealt" && Object.entries(
+                          apiResponse.players[currentPerformanceFocus].damageDivision.damageTo).map((player) => {
+                          let currentMax = Math.max(
+                            Object.entries(apiResponse.players[currentPerformanceFocus].damageDivision.damageTo)[0][1],
+                            Object.entries(apiResponse.players[currentPerformanceFocus].damageDivision.damageFrom)[0][1]
+                          );
+                          let currentPercent = Math.round(
+                            (apiResponse.players[currentPerformanceFocus]
+                              .damageDivision.damageFrom[player[0]] /
+                              currentMax) *
+                              100
+                              );
+                          return (
+                            <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
+                              <div className="relative group">
+                                <div className="absolute right-0 w-full">
+                                  <div className="flex justify-end items-center gap-1">
+                                    {
+                                      apiResponse.players[
+                                        currentPerformanceFocus
+                                      ].damageDivision.damageFrom[player[0]]
+                                    }{" "}
+                                    <span className=" text-lightscale-4 text-xs">
+                                      {Math.round(
+                                        (apiResponse.players[
+                                          currentPerformanceFocus
+                                        ].damageDivision.damageFrom[player[0]] /
+                                          apiResponse.players[
+                                            currentPerformanceFocus
+                                          ].damageTaken) *
+                                          100
+                                      ) + "%"}
+                                    </span>
+                                    <div
+                                      className={`bg-tf-blue text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                      style={{width: `${currentPercent + "%"}`}}
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex items-center justify-center group select-none">
+                                <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
+                                  {apiResponse.players[player[0]].userName}
+                                </div>
+                                <img
+                                  src={`../../../class icons/Leaderboard_class_${
+                                    apiResponse.players[player[0]].class
+                                  }.png`}
+                                  alt=""
+                                  className="h-7 my-1.5"
+                                />
+                              </div>
+                              <div className="relative group ">
+                                <div className="absolute right-0 w-full">
+                                  <div className="flex items-center gap-1">
+                                    <div
+                                      className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                      style={{width: `${Math.round((player[1]/currentMax)*100) + "%"}`}}
+                                    ></div>
+                                    <span className=" text-lightscale-4 text-xs mr-1">
+                                      {Math.round((
+                                        player[1] /
+                                          apiResponse.players[
+                                            currentPerformanceFocus
+                                          ].damage) *
+                                          100
+                                      ) + "%"}
+                                    </span>
+                                    {
+                                      player[1]
+                                    }{" "}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        { performanceChartSort ==="taken" && Object.entries(
+                          apiResponse.players[currentPerformanceFocus].damageDivision.damageFrom).map((player) => {
+                          let currentMax = Math.max(
+                            Object.entries(apiResponse.players[currentPerformanceFocus].damageDivision.damageTo)[0][1],
+                            Object.entries(apiResponse.players[currentPerformanceFocus].damageDivision.damageFrom)[0][1]
+                          );
+                          let currentPercent = Math.round(
+                            (apiResponse.players[currentPerformanceFocus]
+                              .damageDivision.damageFrom[player[0]] /
+                              currentMax) *
+                              100
+                              );
+                          return (
+                            <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
+                              <div className="relative group">
+                                <div className="absolute right-0 w-full">
+                                  <div className="flex justify-end items-center gap-1">
+                                    {
+                                      player[1]
+                                    }{" "}
+                                    <span className=" text-lightscale-4 text-xs">
+                                      {Math.round(
+                                        (apiResponse.players[
+                                          currentPerformanceFocus
+                                        ].damageDivision.damageFrom[player[0]] /
+                                          apiResponse.players[
+                                            currentPerformanceFocus
+                                          ].damageTaken) *
+                                          100
+                                      ) + "%"}
+                                    </span>
+                                    <div
+                                      className={`bg-tf-blue text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                      style={{width: `${currentPercent + "%"}`}}
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex items-center justify-center group select-none">
+                                <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
+                                  {apiResponse.players[player[0]].userName}
+                                </div>
+                                <img
+                                  src={`../../../class icons/Leaderboard_class_${
+                                    apiResponse.players[player[0]].class
+                                  }.png`}
+                                  alt=""
+                                  className="h-7 my-1.5"
+                                />
+                              </div>
+                              <div className="relative group"  >
+                                <div className="absolute right-0 w-full">
+                                  <div className="flex items-center gap-1">
+                                    <div
+                                      className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                      style={{width: `${Math.round((apiResponse.players[currentPerformanceFocus].damageDivision.damageTo[player[0]]/currentMax)*100) + "%"}`}}
+                                    ></div>
+                                    <span className=" text-lightscale-4 text-xs mr-1 ">
+                                      {Math.round((
+                                        apiResponse.players[currentPerformanceFocus].damageDivision.damageTo[player[0]] /
+                                          apiResponse.players[
+                                            currentPerformanceFocus
+                                          ].damage) *
+                                          100
+                                      ) + "%"}
+                                    </span>
+                                    {" "}{ 
+                                      apiResponse.players[currentPerformanceFocus].damageDivision.damageTo[player[0]]
+                                    }
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -488,49 +838,54 @@ const Logs = () => {
   }
 
   function statTitle(stat: String, statAbriviation: String) {
-    return <div
-      id = {stat + "-title"}
-      onClick={() => {
-        scoreboardSorter(stat);
-      } }
-      className="flex items-center cursor-pointer justify-center select-none font-cantarell font-semibold text-lightscale-1 border-l border-warmscale-6"
-    >
-
-      {currentScoreboardSort === stat ?
-        sortType !== "lh" ? (
-          <div>
-            <svg
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              className="h-4 -ml-2"
-            >
-              <path
-                clip-rule="evenodd"
-                fillRule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              ></path>
-            </svg>
-          </div>
+    return (
+      <div
+        id={stat + "-title"}
+        onClick={() => {
+          scoreboardSorter(stat);
+        }}
+        className="flex items-center cursor-pointer justify-center select-none font-cantarell font-semibold text-lightscale-1 border-l border-warmscale-6"
+      >
+        {currentScoreboardSort === stat ? (
+          sortType !== "lh" ? (
+            <div>
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                className="h-4 -ml-2"
+              >
+                <path
+                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                ></path>
+              </svg>
+            </div>
+          ) : (
+            <div>
+              <svg
+                fill="currentColor"
+                className="h-4 -ml-2"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
+                />
+              </svg>
+            </div>
+          )
         ) : (
-          <div>
-            <svg
-              fill="currentColor"
-              className="h-4 -ml-2"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                clipRule="evenodd"
-                fillRule="evenodd"
-                d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z" />
-            </svg>
-          </div>
-        ) : (<div></div>)}
-      {statAbriviation}
-    </div>;
+          <div></div>
+        )}
+        {statAbriviation}
+      </div>
+    );
   }
 };
 
