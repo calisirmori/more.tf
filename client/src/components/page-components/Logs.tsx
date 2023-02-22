@@ -51,15 +51,16 @@ const Logs = () => {
         apiResponse.players[currentPerformanceFocus].damageDivision.damageTo
       ).map((player) => {
         if (apiResponse.players[player[0]].class === classOrder[classIndex])
-          sortedArray.push({[player[0]]:{ 
-            damageFrom:
-            apiResponse.players[currentPerformanceFocus].damageDivision
-              .damageFrom[player[0]],
+          sortedArray.push({
+            [player[0]]: {
+              damageFrom:
+                apiResponse.players[currentPerformanceFocus].damageDivision
+                  .damageFrom[player[0]],
               damageTo:
-            apiResponse.players[currentPerformanceFocus].damageDivision
-              .damageTo[player[0]]
-            }}
-          );
+                apiResponse.players[currentPerformanceFocus].damageDivision
+                  .damageTo[player[0]],
+            },
+          });
       });
     }
     console.log(sortedArray);
@@ -365,7 +366,11 @@ const Logs = () => {
                           } grid-cols-[1fr,_40px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_repeat(5,60px)]`}
                         >
                           <div
-                            className={`block bg-gradient-to-r from-tf-${playerObject.team}-dark mr-6 text-ellipsis overflow-hidden`}
+                            className={`block bg-gradient-to-r ${
+                              playerObject.team === "blue"
+                                ? "from-tf-blue-dark"
+                                : "from-tf-red-dark"
+                            }  mr-6 text-ellipsis overflow-hidden`}
                           >
                             <div className="pl-4 w-full ">
                               <div className="font-semibold font-cantarell text-lightscale-1 ">
@@ -685,12 +690,15 @@ const Logs = () => {
                     <div id="class-image" className=" ml-3 ">
                       <img
                         src={`../../../class images/${apiResponse.players[currentPerformanceFocus].class}_${apiResponse.players[currentPerformanceFocus].team}.png`}
-                        className="object-cover h-[36rem] w-80"
+                        className="object-cover h-[36rem] w-60"
                         alt=""
                       />
                     </div>
-                    <div>
-                      <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 w-[40rem] text-lightscale-1 font-semibold text-xl font-cantarell mb-2">
+                    <div className="mt-24">
+                      <div
+                        id="damage-division-titles"
+                        className="grid grid-cols-[1fr,_30px,_1fr] gap-2 w-[40rem] text-lightscale-1 font-semibold text-xl font-cantarell mb-2"
+                      >
                         <div
                           className="text-right cursor-pointer"
                           onClick={() => {
@@ -718,10 +726,13 @@ const Logs = () => {
                             Damage Taken
                           </div>
                         </div>
-                        <div className="text-center cursor-pointer" onClick={() => {
+                        <div
+                          className="text-center cursor-pointer"
+                          onClick={() => {
                             setPerformanceChartSort("class");
-                          }}>
-                            <div className="flex justify-center items-center">
+                          }}
+                        >
+                          <div className="flex justify-center items-center">
                             C
                             {performanceChartSort === "class" && (
                               <div>
@@ -741,7 +752,7 @@ const Logs = () => {
                               </div>
                             )}
                           </div>
-                          </div>
+                        </div>
                         <div
                           className="cursor-pointer"
                           onClick={() => {
@@ -770,7 +781,7 @@ const Logs = () => {
                           </div>
                         </div>
                       </div>
-                      <div>
+                      <div id="damage-division-chart">
                         {performanceChartSort === "dealt" &&
                           Object.entries(
                             apiResponse.players[currentPerformanceFocus]
@@ -802,25 +813,42 @@ const Logs = () => {
                                           currentPerformanceFocus
                                         ].damageDivision.damageFrom[player[0]]
                                       }{" "}
-                                      <span className=" text-lightscale-4 text-xs">
-                                        {Math.round(
-                                          (apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].damageDivision.damageFrom[
-                                            player[0]
-                                          ] /
-                                            apiResponse.players[
-                                              currentPerformanceFocus
-                                            ].damageTaken) *
-                                            100
-                                        ) + "%"}
-                                      </span>
                                       <div
-                                        className={`bg-tf-blue text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                        className={`bg-tf-blue group text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
                                         style={{
                                           width: `${currentPercent + "%"}`,
                                         }}
-                                      ></div>
+                                      >
+                                        <div
+                                          className={`scale-0 ${
+                                            Math.round(
+                                              (apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damageDivision.damageFrom[
+                                                player[0]
+                                              ] /
+                                                apiResponse.players[
+                                                  currentPerformanceFocus
+                                                ].damageTaken) *
+                                                100
+                                            ) > 5
+                                              ? "group-hover:scale-100"
+                                              : "group-hover:scale-0"
+                                          } ml-1 mt-1 text-lightscale-4 text-xs`}
+                                        >
+                                          {Math.round(
+                                            (apiResponse.players[
+                                              currentPerformanceFocus
+                                            ].damageDivision.damageFrom[
+                                              player[0]
+                                            ] /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damageTaken) *
+                                              100
+                                          ) + "%"}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -840,7 +868,7 @@ const Logs = () => {
                                   <div className="absolute right-0 w-full">
                                     <div className="flex items-center gap-1">
                                       <div
-                                        className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                        className={`bg-tf-red group text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
                                         style={{
                                           width: `${
                                             Math.round(
@@ -848,16 +876,29 @@ const Logs = () => {
                                             ) + "%"
                                           }`,
                                         }}
-                                      ></div>
-                                      <span className=" text-lightscale-4 text-xs mr-1">
-                                        {Math.round(
-                                          (player[1] /
-                                            apiResponse.players[
-                                              currentPerformanceFocus
-                                            ].damage) *
-                                            100
-                                        ) + "%"}
-                                      </span>
+                                      >
+                                        <div
+                                          className={`scale-0 text-lightscale-4 mt-1 flex justify-end ${
+                                            Math.round(
+                                              (player[1] /
+                                                apiResponse.players[
+                                                  currentPerformanceFocus
+                                                ].damage) *
+                                                100
+                                            ) > 5
+                                              ? "group-hover:scale-100"
+                                              : "group-hover:scale-0"
+                                          } text-xs mr-1`}
+                                        >
+                                          {Math.round(
+                                            (player[1] /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damage) *
+                                              100
+                                          ) + "%"}
+                                        </div>
+                                      </div>
                                       {player[1]}{" "}
                                     </div>
                                   </div>
@@ -892,30 +933,59 @@ const Logs = () => {
                                   <div className="absolute right-0 w-full">
                                     <div className="flex justify-end items-center gap-1">
                                       {player[1]}{" "}
-                                      <span className=" text-lightscale-4 text-xs">
-                                        {Math.round(
-                                          (apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].damageDivision.damageFrom[
-                                            player[0]
-                                          ] /
-                                            apiResponse.players[
-                                              currentPerformanceFocus
-                                            ].damageTaken) *
-                                            100
-                                        ) + "%"}
-                                      </span>
                                       <div
-                                        className={`bg-tf-blue text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                        className={`bg-tf-blue text-clip h-9 border-b-2 ml-1 group border-tf-blue-dark rounded-sm  p-1`}
                                         style={{
                                           width: `${currentPercent + "%"}`,
                                         }}
-                                      ></div>
+                                      >
+                                        <div
+                                          className={`text-lightscale-4 text-xs flex ml-1 mt-1.5 scale-0 ${
+                                            Math.round(
+                                              (apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damageDivision.damageFrom[
+                                                player[0]
+                                              ] /
+                                                apiResponse.players[
+                                                  currentPerformanceFocus
+                                                ].damageTaken) *
+                                                100
+                                            ) > 5
+                                              ? "group-hover:scale-100"
+                                              : "group-hover:scale-0"
+                                          }`}
+                                        >
+                                          {Math.round(
+                                            (apiResponse.players[
+                                              currentPerformanceFocus
+                                            ].damageDivision.damageFrom[
+                                              player[0]
+                                            ] /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damageTaken) *
+                                              100
+                                          ) + "%"}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="flex items-center justify-center group select-none">
-                                  <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
+                                  <div
+                                    className={`scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 ${
+                                      Math.round(
+                                        (apiResponse.players[
+                                          currentPerformanceFocus
+                                        ].damageDivision.damageTo[player[0]] /
+                                          currentMax) *
+                                          100
+                                      ) > 5
+                                        ? "group-hover:scale-100"
+                                        : "group-hover:scale-0"
+                                    }`}
+                                  >
                                     {apiResponse.players[player[0]].userName}
                                   </div>
                                   <img
@@ -930,7 +1000,7 @@ const Logs = () => {
                                   <div className="absolute right-0 w-full">
                                     <div className="flex items-center gap-1">
                                       <div
-                                        className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                        className={`bg-tf-red group text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
                                         style={{
                                           width: `${
                                             Math.round(
@@ -944,18 +1014,35 @@ const Logs = () => {
                                             ) + "%"
                                           }`,
                                         }}
-                                      ></div>
-                                      <span className=" text-lightscale-4 text-xs mr-1 ">
-                                        {Math.round(
-                                          (apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].damageDivision.damageTo[player[0]] /
-                                            apiResponse.players[
+                                      >
+                                        <span className={` flex justify-end mt-1 text-lightscale-4 text-xs scale-0 mr-1 ${
+                                      Math.round(
+                                            (apiResponse.players[
                                               currentPerformanceFocus
-                                            ].damage) *
-                                            100
-                                        ) + "%"}
-                                      </span>{" "}
+                                            ].damageDivision.damageTo[
+                                              player[0]
+                                            ] /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damage) *
+                                              100
+                                          ) > 5
+                                        ? "group-hover:scale-100"
+                                        : "group-hover:scale-0"
+                                    }`}>
+                                          {Math.round(
+                                            (apiResponse.players[
+                                              currentPerformanceFocus
+                                            ].damageDivision.damageTo[
+                                              player[0]
+                                            ] /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damage) *
+                                              100
+                                          ) + "%"}
+                                        </span>
+                                      </div>{" "}
                                       {
                                         apiResponse.players[
                                           currentPerformanceFocus
@@ -967,93 +1054,131 @@ const Logs = () => {
                               </div>
                             );
                           })}
-                        {performanceChartSort === "class" && damageDivisionSortByClass().map(player=>{
-                          let currentPlayerArray = Object.entries(player);
-                          let currentMax = Math.max(
-                            Object.entries(
-                              apiResponse.players[currentPerformanceFocus]
-                                .damageDivision.damageTo
-                            )[0][1],
-                            Object.entries(
-                              apiResponse.players[currentPerformanceFocus]
-                                .damageDivision.damageFrom
-                            )[0][1]
-                          );
-                          let currentPercent = Math.round(
-                            (apiResponse.players[currentPerformanceFocus]
-                              .damageDivision.damageFrom[currentPlayerArray[0][0]] /
-                              currentMax) *
-                              100
-                          );
-                          return (
-                            <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
-                              <div className="relative group">
-                                <div className="absolute right-0 w-full">
-                                  <div className="flex justify-end items-center gap-1">
-                                    {currentPlayerArray[0][1].damageFrom}{" "}
-                                    <span className=" text-lightscale-4 text-xs">
-                                      {Math.round(
-                                        (currentPlayerArray[0][1].damageFrom/
-                                          apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].damageTaken) *
-                                          100
-                                      ) + "%"}
-                                    </span>
-                                    <div
-                                      className={`bg-tf-blue text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
-                                      style={{
-                                        width: `${currentPercent + "%"}`,
-                                      }}
-                                    ></div>
+                        {performanceChartSort === "class" &&
+                          damageDivisionSortByClass().map((player) => {
+                            let currentPlayerArray = Object.entries(player);
+                            let currentMax = Math.max(
+                              Object.entries(
+                                apiResponse.players[currentPerformanceFocus]
+                                  .damageDivision.damageTo
+                              )[0][1],
+                              Object.entries(
+                                apiResponse.players[currentPerformanceFocus]
+                                  .damageDivision.damageFrom
+                              )[0][1]
+                            );
+                            let currentPercent = Math.round(
+                              (apiResponse.players[currentPerformanceFocus]
+                                .damageDivision.damageFrom[
+                                currentPlayerArray[0][0]
+                              ] /
+                                currentMax) *
+                                100
+                            );
+
+                            return (
+                              <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
+                                <div className="relative group">
+                                  <div className="absolute right-0 w-full">
+                                    <div className="flex justify-end items-center gap-1">
+                                      {currentPlayerArray[0][1].damageFrom}{" "}
+                                      <div
+                                        className={`bg-tf-blue group h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                        style={{
+                                          width: `${currentPercent + "%"}`,
+                                        }}
+                                      >
+                                        <div
+                                          className={`ml-1 mt-1 scale-0 ${
+                                            Math.round(
+                                              (currentPlayerArray[0][1]
+                                                .damageFrom /
+                                                apiResponse.players[
+                                                  currentPerformanceFocus
+                                                ].damageTaken) *
+                                                100
+                                            ) > 5
+                                              ? "group-hover:scale-100"
+                                              : "group-hover:scale-0"
+                                          } text-lightscale-4 text-xs`}
+                                        >
+                                          {Math.round(
+                                            (currentPlayerArray[0][1]
+                                              .damageFrom /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damageTaken) *
+                                              100
+                                          ) + "%"}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              <div className="flex items-center justify-center group select-none">
-                                <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
-                                  {apiResponse.players[currentPlayerArray[0][0]].userName}
-                                </div>
-                                <img
-                                  src={`../../../class icons/Leaderboard_class_${
-                                    apiResponse.players[currentPlayerArray[0][0]].class
-                                  }.png`}
-                                  alt=""
-                                  className="h-7 my-1.5"
-                                />
-                              </div>
-                              <div className="relative group">
-                                <div className="absolute right-0 w-full">
-                                  <div className="flex items-center gap-1">
-                                    <div
-                                      className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
-                                      style={{
-                                        width: `${
-                                          Math.round(
-                                            (currentPlayerArray[0][1].damageTo /
-                                              currentMax) *
-                                              100
-                                          ) + "%"
-                                        }`,
-                                      }}
-                                    ></div>
-                                    <span className=" text-lightscale-4 text-xs mr-1 ">
-                                      {Math.round(
-                                        (currentPlayerArray[0][1].damageTo /
-                                          apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].damage) *
-                                          100
-                                      ) + "%"}
-                                    </span>{" "}
+                                <div className="flex items-center justify-center group select-none">
+                                  <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
                                     {
-                                      currentPlayerArray[0][1].damageTo
+                                      apiResponse.players[
+                                        currentPlayerArray[0][0]
+                                      ].userName
                                     }
                                   </div>
+                                  <img
+                                    src={`../../../class icons/Leaderboard_class_${
+                                      apiResponse.players[
+                                        currentPlayerArray[0][0]
+                                      ].class
+                                    }.png`}
+                                    alt=""
+                                    className="h-7 my-1.5"
+                                  />
+                                </div>
+                                <div className="relative group">
+                                  <div className="absolute right-0 w-full">
+                                    <div className="flex items-center gap-1">
+                                      <div
+                                        className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                        style={{
+                                          width: `${
+                                            Math.round(
+                                              (currentPlayerArray[0][1]
+                                                .damageTo /
+                                                currentMax) *
+                                                100
+                                            ) + "%"
+                                          }`,
+                                        }}
+                                      >
+                                        <div
+                                          className={`flex justify-end mt-1 ${
+                                            Math.round(
+                                              (currentPlayerArray[0][1]
+                                                .damageTo /
+                                                apiResponse.players[
+                                                  currentPerformanceFocus
+                                                ].damage) *
+                                                100
+                                            ) > 5
+                                              ? "group-hover:scale-100"
+                                              : "group-hover:scale-0"
+                                          } scale-0 text-lightscale-4 text-xs mr-1`}
+                                        >
+                                          {Math.round(
+                                            (currentPlayerArray[0][1].damageTo /
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].damage) *
+                                              100
+                                          ) + "%"}
+                                        </div>
+                                      </div>{" "}
+                                      {currentPlayerArray[0][1].damageTo}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                       </div>
                     </div>
                   </div>
