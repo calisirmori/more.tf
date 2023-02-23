@@ -18,6 +18,8 @@ const Logs = () => {
   const [focusedKillEvent, setFocusedKillEvent] = useState({});
   const [currentKillMapFilter, setCurrentKillMapFilter] = useState("none");
   const [killMapShowDeaths, setKillMapShowDeaths] = useState(false);
+  const [matchupPlayersRed, setMatchupPlayersRed] = useState("none");
+  const [matchupPlayersBlue, setMatchupPlayersBlue] = useState("none");
   
   const classOrder = [
     "scout",
@@ -148,7 +150,7 @@ const Logs = () => {
 
   const handleCheckBox = () => {
     setKillMapShowDeaths(!killMapShowDeaths);
-  }
+  };
 
   let currentScoreboardIndex = 0;
   if (apiResponse.players !== undefined) {
@@ -252,7 +254,7 @@ const Logs = () => {
                     className="fill-lightscale-2 w-5"
                   >
                     <path
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                       fillRule="evenodd"
                       d="M15.75 4.5a3 3 0 11.825 2.066l-8.421 4.679a3.002 3.002 0 010 1.51l8.421 4.679a3 3 0 11-.729 1.31l-8.421-4.678a3 3 0 110-4.132l8.421-4.679a3 3 0 01-.096-.755z"
                     ></path>
@@ -739,7 +741,7 @@ const Logs = () => {
                                       className="h-6 pt-1 mr-1"
                                     >
                                       <path
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                         fillRule="evenodd"
                                         d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                                       ></path>
@@ -767,7 +769,7 @@ const Logs = () => {
                                       className="h-6 pt-1 -mr-1"
                                     >
                                       <path
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                         fillRule="evenodd"
                                         d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                                       ></path>
@@ -794,7 +796,7 @@ const Logs = () => {
                                       className="h-6 pt-1 ml-1"
                                     >
                                       <path
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                         fillRule="evenodd"
                                         d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                                       ></path>
@@ -839,7 +841,12 @@ const Logs = () => {
                                             ]
                                           }{" "}
                                           <div
-                                            className={`${apiResponse.players[player[0]].team === "blue" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group text-clip h-9 border-b-2 rounded-sm  p-1`}
+                                            className={`${
+                                              apiResponse.players[player[0]]
+                                                .team === "blue"
+                                                ? "bg-tf-blue border-tf-blue-dark"
+                                                : "bg-tf-red border-tf-red-dark"
+                                            } group text-clip h-9 border-b-2 rounded-sm  p-1`}
                                             style={{
                                               width: `${currentPercent + "%"}`,
                                             }}
@@ -896,7 +903,12 @@ const Logs = () => {
                                       <div className="absolute right-0 w-full">
                                         <div className="flex items-center gap-1">
                                           <div
-                                            className={`${apiResponse.players[player[0]].team === "red" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
+                                            className={`${
+                                              apiResponse.players[player[0]]
+                                                .team === "red"
+                                                ? "bg-tf-blue border-tf-blue-dark"
+                                                : "bg-tf-red border-tf-red-dark"
+                                            } group text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
                                             style={{
                                               width: `${
                                                 Math.round(
@@ -962,7 +974,12 @@ const Logs = () => {
                                         <div className="flex justify-end items-center gap-1">
                                           {player[1]}{" "}
                                           <div
-                                            className={`${apiResponse.players[player[0]].team === "blue" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"}  text-clip h-9 border-b-2 ml-1 group  rounded-sm  p-1`}
+                                            className={`${
+                                              apiResponse.players[player[0]]
+                                                .team === "blue"
+                                                ? "bg-tf-blue border-tf-blue-dark"
+                                                : "bg-tf-red border-tf-red-dark"
+                                            }  text-clip h-9 border-b-2 ml-1 group  rounded-sm  p-1`}
                                             style={{
                                               width: `${currentPercent + "%"}`,
                                             }}
@@ -1033,7 +1050,12 @@ const Logs = () => {
                                       <div className="absolute right-0 w-full">
                                         <div className="flex items-center gap-1">
                                           <div
-                                            className={`${apiResponse.players[player[0]].team === "red" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
+                                            className={`${
+                                              apiResponse.players[player[0]]
+                                                .team === "red"
+                                                ? "bg-tf-blue border-tf-blue-dark"
+                                                : "bg-tf-red border-tf-red-dark"
+                                            } group text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
                                             style={{
                                               width: `${
                                                 Math.round(
@@ -1118,7 +1140,13 @@ const Logs = () => {
                                         <div className="flex justify-end items-center gap-1">
                                           {currentPlayerArray[0][1].damageFrom}{" "}
                                           <div
-                                            className={`${apiResponse.players[currentPerformanceFocus].team === "red" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group h-9 border-b-2 rounded-sm  p-1`}
+                                            className={`${
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].team === "red"
+                                                ? "bg-tf-blue border-tf-blue-dark"
+                                                : "bg-tf-red border-tf-red-dark"
+                                            } group h-9 border-b-2 rounded-sm  p-1`}
                                             style={{
                                               width: `${currentPercent + "%"}`,
                                             }}
@@ -1172,7 +1200,13 @@ const Logs = () => {
                                       <div className="absolute right-0 w-full">
                                         <div className="flex items-center gap-1">
                                           <div
-                                            className={`${apiResponse.players[currentPerformanceFocus].team === "blue" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
+                                            className={`${
+                                              apiResponse.players[
+                                                currentPerformanceFocus
+                                              ].team === "blue"
+                                                ? "bg-tf-blue border-tf-blue-dark"
+                                                : "bg-tf-red border-tf-red-dark"
+                                            } text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
                                             style={{
                                               width: `${
                                                 Math.round(
@@ -1238,18 +1272,29 @@ const Logs = () => {
                           <select
                             id="countries"
                             className="bg-warmscale-7 ring-tf-orange text-lightscale-2 text-sm rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-0.5 mb-1 px-2.5"
-                            onChange={(event) => setCurrentKillMapFilter(event.target.value)}
+                            onChange={(event) =>
+                              setCurrentKillMapFilter(event.target.value)
+                            }
                             value={currentKillMapFilter}
                           >
-                            <option value="none" selected>Filtered player (none)</option>
-                            {Object.entries(apiResponse.players).map(player =>{
-                              if(player[1].team !== apiResponse.players[currentPerformanceFocus].team){
-                                return(<option value={player[0]}>
-                                  {player[1].class}
-                                  </option>)
+                            <option value="none">
+                              Filtered player (none)
+                            </option>
+                            {Object.entries(apiResponse.players).map(
+                              (player) => {
+                                if (
+                                  player[1].team !==
+                                  apiResponse.players[currentPerformanceFocus]
+                                    .team
+                                ) {
+                                  return (
+                                    <option value={player[0]}>
+                                      {player[1].class}
+                                    </option>
+                                  );
+                                }
                               }
-                            })}
-                            
+                            )}
                           </select>
                         </div>
                       </div>
@@ -1348,8 +1393,15 @@ const Logs = () => {
                                 let calibrationX = 298;
                                 let calibrationY = 240;
                                 if (
-                                  killEvent[killMapShowDeaths ? "victimId" : "killerId"] === currentPerformanceFocus &&
-                                  (currentKillMapFilter === "none" || killEvent[killMapShowDeaths ? "killerId" : "victimId"] === currentKillMapFilter)
+                                  killEvent[
+                                    killMapShowDeaths ? "victimId" : "killerId"
+                                  ] === currentPerformanceFocus &&
+                                  (currentKillMapFilter === "none" ||
+                                    killEvent[
+                                      killMapShowDeaths
+                                        ? "killerId"
+                                        : "victimId"
+                                    ] === currentKillMapFilter)
                                 ) {
                                   return (
                                     <svg
@@ -1407,8 +1459,12 @@ const Logs = () => {
                                           apiResponse.players[
                                             currentPerformanceFocus
                                           ].team === "red"
-                                            ? (killMapShowDeaths ? "fill-tf-blue" : "fill-tf-red") 
-                                            : (killMapShowDeaths ? "fill-tf-red" : "fill-tf-blue")
+                                            ? killMapShowDeaths
+                                              ? "fill-tf-blue"
+                                              : "fill-tf-red"
+                                            : killMapShowDeaths
+                                            ? "fill-tf-red"
+                                            : "fill-tf-blue"
                                         } stroke-white group-hover:stroke-2 cursor-pointer  group-hover:z-50 -z-50`}
                                       />
                                       <rect
@@ -1430,8 +1486,12 @@ const Logs = () => {
                                           apiResponse.players[
                                             currentPerformanceFocus
                                           ].team === "red"
-                                            ? (killMapShowDeaths ? "fill-tf-red" : "fill-tf-blue") 
-                                            : (killMapShowDeaths ? "fill-tf-blue" : "fill-tf-red")
+                                            ? killMapShowDeaths
+                                              ? "fill-tf-red"
+                                              : "fill-tf-blue"
+                                            : killMapShowDeaths
+                                            ? "fill-tf-blue"
+                                            : "fill-tf-red"
                                         } stroke-white group-hover:stroke-2 cursor-pointer group-hover:z-50 -z-50`}
                                       />
                                     </svg>
@@ -1442,41 +1502,181 @@ const Logs = () => {
                           </div>
                         </div>
                       </div>
-                        <div className="flex items-center justify-center gap-6 mt-1 text-lightscale-2 font-semibold font-cantarell">
+                      <div className="flex items-center justify-center gap-6 mt-1 text-lightscale-2 font-semibold font-cantarell">
+                        <div className="flex justify-center items-center">
+                          <div
+                            className={`${
+                              apiResponse.players[currentPerformanceFocus]
+                                .team === "red"
+                                ? killMapShowDeaths
+                                  ? "bg-tf-blue"
+                                  : "bg-tf-red"
+                                : killMapShowDeaths
+                                ? "bg-tf-red"
+                                : "bg-tf-blue"
+                            } h-2.5 w-2.5 border border-white rounded-full mr-1`}
+                          ></div>
+                          Killer
+                          <span className="text-lightscale-6 ml-0.5">
+                            {killMapShowDeaths ? "(enemy)" : "(you)"}
+                          </span>
+                        </div>
+                        <div>
                           <div className="flex justify-center items-center">
                             <div
                               className={`${
                                 apiResponse.players[currentPerformanceFocus]
                                   .team === "red"
-                                  ? (killMapShowDeaths ? "bg-tf-blue" : "bg-tf-red") 
-                                  : (killMapShowDeaths ? "bg-tf-red" : "bg-tf-blue")
-                              } h-2.5 w-2.5 border border-white rounded-full mr-1`}
+                                  ? killMapShowDeaths
+                                    ? "bg-tf-red"
+                                    : "bg-tf-blue"
+                                  : killMapShowDeaths
+                                  ? "bg-tf-blue"
+                                  : "bg-tf-red"
+                              } h-2.5 w-2.5 border border-white mr-1`}
                             ></div>
-                            Killer
+                            Victim
                             <span className="text-lightscale-6 ml-0.5">
-                              {killMapShowDeaths ? "(enemy)" : "(you)"}
+                              {killMapShowDeaths ? "(you)" : "(enemy)"}
                             </span>
                           </div>
-                          <div>
-                            <div className="flex justify-center items-center">
-                              <div
-                                className={`${
-                                  apiResponse.players[currentPerformanceFocus]
-                                    .team === "red"
-                                    ? (killMapShowDeaths ? "bg-tf-red" : "bg-tf-blue") 
-                                    : (killMapShowDeaths ? "bg-tf-blue" : "bg-tf-red")
-                                } h-2.5 w-2.5 border border-white mr-1`}
-                              ></div>
-                              Victim
-                              <span className="text-lightscale-6 ml-0.5">
-                              {killMapShowDeaths ? "(you)" : "(enemy)"}
-                              </span>
-                            </div>
-                          </div>
                         </div>
+                      </div>
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+            <div
+              id="rounds-tab"
+              className={`bg-warmscale-8 mb-7 py-4 ${
+                tab !== "rounds" && "hidden "
+              }`}
+            >
+              {" "}
+              hey
+            </div>
+            <div
+              id="matchups-tab"
+              className={`bg-warmscale-8 mb-7 py-4 ${
+                tab !== "matchups" && "hidden "
+              }`}
+            >
+              {" "}
+              <div
+                id="class-icons"
+                className="h-10 flex justify-center items-center my-6"
+              >
+                <div className="flex font-cantarell font-semibold w-96 mx-4 mt-1 gap-2">
+                  <select
+                    id="countries"
+                    className="bg-warmscale-7 border-2 border-tf-red ring-tf-orange text-lightscale-2 text-lg rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-2.5 px-2.5"
+                    onChange={(event) =>
+                      setMatchupPlayersRed(event.target.value)
+                    }
+                    value={matchupPlayersRed}
+                  >
+                    <option value="none">
+                      Filtered player (none)
+                    </option>
+                    {Object.entries(apiResponse.players).map((player) => {
+                      if (
+                        player[1].team !==
+                        "blue"
+                      ) {
+                        return (
+                          <option value={player[0]}>({player[1].userName}) {player[1].class} </option>
+                        );
+                      }
+                    })}
+                  </select>
+                </div>
+                <div
+                  id="team-icon-dividers"
+                  className="font-bold text-4xl font-cantarell mx-3 text-lightscale-1"
+                >
+                  VS
+                </div>
+
+                <div className="flex font-cantarell font-semibold w-96 mx-4 mt-1 gap-2">
+                  <select
+                    id="countries"
+                    className="bg-warmscale-7 border-2 border-tf-blue ring-tf-orange text-lightscale-2 text-lg rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-2.5 px-2.5"
+                    onChange={(event) =>
+                      setMatchupPlayersBlue(event.target.value)
+                    }
+                    value={matchupPlayersBlue}
+                  >
+                    <option value="none">
+                      Filtered player (none)
+                    </option>
+                    {Object.entries(apiResponse.players).map((player) => {
+                      
+                      if (
+                        player[1].team !==
+                        "red"
+                      ) {
+                        return (
+                          <option value={player[0]}>{player[1].class} ({player[1].userName})</option>
+                        );
+                      }
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="w-full h-[35.8rem] flex justify-center ">
+                {matchupPlayersRed !== "none" && matchupPlayersBlue !== "none" && <div className="flex mt-6">
+                  <div className=" text-lightscale-1 font-cantarell font-semibold text-xl w-[30rem] ml-4">
+                    <div className="w-full bg-tf-red-dark border-b-4 rounded-sm mb-4 border-tf-red-dark2 py-2 text-2xl px-3 flex items-center">
+                      {apiResponse.players[matchupPlayersRed].userName}
+                      <img src={`../../../public/class icons/Leaderboard_class_${apiResponse.players[matchupPlayersRed].class}.png`} alt="" className="h-8 mx-2" />
+                      <div className=""> 2 </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className={` ${apiResponse.players[matchupPlayersRed].kills > apiResponse.players[matchupPlayersBlue].kills ? "bg-tf-red border-tf-red-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 pr-5`} style={{ width: `${apiResponse.players[matchupPlayersRed].kills /0.4 + "%"}`}}>{apiResponse.players[matchupPlayersRed].kills}</div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className={` my-2 ${apiResponse.players[matchupPlayersRed]. assists > apiResponse.players[matchupPlayersBlue]. assists ? "bg-tf-red border-tf-red-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 pr-5`} style={{ width: `${apiResponse.players[matchupPlayersRed]. assists /0.2 + "%"}`}}>{apiResponse.players[matchupPlayersRed]. assists}</div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className={` ${apiResponse.players[matchupPlayersRed].deaths < apiResponse.players[matchupPlayersBlue].deaths ? "bg-tf-red border-tf-red-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 pr-5`} style={{ width: `${apiResponse.players[matchupPlayersRed].deaths /0.4 + "%"}`}}>{apiResponse.players[matchupPlayersRed].deaths}</div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className={` my-2 ${apiResponse.players[matchupPlayersRed].damagePerMinute > apiResponse.players[matchupPlayersBlue].damagePerMinute ? "bg-tf-red border-tf-red-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 pr-5`} style={{ width: `${apiResponse.players[matchupPlayersRed].damagePerMinute /7 + "%"}`}}>{apiResponse.players[matchupPlayersRed].damagePerMinute}</div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className={` ${apiResponse.players[matchupPlayersRed].damageTakenPerMinute < apiResponse.players[matchupPlayersBlue].damageTakenPerMinute ? "bg-tf-red border-tf-red-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 pr-5`} style={{ width: `${apiResponse.players[matchupPlayersRed].damageTakenPerMinute /5 + "%"}`}}>{apiResponse.players[matchupPlayersRed].damageTakenPerMinute}</div>
+                    </div>
+                  </div>
+                </div>
+                }
+                  <div className=" text-lightscale-1 font-cantarell font-semibold text-xl text-center mx-6 mt-6">
+                    <div>K</div>
+                    <div className="my-4">A</div>
+                    <div>D</div>
+                    <div className="my-4">DPM</div>
+                    <div>DTM</div>
+                  </div>
+                {matchupPlayersBlue !== "none" && matchupPlayersRed !== "none" && <div className="flex">
+                  <div className=" text-lightscale-1 font-cantarell font-semibold text-xl w-[30rem] mr-4 mt-6">
+                    <div className="flex ">
+                      <div className={` ${apiResponse.players[matchupPlayersBlue].kills > apiResponse.players[matchupPlayersRed].kills ? "bg-tf-blue border-tf-blue-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 justify-end pl-5`} style={{ width: `${apiResponse.players[matchupPlayersBlue].kills /0.4 + "%"}`}}>{apiResponse.players[matchupPlayersBlue].kills}</div>
+                    </div>
+                    <div className="flex">
+                      <div className={` my-2 ${apiResponse.players[matchupPlayersBlue]. assists > apiResponse.players[matchupPlayersRed]. assists ? "bg-tf-blue border-tf-blue-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 justify-end pl-5`} style={{ width: `${apiResponse.players[matchupPlayersBlue]. assists /0.2 + "%"}`}}>{apiResponse.players[matchupPlayersBlue]. assists}</div>
+                    </div>
+                    <div className="flex">
+                      <div className={` ${apiResponse.players[matchupPlayersBlue].deaths < apiResponse.players[matchupPlayersRed].deaths ? "bg-tf-blue border-tf-blue-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 justify-end pl-5`} style={{ width: `${apiResponse.players[matchupPlayersBlue].deaths /0.4 + "%"}`}}>{apiResponse.players[matchupPlayersBlue].deaths}</div>
+                    </div>
+                    <div className="flex">
+                      <div className={` my-2 ${apiResponse.players[matchupPlayersBlue].damagePerMinute > apiResponse.players[matchupPlayersRed].damagePerMinute ? "bg-tf-blue border-tf-blue-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 justify-end pl-5`} style={{ width: `${apiResponse.players[matchupPlayersBlue].damagePerMinute /7 + "%"}`}}>{apiResponse.players[matchupPlayersBlue].damagePerMinute}</div>
+                    </div>
+                    <div className="flex">
+                      <div className={` ${apiResponse.players[matchupPlayersBlue].damageTakenPerMinute < apiResponse.players[matchupPlayersRed].damageTakenPerMinute ? "bg-tf-blue border-tf-blue-dark font-semibold" : "bg-warmscale-4 border-warmscale-5 text-lightscale-5"} flex border-b-4 h-9 items-center rounded-sm px-2 justify-end pl-5`} style={{ width: `${apiResponse.players[matchupPlayersBlue].damageTakenPerMinute /5 + "%"}`}}>{apiResponse.players[matchupPlayersBlue].damageTakenPerMinute}</div>
+                    </div>
+                  </div>
+                </div>
+                }
               </div>
             </div>
           </div>
@@ -1505,7 +1705,7 @@ const Logs = () => {
                 className="h-4 -ml-2"
               >
                 <path
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                   fillRule="evenodd"
                   d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                 ></path>

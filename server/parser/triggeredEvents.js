@@ -141,7 +141,6 @@ function worldEvents(unparsedEvent, finalObject){
             }
 
             finalObject.players[finalObjectArray[playerIndex][0]].combatScore = currentScoreSum;
-            console.log(finalObject.players[finalObjectArray[playerIndex][0]].userName, currentScoreSum , playerCombatScore)
         }
     }
 }
