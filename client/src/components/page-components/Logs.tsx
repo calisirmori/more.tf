@@ -16,7 +16,9 @@ const Logs = () => {
   const [performanceChartSort, setPerformanceChartSort] = useState("dealt");
   const [killMapActive, setKillMapActive] = useState(false);
   const [focusedKillEvent, setFocusedKillEvent] = useState({});
-
+  const [currentKillMapFilter, setCurrentKillMapFilter] = useState("none");
+  const [killMapShowDeaths, setKillMapShowDeaths] = useState(false);
+  
   const classOrder = [
     "scout",
     "soldier",
@@ -65,7 +67,6 @@ const Logs = () => {
           });
       });
     }
-    console.log(sortedArray);
     return sortedArray;
   }
 
@@ -143,6 +144,10 @@ const Logs = () => {
       }
     }
     setScoreboard(sortedArray);
+  }
+
+  const handleCheckBox = () => {
+    setKillMapShowDeaths(!killMapShowDeaths);
   }
 
   let currentScoreboardIndex = 0;
@@ -486,7 +491,6 @@ const Logs = () => {
                 >
                   {Object.entries(apiResponse.players).map((player) => {
                     if (player[1].healsPerMinute > 150) {
-                      console.log(player[1].medicStats);
                       return (
                         <div
                           id="medic-stats"
@@ -835,7 +839,7 @@ const Logs = () => {
                                             ]
                                           }{" "}
                                           <div
-                                            className={`bg-tf-blue group text-clip h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                            className={`${apiResponse.players[player[0]].team === "blue" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group text-clip h-9 border-b-2 rounded-sm  p-1`}
                                             style={{
                                               width: `${currentPercent + "%"}`,
                                             }}
@@ -892,7 +896,7 @@ const Logs = () => {
                                       <div className="absolute right-0 w-full">
                                         <div className="flex items-center gap-1">
                                           <div
-                                            className={`bg-tf-red group text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                            className={`${apiResponse.players[player[0]].team === "red" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
                                             style={{
                                               width: `${
                                                 Math.round(
@@ -958,7 +962,7 @@ const Logs = () => {
                                         <div className="flex justify-end items-center gap-1">
                                           {player[1]}{" "}
                                           <div
-                                            className={`bg-tf-blue text-clip h-9 border-b-2 ml-1 group border-tf-blue-dark rounded-sm  p-1`}
+                                            className={`${apiResponse.players[player[0]].team === "blue" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"}  text-clip h-9 border-b-2 ml-1 group  rounded-sm  p-1`}
                                             style={{
                                               width: `${currentPercent + "%"}`,
                                             }}
@@ -1029,7 +1033,7 @@ const Logs = () => {
                                       <div className="absolute right-0 w-full">
                                         <div className="flex items-center gap-1">
                                           <div
-                                            className={`bg-tf-red group text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                            className={`${apiResponse.players[player[0]].team === "red" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
                                             style={{
                                               width: `${
                                                 Math.round(
@@ -1114,7 +1118,7 @@ const Logs = () => {
                                         <div className="flex justify-end items-center gap-1">
                                           {currentPlayerArray[0][1].damageFrom}{" "}
                                           <div
-                                            className={`bg-tf-blue group h-9 border-b-2 border-tf-blue-dark rounded-sm  p-1`}
+                                            className={`${apiResponse.players[currentPerformanceFocus].team === "red" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} group h-9 border-b-2 rounded-sm  p-1`}
                                             style={{
                                               width: `${currentPercent + "%"}`,
                                             }}
@@ -1168,7 +1172,7 @@ const Logs = () => {
                                       <div className="absolute right-0 w-full">
                                         <div className="flex items-center gap-1">
                                           <div
-                                            className={`bg-tf-red  text-clip h-9 border-b-2 border-tf-red-dark mr-1 rounded-sm p-1`}
+                                            className={`${apiResponse.players[currentPerformanceFocus].team === "blue" ? "bg-tf-blue border-tf-blue-dark" : "bg-tf-red border-tf-red-dark"} text-clip h-9 border-b-2 mr-1 rounded-sm p-1`}
                                             style={{
                                               width: `${
                                                 Math.round(
@@ -1224,18 +1228,28 @@ const Logs = () => {
                               type="checkbox"
                               value=""
                               className="sr-only peer"
+                              onChange={handleCheckBox}
                             />
                             <div className="w-11 h-6 bg-warmscale-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-tf-orange"></div>
                           </label>
                         </div>
                         <div className="flex font-cantarell font-semibold w-60 ml-2 mt-1 gap-2">
-                          victim
+                          enemy
                           <select
                             id="countries"
                             className="bg-warmscale-7 ring-tf-orange text-lightscale-2 text-sm rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-0.5 mb-1 px-2.5"
+                            onChange={(event) => setCurrentKillMapFilter(event.target.value)}
+                            value={currentKillMapFilter}
                           >
-                            <option selected>Filtered player</option>
-                            <option value="US">United States</option>
+                            <option value="none" selected>Filtered player (none)</option>
+                            {Object.entries(apiResponse.players).map(player =>{
+                              if(player[1].team !== apiResponse.players[currentPerformanceFocus].team){
+                                return(<option value={player[0]}>
+                                  {player[1].class}
+                                  </option>)
+                              }
+                            })}
+                            
                           </select>
                         </div>
                       </div>
@@ -1334,7 +1348,8 @@ const Logs = () => {
                                 let calibrationX = 298;
                                 let calibrationY = 240;
                                 if (
-                                  killEvent.killerId === currentPerformanceFocus
+                                  killEvent[killMapShowDeaths ? "victimId" : "killerId"] === currentPerformanceFocus &&
+                                  (currentKillMapFilter === "none" || killEvent[killMapShowDeaths ? "killerId" : "victimId"] === currentKillMapFilter)
                                 ) {
                                   return (
                                     <svg
@@ -1392,9 +1407,9 @@ const Logs = () => {
                                           apiResponse.players[
                                             currentPerformanceFocus
                                           ].team === "red"
-                                            ? "stroke-white fill-tf-red"
-                                            : "stroke-white fill-tf-blue"
-                                        } group-hover:stroke-2 cursor-pointer  group-hover:z-50 -z-50`}
+                                            ? (killMapShowDeaths ? "fill-tf-blue" : "fill-tf-red") 
+                                            : (killMapShowDeaths ? "fill-tf-red" : "fill-tf-blue")
+                                        } stroke-white group-hover:stroke-2 cursor-pointer  group-hover:z-50 -z-50`}
                                       />
                                       <rect
                                         x={
@@ -1415,9 +1430,9 @@ const Logs = () => {
                                           apiResponse.players[
                                             currentPerformanceFocus
                                           ].team === "red"
-                                            ? "stroke-white fill-tf-blue"
-                                            : "stroke-white fill-tf-red"
-                                        } group-hover:stroke-2 cursor-pointer group-hover:z-50 -z-50`}
+                                            ? (killMapShowDeaths ? "fill-tf-red" : "fill-tf-blue") 
+                                            : (killMapShowDeaths ? "fill-tf-blue" : "fill-tf-red")
+                                        } stroke-white group-hover:stroke-2 cursor-pointer group-hover:z-50 -z-50`}
                                       />
                                     </svg>
                                   );
@@ -1433,13 +1448,13 @@ const Logs = () => {
                               className={`${
                                 apiResponse.players[currentPerformanceFocus]
                                   .team === "red"
-                                  ? " bg-tf-red"
-                                  : " bg-tf-blue"
+                                  ? (killMapShowDeaths ? "bg-tf-blue" : "bg-tf-red") 
+                                  : (killMapShowDeaths ? "bg-tf-red" : "bg-tf-blue")
                               } h-2.5 w-2.5 border border-white rounded-full mr-1`}
                             ></div>
                             Killer
                             <span className="text-lightscale-6 ml-0.5">
-                              (you)
+                              {killMapShowDeaths ? "(enemy)" : "(you)"}
                             </span>
                           </div>
                           <div>
@@ -1447,14 +1462,14 @@ const Logs = () => {
                               <div
                                 className={`${
                                   apiResponse.players[currentPerformanceFocus]
-                                    .team === "blue"
-                                    ? " bg-tf-red"
-                                    : " bg-tf-blue"
+                                    .team === "red"
+                                    ? (killMapShowDeaths ? "bg-tf-red" : "bg-tf-blue") 
+                                    : (killMapShowDeaths ? "bg-tf-blue" : "bg-tf-red")
                                 } h-2.5 w-2.5 border border-white mr-1`}
                               ></div>
                               Victim
                               <span className="text-lightscale-6 ml-0.5">
-                                (enemy)
+                              {killMapShowDeaths ? "(you)" : "(enemy)"}
                               </span>
                             </div>
                           </div>
