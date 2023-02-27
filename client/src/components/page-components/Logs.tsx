@@ -20,6 +20,7 @@ const Logs = () => {
   const [killMapShowDeaths, setKillMapShowDeaths] = useState(false);
   const [matchupPlayersRed, setMatchupPlayersRed] = useState("none");
   const [matchupPlayersBlue, setMatchupPlayersBlue] = useState("none");
+  const [chartFilter, setChartFilter] = useState("damage");
 
   const classOrder = [
     "scout",
@@ -1733,37 +1734,44 @@ const Logs = () => {
             </div>
             <div
               id="charts-tab"
-              className={`bg-warmscale-8 h mb-7 p-8 ${
+              className={`bg-warmscale-8 mb-7 p-8 ${
                 tab !== "charts" && "hidden "
               }`}
             >
-              <div>
-                <div className="h-[35rem] relative ml-6">
+              <div className="w-full h-full">
+                <div className="flex font-cantarell font-semibold -mt-4 mb-3 justify-between items-center">
+                  <div className=" text-lightscale-4 text-lg"> DAMAGE AND HEALS PER INTERVAL <span className="text-warmscale-1">(30secs)</span> </div>
+                  <div className="flex ">
+                    <div onClick={()=>{setChartFilter("heals")}} className={`${chartFilter === "heals" ? "bg-tf-orange text-warmscale-8" : "bg-warmscale-85 cursor-pointer text-warmscale-3"} py-1 px-2 select-none`}>HEALS</div>
+                    <div onClick={()=>{setChartFilter("damage")}} className={`${chartFilter === "damage" ? "bg-tf-orange text-warmscale-8" : "bg-warmscale-85 cursor-pointer text-warmscale-3"} py-1 px-2 select-none`}>DMG</div>
+                  </div>
+                </div>
+                <div id="chart-background" className="h-[35rem] relative ml-6">
                   <div className="w-1 h-full bg-warmscale-2 ">
                   </div>
                   <div className="">
                     <div className=" top-0 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-6"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">1600</div>
+                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">4000</div>
                       </div>
                     </div>
                     <div className=" top-1/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-6"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">1200</div>
+                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">3000</div>
                       </div>
                     </div>
                     <div className=" top-2/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-6"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">800</div>
+                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">2000</div>
                       </div>
                     </div>
                     <div className=" top-3/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-6"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">400</div>
+                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">1000</div>
                       </div>
                     </div>
                     <div className="absolute w-full">
@@ -1772,6 +1780,56 @@ const Logs = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="absolute top-[12.4rem] ml-7 w-full h-[550px]">
+                  <svg className="w-full h-full">
+                    {apiResponse.damagePerInterval.red.map((interval, index) =>{
+                      let chartXMax = 1250;
+                      let chartYMax = 550;
+                      let currentArrayLength = apiResponse.damagePerInterval.red.length;
+                      let currentIntervalWidth = chartXMax / currentArrayLength;
+
+                      return(
+                        <svg>
+                          <path
+                            className="group-hover:stroke-white absolute stroke-warmscale-7 z-0 opacity-70"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d={`M${currentIntervalWidth*index},${0} L${currentIntervalWidth*(index)},${chartYMax}`}
+                          />
+                          <path
+                            className={`group-hover:stroke-white absolute stroke-tf-red z-10 ${chartFilter === "heals" && "opacity-20 stroke-tf-red-dark2"}`}
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d={`M${currentIntervalWidth*index},${chartYMax-(apiResponse.damagePerInterval.red[index]/4000*chartYMax)} L${currentIntervalWidth*(index+1)},${chartYMax-(apiResponse.damagePerInterval.red[index+1]/4000*chartYMax)}`}
+                          />
+                          <path
+                            className={`group-hover:stroke-white absolute stroke-tf-blue z-10 ${chartFilter === "heals" && "opacity-20 stroke-tf-blue-dark2"}`}
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d={`M${currentIntervalWidth*index},${chartYMax-(apiResponse.damagePerInterval.blue[index]/4000*chartYMax)} L${currentIntervalWidth*(index+1)},${chartYMax-(apiResponse.damagePerInterval.blue[index+1]/4000*chartYMax)}`}
+                          />
+                                                    <path
+                            className={`group-hover:stroke-white absolute stroke-tf-red z-10 ${chartFilter === "damage" && "opacity-20 stroke-tf-red-dark2"}`}
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d={`M${currentIntervalWidth*index},${chartYMax-(apiResponse.healsPerInterval.red[index]/4000*chartYMax)} L${currentIntervalWidth*(index+1)},${chartYMax-(apiResponse.healsPerInterval.red[index+1]/4000*chartYMax)}`}
+                          />
+                          <path
+                            className={`group-hover:stroke-white absolute stroke-tf-blue z-10 ${chartFilter === "damage" && "opacity-20 stroke-tf-blue-dark2"}`}
+                            strokeWidth="4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d={`M${currentIntervalWidth*index},${chartYMax-(apiResponse.healsPerInterval.blue[index]/4000*chartYMax)} L${currentIntervalWidth*(index+1)},${chartYMax-(apiResponse.healsPerInterval.blue[index+1]/4000*chartYMax)}`}
+                          />
+                        </svg>
+                      )
+                    })}
+                  </svg>
                 </div>
               </div>
             </div>
