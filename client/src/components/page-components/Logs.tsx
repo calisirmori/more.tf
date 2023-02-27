@@ -73,6 +73,12 @@ const Logs = () => {
     return sortedArray;
   }
 
+  function ID3toID64Converter(userId3: string){
+    let steamid64ent1 = 7656, steamid64ent2 = 1197960265728, cleanId3 = userId3.replace(/\]/g, '').split(":")[2];
+    let userid64 = steamid64ent1 + String(parseInt(cleanId3)+steamid64ent2);
+    return(userid64);
+}
+
   function scoreboardSorter(sortBy: String) {
     let sortedArray: Array<Array<Object>> = [];
     let unsortedArray: Array<Array<Object>> = scoreboard;
@@ -1832,8 +1838,32 @@ const Logs = () => {
               className={`bg-warmscale-8 h mb-7 py-4 ${
                 tab !== "other" && "hidden "
               }`}
-            >
-              <div></div>
+            > 
+            <div className="flex justify-center gap-10 mx-10 my-4">
+              <div className="bg-warmscale-85 rounded-md pb-2 px-4 w-96 h-fit">
+                <div className="flex justify-center text-lightscale-2 font-semibold text-xl my-2">CHAT</div>
+                <div className="h-0.5 w-full bg-warmscale-6 mb-2"></div>
+                {apiResponse.chat.map(chatEvent =>{
+                  return(
+                    <div className="py-0.5 text-lightscale-2"> <span className={`${apiResponse.players[chatEvent.userId].team === "red" ? "text-tf-red" : "text-tf-blue"} font-bold`}>{apiResponse.players[chatEvent.userId].userName}</span>  : {chatEvent.message}</div>
+                  )
+                })}
+              </div>
+              <div className="bg-warmscale-85 rounded-md pb-2 px-4 w-96 h-fit ">
+                <div className="flex justify-center text-lightscale-2 font-semibold text-xl my-2">KILLSTREAKS</div>
+                <div className="h-0.5 w-full bg-warmscale-6 mb-2 "></div>
+                {Object.entries(apiResponse.killStreaks).map(killStreakEvent =>{
+                  console.log(killStreakEvent)
+                  return(
+                    <div className="py-0.5 text-lightscale-2 flex justify-between">
+                       <div className={`${apiResponse.players[ID3toID64Converter(killStreakEvent[1].steamid)].team === "red" ? "text-tf-red" : "text-tf-blue"} font-bold`}>{apiResponse.players[ID3toID64Converter(killStreakEvent[1].steamid)].userName} <span className="text-warmscale-2 font-normal">({Math.floor(killStreakEvent[1].time/60)}:{killStreakEvent[1].time%60 < 10 ? "0" + killStreakEvent[1].time%60 : killStreakEvent[1].time%60})</span> </div>
+                       <div className="text-end">{killStreakEvent[1].streak} kills</div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+              
             </div>
           </div>
         </div>
