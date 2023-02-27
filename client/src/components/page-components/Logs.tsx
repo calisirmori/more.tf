@@ -1297,16 +1297,10 @@ const Logs = () => {
                     <div>
                       <div className="text-white flex gap-6 ml-4 rounded-t-md px-2 pt-2 justify-center items-center bg-warmscale-82">
                         <div className="flex font-cantarell font-semibold gap-1">
-                          deaths
-                          <label className="relative select-none inline-flex items-center cursor-pointer">
-                            <input
-                              type="checkbox"
-                              value=""
-                              className="sr-only peer"
-                              onChange={handleCheckBox}
-                            />
-                            <div className="w-11 h-6 bg-warmscale-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-tf-orange"></div>
-                          </label>
+                          <div className="flex ">
+                            <div onClick={()=>{setKillMapShowDeaths(false)}} className={`${killMapShowDeaths === false ? "border-tf-orange border rounded-sm text-lightscale-2" : " cursor-pointer text-warmscale-5"} py-1 px-2 select-none`}>KILLS</div>
+                            <div onClick={()=>{setKillMapShowDeaths(true)}} className={`${killMapShowDeaths === true ? "border-tf-orange border rounded-sm text-lightscale-2" : " cursor-pointer text-warmscale-5"} py-1 px-2 select-none`}>DEATHS</div>
+                          </div>
                         </div>
                         <div className="flex font-cantarell font-semibold w-60 ml-2 mt-1 gap-2">
                           enemy
@@ -1740,10 +1734,10 @@ const Logs = () => {
             >
               <div className="w-full h-full">
                 <div className="flex font-cantarell font-semibold -mt-4 mb-3 justify-between items-center">
-                  <div className=" text-lightscale-4 text-lg"> DAMAGE AND HEALS PER INTERVAL <span className="text-warmscale-1">(30secs)</span> </div>
+                  <div className=" text-lightscale-4 text-lg"> {chartFilter === "damage" ? "DAMAGE" : "HEALS"} PER INTERVAL <span className="text-warmscale-1">(30secs)</span> </div>
                   <div className="flex ">
-                    <div onClick={()=>{setChartFilter("heals")}} className={`${chartFilter === "heals" ? "bg-tf-orange text-warmscale-8" : "bg-warmscale-85 cursor-pointer text-warmscale-3"} py-1 px-2 select-none`}>HEALS</div>
-                    <div onClick={()=>{setChartFilter("damage")}} className={`${chartFilter === "damage" ? "bg-tf-orange text-warmscale-8" : "bg-warmscale-85 cursor-pointer text-warmscale-3"} py-1 px-2 select-none`}>DMG</div>
+                    <div onClick={()=>{setChartFilter("heals")}} className={`${chartFilter === "heals" ? "border-tf-orange border rounded-sm text-lightscale-2" : " cursor-pointer text-warmscale-3"} py-1 px-2 select-none`}>HEALS</div>
+                    <div onClick={()=>{setChartFilter("damage")}} className={`${chartFilter === "damage" ? "border-tf-orange border rounded-sm text-lightscale-2" : " cursor-pointer text-warmscale-3"} py-1 px-2 select-none`}>DMG</div>
                   </div>
                 </div>
                 <div id="chart-background" className="h-[35rem] relative ml-6">
