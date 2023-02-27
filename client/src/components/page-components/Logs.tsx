@@ -157,16 +157,16 @@ const Logs = () => {
   let currentRound2 = 1;
   if (apiResponse.players !== undefined) {
     return (
-      <div className=" bg-warmscale-6 py-3">
+      <div className=" bg-warmscale-6 py-3 min-h-screen">
         <Navbar />
         <div className="flex items-center justify-center">
           <div
             id="stat-window"
-            className=" w-[88rem] mx-5 bg-warmscale-7  mt-5 rounded-t-md drop-shadow"
+            className=" w-[88rem] mx-5  mt-5 rounded-t-md drop-shadow"
           >
             <div
               id="header"
-              className="flex pt-4 flex-wrap justify-between pr-5 "
+              className="flex pt-4 flex-wrap justify-between bg-warmscale-7 pr-5 "
             >
               <div id="match-info" className="flex gap-7">
                 <div id="format-logo"></div>
@@ -266,7 +266,7 @@ const Logs = () => {
             </div>
             <div
               id="tabs"
-              className="grid select-none grid-cols-4 text-center mt-5 drop-shadow-md"
+              className="grid bg-warmscale-7 select-none grid-cols-5 text-center pt-5 drop-shadow-md"
             >
               <div
                 onClick={() => {
@@ -303,6 +303,18 @@ const Logs = () => {
                 } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
               >
                 Matchups
+              </div>
+              <div
+                onClick={() => {
+                  setTab("charts");
+                }}
+                className={`border-b-4 duration-75 ${
+                  tab === "charts"
+                    ? "border-tf-orange cursor-default"
+                    : "border-warmscale-6 hover:bg-warmscale-8 hover:border-warmscale-82 cursor-pointer"
+                } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
+              >
+                Charts
               </div>
               <div
                 onClick={() => {
@@ -1718,6 +1730,58 @@ const Logs = () => {
                 </div>
                 }
               </div>
+            </div>
+            <div
+              id="charts-tab"
+              className={`bg-warmscale-8 h mb-7 p-8 ${
+                tab !== "charts" && "hidden "
+              }`}
+            >
+              <div>
+                <div className="h-[35rem] relative ml-6">
+                  <div className="w-1 h-full bg-warmscale-2 ">
+                  </div>
+                  <div className="">
+                    <div className=" top-0 absolute w-full">
+                      <div className="flex mx-1 items-center gap-2">
+                        <div className="h-0.5 w-full bg-warmscale-6"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">1600</div>
+                      </div>
+                    </div>
+                    <div className=" top-1/4 absolute w-full">
+                      <div className="flex mx-1 items-center gap-2">
+                        <div className="h-0.5 w-full bg-warmscale-6"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">1200</div>
+                      </div>
+                    </div>
+                    <div className=" top-2/4 absolute w-full">
+                      <div className="flex mx-1 items-center gap-2">
+                        <div className="h-0.5 w-full bg-warmscale-6"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">800</div>
+                      </div>
+                    </div>
+                    <div className=" top-3/4 absolute w-full">
+                      <div className="flex mx-1 items-center gap-2">
+                        <div className="h-0.5 w-full bg-warmscale-6"></div>
+                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">400</div>
+                      </div>
+                    </div>
+                    <div className="absolute w-full">
+                      <div className=" flex mx-1 items-center">
+                        <div className="h-1 -ml-1 w-full bg-warmscale-2"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              id="other-tab"
+              className={`bg-warmscale-8 h mb-7 py-4 ${
+                tab !== "other" && "hidden "
+              }`}
+            >
+              <div></div>
             </div>
           </div>
         </div>
