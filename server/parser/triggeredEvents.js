@@ -140,6 +140,8 @@ function worldEvents(unparsedEvent, finalObject){
                 }
             }
 
+            
+
             finalObject.players[finalObjectArray[playerIndex][0]].combatScore = currentScoreSum;
         }
     }
