@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../shared-components/Navbar";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 
@@ -7,20 +7,21 @@ const Logs = () => {
   const idArray = id.split("/");
   const logId = idArray[4];
 
-  const [tab, setTab] = useState("scoreboard");
-  const [apiResponse, setResponse] = useState({});
-  const [scoreboard, setScoreboard] = useState([]);
-  const [currentScoreboardSort, setScoreboardSort] = useState("team");
-  const [sortType, setSortType] = useState("hl");
-  const [currentPerformanceFocus, setPerformanceFocus] = useState("");
-  const [performanceChartSort, setPerformanceChartSort] = useState("dealt");
-  const [killMapActive, setKillMapActive] = useState(false);
-  const [focusedKillEvent, setFocusedKillEvent] = useState({});
-  const [currentKillMapFilter, setCurrentKillMapFilter] = useState("none");
-  const [killMapShowDeaths, setKillMapShowDeaths] = useState(false);
-  const [matchupPlayersRed, setMatchupPlayersRed] = useState("none");
-  const [matchupPlayersBlue, setMatchupPlayersBlue] = useState("none");
-  const [chartFilter, setChartFilter] = useState("damage");
+  const [tab, setTab] = useState<any>("scoreboard");
+  const [apiResponse, setResponse] = useState<any>({});
+  const [scoreboard, setScoreboard] = useState<any>([]);
+  const [currentScoreboardSort, setScoreboardSort] = useState<any>("team");
+  const [sortType, setSortType] = useState<any>("hl");
+  const [currentPerformanceFocus, setPerformanceFocus] = useState<any>("");
+  const [performanceChartSort, setPerformanceChartSort] = useState<any>("dealt");
+  const [killMapActive, setKillMapActive] = useState<any>(false);
+  const [focusedKillEvent, setFocusedKillEvent] = useState<any>({});
+  const [currentKillMapFilter, setCurrentKillMapFilter] = useState<any>("none");
+  const [killMapShowDeaths, setKillMapShowDeaths] = useState<any>(false);
+  const [matchupPlayersRed, setMatchupPlayersRed] = useState<any>("none");
+  const [matchupPlayersBlue, setMatchupPlayersBlue] = useState<any>("none");
+  const [chartFilter, setChartFilter] = useState<any>("damage");
+  
 
   const classOrder = [
     "scout",
@@ -40,7 +41,7 @@ const Logs = () => {
 
   async function apiCall() {
     try {
-      const response: Object = await fetch(
+      const response: {players: Array<Object>} = await fetch(
         `http://localhost:8081/api/log/${logId}`,
         FetchResultTypes.JSON
       );
@@ -52,7 +53,7 @@ const Logs = () => {
   }
 
   function damageDivisionSortByClass() {
-    let sortedArray = [];
+    let sortedArray: Array<Object> = [];
     for (let classIndex = 0; classIndex < classOrder.length; classIndex++) {
       Object.entries(
         apiResponse.players[currentPerformanceFocus].damageDivision.damageTo
@@ -81,7 +82,7 @@ const Logs = () => {
     return userid64;
   }
 
-  function scoreboardSorter(sortBy: String) {
+  function scoreboardSorter(sortBy: string) {
     let sortedArray: Array<Array<Object>> = [];
     let unsortedArray: Array<Array<Object>> = scoreboard;
 
@@ -349,7 +350,7 @@ const Logs = () => {
                 className="bg-warmscale-85 p-2 rounded-md m-4"
               >
                 <div className=" h-1 flex bg-warmscale-4 mt-8 mb-10 mx-2 justify-between">
-                  {apiResponse.rounds.map((round) => {
+                  {apiResponse.rounds.map((round:{roundWinner:string, roundDuration:number}) => {
                     return (
                       <div
                         className={` ${
@@ -411,8 +412,8 @@ const Logs = () => {
                   </div>
                 </div>
                 {apiResponse !== undefined &&
-                  scoreboard.map((player) => {
-                    const playerObject: Object = player[1];
+                  scoreboard.map((player:Array<any>) => {
+                    const playerObject:{team:string, userName: string, class: string, resup:{ammo:number, medkit: number}} = player[1];
                     return (
                       <div id="player-stat-card">
                         <div
@@ -477,7 +478,7 @@ const Logs = () => {
                         </div>
                       </div>
                     );
-                    function stat(statInput: String) {
+                    function stat(statInput: string) {
                       return (
                         <div
                           className={`flex items-center ${
@@ -545,7 +546,7 @@ const Logs = () => {
                     <div>Blue DMG</div>
                     <div>Red DMG</div>
                   </div>
-                  {apiResponse.rounds.map((round) => {
+                  {apiResponse.rounds.map((round:{roundWinner: string, roundDuration:number, teamScores:{blue:{score:string,kills:number,damage:number},red:{score:string,kills:number,damage:number}}}) => {
                     return (
                       <div
                         className={`${
@@ -579,7 +580,7 @@ const Logs = () => {
                   id="medic-heals-wrapper"
                   className="flex justify-center gap-4 mb-4"
                 >
-                  {Object.entries(apiResponse.players).map((player) => {
+                  {Object.entries(apiResponse.players).map((player:any) => {
                     if (player[1].healsPerMinute > 150) {
                       return (
                         <div
@@ -671,7 +672,7 @@ const Logs = () => {
                             </div>
                             {Object.entries(
                               apiResponse.healSpread[player[0]]
-                            ).map((healedPlayer) => {
+                            ).map((healedPlayer:any) => {
                               return (
                                 <div
                                   id="healed-player"
@@ -724,8 +725,8 @@ const Logs = () => {
                 className="h-10 flex justify-center items-center my-6"
               >
                 <div id="red-team-icons" className="flex">
-                  {classOrder.map((currentClass) => {
-                    return Object.entries(apiResponse.players).map((player) => {
+                  {classOrder.map((currentClass:any) => {
+                    return Object.entries(apiResponse.players).map((player:any) => {
                       if (
                         player[1].team === "red" &&
                         player[1].class === currentClass
@@ -760,8 +761,8 @@ const Logs = () => {
                   VS
                 </div>
                 <div id="blue-team-icons" className="flex">
-                  {classOrder.map((currentClass) => {
-                    return Object.entries(apiResponse.players).map((player) => {
+                  {classOrder.map((currentClass:any) => {
+                    return Object.entries(apiResponse.players).map((player:any) => {
                       if (
                         player[1].team === "blue" &&
                         player[1].class === currentClass
@@ -909,7 +910,7 @@ const Logs = () => {
                               Object.entries(
                                 apiResponse.players[currentPerformanceFocus]
                                   .damageDivision.damageTo
-                              ).map((player) => {
+                              ).map((player: Array<any>) => {
                                 let currentMax = Math.max(
                                   Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
@@ -1048,7 +1049,7 @@ const Logs = () => {
                               Object.entries(
                                 apiResponse.players[currentPerformanceFocus]
                                   .damageDivision.damageFrom
-                              ).map((player) => {
+                              ).map((player: any) => {
                                 let currentMax = Math.max(
                                   Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
@@ -1210,8 +1211,8 @@ const Logs = () => {
                                 );
                               })}
                             {performanceChartSort === "class" &&
-                              damageDivisionSortByClass().map((player) => {
-                                let currentPlayerArray = Object.entries(player);
+                              damageDivisionSortByClass().map((player: any) => {
+                                let currentPlayerArray: Array<any> = Object.entries(player);
                                 let currentMax = Math.max(
                                   Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
@@ -1394,7 +1395,7 @@ const Logs = () => {
                             <option value="none">Filtered player (none)</option>
                             {classOrder.map((currentClass) => {
                               return Object.entries(apiResponse.players).map(
-                                (player) => {
+                                (player: any) => {
                                   if (
                                     player[1].team !==
                                       apiResponse.players[
@@ -1504,7 +1505,7 @@ const Logs = () => {
                               aria-hidden="true"
                               className="absolute top-0 left-0 w-full h-full"
                             >
-                              {apiResponse.events.map((killEvent) => {
+                              {apiResponse.events.map((killEvent: any) => {
                                 let currentScale = 0.06;
                                 let calibrationX = 298;
                                 let calibrationY = 240;
@@ -1684,9 +1685,9 @@ const Logs = () => {
                     value={matchupPlayersRed}
                   >
                     <option value="none">Filtered player (none)</option>
-                    {classOrder.map((currentClass) => {
+                    {classOrder.map((currentClass:any) => {
                       return Object.entries(apiResponse.players).map(
-                        (player) => {
+                        (player:any) => {
                           if (
                             player[1].team !== "blue" &&
                             player[1].class === currentClass
@@ -1713,9 +1714,9 @@ const Logs = () => {
                     value={matchupPlayersBlue}
                   >
                     <option value="none">Filtered player (none)</option>
-                    {classOrder.map((currentClass) => {
+                    {classOrder.map((currentClass:any) => {
                       return Object.entries(apiResponse.players).map(
-                        (player) => {
+                        (player:any) => {
                           if (
                             player[1].team !== "red" &&
                             player[1].class === currentClass
@@ -2136,7 +2137,7 @@ const Logs = () => {
                 <div className="absolute top-[12.4rem] ml-7 w-full h-[550px]">
                   <svg className="w-full h-full">
                     {apiResponse.damagePerInterval.red.map(
-                      (interval, index) => {
+                      (interval:any, index:number) => {
                         let chartXMax = 1250;
                         let chartYMax = 550;
                         let currentArrayLength =
@@ -2255,7 +2256,7 @@ const Logs = () => {
                     CHAT
                   </div>
                   <div className="h-0.5 w-full bg-warmscale-6 mb-2"></div>
-                  {apiResponse.chat.map((chatEvent) => {
+                  {apiResponse.chat.map((chatEvent: {userId: string, message:string}) => {
                     return (
                       <div className="py-0.5 text-lightscale-2">
                         {" "}
@@ -2279,7 +2280,7 @@ const Logs = () => {
                   </div>
                   <div className="h-0.5 w-full bg-warmscale-6 mb-2 "></div>
                   {Object.entries(apiResponse.killStreaks).map(
-                    (killStreakEvent) => {
+                    (killStreakEvent:any) => {
                       console.log(killStreakEvent);
                       return (
                         <div className="py-0.5 text-lightscale-2 flex justify-between">
@@ -2321,7 +2322,7 @@ const Logs = () => {
     );
   }
 
-  function statTitle(stat: String, statAbriviation: String) {
+  function statTitle(stat: string, statAbriviation: string) {
     return (
       <div
         id={stat + "-title"}
