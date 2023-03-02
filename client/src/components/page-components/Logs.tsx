@@ -166,6 +166,7 @@ const Logs = () => {
   let currentRound = 1;
   let currentRound2 = 1;
   if (apiResponse.players !== undefined) {
+    console.log(apiResponse.players)
     return (
       <div className=" bg-warmscale-6 py-3 min-h-screen">
         <Navbar />
@@ -437,21 +438,21 @@ const Logs = () => {
                             </div>
                             <div className="pl-4 flex items-center -mt-1">
                               <img
-                                src="https://senpai.gg/_nuxt/img/5e693c4.webp"
-                                className="h-3 mr-1"
+                                src="../../../medals/in.png"
+                                className="h-3 mr-1 mt-0.5"
                                 alt=""
                               />
                               <div className="text-xs font-cantarell text-lightscale-4">
-                                Invite |
+                                rgl rank |
                               </div>
                               <span className="text-xs ml-1 font-cantarell text-lightscale-4">
-                                mori
+                                rgl userName
                               </span>
                             </div>
                           </div>
                           <div className="flex justify-center items-center border-l border-warmscale-6">
                             <img
-                              src={`../../../public/class icons/Leaderboard_class_${playerObject.class}.png`}
+                              src={`../../../class icons/Leaderboard_class_${playerObject.class}.png`}
                               className="h-6"
                               alt=""
                             />
@@ -689,7 +690,7 @@ const Logs = () => {
                                     </span>
                                   </div>
                                   <img
-                                    src={`../../../public/class icons/Leaderboard_class_${
+                                    src={`../../../class icons/Leaderboard_class_${
                                       apiResponse.players[healedPlayer[0]].class
                                     }.png`}
                                     alt=""
@@ -1741,7 +1742,7 @@ const Logs = () => {
                         <div className="w-full bg-tf-red-dark border-b-4 rounded-sm mb-8 border-tf-red-dark2 text-2xl px-3 flex justify-between items-center">
                           <div className="flex items-center">
                             <img
-                              src={`../../../public/class icons/Leaderboard_class_${apiResponse.players[matchupPlayersRed].class}.png`}
+                              src={`../../../class icons/Leaderboard_class_${apiResponse.players[matchupPlayersRed].class}.png`}
                               alt=""
                               className="h-10 mr-2"
                             />
@@ -1933,7 +1934,7 @@ const Logs = () => {
                           <div className="flex items-center">
                             {apiResponse.players[matchupPlayersBlue].userName}
                             <img
-                              src={`../../../public/class icons/Leaderboard_class_${apiResponse.players[matchupPlayersBlue].class}.png`}
+                              src={`../../../class icons/Leaderboard_class_${apiResponse.players[matchupPlayersBlue].class}.png`}
                               alt=""
                               className="h-10 ml-2"
                             />
@@ -2281,7 +2282,6 @@ const Logs = () => {
                   <div className="h-0.5 w-full bg-warmscale-6 mb-2 "></div>
                   {Object.entries(apiResponse.killStreaks).map(
                     (killStreakEvent:any) => {
-                      console.log(killStreakEvent);
                       return (
                         <div className="py-0.5 text-lightscale-2 flex justify-between">
                           <div

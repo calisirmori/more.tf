@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const AdmZip = require("adm-zip");
 const path = require("path");
-const { fetch, FetchResultTypes } = require("@sapphire/fetch");
+const { fetch, FetchResultTypes, FetchMethods } = require("@sapphire/fetch");
 const parser = require("./parser/main.js");
 
 async function testCall(logId){
@@ -55,6 +55,19 @@ app.get('/api/rgl-profile/:id', async(req, res) => {
     FetchResultTypes.JSON
   );
   res.send(logsApiResponse);
+})
+
+app.post('/api/rgl-profile-bulk', async(req, res) => {
+  console.log(req)
+  const rglApiResponse = await fetch(
+      "https://api.rgl.gg/v0/profile/getmany",
+      {
+          method: FetchMethods.Post,
+          body: req.body
+      },
+      FetchResultTypes.JSON
+  );
+  res.send(rglApiResponse);
 })
 
 app.get("/api/log/:id", async (req, res) => {

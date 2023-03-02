@@ -1,4 +1,4 @@
-
+const { fetch, FetchResultTypes, FetchMethods } = require("@sapphire/fetch");
 
 function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     if(unparsedEvent.includes('" killed "') && !unparsedEvent.includes("feign_death") && finalObject.info.gameIsActive){
@@ -175,6 +175,10 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
         steamID3: userId3,
         joinedGame: eventDateToSeconds(unparsedEvent),
         leftGame: false,
+        rgl:{
+            userName: "unknown",
+            rank:"unknown",
+        },
         team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
         class: unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"')),
         classStats: {
