@@ -2,13 +2,13 @@
 export const weaponsList = {
     'ambassador': {
       key: 'ambassador',
-      name: "Ambassador (Bodyshot)",
+      name: "Ambassador",
       role: 'spy'
     },
                                                                                                             
    'ambassador_hs': {
     key: 'ambassador_hs',
-    name: "Ambassador (Bodyshot)",
+    name: "Ambassador",
     role: 'spy'
   },
                                                                                                       
@@ -147,6 +147,12 @@ export const weaponsList = {
    'crusaders_crossbow': {
       key: 'crusaders_crossbow',
       name: "Crusader's Crossbow",
+      role: 'medic'
+    },
+
+    'crossing_guard': {
+      key: 'crossing_guard',
+      name: "Crossing Guard",
       role: 'medic'
     },
                                                                                             
@@ -305,7 +311,19 @@ export const weaponsList = {
       name: "Iron Curtain",
       role: 'heavyweapons'
     },
-                                                                                                        
+    
+    'iron_bomber': {
+        key: 'iron_bomber',
+        name: "Iron Bomber",
+        role: 'demoman'
+    },
+
+    'jar_gas': {
+        key: 'jar_gas',
+        name: "Jar Gas",
+        role: 'pyro'
+    },
+
    'knife': {
       key: 'knife',
       name: "Knife",
@@ -378,12 +396,18 @@ export const weaponsList = {
       role: 'heavyweapons'
     },
                                                                                                                        
-   'natascha': {
-      key: 'natascha',
-      name: "Natascha",
-      role: 'heavyweapons'
+    'natascha': {
+       key: 'natascha',
+       name: "Natascha",
+       role: 'heavyweapons'
+     },
+     
+    'necro_smasher': {
+      key: 'necro_smasher',
+      name: "Necro Smasher",
+      role: 'sniper'
     },
-                                                                                                                    
+    
    'obj_minisentry': {
       key: 'obj_minisentry',
       name: "Combat Mini-Sentry",
@@ -419,7 +443,13 @@ export const weaponsList = {
       name: "Persian Persuader",
       role: 'demoman'
     },
-                                                                                              
+    
+    'pep_pistol': {
+      key: 'pep_pistol',
+      name: "Pistol",
+      role: 'scout'
+    },
+
    'pistol': {
       key: 'pistol',
       name: "Engineer's Pistol",
@@ -449,7 +479,13 @@ export const weaponsList = {
       name: "Overdose",
       role: 'medic'
     },
-                                                                                                                 
+    
+    'quake_rl': {
+        key: 'quake_rl',
+        name: "The Original",
+        role: 'soldier'
+    },
+
    'reserve_shooter': {
       key: 'reserve_shooter',
       name: "Reserve Shooter",
@@ -545,7 +581,13 @@ export const weaponsList = {
       name: "Shovel",
       role: 'soldier'
     },
-                                                                                                                               
+
+    'skullbat': {
+      key: 'skullbat',
+      name: "Skull Bat",
+      role: 'soldier'
+    },
+
    'sledgehammer': {
       key: 'sledgehammer',
       name: "Homewrecker",
@@ -560,13 +602,13 @@ export const weaponsList = {
                                                                                                                                          
    'sniperrifle': {
       key: 'sniperrifle',
-      name: "Sniper Rifle (Bodyshot)",
+      name: "Sniper Rifle",
       role: 'sniper'
     },
                                                                                                      
    'sniperrifle_hs': {
       key: 'sniperrifle_hs',
-      name: "Sniper Rifle (Headshot)",
+      name: "Sniper Rifle",
       role: 'sniper'
     },
                                                                                                
@@ -593,7 +635,13 @@ export const weaponsList = {
       name: "Splendid Screen",
       role: 'demoman'
     },
-                                                                                                    
+    
+    'spy_cicle': {
+        key: 'spy_cicle',
+        name: "Spy Cicle",
+        role: 'spy'
+      },
+
    'steel_fists': {
       key: 'steel_fists',
       name: "Fists of Steel",
@@ -686,13 +734,13 @@ export const weaponsList = {
                                                                                                                              
    'tf_projectile_arrow': {
       key: 'tf_projectile_arrow',
-      name: "Huntsman (Bodyshot)",
+      name: "Huntsman",
       role: 'sniper'
     },
                                                                                          
    'tf_projectile_arrow_hs': {
       key: 'tf_projectile_arrow_hs',
-      name: "Huntsman (Headshot)",
+      name: "Huntsman",
       role: 'sniper'
     },
                                                                                    
