@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../shared-components/Navbar";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import { weapons, weaponsList } from "../WeaponNames";
+import { weaponsList } from "../WeaponNames";
 
 const Logs = () => {
   const id = window.location.href;
@@ -22,7 +22,7 @@ const Logs = () => {
   const [matchupPlayersRed, setMatchupPlayersRed] = useState<any>("none");
   const [matchupPlayersBlue, setMatchupPlayersBlue] = useState<any>("none");
   const [chartFilter, setChartFilter] = useState<any>("damage");
-  
+  const [linkView, setLinkView] = useState("none");
 
   const classOrder = [
     "scout",
@@ -36,9 +36,25 @@ const Logs = () => {
     "spy",
   ];
 
+  const refOne = useRef(null);
+  const refTwo = useRef(null);
+
   useEffect(() => {
     apiCall();
   }, []);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true)
+  }, [])
+  
+  const handleClickOutside = (e) => {
+    if(!refOne.current.contains(e.target)){
+      setLinkView("none");
+    }
+    if(!refTwo.current.contains(e.target)){
+      setKillMapActive(false);
+    }
+  }
 
   async function apiCall() {
     try {
@@ -158,10 +174,6 @@ const Logs = () => {
     }
     setScoreboard(sortedArray);
   }
-
-  const handleCheckBox = () => {
-    setKillMapShowDeaths(!killMapShowDeaths);
-  };
 
   let currentScoreboardIndex = 0;
   let currentRound = 1;
@@ -430,11 +442,18 @@ const Logs = () => {
                               playerObject.team === "blue"
                                 ? "from-tf-blue-dark"
                                 : "from-tf-red-dark"
-                            }  mr-6 text-ellipsis overflow-hidden`}
+                            }  mr-6 text-ellipsis `}
                           >
                             <div className="pl-4 w-full ">
-                              <div className="font-semibold font-cantarell text-lightscale-1 ">
-                                {playerObject.userName}
+                              <div className="group font-semibold font-cantarell text-lightscale-1 hover:underline cursor-pointer relative">
+                                <div onClick={()=>{setLinkView(linkView === player[0] ? "none" : player[0])}} className="truncate w-60"> {playerObject.userName}</div>
+                                <div ref={refOne} className={`${linkView === player[0] ? "scale-100" : "scale-0"} top-6 w-20  z-50 bg-warmscale-5 border border-warmscale-6 grid grid-rows-5 rounded-sm absolute`}>
+                                  <a target="_blank" href={`https://logs.tf/3368620`} className="hover:bg-warmscale-7  px-2 py-1">Profile</a>
+                                  <a target="_blank" href={`https://steamcommunity.com/profiles/${player[0]}`} className="hover:bg-warmscale-7 px-2 py-1">Steam</a>
+                                  <a target="_blank" href={`https://etf2l.org/search/${player[0]}/`} className="hover:bg-warmscale-7 px-2 py-1">ETF2L</a>
+                                  <a target="_blank" href={`https://www.ugcleague.com/players_page.cfm?player_id=${player[0]}`} className="hover:bg-warmscale-7 px-2 py-1">UGC</a>
+                                  <a target="_blank" href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player[0]}&r=24`} className="hover:bg-warmscale-7 px-2 py-1">RGL</a>
+                                </div>
                               </div>
                             </div>
                             <div className="pl-4 flex items-center -mt-1">
@@ -485,7 +504,7 @@ const Logs = () => {
                                         <div className="w-48 pl-3 py-1">{weaponsList[weapon[0]] !== undefined ? weaponsList[weapon[0]].name : weapon[0]}</div>
                                         <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">{weapon[1].kills}</div>
                                         <div className="border-l-2 py-1 border-warmscale-4 text-center w-28 flex items-center justify-center">{weapon[1].damage !== undefined ? weapon[1].damage : "-"} <span className="text-xs text-lightscale-6 ml-0.5"> {weapon[1].damage !== undefined &&  "(" + Math.round((weapon[1].damage/playerObject.damage)*100) +"%)" } </span> </div>
-                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">{weapon[1].shotsFired !== 0 && weapon[1].shotsFired !== undefined ? (Math.ceil((weapon[1].shotsHit / weapon[1].shotsFired) *100)) +"%" : "-"}</div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">{weapon[1].shotsFired !== 0 && weapon[1].shotsFired !== undefined ? (Math.round((weapon[1].shotsHit / weapon[1].shotsFired) *100)) +"%" : "-"}</div>
                                       </div>)
                                     })}
                                   </div>
@@ -1464,6 +1483,7 @@ const Logs = () => {
                         onClick={() => {
                           killMapActive === false && setKillMapActive(true);
                         }}
+                        ref={refTwo}
                         className={`ease-in-out bg-warmscale-82 p-2 rounded-b-md w-[38rem] h-[30.5rem] ml-4 ${
                           killMapActive
                             ? "scale-150 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -2417,5 +2437,7 @@ const Logs = () => {
     );
   }
 };
+
+
 
 export default Logs;
