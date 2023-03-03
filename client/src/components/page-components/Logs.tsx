@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../shared-components/Navbar";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
+import { weapons, weaponsList } from "../WeaponNames";
 
 const Logs = () => {
   const id = window.location.href;
@@ -166,7 +167,6 @@ const Logs = () => {
   let currentRound = 1;
   let currentRound2 = 1;
   if (apiResponse.players !== undefined) {
-    console.log(apiResponse.players)
     return (
       <div className=" bg-warmscale-6 py-3 min-h-screen">
         <Navbar />
@@ -224,13 +224,14 @@ const Logs = () => {
                     id="date"
                     className=" text-lightscale-6 font-medium -mb-1.5"
                   >
-                    2/16/23, 11:40 AM
+                    {new Date(apiResponse.info.date*1000).toLocaleDateString()}
+                    , {new Date(apiResponse.info.date*1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </div>
                   <div
                     id="length"
                     className=" text-lightscale-2 text-xl font-semibold font-cantarell"
                   >
-                    29m 37s
+                    {Math.floor(apiResponse.info.matchLength/60)}:{apiResponse.info.matchLength % 60 < 10 ? ("0" + apiResponse.info.matchLength % 60) : apiResponse.info.matchLength % 60} mins
                   </div>
                 </div>
                 <div id="rank-info" className="block">
@@ -255,9 +256,9 @@ const Logs = () => {
                 <button className="rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
                   demos.tf
                 </button>
-                <button className="rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
+                <a target="_blank" href={`https://www.logs.tf/${logId}`} className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
                   logs.tf
-                </button>
+                </a>
                 <div className="flex items-center justify-center rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 cursor-pointer bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
                   <svg
                     fill="currentColor"
@@ -388,7 +389,7 @@ const Logs = () => {
                   })}
                 </div>
                 <div id="stat-titles">
-                  <div className="grid h-8 bg-warmscale-9 grid-cols-[1fr,_40px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_repeat(5,60px)]">
+                  <div className="grid h-8 bg-warmscale-9 grid-cols-[1fr,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_repeat(5,60px)]">
                     <div className="flex items-center ml-4 font-cantarell font-semibold text-lightscale-1">
                       Player
                     </div>
@@ -422,7 +423,7 @@ const Logs = () => {
                             currentScoreboardIndex++ % 2 === 1
                               ? "bg-warmscale-7"
                               : "bg-warmscale-8"
-                          } grid-cols-[1fr,_40px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_repeat(5,60px)]`}
+                          } grid-cols-[1fr,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_repeat(5,60px)]`}
                         >
                           <div
                             className={`block bg-gradient-to-r ${
@@ -451,11 +452,54 @@ const Logs = () => {
                             </div>
                           </div>
                           <div className="flex justify-center items-center border-l border-warmscale-6">
-                            <img
-                              src={`../../../class icons/Leaderboard_class_${playerObject.class}.png`}
-                              className="h-6"
-                              alt=""
-                            />
+                            {Object.entries(playerObject.classStats).map((classPlayed, index)=>{
+                              if(classPlayed[0] !== "changedClass" && classPlayed[1].time /apiResponse.info.matchLength*100 > 30){
+                                return(
+                              <div className="group relative font-cantarell text-lightscale-2 ">
+                                <div className="scale-0 group-hover:scale-100 w-fit bottom-8 absolute rounded-sm left-1/2 transform -translate-x-1/2 select-none bg-warmscale-5  border-1 drop-shadow-lg border-warmscale-8">
+                                  <div className="w-full py-1 text-lg bg-warmscale-6 border-b border-warmscale-7 rounded-t-sm text-lightscale-2 font-semibold pl-4">{classPlayed[0]}</div>
+                                  <div className="bg-warmscale-5 flex justify-center w-full">
+                                  <div className="gap-x-0.5 m-2 grid grid-cols-[70px,_50px,_50px,_50px,_80px] bg-warmscale-3 text-center">
+                                    <div className="bg-warmscale-5 font-semibold">Time</div>
+                                    <div className="bg-warmscale-5 font-semibold">K</div>
+                                    <div className="bg-warmscale-5 font-semibold">A</div>
+                                    <div className="bg-warmscale-5 font-semibold">D</div>
+                                    <div className="bg-warmscale-5 font-semibold">DMG</div>
+                                    <div className="bg-warmscale-5">{Math.floor(classPlayed[1].time/60)}:{classPlayed[1].time % 60 < 10 ? ("0" + classPlayed[1].time % 60) : classPlayed[1].time % 60}</div>
+                                    <div className="bg-warmscale-5">{classPlayed[1].kills}</div>
+                                    <div className="bg-warmscale-5">{classPlayed[1].assists}</div>
+                                    <div className="bg-warmscale-5">{classPlayed[1].deaths}</div>
+                                    <div className="bg-warmscale-5">{classPlayed[1].damage}</div>
+                                  </div>
+                                  </div>
+                                  <div className="bg-warmscale-6  justify-around w-full  border-t border-warmscale-7 p-2">
+                                      <div className="flex  font-semibold">
+                                        <div className="w-48 pl-3 py-1">WEAPON</div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">K</div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-28">DMG</div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">ACC</div>
+                                      </div>
+                                    {Object.entries(classPlayed[1].weapons).map((weapon, index) => {
+                                      return(
+                                      <div className={`flex ${index % 2 === 0 ? "bg-warmscale-7" : "bg-warmscale-6"}`}>
+                                        <div className="w-48 pl-3 py-1">{weaponsList[weapon[0]] !== undefined ? weaponsList[weapon[0]].name : weapon[0]}</div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">{weapon[1].kills}</div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-28 flex items-center justify-center">{weapon[1].damage !== undefined ? weapon[1].damage : "-"} <span className="text-xs text-lightscale-6 ml-0.5"> {weapon[1].damage !== undefined &&  "(" + Math.round((weapon[1].damage/playerObject.damage)*100) +"%)" } </span> </div>
+                                        <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">{weapon[1].shotsFired !== 0 && weapon[1].shotsFired !== undefined ? (Math.ceil((weapon[1].shotsHit / weapon[1].shotsFired) *100)) +"%" : "-"}</div>
+                                      </div>)
+                                    })}
+                                  </div>
+                                  <div className="h-2 w-2 flex justify-center items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                                </div>
+                                <img
+                                  src={`../../../class icons/Leaderboard_class_${classPlayed[0]}.png`}
+                                  className="h-6 "
+                                  alt=""
+                                  style={{opacity:`${Math.floor(classPlayed[1].time /apiResponse.info.matchLength  * 200)}%`}}
+                                />
+                              </div>)
+                                }
+                            })}
                           </div>
                           {stat("combatScore")}
                           {stat("kills")}
