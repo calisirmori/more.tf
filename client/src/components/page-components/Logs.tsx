@@ -11,12 +11,13 @@ const Logs = () => {
   const [tab, setTab] = useState<any>("scoreboard");
   const [apiResponse, setResponse] = useState<any>({});
   const [scoreboard, setScoreboard] = useState<any>([]);
+  const [killSpread, setKillSpread] = useState<any>([]);
+  const [killSpreadSort, setKillSpreadSort] = useState<any>("kills");
   const [currentScoreboardSort, setScoreboardSort] = useState<any>("team");
   const [scoreboardCollapsed, setScoreboardCollapsed] = useState(true);
   const [sortType, setSortType] = useState<any>("hl");
   const [currentPerformanceFocus, setPerformanceFocus] = useState<any>("");
-  const [performanceChartSort, setPerformanceChartSort] =
-    useState<any>("dealt");
+  const [performanceChartSort, setPerformanceChartSort] = useState<any>("dealt");
   const [killMapActive, setKillMapActive] = useState<any>(false);
   const [focusedKillEvent, setFocusedKillEvent] = useState<any>({});
   const [currentKillMapFilter, setCurrentKillMapFilter] = useState<any>("none");
@@ -46,16 +47,16 @@ const Logs = () => {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    // document.addEventListener("click", handleClickOutside, true);
   }, []);
 
   const handleClickOutside = (e) => {
-    if (!refOne.current.contains(e.target)) {
-      setLinkView("none");
-    }
-    if (!refTwo.current.contains(e.target)) {
-      setKillMapActive(false);
-    }
+    // if (!refOne.current.contains(e.target)) {
+    //   setLinkView("none");
+    // }
+    // if (!refTwo.current.contains(e.target)) {
+    //   setKillMapActive(false);
+    // }
   };
 
   async function apiCall() {
@@ -66,6 +67,8 @@ const Logs = () => {
       );
       setResponse(response);
       setScoreboard(Object.entries(response.players));
+      setKillSpread(Object.entries(response.killSpread));
+
     } catch (error) {
       // SEND TO ERROR PAGE
     }
@@ -205,6 +208,46 @@ const Logs = () => {
       }
     }
     setScoreboard(sortedArray);
+  }
+
+  function killSpreadSorter(sortBy: string) {
+    setKillSpreadSort(sortBy);
+    let unsortedArray = killSpread;
+    let sortedArray = [];
+    if (sortBy !== killSpreadSort && sortBy !== "kills") {
+      for (let searchIndex = 0; searchIndex < unsortedArray.length + 1; searchIndex++) {
+        let max = Number.MIN_SAFE_INTEGER;
+        let currentMaxIndex = 0;
+        for (let secondaryIndex = 0 ; secondaryIndex < unsortedArray.length; secondaryIndex++) {
+          let currentPlayerArray = Object.entries(unsortedArray[secondaryIndex][1]);
+          for (let killIndex = 0; killIndex < currentPlayerArray.length; killIndex++) {
+            if(apiResponse.players[currentPlayerArray[killIndex][0]].class === sortBy && currentPlayerArray[killIndex][1] >= max){
+              max = currentPlayerArray[killIndex][1];
+              currentMaxIndex = secondaryIndex;
+            }
+          }
+        }
+        sortedArray.push(unsortedArray[currentMaxIndex]);
+        unsortedArray.splice(currentMaxIndex,1);
+        searchIndex = 0;
+      }
+      setKillSpread(sortedArray);
+    } else if (sortBy === "kills"){
+      for (let searchIndex = 0; searchIndex < unsortedArray.length + 1; searchIndex++) {
+        let max = Number.MIN_SAFE_INTEGER;
+        let currentMaxIndex = 0;
+        for (let secondaryIndex = 0 ; secondaryIndex < unsortedArray.length; secondaryIndex++) {
+          if(apiResponse.players[unsortedArray[secondaryIndex][0]].kills >= max){
+            max = apiResponse.players[unsortedArray[secondaryIndex][0]].kills;
+            currentMaxIndex = secondaryIndex;
+          }
+        }
+        sortedArray.push(unsortedArray[currentMaxIndex]);
+        unsortedArray.splice(currentMaxIndex,1);
+        searchIndex = 0;
+      }
+      setKillSpread(sortedArray);
+    }
   }
 
   let currentScoreboardIndex = 0;
@@ -1088,6 +1131,53 @@ const Logs = () => {
                       );
                     }
                   })}
+                </div>
+              </div>
+              <div  className="flex justify-center items-center mb-2">
+                <div className="p-2 bg-warmscale-85 rounded-md">
+                  <div className="grid items-center grid-cols-[70px,_260px,_repeat(11,60px)] font-bold font-cantarell text-lightscale-1  border-b border-warmscale-5">
+                    <div className="flex justify-center">Team</div>
+                    <div className="pl-3 border-l border-warmscale-5 py-2">Player</div>
+                    <div className="flex justify-center border-l border-warmscale-5 py-2">C</div>
+                    {killSpreadTitles(killSpreadSorter, "scout", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "soldier", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "pyro", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "demoman", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "heavyweapons", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "engineer", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "medic", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "sniper", killSpreadSort)}
+                    {killSpreadTitles(killSpreadSorter, "spy", killSpreadSort)}
+                    <div onClick={()=>{killSpreadSorter("kills")}} className={`cursor-pointer flex justify-center border-l border-warmscale-5 py-2 ${killSpreadSort === "kills" && "border-b-2 border-b-tf-orange"}`}>K</div>
+                  </div>
+                    {killSpread.map((killer,index) => {
+                      return(
+                        <div className={`grid items-center grid-cols-[70px,_260px,_repeat(11,60px)] font-cantarell text-lightscale-1 ${index % 2 === 1 && "bg-warmscale-82"}`}>
+                          <div className={`flex justify-center font-bold ${apiResponse.players[killer[0]].team === "red" ? "text-tf-red" :"text-tf-blue"}`}>{apiResponse.players[killer[0]].team}</div>
+                          <div className="pl-3 border-l border-warmscale-5 py-1.5 truncate">{apiResponse.players[killer[0]].userName}</div>
+                          <div className="flex justify-center border-l border-warmscale-5 py-1.5">
+                            <img src={`../../../class icons/Leaderboard_class_${apiResponse.players[killer[0]].class}.png`} alt="" className="h-6" />
+                          </div>
+                          {classOrder.map(currentClass =>{
+                            let currentArray = Object.entries(killer[1]);
+                            let classFound = false;
+                            for (let currentVictim = 0; currentVictim < currentArray.length; currentVictim++) {
+                              if(currentClass === apiResponse.players[currentArray[currentVictim][0]].class){
+                                classFound = true;
+                                return(
+                                  <div className="text-center border-l border-warmscale-5 py-1.5 font-semibold font-cantarell">{currentArray[currentVictim][1]}</div>
+                                )
+                              }
+                            }
+                            if(classFound === false){
+                              return(<div className="text-center border-l border-warmscale-5 py-1.5 text-warmscale-3 font-thin">0</div>)
+                            }
+                            
+                          })}
+                          <div className="flex justify-center border-l border-warmscale-5 py-1.5">{apiResponse.players[killer[0]].kills}</div>
+                        </div>
+                      )
+                    })}
                 </div>
               </div>
             </div>
@@ -2764,3 +2854,10 @@ const Logs = () => {
 };
 
 export default Logs;
+
+function killSpreadTitles(killSpreadSorter: (sortBy: string) => void, classPlayed:string, currentSort: string) {
+  return <div onClick={() => { killSpreadSorter(classPlayed); } } className={` ${currentSort === classPlayed && "border-b-tf-orange border-b-2"} flex justify-center  border-warmscale-5 border-l items-center cursor-pointer  py-2`}>
+    <img src={`../../../class icons/Leaderboard_class_${classPlayed}.png`} alt="" className="h-6" />
+  </div>;
+}
+
