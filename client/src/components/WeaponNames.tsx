@@ -29,7 +29,13 @@ export const weaponsList = {
       name: "Axtinguisher",
       role: 'pyro'
     },
-                                                                                                                
+      
+    'awper_hand': {
+      key: 'awper_hand',
+      name: "The Awper",
+      role: 'sniper'
+    },
+
    'backburner': {
       key: 'backburner',
       name: "Backburner",
@@ -845,7 +851,13 @@ export const weaponsList = {
       name: "Wrangler",
       role: 'engineer'
     },
-                                                                                                              
+    
+    'wrap_assassin': {
+      key: 'wrap_assassin',
+      name: "Wrap Assassin",
+      role: 'scout'
+    },
+
    'wrench': {
       key: 'wrench',
       name: "Wrench",
