@@ -66,7 +66,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center items-center w-[36rem] h-full max-xl:w-full max-md:px-10  max-sm:px-2 max-sm:scale-90 duration-100" >
+            <div className="flex justify-center items-center w-[36rem] h-full max-xl:w-full max-md:px-10  max-sm:px-2 max-sm:scale-90 duration-100">
               <div className="grid grid-cols-3 w-full lg:h-60 gap-3 ">
                 <div className="relative">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
@@ -92,9 +92,8 @@ const Home = () => {
                       Highlander
                     </div>
                     <div className="flex font-quicksand justify-center text-gray-400 mt-4 max-md:text-sm  max-sm:text-xs">
-                      <span className="max-sm:hidden">2:00PM </span> 
+                      <span className="max-sm:hidden">2:00PM </span>
                       <span>01/24/2023</span>
-                      
                     </div>
                   </div>
                 </div>
@@ -145,7 +144,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
