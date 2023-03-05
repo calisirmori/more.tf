@@ -119,32 +119,55 @@ async function worldEvents(unparsedEvent, finalObject) {
 
 
             let currentScoreSum = 0;
+            
+            const mapName = finalObject.info.map.split("_")[0];
+            const statWeightsForMap = statWeights.highlander[currentClass][mapName];
 
             for (let statIndex = 0; statIndex < stats.length; statIndex++) {
-                let currentStatArray = statPercentiles.highlander[currentClass][finalObject.info.map.split("_")[0]][stats[statIndex]];
+                let currentStatName = stats[statIndex];
+
+                let currentStatArray = statPercentiles.highlander[currentClass][mapName][currentStatName];
                 for (let spotIndex = 0; spotIndex < currentStatArray.length; spotIndex++) {
-                    if (combatStats[stats[statIndex]] <= currentStatArray[spotIndex]) {
-                        currentScoreSum += spotIndex * statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]][stats[statIndex]];
-                        spotIndex = 1000;
+                    if (combatStats[currentStatName] <= currentStatArray[spotIndex]) {
+                        currentScoreSum += spotIndex * statWeightsForMap[currentStatName];
+                        break;
                     }
                 }
             }
 
-            if (currentClass != "medic") {
-                currentScoreSum = Math.round((currentScoreSum + (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm * -100 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm * -100)) / (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].kpm * 0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dpm * 0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].apm * 0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm * -0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm * -0.1)) / 10
-            } else {
-                currentScoreSum = Math.round((currentScoreSum + (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm * -100 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm * -100)) / (statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].heals * 0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].apm * 0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].dtm * -0.1 + statWeights.highlander[currentClass][finalObject.info.map.split("_")[0]].deathpm * -0.1)) / 10
-            }
+            const isMedic = currentClass === "medic";
+            const dtm = statWeightsForMap.dtm;
+            const deathpm = statWeightsForMap.deathpm;
+            const apmWeight = statWeightsForMap.apm * 0.1;
+            const dpmWeight = statWeightsForMap.dpm * 0.1;
+            const dtmWeight = dtm * -0.1;
+            const kpmWeight = statWeightsForMap.kpm * 0.1;
+            const deathpmWeight = deathpm * -0.1;
+            const healsWeight = statWeightsForMap.heals * 0.1;
 
-            let playerCombatScore = 100;
-            for (let combatScoreIndex = 0; combatScoreIndex < finalScorePercentiles[finalObject.info.map.split("_")[0]][currentClass].length; combatScoreIndex++) {
-                if (finalScorePercentiles[finalObject.info.map.split("_")[0]][currentClass][combatScoreIndex] > currentScoreSum) {
+            const numerator = currentScoreSum + (dtm * -100 + deathpm * -100);
+            const denominator = isMedic 
+            ? healsWeight + apmWeight + dtmWeight + deathpmWeight
+            : kpmWeight + dpmWeight + apmWeight + dtmWeight + deathpmWeight;
+
+            currentScoreSum = Math.round(numerator / denominator) / 10;
+
+            let playerCombatScore = -1;
+            const targetedScorePercentiles = finalScorePercentiles[mapName][currentClass];
+            for (let combatScoreIndex = 0; combatScoreIndex < targetedScorePercentiles.length; combatScoreIndex++) {
+                if (targetedScorePercentiles[combatScoreIndex] > currentScoreSum) {
+                    let lowerScore = combatScoreIndex > 0 ? targetedScorePercentiles[combatScoreIndex-1] : 0;
+                    let highScore = targetedScorePercentiles[combatScoreIndex];
+                    let differenceBetweenLowHigh = highScore - lowerScore;
+                    let differenceBetweenRealScoreAndLow = playerCombatScore - lowerScore;
+                    let tenthsPlace = differenceBetweenRealScoreAndLow / differenceBetweenLowHigh;
                     playerCombatScore = combatScoreIndex;
-                    combatScoreIndex = 10000;
+                    playerCombatScore = playerCombatScore + (tenthsPlace / 100.0);
+                    break;
                 }
             }
 
-            finalObject.players[finalObjectArray[playerIndex][0]].combatScore = currentScoreSum;
+            finalObject.players[finalObjectArray[playerIndex][0]].combatScore = playerCombatScore;
         }
     }
 }

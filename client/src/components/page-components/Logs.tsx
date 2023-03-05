@@ -827,14 +827,14 @@ const Logs = () => {
                                   }
                                 )}
                               </div>
-                              {stat("combatScore")}
+                              {stat("combatScore", 1)}
                               {stat("kills")}
                               {stat("assists")}
                               {stat("deaths")}
                               {stat("damage")}
                               {stat("damagePerMinute")}
-                              {stat("killAssistPerDeath")}
-                              {stat("killsPerDeath")}
+                              {stat("killAssistPerDeath", 1)}
+                              {stat("killsPerDeath", 1)}
                               {stat("damageTaken")}
                               {stat("damageTakenPerMinute")}
                               <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
@@ -862,7 +862,7 @@ const Logs = () => {
                             </div>
                           </div>
                         );
-                        function stat(statInput: string) {
+                        function stat(statInput: string, decimalPlaces: number = 0) {
                           return (
                             <div
                               className={`flex items-center ${
@@ -870,7 +870,7 @@ const Logs = () => {
                                 "bg-lightscale-4 bg-opacity-5"
                               } justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6`}
                             >
-                              {playerObject[statInput]}
+                              {playerObject[statInput].toFixed(decimalPlaces)}
                             </div>
                           );
                         }
