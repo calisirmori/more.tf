@@ -85,18 +85,20 @@ async function worldEvents(unparsedEvent, finalObject) {
         // await rglData(finalObject);
 
         for (let playerIndex = 0; playerIndex < finalObjectArray.length; playerIndex++) {
-            let currentClass = finalObject.players[finalObjectArray[playerIndex][0]].class;
-            finalObject.players[finalObjectArray[playerIndex][0]].classStats[currentClass].time = matchEndTime - finalObject.players[finalObjectArray[playerIndex][0]].classStats.changedClass;
-            finalObject.players[finalObjectArray[playerIndex][0]].damagePerMinute = Math.ceil(finalObject.players[finalObjectArray[playerIndex][0]].damage / (finalObject.info.matchLength / 60));
-            finalObject.players[finalObjectArray[playerIndex][0]].damageTakenPerMinute = Math.ceil(finalObject.players[finalObjectArray[playerIndex][0]].damageTaken / (finalObject.info.matchLength / 60));
-            finalObject.players[finalObjectArray[playerIndex][0]].healsPerMinute = Math.ceil(finalObject.players[finalObjectArray[playerIndex][0]].heals / (finalObject.info.matchLength / 60));
-            finalObject.players[finalObjectArray[playerIndex][0]].killAssistPerDeath = (Math.round((finalObject.players[finalObjectArray[playerIndex][0]].kills + finalObject.players[finalObjectArray[playerIndex][0]].assists) / (finalObject.players[finalObjectArray[playerIndex][0]].deaths / 10))) / 10
-            finalObject.players[finalObjectArray[playerIndex][0]].killsPerDeath = (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].kills / (finalObject.players[finalObjectArray[playerIndex][0]].deaths / 10))) / 10
-            finalObject.players[finalObjectArray[playerIndex][0]].medicStats.ubers !== 0 && (finalObject.players[finalObjectArray[playerIndex][0]].medicStats.uberLength = (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].medicStats.uberLength / (finalObject.players[finalObjectArray[playerIndex][0]].medicStats.ubers / 10))) / 10)
-            finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageTo = Object.entries(finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageTo)
+            let player = finalObject.players[finalObjectArray[playerIndex][0]];
+            let minutesInMatch = (finalObject.info.matchLength / 60);
+            let currentClass = player.class;
+            player.classStats[currentClass].time = matchEndTime - player.classStats.changedClass;
+            player.damagePerMinute = Math.ceil(player.damage / minutesInMatch);
+            player.damageTakenPerMinute = Math.ceil(player.damageTaken / minutesInMatch);
+            player.healsPerMinute = Math.ceil(player.heals / minutesInMatch);
+            player.killAssistPerDeath = (Math.round((player.kills + player.assists) / (player.deaths / 10))) / 10
+            player.killsPerDeath = (Math.round(player.kills / (player.deaths / 10))) / 10
+            player.medicStats.uberLength = player.medicStats.ubers !== 0 ? Math.round(player.medicStats.uberLength / (player.medicStats.ubers / 10)) / 10 : 0;
+            player.damageDivision.damageTo = Object.entries(player.damageDivision.damageTo)
                 .sort(([, b], [, a]) => a - b)
                 .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
-            finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageFrom = Object.entries(finalObject.players[finalObjectArray[playerIndex][0]].damageDivision.damageFrom)
+            player.damageDivision.damageFrom = Object.entries(player.damageDivision.damageFrom)
                 .sort(([, b], [, a]) => a - b)
                 .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
             if (finalObject.healSpread[finalObjectArray[playerIndex][0]] !== undefined) {
@@ -109,12 +111,12 @@ async function worldEvents(unparsedEvent, finalObject) {
 
             let stats = currentClass === "medic" ? ["heals", "apm", "deathpm", "dtm"] : ["kpm", "dpm", "apm", "deathpm", "dtm"];
             let combatStats = {
-                apm: (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].assists * 100 / (finalObject.info.matchLength / 60))) / 100,
-                kpm: (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].kills * 100 / (finalObject.info.matchLength / 60))) / 100,
-                dpm: finalObject.players[finalObjectArray[playerIndex][0]].damagePerMinute,
-                dtm: finalObject.players[finalObjectArray[playerIndex][0]].damageTakenPerMinute,
-                heals: finalObject.players[finalObjectArray[playerIndex][0]].healsPerMinute,
-                deathpm: (Math.round(finalObject.players[finalObjectArray[playerIndex][0]].deaths * 100 / (finalObject.info.matchLength / 60))) / 100,
+                apm: (Math.round(player.assists * 100 / minutesInMatch)) / 100,
+                kpm: (Math.round(player.kills * 100 / minutesInMatch)) / 100,
+                dpm: player.damagePerMinute,
+                dtm: player.damageTakenPerMinute,
+                heals: player.healsPerMinute,
+                deathpm: (Math.round(player.deaths * 100 / minutesInMatch)) / 100,
             };
 
 
