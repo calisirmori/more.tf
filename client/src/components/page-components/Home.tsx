@@ -56,14 +56,14 @@ const Home = () => {
                   </span>
                   <div className="h-0.5 w-48 bg-grayscale-2"></div>
                 </div>
-                <div className="flex h-10 items-center justify-center bg-gradient-to-t from-blue-900 to-grayscale-6 rounded-lg mt-4 py-5 cursor-pointer hover:outline outline-grayscale-2 duration-100">
+                <a href="http://localhost:8082/api/auth/steam" className="flex h-10 items-center justify-center bg-gradient-to-t from-blue-900 to-grayscale-6 rounded-lg mt-4 py-5 cursor-pointer hover:outline outline-grayscale-2 duration-100">
                   <span>Sign in through Steam</span>
                   <img
                     className="h-7 ml-3"
                     src="https://www.citypng.com/public/uploads/small/11664330747vj8jipl81prbt4ezfskjtjn7nfnvqobgjgjdatrnt9b0npg2vfshgtfedqewtdjwmprl70eedyaxgsti5kafk7y1brfmfyeshaov.png"
                     alt=""
                   />
-                </div>
+                </a>
               </div>
             </div>
             <div className="flex justify-center items-center w-[36rem] h-full max-xl:w-full max-md:px-10  max-sm:px-2 max-sm:scale-90 duration-100">
