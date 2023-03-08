@@ -10,6 +10,8 @@ const passport = require('passport');
 const session = require('express-session');
 const passportSteam = require('passport-steam');
 const SteamStrategy = passportSteam.Strategy;
+const fs = require('fs');
+const Pool = require('pg').Pool
 
 app.use(express.json());
 app.use(cors());
@@ -51,18 +53,34 @@ app.use(function(req, res, next) {
 });
 
 //Steam login 
-
 app.get('/', (req, res) => {
-  res.send(req.user);
- });
+ res.send(req.user);
+});
+app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
+ res.redirect('/')
+});
+app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
+ res.redirect('/')
+});
 
- app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
-  res.redirect('/')
- });
+const pool = new Pool({
+  username: 'mori',
+  password: 'AVNS_Mgjn3GVV2dUH2ho46Nn',
+  host: 'moretf-db-do-user-13704767-0.b.db.ondigitalocean.com',
+  port: 25060,
+  database: 'preload-db',
+  ssl: {
+    ca: fs.readFileSync("C:\\Users\\mori\\Documents\\GitHub\\more.tf\\server\\ca-certificate.crt")
+  },
+})
 
- app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
-  res.redirect('/')
- });
+app.get('/api/players/:id', (req, response) => {
+  let playerId = req.params.id;
+
+  pool.query(`SELECT * FROM Players WHERE id64=${playerId}`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+})
 
 app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
@@ -72,12 +90,13 @@ app.get('/api/steam-info/:id', async(req, res) => {
     URL,
     FetchResultTypes.JSON
   );
+
   res.send(logsApiResponse);
 });
 
 app.get('/api/rgl-profile/:id', async(req, res) => {
   const userId = req.params.id;
-  var URL = ` https://api.rgl.gg/v0/profile/${userId}`;
+  var URL = `https://api.rgl.gg/v0/profile/${userId}`;
 
   const logsApiResponse = await fetch(
     URL,
