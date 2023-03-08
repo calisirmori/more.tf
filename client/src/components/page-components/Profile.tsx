@@ -58,7 +58,7 @@ const Profile = () => {
                 <div className="text-lightscale-2 font-bold text-5xl">
                   {playerSteamInfo.personaname}{" "}
                 </div>
-                <div className="text-lightscale-7 font-normal text-xl flex">
+                <div className="text-warmscale-1 font-semibold text-lg -mt-1 flex">
                   #{rglInfo.name}
                   <a
                     href={`https://rgl.gg/Public/Team.aspx?t=${
@@ -137,7 +137,7 @@ const Profile = () => {
                         Matches
                       </div>
                     </div>
-                    <div className=" text-lightscale-7 font-cantarell font-semibold">
+                    <div className=" text-lightscale-9 font-cantarell font-semibold">
                       First Match: Feb 20, 2014
                     </div>
                   </div>
@@ -191,7 +191,7 @@ const Profile = () => {
                       return (
                         <a
                           href={`/log/${match.logid}`}
-                          className={`flex h-11 items-center hover:bg-warmscale-8 cursor-pointer ${
+                          className={`flex h-11 items-center hover:bg-warmscale-85 cursor-pointer ${
                             index !== 14 && "border-b"
                           } justify-between border-warmscale-7`}
                         >
