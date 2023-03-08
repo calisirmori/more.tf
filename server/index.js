@@ -70,17 +70,68 @@ const pool = new Pool({
   port: 25060,
   database: 'preload-db',
   ssl: {
-    ca: fs.readFileSync("C:\\Users\\mori\\Documents\\GitHub\\more.tf\\server\\ca-certificate.crt")
+    ca: fs.readFileSync("./ca-certificate.crt")
   },
 })
 
 app.get('/api/players/:id', (req, response) => {
   let playerId = req.params.id;
-
   pool.query(`SELECT * FROM Players WHERE id64=${playerId}`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
-})
+});
+
+app.get('/api/calendar/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select date from logs
+  left join players on players.logid=logs.logid where id64=${playerId}
+  order by logs.date desc`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/username-search/:username', (req, response) => {
+  let playerUserName = req.params.username;
+  pool.query(`SELECT id64, count(id64) as count FROM players WHERE name='${playerUserName}' GROUP BY id64 Order BY count DESC`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/peers-search/:username', (req, response) => {
+  let playerUserName = req.params.username;
+  
+  pool.query(`select id64,Count(id64) as count,
+  COUNT(win) filter (where win='W') as W,
+  COUNT(win) filter (where win='L') as L,
+  COUNT(win) filter (where win='T') as T
+  From ((Select logid,win,team from players where id64=${playerUserName}) AS T1
+  LEFT JOIN (Select logid,id64,team from players where id64!=${playerUserName}) AS T2
+  On t1.logid=t2.logid and t1.team=t2.team
+  Right JOIN (SELECT date,logid FROM logs where date >1677651256) AS T3
+  On t1.logid=t3.logid)
+  group by id64
+  order by count desc`)
+
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/match-history/:id&limit=:limit', (req, response) => {
+
+  let playerId = req.params.id;
+  let limit = req.params.limit;
+
+  pool.query(`select kill,assist,death,dpm,dtm,heals,players,map,date,length,class,title,win from logs
+  left join players on players.logid=logs.logid where id64=${playerId}
+  order by logs.logid desc
+  limit ${limit}`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+
+});
+
+
+
 
 app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
