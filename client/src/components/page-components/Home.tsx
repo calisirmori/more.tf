@@ -99,7 +99,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                <a href="/profile" className="relative">
+                <a href="/profile/76561198068401396" className="relative">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-gray-300 max-md:text-sm">
                     SIXES S10 MVP
                   </span>

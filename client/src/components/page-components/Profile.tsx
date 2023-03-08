@@ -43,10 +43,10 @@ const Profile = () => {
   console.log(rglInfo);
 
   return (
-    <div className=" bg-warmscale-8 min-h-screen py-3">
+    <div className=" bg-warmscale-7 min-h-screen py-3">
       <Navbar />
       <div className="relative w-full">
-        <div className="flex justify-center w-full items-center mt-10 bg-warmscale-85 py-8">
+        <div className="flex justify-center w-full items-center mt-10 bg-warmscale-8 py-8">
           <div className="w-[76rem] flex justify-between">
             <div className="flex items-center">
               <img
@@ -91,21 +91,21 @@ const Profile = () => {
               <a
                 target="_blank"
                 href={`https://steamcommunity.com/profiles/${playerId}`}
-                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
               >
                 Steam
               </a>
               <a
                 target="_blank"
                 href={`https://demos.tf/profiles/${playerId}`}
-                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
               >
                 demos.tf
               </a>
               <a
                 target="_blank"
                 href={`https://etf2l.org/search/${playerId}/`}
-                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow text-lightscale-2 font-bold font-cantarell"
+                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow text-lightscale-2 font-bold font-cantarell"
               >
                 <img
                   src="../../../site icons/etf2l.webp"
@@ -116,7 +116,7 @@ const Profile = () => {
               <a
                 target="_blank"
                 href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${playerId}&r=24`}
-                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
+                className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
               >
                 <img src="../../../site icons/rgl.png" alt="" className="h-7" />
               </a>
@@ -127,7 +127,7 @@ const Profile = () => {
           <div className="w-[76rem] flex justify-between mt-4">
             <div id="summary" className="w-[50rem]">
               <div id="" className="grid grid-cols-2 h-20 gap-4">
-                <div className="h-full bg-warmscale-85 rounded-md px-4 py-3 drop-shadow-sm">
+                <div className="h-full bg-warmscale-8 rounded-md px-4 py-3 drop-shadow-sm">
                   <div className="flex justify-between items-baseline">
                     <div className="flex">
                       <div className="text-tf-orange text-xl font-semibold font-cantarell">
@@ -143,7 +143,7 @@ const Profile = () => {
                   </div>
                   <div className="bg-tf-orange h-2 mt-3 rounded-sm"></div>
                 </div>
-                <div className="h-full bg-warmscale-85 rounded-md px-4 py-3 drop-shadow-sm">
+                <div className="h-full bg-warmscale-8 rounded-md px-4 py-3 drop-shadow-sm">
                   <div className="flex justify-between items-center">
                     <div className="flex">
                       <div className="text-red-600 text-xl font-semibold font-cantarell">
@@ -164,7 +164,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-warmscale-85 mt-4 py-3 px-4 rounded-md font-cantarell drop-shadow-sm">
+              <div className="bg-warmscale-8 mt-4 py-3 px-4 rounded-md font-cantarell drop-shadow-sm">
                 <div className="flex justify-between">
                   <div className="text-lg text-lightscale-1 font-semibold">
                     Matches
@@ -266,7 +266,7 @@ const Profile = () => {
                   })}
                 </div>
               </div>
-              <div className="w-full bg-warmscale-85 mt-4 rounded-md px-4 py-2 drop-shadow-sm">
+              <div className="w-full bg-warmscale-8 mt-4 rounded-md px-4 py-2 drop-shadow-sm">
                 <div className="flex justify-between">
                   <div className="text-lg text-lightscale-1 font-semibold">
                     Most Played Classes
@@ -289,7 +289,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="w-[25rem] h-screen bg-warmscale-85 ml-4 rounded-md drop-shadow-sm"></div>
+            <div className="w-[25rem] h-screen bg-warmscale-8 ml-4 rounded-md drop-shadow-sm"></div>
           </div>
         </div>
       </div>

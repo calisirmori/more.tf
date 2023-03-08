@@ -17,7 +17,8 @@ const Logs = () => {
   const [scoreboardCollapsed, setScoreboardCollapsed] = useState(true);
   const [sortType, setSortType] = useState<any>("hl");
   const [currentPerformanceFocus, setPerformanceFocus] = useState<any>("");
-  const [performanceChartSort, setPerformanceChartSort] = useState<any>("dealt");
+  const [performanceChartSort, setPerformanceChartSort] =
+    useState<any>("dealt");
   const [killMapActive, setKillMapActive] = useState<any>(false);
   const [focusedKillEvent, setFocusedKillEvent] = useState<any>({});
   const [currentKillMapFilter, setCurrentKillMapFilter] = useState<any>("none");
@@ -62,13 +63,12 @@ const Logs = () => {
   async function apiCall() {
     try {
       const response: { players: Array<Object> } = await fetch(
-        `http://localhost:8081/api/log/${logId}`,
+        `http://localhost:8082/api/log/${logId}`,
         FetchResultTypes.JSON
       );
       setResponse(response);
       setScoreboard(Object.entries(response.players));
       setKillSpread(Object.entries(response.killSpread));
-
     } catch (error) {
       // SEND TO ERROR PAGE
     }
@@ -112,20 +112,26 @@ const Logs = () => {
       if (sortType === "hl") {
         setSortType("lh");
         setScoreboardSort(sortBy);
-        if(sortBy === "class"){
-            setScoreboardSort(sortBy);
-            setSortType("lh");
-            for (let classIndex = classOrder.length-1; classIndex > -1; classIndex--) {
-              for (
-                let playerIndex = 0;
-                playerIndex < unsortedArray.length;
-                playerIndex++
+        if (sortBy === "class") {
+          setScoreboardSort(sortBy);
+          setSortType("lh");
+          for (
+            let classIndex = classOrder.length - 1;
+            classIndex > -1;
+            classIndex--
+          ) {
+            for (
+              let playerIndex = 0;
+              playerIndex < unsortedArray.length;
+              playerIndex++
+            ) {
+              if (
+                unsortedArray[playerIndex][1].class === classOrder[classIndex]
               ) {
-                if (unsortedArray[playerIndex][1].class === classOrder[classIndex]) {
-                  sortedArray.push(unsortedArray[playerIndex]);
-                }
+                sortedArray.push(unsortedArray[playerIndex]);
               }
             }
+          }
         } else {
           while (unsortedArray.length > 0) {
             let max = Number.MAX_SAFE_INTEGER;
@@ -215,35 +221,63 @@ const Logs = () => {
     let unsortedArray = killSpread;
     let sortedArray = [];
     if (sortBy !== killSpreadSort && sortBy !== "kills") {
-      for (let searchIndex = 0; searchIndex < unsortedArray.length + 1; searchIndex++) {
+      for (
+        let searchIndex = 0;
+        searchIndex < unsortedArray.length + 1;
+        searchIndex++
+      ) {
         let max = Number.MIN_SAFE_INTEGER;
         let currentMaxIndex = 0;
-        for (let secondaryIndex = 0 ; secondaryIndex < unsortedArray.length; secondaryIndex++) {
-          let currentPlayerArray = Object.entries(unsortedArray[secondaryIndex][1]);
-          for (let killIndex = 0; killIndex < currentPlayerArray.length; killIndex++) {
-            if(apiResponse.players[currentPlayerArray[killIndex][0]].class === sortBy && currentPlayerArray[killIndex][1] >= max){
+        for (
+          let secondaryIndex = 0;
+          secondaryIndex < unsortedArray.length;
+          secondaryIndex++
+        ) {
+          let currentPlayerArray = Object.entries(
+            unsortedArray[secondaryIndex][1]
+          );
+          for (
+            let killIndex = 0;
+            killIndex < currentPlayerArray.length;
+            killIndex++
+          ) {
+            if (
+              apiResponse.players[currentPlayerArray[killIndex][0]].class ===
+                sortBy &&
+              currentPlayerArray[killIndex][1] >= max
+            ) {
               max = currentPlayerArray[killIndex][1];
               currentMaxIndex = secondaryIndex;
             }
           }
         }
         sortedArray.push(unsortedArray[currentMaxIndex]);
-        unsortedArray.splice(currentMaxIndex,1);
+        unsortedArray.splice(currentMaxIndex, 1);
         searchIndex = 0;
       }
       setKillSpread(sortedArray);
-    } else if (sortBy === "kills"){
-      for (let searchIndex = 0; searchIndex < unsortedArray.length + 1; searchIndex++) {
+    } else if (sortBy === "kills") {
+      for (
+        let searchIndex = 0;
+        searchIndex < unsortedArray.length + 1;
+        searchIndex++
+      ) {
         let max = Number.MIN_SAFE_INTEGER;
         let currentMaxIndex = 0;
-        for (let secondaryIndex = 0 ; secondaryIndex < unsortedArray.length; secondaryIndex++) {
-          if(apiResponse.players[unsortedArray[secondaryIndex][0]].kills >= max){
+        for (
+          let secondaryIndex = 0;
+          secondaryIndex < unsortedArray.length;
+          secondaryIndex++
+        ) {
+          if (
+            apiResponse.players[unsortedArray[secondaryIndex][0]].kills >= max
+          ) {
             max = apiResponse.players[unsortedArray[secondaryIndex][0]].kills;
             currentMaxIndex = secondaryIndex;
           }
         }
         sortedArray.push(unsortedArray[currentMaxIndex]);
-        unsortedArray.splice(currentMaxIndex,1);
+        unsortedArray.splice(currentMaxIndex, 1);
         searchIndex = 0;
       }
       setKillSpread(sortedArray);
@@ -255,7 +289,7 @@ const Logs = () => {
   let currentRound2 = 1;
   if (apiResponse.players !== undefined) {
     return (
-      <div className=" bg-warmscale-6 py-3 min-h-screen">
+      <div className=" bg-warmscale-7 py-3 min-h-screen">
         <Navbar />
         <div className="flex items-center justify-center">
           <div
@@ -264,7 +298,7 @@ const Logs = () => {
           >
             <div
               id="header"
-              className="flex pt-4 flex-wrap justify-between bg-warmscale-7 pr-5 "
+              className="flex pt-4 flex-wrap justify-between bg-warmscale-8 pr-5 "
             >
               <div id="match-info" className="flex gap-7">
                 <div id="format-logo"></div>
@@ -350,17 +384,17 @@ const Logs = () => {
                 id="other-links"
                 className="flex gap-4 justify-center items-center"
               >
-                <button className="rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
+                <button className="rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
                   demos.tf
                 </button>
                 <a
                   target="_blank"
                   href={`https://www.logs.tf/${logId}`}
-                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
                 >
                   logs.tf
                 </a>
-                <div className="flex items-center justify-center rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 cursor-pointer bg-warmscale-8 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
+                <div className="flex items-center justify-center rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 cursor-pointer bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 24 24"
@@ -379,7 +413,7 @@ const Logs = () => {
             </div>
             <div
               id="tabs"
-              className="grid bg-warmscale-7 select-none grid-cols-5 text-center pt-5 drop-shadow-md"
+              className="grid bg-warmscale-8 select-none grid-cols-5 text-center pt-5 drop-shadow-md"
             >
               <div
                 onClick={() => {
@@ -388,7 +422,7 @@ const Logs = () => {
                 className={`border-b-4 duration-75  ${
                   tab === "scoreboard"
                     ? "border-tf-orange cursor-default"
-                    : "border-warmscale-6 hover:border-warmscale-8 hover:bg-warmscale-82 cursor-pointer"
+                    : "border-warmscale-6 hover:border-warmscale-8 hover:bg-warmscale-85 cursor-pointer"
                 } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
               >
                 Scoreboard
@@ -400,7 +434,7 @@ const Logs = () => {
                 className={`border-b-4 duration-75  ${
                   tab === "performance"
                     ? "border-tf-orange cursor-default"
-                    : "border-warmscale-6 hover:border-warmscale-82 hover:bg-warmscale-8 cursor-pointer"
+                    : "border-warmscale-6 hover:border-warmscale-82 hover:bg-warmscale-85 cursor-pointer"
                 } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
               >
                 Performance
@@ -412,7 +446,7 @@ const Logs = () => {
                 className={`border-b-4 duration-75 ${
                   tab === "matchups"
                     ? "border-tf-orange cursor-default"
-                    : "border-warmscale-6 hover:bg-warmscale-8 hover:border-warmscale-82 cursor-pointer"
+                    : "border-warmscale-6 hover:bg-warmscale-85 hover:border-warmscale-82 cursor-pointer"
                 } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
               >
                 Matchups
@@ -424,7 +458,7 @@ const Logs = () => {
                 className={`border-b-4 duration-75 ${
                   tab === "charts"
                     ? "border-tf-orange cursor-default"
-                    : "border-warmscale-6 hover:bg-warmscale-8 hover:border-warmscale-82 cursor-pointer"
+                    : "border-warmscale-6 hover:bg-warmscale-85 hover:border-warmscale-82 cursor-pointer"
                 } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
               >
                 Charts
@@ -436,7 +470,7 @@ const Logs = () => {
                 className={`border-b-4 duration-75 ${
                   tab === "other"
                     ? "border-tf-orange cursor-default"
-                    : "border-warmscale-6 hover:bg-warmscale-8 hover:border-warmscale-82 cursor-pointer"
+                    : "border-warmscale-6 hover:bg-warmscale-85 hover:border-warmscale-82 cursor-pointer"
                 } py-2 text-lightscale-2 text-lg font-bold font-cantarell`}
               >
                 Other
@@ -444,7 +478,7 @@ const Logs = () => {
             </div>
             <div
               id="scoreboard-tab "
-              className={`bg-warmscale-8 py-2 ${
+              className={`bg-warmscale-85 py-2 ${
                 tab !== "scoreboard" && "hidden "
               }`}
             >
@@ -489,7 +523,7 @@ const Logs = () => {
                   )}
                 </div>
                 <div className="flex justify-center  ">
-                  <div className="bg-warmscale-85 p-3 w-fit rounded-md">
+                  <div className="bg-warmscale-82 p-3 w-fit rounded-md">
                     <div className="flex justify-end -mt-1">
                       {scoreboardCollapsed ? (
                         <svg
@@ -565,11 +599,7 @@ const Logs = () => {
                         {scoreboardCollapsed === false &&
                           statTitle("airshots", "AS", "Airshots")}
                         {scoreboardCollapsed === false &&
-                          statTitle(
-                            "pointCaps",
-                            "PC",
-                            "Points Capped"
-                          )}
+                          statTitle("pointCaps", "PC", "Points Capped")}
                       </div>
                     </div>
                     {apiResponse !== undefined &&
@@ -585,8 +615,8 @@ const Logs = () => {
                             <div
                               className={`grid h-10 border-b border-warmscale-8 ${
                                 currentScoreboardIndex++ % 2 === 1
-                                  ? "bg-warmscale-7"
-                                  : "bg-warmscale-8"
+                                  ? "bg-warmscale-8"
+                                  : "bg-warmscale-85"
                               } ${
                                 scoreboardCollapsed
                                   ? "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px]"
@@ -626,35 +656,35 @@ const Logs = () => {
                                       <a
                                         target="_blank"
                                         href={`https://logs.tf/3368620`}
-                                        className="hover:bg-warmscale-7  px-2 py-1"
+                                        className="hover:bg-warmscale-8  px-2 py-1"
                                       >
                                         Profile
                                       </a>
                                       <a
                                         target="_blank"
                                         href={`https://steamcommunity.com/profiles/${player[0]}`}
-                                        className="hover:bg-warmscale-7 px-2 py-1"
+                                        className="hover:bg-warmscale-8 px-2 py-1"
                                       >
                                         Steam
                                       </a>
                                       <a
                                         target="_blank"
                                         href={`https://etf2l.org/search/${player[0]}/`}
-                                        className="hover:bg-warmscale-7 px-2 py-1"
+                                        className="hover:bg-warmscale-8 px-2 py-1"
                                       >
                                         ETF2L
                                       </a>
                                       <a
                                         target="_blank"
                                         href={`https://www.ugcleague.com/players_page.cfm?player_id=${player[0]}`}
-                                        className="hover:bg-warmscale-7 px-2 py-1"
+                                        className="hover:bg-warmscale-8 px-2 py-1"
                                       >
                                         UGC
                                       </a>
                                       <a
                                         target="_blank"
                                         href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player[0]}&r=24`}
-                                        className="hover:bg-warmscale-7 px-2 py-1"
+                                        className="hover:bg-warmscale-8 px-2 py-1"
                                       >
                                         RGL
                                       </a>
@@ -688,7 +718,7 @@ const Logs = () => {
                                       return (
                                         <div className="group relative font-cantarell text-lightscale-2 ">
                                           <div className="scale-0 group-hover:scale-100 w-fit bottom-8 absolute rounded-sm left-1/2 transform -translate-x-1/2 select-none bg-warmscale-5  border-1 drop-shadow-lg border-warmscale-8">
-                                            <div className="w-full py-1 text-lg bg-warmscale-6 border-b border-warmscale-7 rounded-t-sm text-lightscale-2 font-semibold pl-4">
+                                            <div className="w-full py-1 text-lg bg-warmscale-7 border-b border-warmscale-7 rounded-t-sm text-lightscale-2 font-semibold pl-4">
                                               {classPlayed[0]}
                                             </div>
                                             <div className="bg-warmscale-5 flex justify-center w-full">
@@ -732,7 +762,7 @@ const Logs = () => {
                                                 </div>
                                               </div>
                                             </div>
-                                            <div className="bg-warmscale-6  justify-around w-full  border-t border-warmscale-7 p-2">
+                                            <div className="bg-warmscale-7  justify-around w-full  border-t border-warmscale-7 p-2">
                                               <div className="flex  font-semibold">
                                                 <div className="w-48 pl-3 py-1">
                                                   WEAPON
@@ -754,8 +784,8 @@ const Logs = () => {
                                                   <div
                                                     className={`flex ${
                                                       index % 2 === 0
-                                                        ? "bg-warmscale-7"
-                                                        : "bg-warmscale-6"
+                                                        ? "bg-warmscale-8"
+                                                        : "bg-warmscale-7"
                                                     }`}
                                                   >
                                                     <div className="w-48 pl-3 py-1">
@@ -806,7 +836,7 @@ const Logs = () => {
                                                 );
                                               })}
                                             </div>
-                                            <div className="h-2 w-2 flex justify-center items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                                            <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                                           </div>
                                           <img
                                             src={`../../../class icons/Leaderboard_class_${classPlayed[0]}.png`}
@@ -862,7 +892,10 @@ const Logs = () => {
                             </div>
                           </div>
                         );
-                        function stat(statInput: string, decimalPlaces: number = 0) {
+                        function stat(
+                          statInput: string,
+                          decimalPlaces: number = 0
+                        ) {
                           return (
                             <div
                               className={`flex items-center ${
@@ -884,7 +917,7 @@ const Logs = () => {
               >
                 <div
                   id="team-sums-wrapper"
-                  className="w-1/2 p-2 bg-warmscale-85 rounded-md drop-shadow-md"
+                  className="w-1/2 p-2 bg-warmscale-82 rounded-md drop-shadow-md"
                 >
                   <div
                     id="team-sum-titles"
@@ -922,7 +955,7 @@ const Logs = () => {
                 </div>
               </div>
               <div className="w-full mb-6 -mt-4">
-                <div className="mx-72 bg-warmscale-85 mt-10 rounded-md pt-3 pb-1">
+                <div className="mx-72 bg-warmscale-82 mt-10 rounded-md pt-3 pb-1">
                   <div className="text-xl font-bold grid grid-cols-7 text-center mx-2 text-lightscale-2 font-cantarell mb-3">
                     <div>Round</div>
                     <div>Length</div>
@@ -980,7 +1013,7 @@ const Logs = () => {
                       return (
                         <div
                           id="medic-stats"
-                          className="font-cantarell text-lightscale-1 bg-warmscale-85 p-2 rounded-md w-[26rem]"
+                          className="font-cantarell text-lightscale-1 bg-warmscale-82 p-2 rounded-md w-[26rem]"
                         >
                           <div
                             id="player-username"
@@ -1133,57 +1166,135 @@ const Logs = () => {
                   })}
                 </div>
               </div>
-              <div  className="flex justify-center items-center mb-2">
-                <div className="p-2 bg-warmscale-85 rounded-md">
+              <div className="flex justify-center items-center mb-2">
+                <div className="p-2 bg-warmscale-82 rounded-md">
                   <div className="grid items-center grid-cols-[70px,_260px,_repeat(11,60px)] font-bold font-cantarell text-lightscale-1  border-b border-warmscale-5">
                     <div className="flex justify-center">Team</div>
-                    <div className="pl-3 border-l border-warmscale-5 py-2">Player</div>
-                    <div className="flex justify-center border-l border-warmscale-5 py-2">C</div>
-                    {killSpreadTitles(killSpreadSorter, "scout", killSpreadSort)}
-                    {killSpreadTitles(killSpreadSorter, "soldier", killSpreadSort)}
+                    <div className="pl-3 border-l border-warmscale-5 py-2">
+                      Player
+                    </div>
+                    <div className="flex justify-center border-l border-warmscale-5 py-2">
+                      C
+                    </div>
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "scout",
+                      killSpreadSort
+                    )}
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "soldier",
+                      killSpreadSort
+                    )}
                     {killSpreadTitles(killSpreadSorter, "pyro", killSpreadSort)}
-                    {killSpreadTitles(killSpreadSorter, "demoman", killSpreadSort)}
-                    {killSpreadTitles(killSpreadSorter, "heavyweapons", killSpreadSort)}
-                    {killSpreadTitles(killSpreadSorter, "engineer", killSpreadSort)}
-                    {killSpreadTitles(killSpreadSorter, "medic", killSpreadSort)}
-                    {killSpreadTitles(killSpreadSorter, "sniper", killSpreadSort)}
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "demoman",
+                      killSpreadSort
+                    )}
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "heavyweapons",
+                      killSpreadSort
+                    )}
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "engineer",
+                      killSpreadSort
+                    )}
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "medic",
+                      killSpreadSort
+                    )}
+                    {killSpreadTitles(
+                      killSpreadSorter,
+                      "sniper",
+                      killSpreadSort
+                    )}
                     {killSpreadTitles(killSpreadSorter, "spy", killSpreadSort)}
-                    <div onClick={()=>{killSpreadSorter("kills")}} className={`cursor-pointer flex justify-center border-l border-warmscale-5 py-2 ${killSpreadSort === "kills" && "border-b-2 border-b-tf-orange"}`}>K</div>
+                    <div
+                      onClick={() => {
+                        killSpreadSorter("kills");
+                      }}
+                      className={`cursor-pointer flex justify-center border-l border-warmscale-5 py-2 ${
+                        killSpreadSort === "kills" &&
+                        "border-b-2 border-b-tf-orange"
+                      }`}
+                    >
+                      K
+                    </div>
                   </div>
-                    {killSpread.map((killer,index) => {
-                      return(
-                        <div className={`grid items-center grid-cols-[70px,_260px,_repeat(11,60px)] font-cantarell text-lightscale-1 ${index % 2 === 1 && "bg-warmscale-82"}`}>
-                          <div className={`flex justify-center font-bold ${apiResponse.players[killer[0]].team === "red" ? "text-tf-red" :"text-tf-blue"}`}>{apiResponse.players[killer[0]].team}</div>
-                          <div className="pl-3 border-l border-warmscale-5 py-1.5 truncate">{apiResponse.players[killer[0]].userName}</div>
-                          <div className="flex justify-center border-l border-warmscale-5 py-1.5">
-                            <img src={`../../../class icons/Leaderboard_class_${apiResponse.players[killer[0]].class}.png`} alt="" className="h-6" />
-                          </div>
-                          {classOrder.map(currentClass =>{
-                            let currentArray = Object.entries(killer[1]);
-                            let classFound = false;
-                            for (let currentVictim = 0; currentVictim < currentArray.length; currentVictim++) {
-                              if(currentClass === apiResponse.players[currentArray[currentVictim][0]].class){
-                                classFound = true;
-                                return(
-                                  <div className="text-center border-l border-warmscale-5 py-1.5 font-semibold font-cantarell">{currentArray[currentVictim][1]}</div>
-                                )
-                              }
-                            }
-                            if(classFound === false){
-                              return(<div className="text-center border-l border-warmscale-5 py-1.5 text-warmscale-3 font-thin">0</div>)
-                            }
-                            
-                          })}
-                          <div className="flex justify-center border-l border-warmscale-5 py-1.5">{apiResponse.players[killer[0]].kills}</div>
+                  {killSpread.map((killer, index) => {
+                    return (
+                      <div
+                        className={`grid items-center grid-cols-[70px,_260px,_repeat(11,60px)] font-cantarell text-lightscale-1 ${
+                          index % 2 === 1 && "bg-warmscale-82"
+                        }`}
+                      >
+                        <div
+                          className={`flex justify-center font-bold ${
+                            apiResponse.players[killer[0]].team === "red"
+                              ? "text-tf-red"
+                              : "text-tf-blue"
+                          }`}
+                        >
+                          {apiResponse.players[killer[0]].team}
                         </div>
-                      )
-                    })}
+                        <div className="pl-3 border-l border-warmscale-5 py-1.5 truncate">
+                          {apiResponse.players[killer[0]].userName}
+                        </div>
+                        <div className="flex justify-center border-l border-warmscale-5 py-1.5">
+                          <img
+                            src={`../../../class icons/Leaderboard_class_${
+                              apiResponse.players[killer[0]].class
+                            }.png`}
+                            alt=""
+                            className="h-6"
+                          />
+                        </div>
+                        {classOrder.map((currentClass) => {
+                          let currentArray = Object.entries(killer[1]);
+                          let classFound = false;
+                          for (
+                            let currentVictim = 0;
+                            currentVictim < currentArray.length;
+                            currentVictim++
+                          ) {
+                            if (
+                              currentClass ===
+                              apiResponse.players[
+                                currentArray[currentVictim][0]
+                              ].class
+                            ) {
+                              classFound = true;
+                              return (
+                                <div className="text-center border-l border-warmscale-5 py-1.5 font-semibold font-cantarell">
+                                  {currentArray[currentVictim][1]}
+                                </div>
+                              );
+                            }
+                          }
+                          if (classFound === false) {
+                            return (
+                              <div className="text-center border-l border-warmscale-5 py-1.5 text-warmscale-3 font-thin">
+                                0
+                              </div>
+                            );
+                          }
+                        })}
+                        <div className="flex justify-center border-l border-warmscale-5 py-1.5">
+                          {apiResponse.players[killer[0]].kills}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
             <div
               id="performance-tab"
-              className={`bg-warmscale-8 mb-7 py-4 ${
+              className={`bg-warmscale-85 mb-7 py-4 ${
                 tab !== "performance" && "hidden "
               }`}
             >
@@ -1265,7 +1376,7 @@ const Logs = () => {
               <div className="flex h-[36rem]">
                 {currentPerformanceFocus !== "" && (
                   <div className="flex ml-10 ">
-                    <div className=" mt-4 bg-warmscale-85 p-3 rounded-md mb-16">
+                    <div className=" mt-4 bg-warmscale-82 p-3 rounded-md mb-16">
                       <div
                         className={`flex mb-2 justify-center items-center h-9  ${
                           apiResponse.players[currentPerformanceFocus].team ===
@@ -1455,7 +1566,7 @@ const Logs = () => {
                                       </div>
                                     </div>
                                     <div className="flex items-center justify-center group select-none">
-                                      <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
+                                      <div className="scale-0 absolute z-40 bg-warmscale-85 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
                                         {
                                           apiResponse.players[player[0]]
                                             .userName
@@ -1589,7 +1700,7 @@ const Logs = () => {
                                     </div>
                                     <div className="flex items-center justify-center group select-none">
                                       <div
-                                        className={`scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 ${
+                                        className={`scale-0 absolute z-40 bg-warmscale-85 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 ${
                                           Math.round(
                                             (apiResponse.players[
                                               currentPerformanceFocus
@@ -1750,7 +1861,7 @@ const Logs = () => {
                                       </div>
                                     </div>
                                     <div className="flex items-center justify-center group select-none">
-                                      <div className="scale-0 absolute z-40 bg-warmscale-8 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
+                                      <div className="scale-0 absolute z-40 bg-warmscale-85 mb-1 py-0.5 rounded-sm bg-opacity-90 px-2 group-hover:scale-100">
                                         {
                                           apiResponse.players[
                                             currentPlayerArray[0][0]
@@ -1858,7 +1969,7 @@ const Logs = () => {
                           enemy
                           <select
                             id="countries"
-                            className="bg-warmscale-7 ring-tf-orange text-lightscale-2 text-sm rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-0.5 mb-1 px-2.5"
+                            className="bg-warmscale-8 ring-tf-orange text-lightscale-2 text-sm rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-0.5 mb-1 px-2.5"
                             onChange={(event) =>
                               setCurrentKillMapFilter(event.target.value)
                             }
@@ -2139,7 +2250,7 @@ const Logs = () => {
             </div>
             <div
               id="matchups-tab"
-              className={`bg-warmscale-8 mb-7 py-4 ${
+              className={`bg-warmscale-85 mb-7 py-4 ${
                 tab !== "matchups" && "hidden "
               }`}
             >
@@ -2151,7 +2262,7 @@ const Logs = () => {
                 <div className="flex font-cantarell font-semibold w-96 mx-4 mt-1 gap-2 -mb-4">
                   <select
                     id="countries"
-                    className="bg-warmscale-7 border-tf-red ring-tf-orange text-lightscale-2 text-lg rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-1.5 px-2.5"
+                    className="bg-warmscale-8 border-tf-red ring-tf-orange text-lightscale-2 text-lg rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-1.5 px-2.5"
                     onChange={(event) =>
                       setMatchupPlayersRed(event.target.value)
                     }
@@ -2180,7 +2291,7 @@ const Logs = () => {
                 <div className="flex font-cantarell font-semibold w-96 mx-4 mt-1 gap-2 ml-32 -mb-4">
                   <select
                     id="countries"
-                    className="bg-warmscale-7  border-tf-blue ring-tf-orange text-lightscale-2 text-lg rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-1.5 px-2.5"
+                    className="bg-warmscale-8  border-tf-blue ring-tf-orange text-lightscale-2 text-lg rounded-md focus:ring-tf-orange focus:border-tf-orange block w-full py-1.5 px-2.5"
                     onChange={(event) =>
                       setMatchupPlayersBlue(event.target.value)
                     }
@@ -2527,7 +2638,7 @@ const Logs = () => {
             </div>
             <div
               id="charts-tab"
-              className={`bg-warmscale-8 mb-7 p-8 ${
+              className={`bg-warmscale-85 mb-7 p-8 ${
                 tab !== "charts" && "hidden "
               }`}
             >
@@ -2570,7 +2681,7 @@ const Logs = () => {
                   <div className="">
                     <div className=" top-0 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className="h-0.5 w-full bg-warmscale-8"></div>
                         <div className=" text-sm font-robotomono font-bold text-warmscale-6">
                           4000
                         </div>
@@ -2578,7 +2689,7 @@ const Logs = () => {
                     </div>
                     <div className=" top-1/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className="h-0.5 w-full bg-warmscale-8"></div>
                         <div className=" text-sm font-robotomono font-bold text-warmscale-6">
                           3000
                         </div>
@@ -2586,7 +2697,7 @@ const Logs = () => {
                     </div>
                     <div className=" top-2/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className="h-0.5 w-full bg-warmscale-8"></div>
                         <div className=" text-sm font-robotomono font-bold text-warmscale-6">
                           2000
                         </div>
@@ -2594,7 +2705,7 @@ const Logs = () => {
                     </div>
                     <div className=" top-3/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
-                        <div className="h-0.5 w-full bg-warmscale-7"></div>
+                        <div className="h-0.5 w-full bg-warmscale-8"></div>
                         <div className=" text-sm font-robotomono font-bold text-warmscale-6">
                           1000
                         </div>
@@ -2719,16 +2830,16 @@ const Logs = () => {
             </div>
             <div
               id="other-tab"
-              className={`bg-warmscale-8 h mb-7 py-4 ${
+              className={`bg-warmscale-85 h mb-7 py-4 ${
                 tab !== "other" && "hidden "
               }`}
             >
               <div className="flex justify-center gap-10 mx-10 my-4">
-                <div className="bg-warmscale-85 rounded-md pb-2 px-4 w-96 h-fit">
+                <div className="bg-warmscale-82 rounded-md pb-2 px-4 w-96 h-fit">
                   <div className="flex justify-center text-lightscale-2 font-semibold text-xl my-2">
                     CHAT
                   </div>
-                  <div className="h-0.5 w-full bg-warmscale-6 mb-2"></div>
+                  <div className="h-0.5 w-full bg-warmscale-7 mb-2"></div>
                   {apiResponse.chat.map(
                     (chatEvent: { userId: string; message: string }) => {
                       return (
@@ -2750,11 +2861,11 @@ const Logs = () => {
                     }
                   )}
                 </div>
-                <div className="bg-warmscale-85 rounded-md pb-2 px-4 w-96 h-fit ">
+                <div className="bg-warmscale-82 rounded-md pb-2 px-4 w-96 h-fit ">
                   <div className="flex justify-center text-lightscale-2 font-semibold text-xl my-2">
                     KILLSTREAKS
                   </div>
-                  <div className="h-0.5 w-full bg-warmscale-6 mb-2 "></div>
+                  <div className="h-0.5 w-full bg-warmscale-7 mb-2 "></div>
                   {Object.entries(apiResponse.killStreaks).map(
                     (killStreakEvent: any) => {
                       return (
@@ -2791,6 +2902,20 @@ const Logs = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className=" h-screen bg-warmscale-7 pt-3">
+        <Navbar />
+        <div className="flex items-center w-full h-[90%] justify-center">
+          <div
+            className="-mt-10 inline-block h-8 w-8 animate-spin text-tf-orange rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
+
           </div>
         </div>
       </div>
@@ -2844,9 +2969,9 @@ const Logs = () => {
           <div></div>
         )}
         {statAbriviation}
-        <div className="absolute scale-0 bottom-9 bg-warmscale-6 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+        <div className="absolute scale-0 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
           {title}
-          <div className="h-2 w-2 flex justify-center items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+          <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
         </div>
       </div>
     );
@@ -2855,9 +2980,25 @@ const Logs = () => {
 
 export default Logs;
 
-function killSpreadTitles(killSpreadSorter: (sortBy: string) => void, classPlayed:string, currentSort: string) {
-  return <div onClick={() => { killSpreadSorter(classPlayed); } } className={` ${currentSort === classPlayed && "border-b-tf-orange border-b-2"} flex justify-center  border-warmscale-5 border-l items-center cursor-pointer  py-2`}>
-    <img src={`../../../class icons/Leaderboard_class_${classPlayed}.png`} alt="" className="h-6" />
-  </div>;
+function killSpreadTitles(
+  killSpreadSorter: (sortBy: string) => void,
+  classPlayed: string,
+  currentSort: string
+) {
+  return (
+    <div
+      onClick={() => {
+        killSpreadSorter(classPlayed);
+      }}
+      className={` ${
+        currentSort === classPlayed && "border-b-tf-orange border-b-2"
+      } flex justify-center  border-warmscale-5 border-l items-center cursor-pointer  py-2`}
+    >
+      <img
+        src={`../../../class icons/Leaderboard_class_${classPlayed}.png`}
+        alt=""
+        className="h-6"
+      />
+    </div>
+  );
 }
-
