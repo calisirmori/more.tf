@@ -35,8 +35,8 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: 'http://localhost:' + 8082 + '/api/auth/steam/return',
- realm: 'http://localhost:' + 8082 + '/',
+ returnURL: 'http://localhost:' + 8081 + '/api/auth/steam/return',
+ realm: 'http://localhost:' + 8081 + '/',
  apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
  }, function (identifier, profile, done) {
   process.nextTick(function () {

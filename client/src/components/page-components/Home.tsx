@@ -3,6 +3,7 @@ import Navbar from "../shared-components/Navbar";
 
 const Home = () => {
 
+  
   return (
     <div className="bg-grayscale-8 min-h-screen pt-3 ">
       <div className=" absolute z-10 w-screen top-0 pt-3 ">
