@@ -15,6 +15,7 @@ const Profile = () => {
   const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState([]);
   const [perClassPlaytimeData, setPerClassPlaytimeData] = useState([]);
   const [formatData, setFormatData] = useState([]);
+  const [mapDisparityData, setMapDisparityData] = useState([]);
 
   useEffect(() => {
     steamInfoCallProfile();
@@ -24,6 +25,7 @@ const Profile = () => {
     peersCall();
     perClassPlaytimeCall();
     formatDisparity();
+    mapDisparity();
   }, []);
 
   async function steamInfoCallProfile() {
@@ -78,10 +80,17 @@ const Profile = () => {
 
 
   let totalMatches = 0;
+  let totalMatchLosses = 0;
+  let totalMatchWins = 0;
+  let totalMatchTies = 0;
+
   for (let index = 0; index < formatData.length; index++) {
     totalMatches += parseInt(formatData[index].w);
+    totalMatchWins += parseInt(formatData[index].w);
     totalMatches += parseInt(formatData[index].l);
+    totalMatchLosses += parseInt(formatData[index].l);
     totalMatches += parseInt(formatData[index].t);
+    totalMatchTies += parseInt(formatData[index].t);
   }
 
   async function formatDisparity() {
@@ -90,6 +99,14 @@ const Profile = () => {
       FetchResultTypes.JSON
     );
     setFormatData(response.rows);
+  }
+  
+  async function mapDisparity() {
+    const response: any = await fetch(
+      `http://localhost:8082/api/per-map-stats/${playerId}`,
+      FetchResultTypes.JSON
+    );
+    setMapDisparityData(response.rows);
   }
   
   async function perClassPlaytimeCall() {
@@ -265,8 +282,8 @@ const Profile = () => {
                 <div className="h-full bg-warmscale-8 rounded-md px-4 py-3 drop-shadow-sm">
                   <div className="flex justify-between items-center">
                     <div className="flex">
-                      <div className="text-red-600 text-xl font-semibold font-cantarell">
-                        49.8%
+                      <div className={`${totalMatchWins > totalMatchLosses ? "text-green-600" : "text-red-600"} text-xl font-semibold font-cantarell`}>
+                        {Math.round(Math.max(totalMatchWins,totalMatchLosses)/totalMatches*1000)/10}%
                       </div>
                       <div className="text-lightscale-1 text-xl ml-2 font-semibold font-cantarell">
                         Win Rate
@@ -274,12 +291,13 @@ const Profile = () => {
                     </div>
                     <div className=" text-lightscale-7 text-sm font-cantarell font-semibold">
                       {" "}
-                      <span className="text-green-500">99</span> -{" "}
-                      <span className="text-red-600">101</span>
+                      <span className="text-green-500">{totalMatchWins}</span> - 
+                      <span className="text-red-600">{totalMatchLosses}</span> - 
+                      <span className="text-stone-600">{totalMatchTies}</span>
                     </div>
                   </div>
                   <div className="bg-warmscale-7 h-2 mt-3 rounded-sm drop-shadow-sm">
-                    <div className="bg-red-600 w-1/2 h-2 rounded-sm"></div>
+                    <div className={`${totalMatchWins > totalMatchLosses ? "bg-green-600" : "bg-red-600"} h-2 rounded-sm`} style={{width: `${Math.max(totalMatchWins,totalMatchLosses)/totalMatches*100}%`}}></div>
                   </div>
                 </div>
               </div>
@@ -529,6 +547,57 @@ const Profile = () => {
               </div>
             </div>
             <div className="w-[25rem] h-screen ml-4 rounded-md drop-shadow-sm">
+              <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
+              <div className="flex justify-between">
+                  <div className="text-lg text-lightscale-1 mb-1 font-semibold">
+                    Maps
+                  </div>
+                  <div className="text-lg text-lightscale-1 font-semibold">
+                    <svg
+                      strokeWidth={5.5}
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      className=" stroke-warmscale-2 cursor-pointer h-6 -mr-1 mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                  {mapDisparityData.map((currentMap:any, index:number) =>{
+                    const mapWins = parseInt(currentMap.w);
+                    const mapLosses = parseInt(currentMap.l);
+                    const mapTies = parseInt(currentMap.t);
+                    const currentmapSum = mapWins + mapLosses + mapTies;
+                    if(index < 5){
+                      return(
+                        <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<4 && "border-b border-warmscale-7"}`}>
+                          <div className="">{currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
+                          <div className="text-right">
+                            <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
+                            <div className="text-xs flex font-semibold text-lightscale-9">
+                              <div className="text-green-500 text-opacity-70">{mapWins}</div>-
+                              <div className="text-red-500 text-opacity-70">{mapLosses}</div>-
+                              <div className="text-stone-500 text-opacity-70">{mapTies}</div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  })}
+                <div className="text-sm flex justify-center text-warmscale-3 font-semibold -mt-2">
+                  <div className="flex items-center mr-1">
+                    <svg fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                    </svg>
+                  </div>
+                  Take payload win percentegas ligthly, its not accurate
+                  </div>
+              </div>
               <div className="w-full flex items-center py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
                 <div className="w-full">
                 <div className="text-lg text-lightscale-1 flex justify-between mb-1 font-semibold">

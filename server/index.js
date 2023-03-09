@@ -116,6 +116,22 @@ app.get('/api/per-format-stats/:id', (req, response) => {
   .catch((err) => console.error(err))
 });
 
+app.get('/api/per-map-stats/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select map,
+  sum(match_length) as time,
+  COUNT(match_result) filter (where match_result='W') as W,
+  COUNT(match_result) filter (where match_result='L') as L,
+  COUNT(match_result) filter (where match_result='T') as T
+  From ((Select logid,match_result FROM players where id64=${playerId}) AS T1
+  left JOIN (SELECT match_length,logid,date,map FROM logs where date >0) AS T2
+  On t1.logid=t2.logid)
+  group by map
+  order by time desc`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
 app.get('/api/username-search/:username', (req, response) => {
   let playerUserName = req.params.username;
   pool.query(`SELECT id64, count(id64) as count FROM players WHERE name='${playerUserName}' GROUP BY id64 Order BY count DESC`)
