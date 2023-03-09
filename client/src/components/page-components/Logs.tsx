@@ -27,6 +27,7 @@ const Logs = () => {
   const [matchupPlayersBlue, setMatchupPlayersBlue] = useState<any>("none");
   const [chartFilter, setChartFilter] = useState<any>("damage");
   const [linkView, setLinkView] = useState("none");
+  const [currentDemosID, setCurrentDemosID] = useState("");
 
   const classOrder = [
     "scout",
@@ -48,16 +49,16 @@ const Logs = () => {
   }, []);
 
   useEffect(() => {
-    // document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener("click", handleClickOutside, true);
   }, []);
 
   const handleClickOutside = (e) => {
-    // if (!refOne.current.contains(e.target)) {
-    //   setLinkView("none");
-    // }
-    // if (!refTwo.current.contains(e.target)) {
-    //   setKillMapActive(false);
-    // }
+    if (tab == "scoreboard" && refOne.current.contains(e.target) !== null && !refOne.current.contains(e.target)) {
+      setLinkView("none");
+    }
+    if (tab == "performance" && refTwo.current.contains(e.target) !== null && !refTwo.current.contains(e.target)) {
+      setKillMapActive(false);
+    }
   };
 
   async function apiCall() {
@@ -216,6 +217,18 @@ const Logs = () => {
     setScoreboard(sortedArray);
   }
 
+  async function demostfLinkIdFinder(){
+    let currentPlayersArray = Object.entries(apiResponse.players);
+    let currentResponse = "";
+    for (let index = 0; index < 1; index++) {
+      currentResponse += currentPlayersArray[index][0];
+    }
+    let demostfApiResponse = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-1000}`, FetchResultTypes.JSON);
+    if(demostfApiResponse.length !== 0){
+      setCurrentDemosID(demostfApiResponse[0].id)
+    } 
+  }
+
   function killSpreadSorter(sortBy: string) {
     setKillSpreadSort(sortBy);
     let unsortedArray = killSpread;
@@ -288,8 +301,8 @@ const Logs = () => {
   let currentRound = 1;
   let currentRound2 = 1;
 
-  console.log(apiResponse.players);
   if (apiResponse.players !== undefined) {
+    demostfLinkIdFinder();
     return (
       <div className=" bg-warmscale-7 py-3 min-h-screen">
         <Navbar />
@@ -315,7 +328,7 @@ const Logs = () => {
                     id="map"
                     className=" text-lightscale-2 text-xl font-semibold font-cantarell"
                   >
-                    {apiResponse.info.map.split("_")[1]}
+                    {apiResponse.info.map.split("_")[1].charAt(0).toUpperCase() + apiResponse.info.map.split("_")[1].slice(1)}
                   </div>
                 </div>
                 <div id="match-scores" className="flex">
@@ -367,7 +380,7 @@ const Logs = () => {
                     mins
                   </div>
                 </div>
-                <div id="rank-info" className="block">
+                {/* <div id="rank-info" className="block">
                   <div
                     id="date"
                     className=" text-lightscale-6 font-medium -mb-1.5"
@@ -380,15 +393,15 @@ const Logs = () => {
                   >
                     Advanced
                   </div>
-                </div>
+                </div> */}
               </div>
               <div
                 id="other-links"
                 className="flex gap-4 justify-center items-center"
               >
-                <button className="rounded-sm hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
+                <a target="_blank" href={`https://demos.tf/${currentDemosID}`} className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-8 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell">
                   demos.tf
-                </button>
+                </a>
                 <a
                   target="_blank"
                   href={`https://www.logs.tf/${logId}`}
@@ -634,7 +647,7 @@ const Logs = () => {
                                       : "from-tf-red-dark"
                                   }  mr-6 text-ellipsis `}
                                 >
-                                  <div className="pl-4 w-full ">
+                                  <div className="pl-4 w-full h-full flex items-center justify-center ml-2">
                                     <div className="group font-semibold font-cantarell text-lightscale-1 hover:underline cursor-pointer relative">
                                       <div
                                         onClick={() => {
@@ -659,7 +672,7 @@ const Logs = () => {
                                       >
                                         <a
                                           target="_blank"
-                                          href={`https://logs.tf/3368620`}
+                                          href={`http://localhost:5173/profile/${player[0]}`}
                                           className="hover:bg-warmscale-8  px-2 py-1"
                                         >
                                           Profile
@@ -695,19 +708,7 @@ const Logs = () => {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="pl-4 flex items-center -mt-1">
-                                    <img
-                                      src="../../../medals/in.png"
-                                      className="h-3 mr-1 mt-0.5"
-                                      alt=""
-                                    />
-                                    <div className="text-xs font-cantarell text-lightscale-4">
-                                      rgl rank |
-                                    </div>
-                                    <span className="text-xs ml-1 font-cantarell text-lightscale-4">
-                                      rgl userName
-                                    </span>
-                                  </div>
+                                  
                                 </div>
                                 <div className="flex justify-center items-center border-l border-warmscale-6">
                                   {Object.entries(playerObject.classStats).map(
@@ -2102,7 +2103,7 @@ const Logs = () => {
                             >
                               {apiResponse.events.map((killEvent: any, index) => {
                                 let currentScale = 0.06;
-                                let calibrationX = 298;
+                                let calibrationX = 380;
                                 let calibrationY = 240;
                                 if (
                                   killEvent[
@@ -2862,13 +2863,13 @@ const Logs = () => {
                           {" "}
                           <span
                             className={`${
-                              apiResponse.players[chatEvent.userId].team ===
+                              apiResponse.players[chatEvent.userId] !== undefined && apiResponse.players[chatEvent.userId].team ===
                               "red"
                                 ? "text-tf-red"
-                                : "text-tf-blue"
-                            } font-bold`}
+                                : apiResponse.players[chatEvent.userId] !== undefined && apiResponse.players[chatEvent.userId].team === "blue" ? "text-tf-blue" : "text-warmscale-3"
+                            }  font-bold`}
                           >
-                            {apiResponse.players[chatEvent.userId].userName}
+                            {apiResponse.players[chatEvent.userId] !== undefined ? apiResponse.players[chatEvent.userId].userName : "Spectator"}
                           </span>{" "}
                           : {chatEvent.message}
                         </div>

@@ -128,7 +128,7 @@ const Profile = () => {
     setTeamMatesSteamInfo(currentList);
   }
 
-  const currentWeekIndex = Math.ceil(Date.now() / 1000 / 604800);
+  const currentWeekIndex = Math.floor(Date.now() / 1000 / 604800);
   const daysOfTheWeek = [
     "monday",
     "tuesday",
@@ -140,25 +140,24 @@ const Profile = () => {
   ];
   let currentListOfWeeks = [];
   for (let index = 0; index < 17; index++) {
-    currentListOfWeeks.push(currentWeekIndex - 17 + index);
+    currentListOfWeeks.push(currentWeekIndex - 15 + index);
   }
 
   function activityMaker(inputArray: any) {
     let activityObject: any = {};
 
     let dayOfTheWeekFinder: any = {
-      0: "tuesday",
-      1: "wednesday",
-      2: "thursday",
-      3: "friday",
-      4: "saturday",
-      5: "sunday",
-      6: "monday",
+      2: "tuesday",
+      3: "wednesday",
+      4: "thursday",
+      5: "friday",
+      6: "saturday",
+      0: "sunday",
+      1: "monday",
     };
-
     inputArray.map((match: any) => {
-      let weekIndex = Math.ceil(match.date / 604800);
-      let dayIndex = Math.ceil(match.date / 86400) % 7;
+      let weekIndex = (Math.ceil((match.date + 86400*2) / 604800));
+      let dayIndex = (Math.ceil((match.date + 86400*2) / 86400)) % 7;
 
       if (activityObject[weekIndex] === undefined) {
         activityObject[weekIndex] = {
@@ -175,6 +174,7 @@ const Profile = () => {
         activityObject[weekIndex][dayOfTheWeekFinder[dayIndex]]++;
       }
     });
+    console.log(activityObject);
     setActivity(activityObject);
   }
 
@@ -312,7 +312,7 @@ const Profile = () => {
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
-                      className=" stroke-warmscale-2 cursor-pointer h-6 mr-1 mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
+                      className=" stroke-warmscale-2 cursor-pointer h-6  mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
                     >
                       <path
                         strokeLinecap="round"
@@ -451,21 +451,7 @@ const Profile = () => {
                   <div className="text-lg text-lightscale-1 font-semibold">
                     Most Played Classes
                   </div>
-                  <div className="text-lg text-lightscale-1 font-semibold">
-                    <svg
-                      strokeWidth={5.5}
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      className=" stroke-warmscale-2 cursor-pointer h-6 mr-1 mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                      />
-                    </svg>
-                  </div>
+                  
                 </div>
                 <div className=" font-cantarell">
                   {perClassPlaytimeData.map(
@@ -552,30 +538,16 @@ const Profile = () => {
                   <div className="text-lg text-lightscale-1 mb-1 font-semibold">
                     Maps
                   </div>
-                  <div className="text-lg text-lightscale-1 font-semibold">
-                    <svg
-                      strokeWidth={5.5}
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      className=" stroke-warmscale-2 cursor-pointer h-6 -mr-1 mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                      />
-                    </svg>
-                  </div>
+                  
                 </div>
                   {mapDisparityData.map((currentMap:any, index:number) =>{
                     const mapWins = parseInt(currentMap.w);
                     const mapLosses = parseInt(currentMap.l);
                     const mapTies = parseInt(currentMap.t);
                     const currentmapSum = mapWins + mapLosses + mapTies;
-                    if(index < 5){
+                    if(index < 7){
                       return(
-                        <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<4 && "border-b border-warmscale-7"}`}>
+                        <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<6 && "border-b border-warmscale-7"}`}>
                           <div className="">{currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
                           <div className="text-right">
                             <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
@@ -613,7 +585,6 @@ const Profile = () => {
                   const formatLosses = parseInt(currentFormat.l);
                   const formatTies = parseInt(currentFormat.t);
                   const currentFormatSum = formatWins + formatLosses + formatTies;
-                  console.log(currentFormatSum / totalMatches*100);
                   return(
                     <div className="flex text-right w-full items-center">
                       <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
@@ -626,13 +597,13 @@ const Profile = () => {
                             <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                           </div>
                         </div>
-                        <div className="bg-red-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatLosses / totalMatches)*100}%`}}>
+                        <div className="bg-red-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full bg-opacity-70" style={{width : `${(formatLosses / totalMatches)*100}%`}}>
                           <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-red-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatLosses !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
                             {formatLosses}
                             <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                           </div>
                         </div>
-                        <div className="bg-stone-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatTies / totalMatches)*100}%`}}>
+                        <div className="bg-stone-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-r-sm bg-opacity-70" style={{width : `${(formatTies / totalMatches)*100}%`}}>
                           <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-stone-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatTies !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
                             {formatTies}
                             <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
@@ -653,7 +624,7 @@ const Profile = () => {
                   Activity
                 </div>
                 <div className="flex my-2">
-                  <div className=" text-xs font-semibold text-end text-lightscale-4 mr-2">
+                  <div className=" text-xs font-semibold text-end text-lightscale-4 mr-1.5">
                     <div>MON</div>
                     <div className="my-1">TUE</div>
                     <div>WED</div>
@@ -661,6 +632,7 @@ const Profile = () => {
                     <div>FRI</div>
                     <div className="my-1">SAT</div>
                     <div>SUN</div>
+                    
                   </div>
                   {currentListOfWeeks.map((currentWeek) => {
                     return (
@@ -668,23 +640,23 @@ const Profile = () => {
                         {activity[currentWeek] !== undefined &&
                           daysOfTheWeek.map((day, index) => {
                             const today = Math.ceil(Date.now() / 1000 / 86400);
-                            if ((currentWeek - 1) * 7 + index + 4 < today) {
+                            if ((currentWeek - 1) * 7 + index < today + 3) {
                               return (
                                 <div className="relative h-4 w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2">
                                   <div className="absolute bg-lightscale-8 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-40 z-40">
                                     {activity[currentWeek][day]} games on{" "}
                                     {new Date(
-                                      ((currentWeek - 1) * 7 + index + 5) *
+                                      ((currentWeek - 1) * 7 + index -2) *
                                         86400 *
                                         1000
                                     ).toLocaleDateString()}
                                     <div className="h-2 w-2 flex justify-center items-center bg-lightscale-8 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                                   </div>
                                   <div
-                                    className="bg-tf-orange h-4 w-4 rounded-sm"
+                                    className={`bg-tf-orange h-4 w-4 rounded-sm`}
                                     style={{
                                       opacity: `${
-                                        activity[currentWeek][day] + "0%"
+                                        Math.round(activity[currentWeek][day]*1.5) + "0%"
                                       }`,
                                     }}
                                   ></div>
@@ -695,11 +667,11 @@ const Profile = () => {
                         {activity[currentWeek] === undefined &&
                           daysOfTheWeek.map((day, index) => {
                             return (
-                              <div className="relative h-4 w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2">
-                                <div className="absolute bg-warmscale-1 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-36 z-40">
+                              <div className={`${((currentWeek - 1) * 7 + index) *86400 *1000 > Date.now() + 86400000 ? "bg-warmscale-80" : "bg-warmscale-4 group"} relative h-4 w-4  rounded-sm mb-1 mr-1 text-lightscale-2`}>
+                                <div className={` absolute bg-warmscale-1 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-36 z-40`}>
                                   0 games{" "}
                                   {new Date(
-                                    ((currentWeek - 1) * 7 + index + 5) *
+                                    ((currentWeek - 1) * 7 + index -2) *
                                       86400 *
                                       1000
                                   ).toLocaleDateString()}
@@ -717,21 +689,6 @@ const Profile = () => {
                 <div className="flex justify-between">
                   <div className="text-lg text-lightscale-1 font-semibold">
                     Teammates
-                  </div>
-                  <div className="text-lg text-lightscale-1 font-semibold">
-                    <svg
-                      strokeWidth={5.5}
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      className=" stroke-warmscale-2 cursor-pointer h-6 -mr-1 mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                      />
-                    </svg>
                   </div>
                 </div>
                 <div>
