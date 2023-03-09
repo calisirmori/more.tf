@@ -35,8 +35,8 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: 'http://localhost:' + 8081 + '/api/auth/steam/return',
- realm: 'http://localhost:' + 8081 + '/',
+ returnURL: 'http://localhost:' + 8082 + '/api/auth/steam/return',
+ realm: 'http://localhost:' + 8082 + '/',
  apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
  }, function (identifier, profile, done) {
   process.nextTick(function () {
@@ -60,7 +60,7 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}
  res.redirect('/')
 });
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
- res.redirect('/')
+  res.redirect(`http://localhost:5173/profile/${res.req.user.id}`)
 });
 
 const pool = new Pool({
