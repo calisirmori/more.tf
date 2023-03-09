@@ -306,7 +306,7 @@ const Profile = () => {
                   <div className="text-lg text-lightscale-1 font-semibold">
                     Matches
                   </div>
-                  <div className="text-lg text-lightscale-1 font-semibold">
+                  <a href={`/profile/${playerId}/matches`} className="text-lg text-lightscale-1 font-semibold">
                     <svg
                       strokeWidth={5.5}
                       viewBox="0 0 24 24"
@@ -320,7 +320,7 @@ const Profile = () => {
                         d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                       />
                     </svg>
-                  </div>
+                  </a>
                 </div>
                 <div className="mt-3">
                   {matchesPlayedInfo.map((match, index) => {
