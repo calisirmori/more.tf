@@ -90,6 +90,22 @@ app.get('/api/calendar/:id', (req, response) => {
   .catch((err) => console.error(err))
 });
 
+app.get('/api/per-class-stats/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select class,
+  sum(length) as time,
+  COUNT(win) filter (where win='W') as W,
+  COUNT(win) filter (where win='L') as L,
+  COUNT(win) filter (where win='T') as T
+  From ((Select logid,win,class FROM players where id64=${playerId}) AS T1
+  Right JOIN (SELECT length,logid,date FROM logs where date >0) AS T2
+  On t1.logid=t2.logid)
+  group by class
+  order by time desc`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
 app.get('/api/username-search/:username', (req, response) => {
   let playerUserName = req.params.username;
   pool.query(`SELECT id64, count(id64) as count FROM players WHERE name='${playerUserName}' GROUP BY id64 Order BY count DESC`)

@@ -13,6 +13,7 @@ const Profile = () => {
   const [activity, setActivity] = useState({});
   const [teamMatesList, setTeamMatesList] = useState([]);
   const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState([]);
+  const [perClassPlaytimeData, setPerClassPlaytimeData] = useState([]);
 
   useEffect(() => {
     steamInfoCallProfile();
@@ -20,6 +21,7 @@ const Profile = () => {
     rglInfoCall();
     calendar();
     peersCall();
+    perClassPlaytimeCall();
   }, []);
 
   async function steamInfoCallProfile() {
@@ -71,7 +73,16 @@ const Profile = () => {
 
     activityMaker(response.rows);
   }
+ 
+  async function perClassPlaytimeCall(){
+    const response: any = await fetch(
+      `http://localhost:8082/api/per-class-stats/${playerId}`,
+      FetchResultTypes.JSON
+    );
 
+    setPerClassPlaytimeData(response.rows);
+  }
+  
   async function teamMateSteamCalls(playerList: any){
     let currentList: any = [];
 
@@ -94,7 +105,7 @@ const Profile = () => {
   ];
   let currentListOfWeeks = [];
   for (let index = 0; index < 17; index++) {
-    currentListOfWeeks.push(currentWeekIndex - 16 + index);
+    currentListOfWeeks.push(currentWeekIndex - 17 + index);
   }
 
   function activityMaker(inputArray: any) {
@@ -410,17 +421,46 @@ const Profile = () => {
                     </svg>
                   </div>
                 </div>
+                <div className=" font-cantarell">
+                  {perClassPlaytimeData.map( (classPlayed: any, index: number) => {
+                    const topMatchesWithAnyClass = parseInt(perClassPlaytimeData[0].w) + parseInt(perClassPlaytimeData[0].t) + parseInt(perClassPlaytimeData[0].l);
+                    if(classPlayed.class !== null && index < 5){
+                      const totalGamesWithClass = parseInt(classPlayed.w) + parseInt(classPlayed.t) + parseInt(classPlayed.l);
+                      return( 
+                        <div className={`py-3 flex justify-between items-center ${index < Math.min(perClassPlaytimeData.length-1, 5) && "border-b"} border-warmscale-7`}>
+                          <img src={`../../../class icons/Leaderboard_class_${classPlayed.class}.png`} alt="" className="h-10" />
+                          <div className="ml-4 flex items-center">
+                            <div className="text-right w-6 text-lightscale-1 font-semibold mb-0.5">{totalGamesWithClass}</div>
+                            <div className="ml-2 h-2 w-48 bg-warmscale-5 rounded-sm">
+                              <div className="h-2 bg-tf-orange" style={{width: `${(totalGamesWithClass/topMatchesWithAnyClass*100)}%`}}></div>
+                            </div>
+                          </div>
+                          <div className="ml-4 flex items-center">
+                            <div className="text-right w-14 text-lightscale-1 font-semibold mb-0.5">{Math.round(Math.max(classPlayed.w ,classPlayed.l)/totalGamesWithClass*1000)/10}%</div>
+                            <div className="ml-2 h-2 w-48 bg-warmscale-5 rounded-sm">
+                              <div className={`h-2 ${classPlayed.w > classPlayed.l ? "bg-green-500" : "bg-red-500"}`} style={{width: `${(Math.max(classPlayed.w ,classPlayed.l)/totalGamesWithClass*100)}%`}}></div>
+                            </div>
+                          </div>
+                          <div className="text-right w-32 text-lightscale-1 font-semibold mb-0.5">{(classPlayed.time / 360).toFixed(1)}hrs</div>
+                        </div>
+                      )
+                    }
+                  })}
+                </div>
               </div>
             </div>
             <div className="w-[25rem] h-screen ml-4 rounded-md drop-shadow-sm">
+              <div className="w-full h-96 flex justify-center py-8 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
+                
+              </div>
               <div
                 id="activity"
-                className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md h-48 font-cantarell"
+                className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md font-cantarell"
               >
                 <div className="text-lg text-lightscale-1 mb-1 font-semibold">
                   Activity
                 </div>
-                <div className="flex ">
+                <div className="flex my-2">
                   <div className=" text-xs font-semibold text-end text-lightscale-4 mr-2">
                     <div>MON</div>
                     <div className="my-1">TUE</div>
@@ -439,14 +479,14 @@ const Profile = () => {
                             if ((currentWeek - 1) * 7 + index + 4 < today) {
                               return (
                                 <div className="relative h-4 w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2">
-                                  <div className="absolute bg-warmscale-1 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-40 z-40">
+                                  <div className="absolute bg-lightscale-8 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-40 z-40">
                                     {activity[currentWeek][day]} games on{" "}
                                     {new Date(
                                       ((currentWeek - 1) * 7 + index + 5) *
                                         86400 *
                                         1000
                                     ).toLocaleDateString()}
-                                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-1 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                                    <div className="h-2 w-2 flex justify-center items-center bg-lightscale-8 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                                   </div>
                                   <div
                                     className="bg-tf-orange h-4 w-4 rounded-sm"
