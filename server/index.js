@@ -74,13 +74,6 @@ const pool = new Pool({
   },
 })
 
-app.get('/api/players/:id', (req, response) => {
-  let playerId = req.params.id;
-  pool.query(`SELECT * FROM Players WHERE id64=${playerId}`)
-  .then((res) => response.send(res))
-  .catch((err) => console.error(err))
-});
-
 app.get('/api/calendar/:id', (req, response) => {
   let playerId = req.params.id;
   pool.query(`select date from logs
@@ -93,14 +86,31 @@ app.get('/api/calendar/:id', (req, response) => {
 app.get('/api/per-class-stats/:id', (req, response) => {
   let playerId = req.params.id;
   pool.query(`select class,
-  sum(length) as time,
-  COUNT(win) filter (where win='W') as W,
-  COUNT(win) filter (where win='L') as L,
-  COUNT(win) filter (where win='T') as T
-  From ((Select logid,win,class FROM players where id64=${playerId}) AS T1
-  Right JOIN (SELECT length,logid,date FROM logs where date >0) AS T2
+  Avg(dpm) as dpm,
+  sum(match_length) as time,
+  COUNT(match_result) filter (where match_result='W') as W,
+  COUNT(match_result) filter (where match_result='L') as L,
+  COUNT(match_result) filter (where match_result='T') as T
+  From ((Select dpm,logid,match_result,class FROM players where id64=${playerId}) AS T1
+  left JOIN (SELECT match_length,logid,date FROM logs where date >0) AS T2
   On t1.logid=t2.logid)
   group by class
+  order by time desc`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/per-format-stats/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select format,
+  sum(match_length) as time,
+  COUNT(match_result) filter (where match_result='W') as W,
+  COUNT(match_result) filter (where match_result='L') as L,
+  COUNT(match_result) filter (where match_result='T') as T
+  From ((Select logid,match_result,class FROM players where id64=${playerId}) AS T1
+  left JOIN (SELECT match_length,logid,date,format FROM logs where date >0) AS T2
+  On t1.logid=t2.logid)
+  group by format
   order by time desc`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
@@ -113,17 +123,17 @@ app.get('/api/username-search/:username', (req, response) => {
   .catch((err) => console.error(err))
 });
 
-app.get('/api/peers-search/:username', (req, response) => {
-  let playerUserName = req.params.username;
+app.get('/api/peers-search/:id', (req, response) => {
+  let playerId = req.params.id;
   
   pool.query(`select id64,Count(id64) as count,
-  COUNT(win) filter (where win='W') as W,
-  COUNT(win) filter (where win='L') as L,
-  COUNT(win) filter (where win='T') as T
-  From ((Select logid,win,team from players where id64=${playerUserName}) AS T1
-  LEFT JOIN (Select logid,id64,team from players where id64!=${playerUserName}) AS T2
+  COUNT(match_result) filter (where match_result='W') as W,
+  COUNT(match_result) filter (where match_result='L') as L,
+  COUNT(match_result) filter (where match_result='T') as T
+  From ((Select logid,match_result,team from players where id64=${playerId}) AS T1
+  LEFT JOIN (Select logid,id64,team from players where id64!=${playerId}) AS T2
   On t1.logid=t2.logid and t1.team=t2.team
-  Right JOIN (SELECT date,logid FROM logs where date >1677651256) AS T3
+  Right JOIN (SELECT date,logid FROM logs where date >0) AS T3
   On t1.logid=t3.logid)
   group by id64
   order by count desc`)
@@ -137,10 +147,11 @@ app.get('/api/match-history/:id&limit=:limit', (req, response) => {
   let playerId = req.params.id;
   let limit = req.params.limit;
 
-  pool.query(`select kill,assist,death,dpm,dtm,heals,players,map,date,length,class,title,win from logs
-  left join players on players.logid=logs.logid where id64=${playerId}
+  pool.query(`select kills,assists,deaths,dpm,dtm,heals,players,map,date,match_length,class,title,match_result,format,logs.logid from 
+  logs left join players on players.logid=logs.logid where id64=${playerId}
   order by logs.logid desc
   limit ${limit}`)
+  
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 

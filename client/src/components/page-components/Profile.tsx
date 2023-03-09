@@ -14,6 +14,7 @@ const Profile = () => {
   const [teamMatesList, setTeamMatesList] = useState([]);
   const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState([]);
   const [perClassPlaytimeData, setPerClassPlaytimeData] = useState([]);
+  const [formatData, setFormatData] = useState([]);
 
   useEffect(() => {
     steamInfoCallProfile();
@@ -22,6 +23,7 @@ const Profile = () => {
     calendar();
     peersCall();
     perClassPlaytimeCall();
+    formatDisparity();
   }, []);
 
   async function steamInfoCallProfile() {
@@ -37,7 +39,7 @@ const Profile = () => {
       `http://localhost:8082/api/steam-info/${currentPlayer}`,
       FetchResultTypes.JSON
     );
-    return(response);
+    return response;
   }
 
   async function matchesInfoCall() {
@@ -61,7 +63,7 @@ const Profile = () => {
       `http://localhost:8082/api/peers-search/${playerId}`,
       FetchResultTypes.JSON
     );
-    teamMateSteamCalls(response.rows)
+    teamMateSteamCalls(response.rows);
     setTeamMatesList(response.rows);
   }
 
@@ -73,8 +75,24 @@ const Profile = () => {
 
     activityMaker(response.rows);
   }
- 
-  async function perClassPlaytimeCall(){
+
+
+  let totalMatches = 0;
+  for (let index = 0; index < formatData.length; index++) {
+    totalMatches += parseInt(formatData[index].w);
+    totalMatches += parseInt(formatData[index].l);
+    totalMatches += parseInt(formatData[index].t);
+  }
+
+  async function formatDisparity() {
+    const response: any = await fetch(
+      `http://localhost:8082/api/per-format-stats/${playerId}`,
+      FetchResultTypes.JSON
+    );
+    setFormatData(response.rows);
+  }
+  
+  async function perClassPlaytimeCall() {
     const response: any = await fetch(
       `http://localhost:8082/api/per-class-stats/${playerId}`,
       FetchResultTypes.JSON
@@ -82,12 +100,12 @@ const Profile = () => {
 
     setPerClassPlaytimeData(response.rows);
   }
-  
-  async function teamMateSteamCalls(playerList: any){
+
+  async function teamMateSteamCalls(playerList: any) {
     let currentList: any = [];
 
     for (let index = 0; index < 5; index++) {
-      const response:any = await steamInfoCall(playerList[index].id64);
+      const response: any = await steamInfoCall(playerList[index].id64);
       currentList.push(response.response.players[0]);
     }
     setTeamMatesSteamInfo(currentList);
@@ -232,7 +250,7 @@ const Profile = () => {
                   <div className="flex justify-between items-baseline">
                     <div className="flex">
                       <div className="text-tf-orange text-xl font-semibold font-cantarell">
-                        {"64"}
+                        {totalMatches}
                       </div>
                       <div className="text-lightscale-1 text-xl ml-1 font-semibold font-cantarell">
                         Matches
@@ -305,17 +323,17 @@ const Profile = () => {
                             <div className="border-l border-warmscale-7 ml-3 py-1.5 h-full">
                               <div
                                 className={`${
-                                  match.win === "W"
+                                  match.match_result === "W"
                                     ? "bg-green-600"
-                                    : match.win === "L"
+                                    : match.match_result === "L"
                                     ? "bg-red-600"
                                     : "bg-stone-500"
                                 } w-5 h-5 flex ml-3 items-center justify-center text-xs font-bold rounded-sm`}
                               >
-                                {match.win}
+                                {match.match_result}
                               </div>
                             </div>
-                            <div className="border-l border-warmscale-7 ml-3 py-1 text-lightscale-1 font-cantarell h-full w-60 flex items-center">
+                            <div className="border-l border-warmscale-7 ml-3 py-1 text-lightscale-1 font-cantarell h-full w-72 flex items-center">
                               <div className="ml-2">
                                 {match.map
                                   .split("_")[1]
@@ -323,7 +341,7 @@ const Profile = () => {
                                   .toUpperCase() +
                                   match.map.split("_")[1].slice(1)}
                               </div>
-                              <div className="ml-1 text-sm text-lightscale-6">
+                              <div className="ml-1 text-sm text-lightscale-6 w-72 truncate">
                                 (
                                 {match.title.includes("serveme")
                                   ? match.title.slice(23)
@@ -339,20 +357,30 @@ const Profile = () => {
                                   K/D/A
                                 </div>
                                 <div className="text-xs text-right">
-                                  {match.kill} <span className="mx-0.5">/</span>
-                                  {match.assist}
+                                  {match.kills}{" "}
                                   <span className="mx-0.5">/</span>
-                                  {match.death}
+                                  {match.assists}
+                                  <span className="mx-0.5">/</span>
+                                  {match.deaths}
                                 </div>
                               </div>
-                              <div className="w-8">
+                              {match.class !== "medic" ? <div className="w-8">
                                 <div className="text-xs text-right text-lightscale-8">
                                   DPM
                                 </div>
                                 <div className="text-xs text-right">
                                   {match.dpm}
                                 </div>
+                              </div> :
+                              <div className="w-8">
+                              <div className="text-xs text-right text-lightscale-8">
+                                HLS
                               </div>
+                              <div className="text-xs text-right">
+                                {match.heals}
+                              </div>
+                            </div>}
+                              
                               <div className="w-8">
                                 <div className="text-xs text-right text-lightscale-8">
                                   DTM
@@ -375,10 +403,10 @@ const Profile = () => {
                             </div>
                             <div className="border-l text-lightscale-1 font-cantarellfont-semibold border-warmscale-7 w-24 ml-3 pl-3 h-full pr-3">
                               <div className="text-xs text-right text-lightscale-4">
-                                {Math.floor(match.length / 60)}:
-                                {match.length % 60 < 10
-                                  ? "0" + (match.length % 60)
-                                  : match.length % 60}
+                                {Math.floor(match.match_length / 60)}:
+                                {match.match_length % 60 < 10
+                                  ? "0" + (match.match_length % 60)
+                                  : match.match_length % 60}
                               </div>
                               <div className="text-xs text-right">
                                 {Math.round(Date.now() / 1000) - match.date >
@@ -390,7 +418,7 @@ const Profile = () => {
                                       (Math.round(Date.now() / 1000) -
                                         match.date) /
                                         3600
-                                    )}
+                                    ) + " hrs ago"}
                               </div>
                             </div>
                           </div>
@@ -422,36 +450,131 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className=" font-cantarell">
-                  {perClassPlaytimeData.map( (classPlayed: any, index: number) => {
-                    const topMatchesWithAnyClass = parseInt(perClassPlaytimeData[0].w) + parseInt(perClassPlaytimeData[0].t) + parseInt(perClassPlaytimeData[0].l);
-                    if(classPlayed.class !== null && index < 5){
-                      const totalGamesWithClass = parseInt(classPlayed.w) + parseInt(classPlayed.t) + parseInt(classPlayed.l);
-                      return( 
-                        <div className={`py-3 flex justify-between items-center ${index < Math.min(perClassPlaytimeData.length-1, 5) && "border-b"} border-warmscale-7`}>
-                          <img src={`../../../class icons/Leaderboard_class_${classPlayed.class}.png`} alt="" className="h-10" />
-                          <div className="ml-4 flex items-center">
-                            <div className="text-right w-6 text-lightscale-1 font-semibold mb-0.5">{totalGamesWithClass}</div>
-                            <div className="ml-2 h-2 w-48 bg-warmscale-5 rounded-sm">
-                              <div className="h-2 bg-tf-orange" style={{width: `${(totalGamesWithClass/topMatchesWithAnyClass*100)}%`}}></div>
+                  {perClassPlaytimeData.map(
+                    (classPlayed: any, index: number) => {
+                      const topMatchesWithAnyClass =
+                        parseInt(perClassPlaytimeData[0].w) +
+                        parseInt(perClassPlaytimeData[0].t) +
+                        parseInt(perClassPlaytimeData[0].l);
+                      if (classPlayed.class !== null && index < 5) {
+                        const totalGamesWithClass =
+                          parseInt(classPlayed.w) +
+                          parseInt(classPlayed.t) +
+                          parseInt(classPlayed.l);
+                        return (
+                          <div
+                            className={`py-3 flex justify-between items-center ${
+                              index <
+                                Math.min(perClassPlaytimeData.length - 1, 4) &&
+                              "border-b"
+                            } border-warmscale-7`}
+                          >
+                            <img
+                              src={`../../../class icons/Leaderboard_class_${classPlayed.class}.png`}
+                              alt=""
+                              className="h-10"
+                            />
+                            <div className="ml-4 flex items-center">
+                              <div className="text-right w-8 text-lightscale-1 font-semibold mb-0.5">
+                                {totalGamesWithClass}
+                              </div>
+                              <div className="ml-2 h-2 w-48 bg-warmscale-5 rounded-sm">
+                                <div
+                                  className="h-2 bg-tf-orange rounded-sm"
+                                  style={{
+                                    width: `${
+                                      (totalGamesWithClass /
+                                        topMatchesWithAnyClass) *
+                                      100
+                                    }%`,
+                                  }}
+                                ></div>
+                              </div>
+                            </div>
+                            <div className="ml-4 flex items-center">
+                              <div className="text-right w-14 text-lightscale-1 font-semibold mb-0.5">
+                                {Math.round(
+                                  (Math.max(classPlayed.w, classPlayed.l) /
+                                    totalGamesWithClass) *
+                                    1000
+                                ) / 10}
+                                %
+                              </div>
+                              <div className="ml-2 h-2 w-48 bg-warmscale-5 rounded-sm">
+                                <div
+                                  className={`h-2 ${
+                                    parseInt(classPlayed.w) > parseInt(classPlayed.l)
+                                      ? "bg-green-500"
+                                      : "bg-red-500"
+                                  }`}
+                                  style={{
+                                    width: `${
+                                      (Math.max(classPlayed.w, classPlayed.l) /
+                                        totalGamesWithClass) *
+                                      100
+                                    }%`,
+                                  }}
+                                ></div>
+                              </div>
+                            </div>
+                            <div className="text-right w-32 text-lightscale-1 font-semibold mb-0.5">
+                              {(classPlayed.time / 3600).toFixed(1)}hrs
                             </div>
                           </div>
-                          <div className="ml-4 flex items-center">
-                            <div className="text-right w-14 text-lightscale-1 font-semibold mb-0.5">{Math.round(Math.max(classPlayed.w ,classPlayed.l)/totalGamesWithClass*1000)/10}%</div>
-                            <div className="ml-2 h-2 w-48 bg-warmscale-5 rounded-sm">
-                              <div className={`h-2 ${classPlayed.w > classPlayed.l ? "bg-green-500" : "bg-red-500"}`} style={{width: `${(Math.max(classPlayed.w ,classPlayed.l)/totalGamesWithClass*100)}%`}}></div>
-                            </div>
-                          </div>
-                          <div className="text-right w-32 text-lightscale-1 font-semibold mb-0.5">{(classPlayed.time / 360).toFixed(1)}hrs</div>
-                        </div>
-                      )
+                        );
+                      }
                     }
-                  })}
+                  )}
                 </div>
               </div>
             </div>
             <div className="w-[25rem] h-screen ml-4 rounded-md drop-shadow-sm">
-              <div className="w-full h-96 flex justify-center py-8 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
-                
+              <div className="w-full flex items-center py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
+                <div className="w-full">
+                <div className="text-lg text-lightscale-1 flex justify-between mb-1 font-semibold">
+                  <div>Formats</div>
+                  <div className="flex gap-2 items-center text-xs text-lightscale-6">
+                    <div>HL: {formatData[0] !== undefined && Math.round((parseInt(formatData[0].w)+parseInt(formatData[0].l)+parseInt(formatData[0].t))/totalMatches*1000)/10}%</div>
+                    <div>6S: {formatData[1] !== undefined && Math.round((parseInt(formatData[1].w)+parseInt(formatData[1].l)+parseInt(formatData[1].t))/totalMatches*1000)/10}%</div>
+                    <div>OTH: {formatData[2] !== undefined && Math.round((parseInt(formatData[2].w)+parseInt(formatData[2].l)+parseInt(formatData[2].t))/totalMatches*1000)/10}%</div>
+                  </div>
+                </div>
+                <div>{formatData.map(currentFormat => {
+                  const formatWins = parseInt(currentFormat.w);
+                  const formatLosses = parseInt(currentFormat.l);
+                  const formatTies = parseInt(currentFormat.t);
+                  const currentFormatSum = formatWins + formatLosses + formatTies;
+                  console.log(currentFormatSum / totalMatches*100);
+                  return(
+                    <div className="flex text-right w-full items-center">
+                      <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
+                        {currentFormat.format === "other" ? "OTH" : currentFormat.format.toUpperCase()}
+                      </div>
+                      <div className="h-2 group bg-warmscale-7 rounded-sm w-full flex hover:h-6 my-2 hover:my-0 duration-75">
+                        <div className="bg-green-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatWins / totalMatches)*100}%`}}>
+                          <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-green-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatWins !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
+                            {formatWins}
+                            <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                          </div>
+                        </div>
+                        <div className="bg-red-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatLosses / totalMatches)*100}%`}}>
+                          <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-red-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatLosses !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
+                            {formatLosses}
+                            <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                          </div>
+                        </div>
+                        <div className="bg-stone-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatTies / totalMatches)*100}%`}}>
+                          <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-stone-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatTies !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
+                            {formatTies}
+                            <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                  })}
+                </div>
+                </div>
               </div>
               <div
                 id="activity"
@@ -543,25 +666,71 @@ const Profile = () => {
                   </div>
                 </div>
                 <div>
-                  {teamMatesList.map((teammate: any, index:number) =>{
-                    if(index < 5 && teamMatesSteamInfo[index] !== undefined){
-                      return(
-                      <div className={`flex py-2.5 items-center ${index < 4 && "border-b"} border-warmscale-7 ml-1`}> 
-                        <img src={teamMatesSteamInfo[index].avatarfull} className="h-8 rounded-md" alt="" />
-                        <a href={`/profile/${teammate.id64}`} className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate">{teamMatesSteamInfo[index].personaname}</a>
-                        <div className="flex items-center ml-4">
-                          <div className="text-lightscale-1 font-semibold text-xs">{Math.round(teammate.l/teammate.count*100)}%</div>
-                          <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
-                            <div className={`h-full ${teammate.l > teammate.w ? "bg-red-500" : "bg-green-500"} rounded-sm`} style={{width: `${Math.round(Math.max(teammate.l,teammate.w)/teammate.count*100)}%`}}></div>
+                  {teamMatesList.map((teammate: any, index: number) => {
+                    if (index < 5 && teamMatesSteamInfo[index] !== undefined) {
+                      const teammateLoses = parseInt(teammate.l);
+                      const teammateWins = parseInt(teammate.w);
+                      return (
+                        <div
+                          className={`flex py-2.5 items-center ${
+                            index < 4 && "border-b"
+                          } border-warmscale-7 ml-1`}
+                        >
+                          <img
+                            src={teamMatesSteamInfo[index].avatarfull}
+                            className="h-8 rounded-md"
+                            alt=""
+                          />
+                          <a
+                            href={`/profile/${teammate.id64}`}
+                            className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
+                          >
+                            {teamMatesSteamInfo[index].personaname}
+                          </a>
+                          <div className="flex items-center ml-4">
+                            <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
+                              {Math.round(
+                                (Math.max(teammateLoses, teammateWins) /
+                                  teammate.count) *
+                                  100
+                              )}
+                              %
+                            </div>
+                            <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
+                              <div
+                                className={`h-full ${
+                                  parseInt(teammate.l) > parseInt(teammate.w)
+                                    ? "bg-red-500"
+                                    : "bg-green-500"
+                                } rounded-sm`}
+                                style={{
+                                  width: `${Math.round(
+                                    (Math.max(teammateLoses, teammateWins) /
+                                      teammate.count) *
+                                      100
+                                  )}%`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                          <div className="flex items-center ml-5">
+                            <div className="text-lightscale-1 font-semibold text-xs">
+                              {teammate.count}
+                            </div>
+                            <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
+                              <div
+                                className={`h-full bg-tf-orange rounded-sm`}
+                                style={{
+                                  width: `${Math.round(
+                                    (teammate.count / teamMatesList[0].count) *
+                                      100
+                                  )}%`,
+                                }}
+                              ></div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-center ml-5">
-                          <div className="text-lightscale-1 font-semibold text-xs">{teammate.count}</div>
-                          <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
-                            <div className={`h-full bg-tf-orange rounded-sm`} style={{width: `${Math.round(teammate.count/teamMatesList[0].count*100)}%`}}></div>
-                          </div>
-                        </div>
-                      </div>)
+                      );
                     }
                   })}
                 </div>
