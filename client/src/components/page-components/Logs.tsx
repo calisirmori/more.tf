@@ -79,7 +79,7 @@ const Logs = () => {
     for (let classIndex = 0; classIndex < classOrder.length; classIndex++) {
       Object.entries(
         apiResponse.players[currentPerformanceFocus].damageDivision.damageTo
-      ).map((player) => {
+      ).map((player, index) => {
         if (apiResponse.players[player[0]].class === classOrder[classIndex])
           sortedArray.push({
             [player[0]]: {
@@ -287,6 +287,8 @@ const Logs = () => {
   let currentScoreboardIndex = 0;
   let currentRound = 1;
   let currentRound2 = 1;
+
+  console.log(apiResponse.players);
   if (apiResponse.players !== undefined) {
     return (
       <div className=" bg-warmscale-7 py-3 min-h-screen">
@@ -485,9 +487,10 @@ const Logs = () => {
               <div id="scoreboard" className="p-2 rounded-md m-4">
                 <div className=" h-1 flex bg-warmscale-4 mt-8 mb-10 mx-2 justify-between">
                   {apiResponse.rounds.map(
-                    (round: { roundWinner: string; roundDuration: number }) => {
+                    (round: { roundWinner: string; roundDuration: number } , index) => {
                       return (
                         <div
+                        
                           className={` ${
                             round.roundWinner === "blue"
                               ? "bg-tf-blue-dark"
@@ -603,295 +606,298 @@ const Logs = () => {
                       </div>
                     </div>
                     {apiResponse !== undefined &&
-                      scoreboard.map((player: Array<any>) => {
+                      scoreboard.map((player: Array<any>, index) => {
                         const playerObject: {
                           team: string;
                           userName: string;
                           class: string;
                           resup: { ammo: number; medkit: number };
                         } = player[1];
-                        return (
-                          <div id="player-stat-card">
-                            <div
-                              className={`grid h-10 border-b border-warmscale-8 ${
-                                currentScoreboardIndex++ % 2 === 1
-                                  ? "bg-warmscale-8"
-                                  : "bg-warmscale-85"
-                              } ${
-                                scoreboardCollapsed
-                                  ? "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px]"
-                                  : "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px,_repeat(5,40px)]"
-                              }`}
-                            >
+                        if(playerObject.damageTaken !== 0){
+                          return (
+                            <div id="player-stat-card" >
                               <div
-                                className={`block bg-gradient-to-r ${
-                                  playerObject.team === "blue"
-                                    ? "from-tf-blue-dark"
-                                    : "from-tf-red-dark"
-                                }  mr-6 text-ellipsis `}
+                                className={`grid h-10 border-b border-warmscale-8 ${
+                                  currentScoreboardIndex++ % 2 === 1
+                                    ? "bg-warmscale-8"
+                                    : "bg-warmscale-85"
+                                } ${
+                                  scoreboardCollapsed
+                                    ? "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px]"
+                                    : "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px,_repeat(5,40px)]"
+                                }`}
                               >
-                                <div className="pl-4 w-full ">
-                                  <div className="group font-semibold font-cantarell text-lightscale-1 hover:underline cursor-pointer relative">
-                                    <div
-                                      onClick={() => {
-                                        setLinkView(
+                                <div
+                                  className={`block bg-gradient-to-r ${
+                                    playerObject.team === "blue"
+                                      ? "from-tf-blue-dark"
+                                      : "from-tf-red-dark"
+                                  }  mr-6 text-ellipsis `}
+                                >
+                                  <div className="pl-4 w-full ">
+                                    <div className="group font-semibold font-cantarell text-lightscale-1 hover:underline cursor-pointer relative">
+                                      <div
+                                        onClick={() => {
+                                          setLinkView(
+                                            linkView === player[0]
+                                              ? "none"
+                                              : player[0]
+                                          );
+                                        }}
+                                        className="truncate w-60"
+                                      >
+                                        {" "}
+                                        {playerObject.userName}
+                                      </div>
+                                      <div
+                                        ref={refOne}
+                                        className={`${
                                           linkView === player[0]
-                                            ? "none"
-                                            : player[0]
-                                        );
-                                      }}
-                                      className="truncate w-60"
-                                    >
-                                      {" "}
-                                      {playerObject.userName}
-                                    </div>
-                                    <div
-                                      ref={refOne}
-                                      className={`${
-                                        linkView === player[0]
-                                          ? "scale-100"
-                                          : "scale-0"
-                                      } top-6 w-20  z-50 bg-warmscale-5 border border-warmscale-6 grid grid-rows-5 rounded-sm absolute`}
-                                    >
-                                      <a
-                                        target="_blank"
-                                        href={`https://logs.tf/3368620`}
-                                        className="hover:bg-warmscale-8  px-2 py-1"
+                                            ? "scale-100"
+                                            : "scale-0"
+                                        } top-6 w-20  z-50 bg-warmscale-5 border border-warmscale-6 grid grid-rows-5 rounded-sm absolute`}
                                       >
-                                        Profile
-                                      </a>
-                                      <a
-                                        target="_blank"
-                                        href={`https://steamcommunity.com/profiles/${player[0]}`}
-                                        className="hover:bg-warmscale-8 px-2 py-1"
-                                      >
-                                        Steam
-                                      </a>
-                                      <a
-                                        target="_blank"
-                                        href={`https://etf2l.org/search/${player[0]}/`}
-                                        className="hover:bg-warmscale-8 px-2 py-1"
-                                      >
-                                        ETF2L
-                                      </a>
-                                      <a
-                                        target="_blank"
-                                        href={`https://www.ugcleague.com/players_page.cfm?player_id=${player[0]}`}
-                                        className="hover:bg-warmscale-8 px-2 py-1"
-                                      >
-                                        UGC
-                                      </a>
-                                      <a
-                                        target="_blank"
-                                        href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player[0]}&r=24`}
-                                        className="hover:bg-warmscale-8 px-2 py-1"
-                                      >
-                                        RGL
-                                      </a>
+                                        <a
+                                          target="_blank"
+                                          href={`https://logs.tf/3368620`}
+                                          className="hover:bg-warmscale-8  px-2 py-1"
+                                        >
+                                          Profile
+                                        </a>
+                                        <a
+                                          target="_blank"
+                                          href={`https://steamcommunity.com/profiles/${player[0]}`}
+                                          className="hover:bg-warmscale-8 px-2 py-1"
+                                        >
+                                          Steam
+                                        </a>
+                                        <a
+                                          target="_blank"
+                                          href={`https://etf2l.org/search/${player[0]}/`}
+                                          className="hover:bg-warmscale-8 px-2 py-1"
+                                        >
+                                          ETF2L
+                                        </a>
+                                        <a
+                                          target="_blank"
+                                          href={`https://www.ugcleague.com/players_page.cfm?player_id=${player[0]}`}
+                                          className="hover:bg-warmscale-8 px-2 py-1"
+                                        >
+                                          UGC
+                                        </a>
+                                        <a
+                                          target="_blank"
+                                          href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player[0]}&r=24`}
+                                          className="hover:bg-warmscale-8 px-2 py-1"
+                                        >
+                                          RGL
+                                        </a>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                                <div className="pl-4 flex items-center -mt-1">
-                                  <img
-                                    src="../../../medals/in.png"
-                                    className="h-3 mr-1 mt-0.5"
-                                    alt=""
-                                  />
-                                  <div className="text-xs font-cantarell text-lightscale-4">
-                                    rgl rank |
+                                  <div className="pl-4 flex items-center -mt-1">
+                                    <img
+                                      src="../../../medals/in.png"
+                                      className="h-3 mr-1 mt-0.5"
+                                      alt=""
+                                    />
+                                    <div className="text-xs font-cantarell text-lightscale-4">
+                                      rgl rank |
+                                    </div>
+                                    <span className="text-xs ml-1 font-cantarell text-lightscale-4">
+                                      rgl userName
+                                    </span>
                                   </div>
-                                  <span className="text-xs ml-1 font-cantarell text-lightscale-4">
-                                    rgl userName
-                                  </span>
                                 </div>
-                              </div>
-                              <div className="flex justify-center items-center border-l border-warmscale-6">
-                                {Object.entries(playerObject.classStats).map(
-                                  (classPlayed, index) => {
-                                    if (
-                                      classPlayed[0] !== "changedClass" &&
-                                      (classPlayed[1].time /
-                                        apiResponse.info.matchLength) *
-                                        100 >
-                                        30
-                                    ) {
-                                      return (
-                                        <div className="group relative font-cantarell text-lightscale-2 ">
-                                          <div className="scale-0 group-hover:scale-100 w-fit bottom-8 absolute rounded-sm left-1/2 transform -translate-x-1/2 select-none bg-warmscale-5  border-1 drop-shadow-lg border-warmscale-8">
-                                            <div className="w-full py-1 text-lg bg-warmscale-7 border-b border-warmscale-7 rounded-t-sm text-lightscale-2 font-semibold pl-4">
-                                              {classPlayed[0]}
-                                            </div>
-                                            <div className="bg-warmscale-5 flex justify-center w-full">
-                                              <div className="gap-x-0.5 m-2 grid grid-cols-[70px,_50px,_50px,_50px,_80px] bg-warmscale-3 text-center">
-                                                <div className="bg-warmscale-5 font-semibold">
-                                                  Time
-                                                </div>
-                                                <div className="bg-warmscale-5 font-semibold">
-                                                  K
-                                                </div>
-                                                <div className="bg-warmscale-5 font-semibold">
-                                                  A
-                                                </div>
-                                                <div className="bg-warmscale-5 font-semibold">
-                                                  D
-                                                </div>
-                                                <div className="bg-warmscale-5 font-semibold">
-                                                  DMG
-                                                </div>
-                                                <div className="bg-warmscale-5">
-                                                  {Math.floor(
-                                                    classPlayed[1].time / 60
-                                                  )}
-                                                  :
-                                                  {classPlayed[1].time % 60 < 10
-                                                    ? "0" +
-                                                      (classPlayed[1].time % 60)
-                                                    : classPlayed[1].time % 60}
-                                                </div>
-                                                <div className="bg-warmscale-5">
-                                                  {classPlayed[1].kills}
-                                                </div>
-                                                <div className="bg-warmscale-5">
-                                                  {classPlayed[1].assists}
-                                                </div>
-                                                <div className="bg-warmscale-5">
-                                                  {classPlayed[1].deaths}
-                                                </div>
-                                                <div className="bg-warmscale-5">
-                                                  {classPlayed[1].damage}
-                                                </div>
+                                <div className="flex justify-center items-center border-l border-warmscale-6">
+                                  {Object.entries(playerObject.classStats).map(
+                                    (classPlayed, index) => {
+                                      if (
+                                        classPlayed[0] !== "changedClass" &&
+                                        (classPlayed[1].time /
+                                          apiResponse.info.matchLength) *
+                                          100 >
+                                          30
+                                      ) {
+                                        return (
+                                          <div className="group relative font-cantarell text-lightscale-2 " >
+                                            <div className="scale-0 group-hover:scale-100 w-fit bottom-8 absolute rounded-sm left-1/2 transform -translate-x-1/2 select-none bg-warmscale-5  border-1 drop-shadow-lg border-warmscale-8">
+                                              <div className="w-full py-1 text-lg bg-warmscale-7 border-b border-warmscale-7 rounded-t-sm text-lightscale-2 font-semibold pl-4">
+                                                {classPlayed[0]}
                                               </div>
-                                            </div>
-                                            <div className="bg-warmscale-7  justify-around w-full  border-t border-warmscale-7 p-2">
-                                              <div className="flex  font-semibold">
-                                                <div className="w-48 pl-3 py-1">
-                                                  WEAPON
-                                                </div>
-                                                <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">
-                                                  K
-                                                </div>
-                                                <div className="border-l-2 py-1 border-warmscale-4 text-center w-28">
-                                                  DMG
-                                                </div>
-                                                <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">
-                                                  ACC
-                                                </div>
-                                              </div>
-                                              {Object.entries(
-                                                classPlayed[1].weapons
-                                              ).map((weapon, index) => {
-                                                return (
-                                                  <div
-                                                    className={`flex ${
-                                                      index % 2 === 0
-                                                        ? "bg-warmscale-8"
-                                                        : "bg-warmscale-7"
-                                                    }`}
-                                                  >
-                                                    <div className="w-48 pl-3 py-1">
-                                                      {weaponsList[
-                                                        weapon[0]
-                                                      ] !== undefined
-                                                        ? weaponsList[weapon[0]]
-                                                            .name
-                                                        : weapon[0]}
-                                                    </div>
-                                                    <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">
-                                                      {weapon[1].kills}
-                                                    </div>
-                                                    <div className="border-l-2 py-1 border-warmscale-4 text-center w-28 flex items-center justify-center">
-                                                      {weapon[1].damage !==
-                                                      undefined
-                                                        ? weapon[1].damage
-                                                        : "-"}{" "}
-                                                      <span className="text-xs text-lightscale-6 ml-0.5">
-                                                        {" "}
-                                                        {weapon[1].damage !==
-                                                          undefined &&
-                                                          "(" +
-                                                            Math.round(
-                                                              (weapon[1]
-                                                                .damage /
-                                                                playerObject.damage) *
-                                                                100
-                                                            ) +
-                                                            "%)"}{" "}
-                                                      </span>{" "}
-                                                    </div>
-                                                    <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">
-                                                      {weapon[1].shotsFired !==
-                                                        0 &&
-                                                      weapon[1].shotsFired !==
-                                                        undefined
-                                                        ? Math.round(
-                                                            (weapon[1]
-                                                              .shotsHit /
-                                                              weapon[1]
-                                                                .shotsFired) *
-                                                              100
-                                                          ) + "%"
-                                                        : "-"}
-                                                    </div>
+                                              <div className="bg-warmscale-5 flex justify-center w-full">
+                                                <div className="gap-x-0.5 m-2 grid grid-cols-[70px,_50px,_50px,_50px,_80px] bg-warmscale-3 text-center">
+                                                  <div className="bg-warmscale-5 font-semibold">
+                                                    Time
                                                   </div>
-                                                );
-                                              })}
+                                                  <div className="bg-warmscale-5 font-semibold">
+                                                    K
+                                                  </div>
+                                                  <div className="bg-warmscale-5 font-semibold">
+                                                    A
+                                                  </div>
+                                                  <div className="bg-warmscale-5 font-semibold">
+                                                    D
+                                                  </div>
+                                                  <div className="bg-warmscale-5 font-semibold">
+                                                    DMG
+                                                  </div>
+                                                  <div className="bg-warmscale-5">
+                                                    {Math.floor(
+                                                      classPlayed[1].time / 60
+                                                    )}
+                                                    :
+                                                    {classPlayed[1].time % 60 < 10
+                                                      ? "0" +
+                                                        (classPlayed[1].time % 60)
+                                                      : classPlayed[1].time % 60}
+                                                  </div>
+                                                  <div className="bg-warmscale-5">
+                                                    {classPlayed[1].kills}
+                                                  </div>
+                                                  <div className="bg-warmscale-5">
+                                                    {classPlayed[1].assists}
+                                                  </div>
+                                                  <div className="bg-warmscale-5">
+                                                    {classPlayed[1].deaths}
+                                                  </div>
+                                                  <div className="bg-warmscale-5">
+                                                    {classPlayed[1].damage}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="bg-warmscale-7  justify-around w-full  border-t border-warmscale-7 p-2">
+                                                <div className="flex  font-semibold">
+                                                  <div className="w-48 pl-3 py-1">
+                                                    WEAPON
+                                                  </div>
+                                                  <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">
+                                                    K
+                                                  </div>
+                                                  <div className="border-l-2 py-1 border-warmscale-4 text-center w-28">
+                                                    DMG
+                                                  </div>
+                                                  <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">
+                                                    ACC
+                                                  </div>
+                                                </div>
+                                                {Object.entries(
+                                                  classPlayed[1].weapons
+                                                ).map((weapon, index) => {
+                                                  return (
+                                                    <div
+                                                      
+                                                      className={`flex ${
+                                                        index % 2 === 0
+                                                          ? "bg-warmscale-8"
+                                                          : "bg-warmscale-7"
+                                                      }`}
+                                                    >
+                                                      <div className="w-48 pl-3 py-1">
+                                                        {weaponsList[
+                                                          weapon[0]
+                                                        ] !== undefined
+                                                          ? weaponsList[weapon[0]]
+                                                              .name
+                                                          : weapon[0]}
+                                                      </div>
+                                                      <div className="border-l-2 py-1 border-warmscale-4 text-center w-12">
+                                                        {weapon[1].kills}
+                                                      </div>
+                                                      <div className="border-l-2 py-1 border-warmscale-4 text-center w-28 flex items-center justify-center">
+                                                        {weapon[1].damage !==
+                                                        undefined
+                                                          ? weapon[1].damage
+                                                          : "-"}{" "}
+                                                        <span className="text-xs text-lightscale-6 ml-0.5">
+                                                          {" "}
+                                                          {weapon[1].damage !==
+                                                            undefined &&
+                                                            "(" +
+                                                              Math.round(
+                                                                (weapon[1]
+                                                                  .damage /
+                                                                  playerObject.damage) *
+                                                                  100
+                                                              ) +
+                                                              "%)"}{" "}
+                                                        </span>{" "}
+                                                      </div>
+                                                      <div className="border-l-2 py-1 border-warmscale-4 text-center w-16">
+                                                        {weapon[1].shotsFired !==
+                                                          0 &&
+                                                        weapon[1].shotsFired !==
+                                                          undefined
+                                                          ? Math.round(
+                                                              (weapon[1]
+                                                                .shotsHit /
+                                                                weapon[1]
+                                                                  .shotsFired) *
+                                                                100
+                                                            ) + "%"
+                                                          : "-"}
+                                                      </div>
+                                                    </div>
+                                                  );
+                                                })}
+                                              </div>
+                                              <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                                             </div>
-                                            <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                                            <img
+                                              src={`../../../class icons/Leaderboard_class_${classPlayed[0]}.png`}
+                                              className="h-6 "
+                                              alt=""
+                                              style={{
+                                                opacity: `${Math.floor(
+                                                  (classPlayed[1].time /
+                                                    apiResponse.info
+                                                      .matchLength) *
+                                                    200
+                                                )}%`,
+                                              }}
+                                            />
                                           </div>
-                                          <img
-                                            src={`../../../class icons/Leaderboard_class_${classPlayed[0]}.png`}
-                                            className="h-6 "
-                                            alt=""
-                                            style={{
-                                              opacity: `${Math.floor(
-                                                (classPlayed[1].time /
-                                                  apiResponse.info
-                                                    .matchLength) *
-                                                  200
-                                              )}%`,
-                                            }}
-                                          />
-                                        </div>
-                                      );
+                                        );
+                                      }
                                     }
-                                  }
+                                  )}
+                                </div>
+                                {stat("combatScore", 1)}
+                                {stat("kills")}
+                                {stat("assists")}
+                                {stat("deaths")}
+                                {stat("damage")}
+                                {stat("damagePerMinute")}
+                                {stat("killAssistPerDeath", 1)}
+                                {stat("killsPerDeath", 1)}
+                                {stat("damageTaken")}
+                                {stat("damageTakenPerMinute")}
+                                <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
+                                  {Math.floor(playerObject.deathScreenTime / 60)}:
+                                  {playerObject.deathScreenTime % 60 < 10
+                                    ? "0" + (playerObject.deathScreenTime % 60)
+                                    : playerObject.deathScreenTime % 60}
+                                </div>
+                                {scoreboardCollapsed === false && (
+                                  <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
+                                    {playerObject.resup.medkit}
+                                  </div>
+                                )}
+                                {scoreboardCollapsed === false &&
+                                  stat("backstabs")}
+                                {scoreboardCollapsed === false &&
+                                  stat("headshots")}
+                                {scoreboardCollapsed === false &&
+                                  stat("airshots")}
+                                {scoreboardCollapsed === false && (
+                                  <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
+                                    {playerObject.pointCaps}
+                                  </div>
                                 )}
                               </div>
-                              {stat("combatScore", 1)}
-                              {stat("kills")}
-                              {stat("assists")}
-                              {stat("deaths")}
-                              {stat("damage")}
-                              {stat("damagePerMinute")}
-                              {stat("killAssistPerDeath", 1)}
-                              {stat("killsPerDeath", 1)}
-                              {stat("damageTaken")}
-                              {stat("damageTakenPerMinute")}
-                              <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
-                                {Math.floor(playerObject.deathScreenTime / 60)}:
-                                {playerObject.deathScreenTime % 60 < 10
-                                  ? "0" + (playerObject.deathScreenTime % 60)
-                                  : playerObject.deathScreenTime % 60}
-                              </div>
-                              {scoreboardCollapsed === false && (
-                                <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
-                                  {playerObject.resup.medkit}
-                                </div>
-                              )}
-                              {scoreboardCollapsed === false &&
-                                stat("backstabs")}
-                              {scoreboardCollapsed === false &&
-                                stat("headshots")}
-                              {scoreboardCollapsed === false &&
-                                stat("airshots")}
-                              {scoreboardCollapsed === false && (
-                                <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
-                                  {playerObject.pointCaps}
-                                </div>
-                              )}
                             </div>
-                          </div>
-                        );
+                          );
+                        }
                         function stat(
                           statInput: string,
                           decimalPlaces: number = 0
@@ -903,7 +909,7 @@ const Logs = () => {
                                 "bg-lightscale-4 bg-opacity-5"
                               } justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6`}
                             >
-                              {playerObject[statInput].toFixed(decimalPlaces)}
+                              {playerObject[statInput] === null ? 0 : playerObject[statInput].toFixed(decimalPlaces)}
                             </div>
                           );
                         }
@@ -973,9 +979,10 @@ const Logs = () => {
                         blue: { score: string; kills: number; damage: number };
                         red: { score: string; kills: number; damage: number };
                       };
-                    }) => {
+                    } , index) => {
                       return (
                         <div
+                          
                           className={`${
                             round.roundWinner === "blue"
                               ? "bg-tf-blue-dark border-tf-blue-dark2"
@@ -1008,10 +1015,11 @@ const Logs = () => {
                   id="medic-heals-wrapper"
                   className="flex justify-center gap-4 mb-4"
                 >
-                  {Object.entries(apiResponse.players).map((player: any) => {
+                  {Object.entries(apiResponse.players).map((player: any, index) => {
                     if (player[1].healsPerMinute > 150) {
                       return (
                         <div
+                          
                           id="medic-stats"
                           className="font-cantarell text-lightscale-1 bg-warmscale-82 p-2 rounded-md w-[26rem]"
                         >
@@ -1046,9 +1054,10 @@ const Logs = () => {
                             <div className="flex">
                               {Object.entries(
                                 player[1].medicStats.uberTypes
-                              ).map((uberGun) => {
+                              ).map((uberGun, index) => {
                                 return (
                                   <div
+                                    
                                     id="stat"
                                     className="flex ml-4 text-lightscale-4 font-light text-sm -mt-1.5"
                                   >
@@ -1125,9 +1134,10 @@ const Logs = () => {
                             </div>
                             {Object.entries(
                               apiResponse.healSpread[player[0]]
-                            ).map((healedPlayer: any) => {
+                            ).map((healedPlayer: any ,index) => {
                               return (
                                 <div
+                                  
                                   id="healed-player"
                                   className="grid grid-cols-[1fr,_50px,_90px,_50px] mx-2 -mr-1"
                                 >
@@ -1228,6 +1238,7 @@ const Logs = () => {
                   {killSpread.map((killer, index) => {
                     return (
                       <div
+                        
                         className={`grid items-center grid-cols-[70px,_260px,_repeat(11,60px)] font-cantarell text-lightscale-1 ${
                           index % 2 === 1 && "bg-warmscale-82"
                         }`}
@@ -1253,7 +1264,7 @@ const Logs = () => {
                             className="h-6"
                           />
                         </div>
-                        {classOrder.map((currentClass) => {
+                        {classOrder.map((currentClass, index) => {
                           let currentArray = Object.entries(killer[1]);
                           let classFound = false;
                           for (
@@ -1269,7 +1280,7 @@ const Logs = () => {
                             ) {
                               classFound = true;
                               return (
-                                <div className="text-center border-l border-warmscale-5 py-1.5 font-semibold font-cantarell">
+                                <div  className="text-center border-l border-warmscale-5 py-1.5 font-semibold font-cantarell">
                                   {currentArray[currentVictim][1]}
                                 </div>
                               );
@@ -1277,7 +1288,7 @@ const Logs = () => {
                           }
                           if (classFound === false) {
                             return (
-                              <div className="text-center border-l border-warmscale-5 py-1.5 text-warmscale-3 font-thin">
+                              <div  className="text-center border-l border-warmscale-5 py-1.5 text-warmscale-3 font-thin">
                                 0
                               </div>
                             );
@@ -1303,15 +1314,15 @@ const Logs = () => {
                 className="h-10 flex justify-center items-center my-6"
               >
                 <div id="red-team-icons" className="flex">
-                  {classOrder.map((currentClass: any) => {
+                  {classOrder.map((currentClass: any , index) => {
                     return Object.entries(apiResponse.players).map(
-                      (player: any) => {
+                      (player: any, index) => {
                         if (
                           player[1].team === "red" &&
                           player[1].class === currentClass
                         ) {
                           return (
-                            <div className="group relative">
+                            <div className="group relative" >
                               <div className="absolute scale-0 text-lightscale-2 font-cantarell left-1/2 transform bottom-16 -translate-x-1/2 truncate font-semibold p-1 px-2 bg-warmscale-9 rounded-md bg-opacity-70 group-hover:scale-100">
                                 {player[1].userName}
                               </div>
@@ -1341,7 +1352,7 @@ const Logs = () => {
                   VS
                 </div>
                 <div id="blue-team-icons" className="flex">
-                  {classOrder.map((currentClass: any) => {
+                  {classOrder.map((currentClass: any, index) => {
                     return Object.entries(apiResponse.players).map(
                       (player: any) => {
                         if (
@@ -1349,7 +1360,7 @@ const Logs = () => {
                           player[1].class === currentClass
                         ) {
                           return (
-                            <div className="group relative">
+                            <div className="group relative" >
                               <div className="absolute scale-0 text-lightscale-2 font-cantarell left-1/2 transform bottom-16 -translate-x-1/2 truncate font-semibold p-1 px-2 bg-warmscale-9 rounded-md bg-opacity-70 group-hover:scale-100">
                                 {player[1].userName}
                               </div>
@@ -1492,7 +1503,7 @@ const Logs = () => {
                               Object.entries(
                                 apiResponse.players[currentPerformanceFocus]
                                   .damageDivision.damageTo
-                              ).map((player: Array<any>) => {
+                              ).map((player: Array<any>, index) => {
                                 let currentMax = Math.max(
                                   Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
@@ -1510,7 +1521,7 @@ const Logs = () => {
                                     100
                                 );
                                 return (
-                                  <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
+                                  <div  className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
                                     <div className="relative group">
                                       <div className="absolute right-0 w-full">
                                         <div className="flex justify-end items-center gap-1">
@@ -1631,7 +1642,7 @@ const Logs = () => {
                               Object.entries(
                                 apiResponse.players[currentPerformanceFocus]
                                   .damageDivision.damageFrom
-                              ).map((player: any) => {
+                              ).map((player: any, index) => {
                                 let currentMax = Math.max(
                                   Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
@@ -1649,7 +1660,7 @@ const Logs = () => {
                                     100
                                 );
                                 return (
-                                  <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
+                                  <div  className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
                                     <div className="relative group">
                                       <div className="absolute right-0 w-full">
                                         <div className="flex justify-end items-center gap-1">
@@ -1793,7 +1804,7 @@ const Logs = () => {
                                 );
                               })}
                             {performanceChartSort === "class" &&
-                              damageDivisionSortByClass().map((player: any) => {
+                              damageDivisionSortByClass().map((player: any , index) => {
                                 let currentPlayerArray: Array<any> =
                                   Object.entries(player);
                                 let currentMax = Math.max(
@@ -1816,7 +1827,7 @@ const Logs = () => {
                                 );
 
                                 return (
-                                  <div className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
+                                  <div  className="grid grid-cols-[1fr,_30px,_1fr] gap-2 text-lightscale-1 font-semibold font-cantarell">
                                     <div className="relative group">
                                       <div className="absolute right-0 w-full">
                                         <div className="flex justify-end items-center gap-1">
@@ -1978,7 +1989,7 @@ const Logs = () => {
                             <option value="none">Filtered player (none)</option>
                             {classOrder.map((currentClass) => {
                               return Object.entries(apiResponse.players).map(
-                                (player: any) => {
+                                (player: any, index) => {
                                   if (
                                     player[1].team !==
                                       apiResponse.players[
@@ -1987,7 +1998,7 @@ const Logs = () => {
                                     player[1].class === currentClass
                                   ) {
                                     return (
-                                      <option value={player[0]}>
+                                      <option  value={player[0]}>
                                         {player[1].class} ({player[1].userName})
                                       </option>
                                     );
@@ -2089,7 +2100,7 @@ const Logs = () => {
                               aria-hidden="true"
                               className="absolute top-0 left-0 w-full h-full"
                             >
-                              {apiResponse.events.map((killEvent: any) => {
+                              {apiResponse.events.map((killEvent: any, index) => {
                                 let currentScale = 0.06;
                                 let calibrationX = 298;
                                 let calibrationY = 240;
@@ -2106,6 +2117,7 @@ const Logs = () => {
                                 ) {
                                   return (
                                     <svg
+                                      
                                       onMouseEnter={() => {
                                         setFocusedKillEvent(killEvent);
                                       }}
@@ -2115,6 +2127,7 @@ const Logs = () => {
                                       className="group"
                                     >
                                       <path
+                                        
                                         className="group-hover:stroke-white absolute stroke-yellow-500 cursor-pointer  group-hover:z-50 -z-50"
                                         strokeWidth="2"
                                         strokeLinecap="round"
@@ -2142,6 +2155,7 @@ const Logs = () => {
                                         }`}
                                       />
                                       <circle
+                                        
                                         id="killer-position"
                                         cx={
                                           killEvent.killer.position.x *
@@ -2169,6 +2183,7 @@ const Logs = () => {
                                         } stroke-white group-hover:stroke-2 cursor-pointer  group-hover:z-50 -z-50`}
                                       />
                                       <rect
+                                        
                                         x={
                                           killEvent.victim.position.x *
                                             currentScale +
@@ -2269,7 +2284,7 @@ const Logs = () => {
                     value={matchupPlayersRed}
                   >
                     <option value="none">Filtered player (none)</option>
-                    {classOrder.map((currentClass: any) => {
+                    {classOrder.map((currentClass: any, index) => {
                       return Object.entries(apiResponse.players).map(
                         (player: any) => {
                           if (
@@ -2277,7 +2292,7 @@ const Logs = () => {
                             player[1].class === currentClass
                           ) {
                             return (
-                              <option value={player[0]}>
+                              <option  value={player[0]}>
                                 {player[1].class} ({player[1].userName})
                               </option>
                             );

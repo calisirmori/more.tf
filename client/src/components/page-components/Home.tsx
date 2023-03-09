@@ -103,7 +103,7 @@ const Home = () => {
                           {searchSteamData.map((currentSearch, index) => {
                             console.log(currentSearch)
                             return(
-                              <a href={`profile/${currentSearch.steamid}`} className="flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center border-b border-warmscale-4">
+                              <a href={`profile/${currentSearch.steamid}`} key={index} className="flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center border-b border-warmscale-4">
                                 <div className="flex items-center">
                                   <img src={currentSearch.avatar} className="h-6" alt="" />
                                   <div className="ml-2">{currentSearch.personaname}</div>

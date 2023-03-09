@@ -19,7 +19,7 @@ function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder, lastDeath
         disconnectEvent(unparsedEvent, finalObject, playerIDFinder)
     } else if (unparsedEvent.includes('joined team')) {
         let playerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-        finalObject.players[playerIDFinder[playerId3]].team = unparsedEvent.includes('Red') ? "red" : "blue";
+        finalObject.players[playerIDFinder[playerId3]]!== undefined && (finalObject.players[playerIDFinder[playerId3]].team = unparsedEvent.includes('joined team "Red"') ? "red" : unparsedEvent.includes('joined team "Spectator"') ? "spectator" : "blue");
     } else if (!unparsedEvent.includes('feign_death') 
     && !unparsedEvent.includes('position_report')
     && !unparsedEvent.includes('entered') && finalObject.info.gameIsActive) {
@@ -28,7 +28,7 @@ function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder, lastDeath
 
 function disconnectEvent(unparsedEvent, finalObject, playerIDFinder){
     let playerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    finalObject.players[playerIDFinder[playerId3]].leftGame = eventDateToSeconds(unparsedEvent);
+    finalObject.players[playerIDFinder[playerId3]] !== undefined && (finalObject.players[playerIDFinder[playerId3]].leftGame = eventDateToSeconds(unparsedEvent));
 }
 
 function scoreUpdate(unparsedEvent, finalObject){
@@ -170,77 +170,81 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
     playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
 
     //Player Objects are initialized here
-    finalObject.players[playerIDFinder[userId3]] === undefined ? (finalObject.players[playerIDFinder[userId3]] = {
-        userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
-        steamID3: userId3,
-        joinedGame: eventDateToSeconds(unparsedEvent),
-        leftGame: false,
-        rgl:{
-            userName: "unknown",
-            rank:"unknown",
-        },
-        team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
-        class: unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"')),
-        classStats: {
-            changedClass: eventDateToSeconds(unparsedEvent),
-            [unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"'))]: {
-                kills: 0,
-                assists: 0,
-                deaths: 0,
-                damage: 0,
-                weapons: {},
-                time: 0,
-            }
-        },
-        combatScore: 0,
-        kills: 0,
-        deaths: 0,
-        assists: 0,
-        suicides: 0,
-        killAssistPerDeath: 0,
-        killsPerDeath: 0,
-        medicPicks: 0,
-        medicDrops: 0,
-        damageDivision: {
-            damageTo:{},
-            damageFrom:{},
-        },
-        damage : 0,
-        damageReal : 0,
-        damagePerMinute: 0,
-        damageTaken : 0,
-        damageTakenReal: 0,
-        damageTakenPerMinute: 0,
-        deathScreenTime: 0,
-        crossbowHealing: 0,
-        medicStats: {
-            uberTypes:{},
-            ubers: 0,
-            drops: 0,
-            uberLength: 0,
-            nearFullDeaths: 0,
-            healAfterSpawn: 0,
-        },
-        uberHits: 0,
-        resup: {
-            medkit: 0,
-            medkitsHealingDone: 0,
-            ammo: 0,
-        },
-        pointCaps: 0,
-        capturesBlocked: 0,
-        extinguished: 0,
-        dominated: 0,
-        revenged: 0,
-        buildingKills: 0,
-        buildings: 0,
-        heals: 0,
-        healsPerMinute: 0,
-        airshots: 0,
-        headshots: 0,
-        headshotKills: 0,
-        backstabs: 0,
-    }) : classSwaps(unparsedEvent, finalObject, playerIDFinder);
+    if( !unparsedEvent.includes('connected, address') && !unparsedEvent.includes('entered') && !unparsedEvent.includes(' changed role to "undefined"')){
+        
+        finalObject.players[playerIDFinder[userId3]] === undefined ? (finalObject.players[playerIDFinder[userId3]] = {
+            userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
+            steamID3: userId3,
+            joinedGame: eventDateToSeconds(unparsedEvent),
+            leftGame: false,
+            rgl:{
+                userName: "unknown",
+                rank:"unknown",
+            },
+            team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
+            class: unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"')),
+            classStats: {
+                changedClass: eventDateToSeconds(unparsedEvent),
+                [unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"'))]: {
+                    kills: 0,
+                    assists: 0,
+                    deaths: 0,
+                    damage: 0,
+                    weapons: {},
+                    time: 0,
+                }
+            },
+            combatScore: 0,
+            kills: 0,
+            deaths: 0,
+            assists: 0,
+            suicides: 0,
+            killAssistPerDeath: 0,
+            killsPerDeath: 0,
+            medicPicks: 0,
+            medicDrops: 0,
+            damageDivision: {
+                damageTo:{},
+                damageFrom:{},
+            },
+            damage : 0,
+            damageReal : 0,
+            damagePerMinute: 0,
+            damageTaken : 0,
+            damageTakenReal: 0,
+            damageTakenPerMinute: 0,
+            deathScreenTime: 0,
+            crossbowHealing: 0,
+            medicStats: {
+                uberTypes:{},
+                ubers: 0,
+                drops: 0,
+                uberLength: 0,
+                nearFullDeaths: 0,
+                healAfterSpawn: 0,
+            },
+            uberHits: 0,
+            resup: {
+                medkit: 0,
+                medkitsHealingDone: 0,
+                ammo: 0,
+            },
+            pointCaps: 0,
+            capturesBlocked: 0,
+            extinguished: 0,
+            dominated: 0,
+            revenged: 0,
+            buildingKills: 0,
+            buildings: 0,
+            heals: 0,
+            healsPerMinute: 0,
+            airshots: 0,
+            headshots: 0,
+            headshotKills: 0,
+            backstabs: 0,
+        }) : classSwaps(unparsedEvent, finalObject, playerIDFinder);
+    }
+    
 }
 
 function classSwaps(unparsedEvent, finalObject, playerIDFinder){

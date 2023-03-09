@@ -83,8 +83,7 @@ async function worldEvents(unparsedEvent, finalObject) {
         let matchEndTime = eventDateToSeconds(unparsedEvent);
 
         // await rglData(finalObject);
-
-        for (let playerIndex = 0; playerIndex < finalObjectArray.length; playerIndex++) {
+        for (let playerIndex = 0; playerIndex < finalObjectArray.length && finalObject.players[finalObjectArray[playerIndex][0]].class !== "undefined"; playerIndex++) {
             let player = finalObject.players[finalObjectArray[playerIndex][0]];
             let minutesInMatch = (finalObject.info.matchLength / 60);
             let currentClass = player.class;
