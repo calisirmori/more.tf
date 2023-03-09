@@ -5,7 +5,7 @@ const AdmZip = require("adm-zip");
 const path = require("path");
 const { fetch, FetchResultTypes, FetchMethods } = require("@sapphire/fetch");
 const parser = require("./parser/main.js");
-
+const crypto = require("crypto");
 const passport = require('passport');
 const session = require('express-session');
 const passportSteam = require('passport-steam');
@@ -60,7 +60,8 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}
  res.redirect('/')
 });
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
-  res.redirect(`http://localhost:5173/profile/${res.req.user.id}`)
+ console.log(crypto.randomUUID());
+ res.redirect(`http://localhost:5173/profile/${res.req.user.id}`)
 });
 
 const pool = new Pool({
