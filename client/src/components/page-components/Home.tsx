@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      if(searchInput !== ""){
+      if(searchInput.length > 2){
         searchCall(searchInput)
       }
     }, 1000);
@@ -88,7 +88,7 @@ const Home = () => {
                     </div>
                     <input
                       onFocus={()=>{setInputFocused(true)}}
-                      onBlur={()=>{setInputFocused(false)}}
+                      
                       className="focus:outline-none appearance-none border-0 w-full rounded-r-md placeholder-warmscale-2 pl-4 text-black bg-lightscale-2"
                       type="text"
                       onChange={(e) => {setSearchInput(e.target.value)}}
@@ -99,11 +99,11 @@ const Home = () => {
                   <div className={`${!inputFocused && "h-0"} w-full bg-warmscale-85 `}>
                     <div className="flex relative justify-between text-lg font-semibold text-lightscale-1 py-2 px-3 ">
                       {searchInput !== "" && searchSteamData.length !== undefined && inputFocused && 
-                        <div className="w-full absolute left-0 top-0 h-40 bg-warmscale-85 rounded-b-md">
+                        <div className="w-full absolute left-0 top-0 min-h-40 bg-warmscale-85 rounded-b-md">
                           {searchSteamData.map((currentSearch, index) => {
                             console.log(currentSearch)
                             return(
-                              <a href={`profile/${currentSearch.steamid}`} key={index} className="flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center border-b border-warmscale-4">
+                              <a href={`profile/${currentSearch.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
                                 <div className="flex items-center">
                                   <img src={currentSearch.avatar} className="h-6" alt="" />
                                   <div className="ml-2">{currentSearch.personaname}</div>

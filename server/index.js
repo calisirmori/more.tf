@@ -135,7 +135,7 @@ app.get('/api/per-map-stats/:id', (req, response) => {
 
 app.get('/api/username-search/:username', (req, response) => {
   let playerUserName = req.params.username;
-  pool.query(`SELECT id64, count(id64) as count FROM players WHERE name='${playerUserName}' GROUP BY id64 Order BY count DESC`)
+  pool.query(`SELECT id64, count(id64) as count FROM players WHERE name like'%${playerUserName}%' GROUP BY id64 Order BY count DESC`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
