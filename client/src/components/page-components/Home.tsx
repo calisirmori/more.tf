@@ -135,7 +135,7 @@ const Home = () => {
                   </span>
                   <div className="h-0.5 w-48 bg-warmscale-2"></div>
                 </div>
-                <a href="http://localhost:8082/api/auth/steam" className="flex h-10 items-center justify-center bg-gradient-to-t from-blue-900 to-warmscale-6 rounded-lg mt-4 py-5 cursor-pointer hover:outline outline-warmscale-2 duration-100">
+                <a href="http://localhost:8082/api/auth/steam" className="flex h-10 items-center justify-center bg-gradient-to-t from-blue-900 to-warmscale-6 rounded-lg mt-4 py-5 cursor-pointer">
                   <span>Sign in through Steam</span>
                   <img
                     className="h-7 ml-3"

@@ -81,13 +81,15 @@ async function worldEvents(unparsedEvent, finalObject) {
     } else if (unparsedEvent.includes("Game_Over")) {
         let finalObjectArray = Object.entries(finalObject.players)
         let matchEndTime = eventDateToSeconds(unparsedEvent);
+        finalObject.info.winner = finalObject.teams.red.score > finalObject.teams.blue.score ? "red" : "blue";
+        finalObject.info.matchLength = eventDateToSeconds(unparsedEvent) - finalObject.info.date;
+        let minutesInMatch = (finalObject.info.matchLength / 60);
 
         // await rglData(finalObject);
         for (let playerIndex = 0; playerIndex < finalObjectArray.length && finalObject.players[finalObjectArray[playerIndex][0]].class !== "undefined"; playerIndex++) {
             let player = finalObject.players[finalObjectArray[playerIndex][0]];
-            let minutesInMatch = (finalObject.info.matchLength / 60);
             let currentClass = player.class;
-            player.classStats[currentClass].time = matchEndTime - player.classStats.changedClass;
+            player.classStats[currentClass].time += matchEndTime - player.classStats.changedClass;
             player.damagePerMinute = Math.ceil(player.damage / minutesInMatch);
             player.damageTakenPerMinute = Math.ceil(player.damageTaken / minutesInMatch);
             player.healsPerMinute = Math.ceil(player.heals / minutesInMatch);
@@ -105,8 +107,7 @@ async function worldEvents(unparsedEvent, finalObject) {
                     .sort(([, b], [, a]) => a - b)
                     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
             }
-            finalObject.info.winner = finalObject.teams.red.score > finalObject.teams.blue.score ? "red" : "blue";
-            finalObject.info.matchLength = eventDateToSeconds(unparsedEvent) - finalObject.info.date;
+            player.playtime = eventDateToSeconds(unparsedEvent) - player.joinedGame;
 
             let stats = currentClass === "medic" ? ["heals", "apm", "deathpm", "dtm"] : ["kpm", "dpm", "apm", "deathpm", "dtm"];
             let combatStats = {

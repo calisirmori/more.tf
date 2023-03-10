@@ -716,7 +716,7 @@ const Logs = () => {
                                       if (
                                         classPlayed[0] !== "changedClass" &&
                                         (classPlayed[1].time /
-                                          apiResponse.info.matchLength) *
+                                        playerObject.playtime) *
                                           100 >
                                           30
                                       ) {
@@ -850,9 +850,7 @@ const Logs = () => {
                                               alt=""
                                               style={{
                                                 opacity: `${Math.floor(
-                                                  (classPlayed[1].time /
-                                                    apiResponse.info
-                                                      .matchLength) *
+                                                  (classPlayed[1].time / playerObject.playtime) *
                                                     200
                                                 )}%`,
                                               }}

@@ -303,9 +303,9 @@ const Profile = () => {
               </div>
               <div className="bg-warmscale-8 mt-4 py-3 px-4 rounded-md font-cantarell drop-shadow-sm">
                 <div className="flex justify-between">
-                  <div className="text-lg text-lightscale-1 font-semibold">
+                  <a href={`/profile/${playerId}/matches`} className="text-lg text-lightscale-1 font-semibold hover:underline">
                     Matches
-                  </div>
+                  </a>
                   <a href={`/profile/${playerId}/matches`} className="text-lg text-lightscale-1 font-semibold">
                     <svg
                       strokeWidth={5.5}
@@ -377,9 +377,9 @@ const Profile = () => {
                                 <div className="text-xs text-right">
                                   {match.kills}{" "}
                                   <span className="mx-0.5">/</span>
-                                  {match.assists}
-                                  <span className="mx-0.5">/</span>
                                   {match.deaths}
+                                  <span className="mx-0.5">/</span>
+                                  {match.assists}
                                 </div>
                               </div>
                               {match.class !== "medic" ? <div className="w-8">

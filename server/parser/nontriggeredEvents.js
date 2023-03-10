@@ -168,7 +168,6 @@ function resupEvents(unparsedEvent, finalObject, playerIDFinder){
 function playerConnected(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
     playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
-
     //Player Objects are initialized here
     if( !unparsedEvent.includes('connected, address') && !unparsedEvent.includes('entered') && !unparsedEvent.includes(' changed role to "undefined"')){
         
@@ -176,6 +175,7 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
             userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
             steamID3: userId3,
             joinedGame: eventDateToSeconds(unparsedEvent),
+            playTime: 0,
             leftGame: false,
             rgl:{
                 userName: "unknown",
@@ -273,7 +273,7 @@ function suicideEvent(unparsedEvent, finalObject, playerIDFinder){
 function deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
     if (lastDeathTime[playerIDFinder[userId3]] !== undefined){
-        finalObject.players[playerIDFinder[userId3]].deathScreenTime += (eventDateToSeconds(unparsedEvent) - lastDeathTime[playerIDFinder[userId3]]);
+        finalObject.players[playerIDFinder[userId3]].deathScreenTime += (eventDateToSeconds(unparsedEvent) - (lastDeathTime[playerIDFinder[userId3]] < finalObject.rounds[finalObject.rounds.length-1].roundBegin ? finalObject.rounds[finalObject.rounds.length-1].roundBegin : lastDeathTime[playerIDFinder[userId3]]));
     }
 }
 

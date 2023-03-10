@@ -39,7 +39,7 @@ const Matches = () => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if(mapInput.length > 2){
-        setMapSearched(mapInput)
+        setMapSearched(mapInput.toLowerCase())
       }
     }, 2000);
     return () => clearTimeout(delayDebounceFn);
@@ -107,13 +107,18 @@ const Matches = () => {
             <div className="ml-5 mb-3  font-cantarell ">
               <a
                 href={`/profile/${playerId}`}
-                className="text-lightscale-2 font-bold text-5xl"
-              >
+                className="text-lightscale-2 font-bold text-5xl hover:underline">
                 {profileData.personaname}{" "}
               </a>
             </div>
           </div>
           <div id="links" className="flex gap-2 items-center">
+            <a
+              href={`/profile/${playerId}`}
+              className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+            >
+              Profile
+            </a>
             <a
               target="_blank"
               href={`https://steamcommunity.com/profiles/${playerId}`}
@@ -311,7 +316,7 @@ const Matches = () => {
                 <div className="text-sm font-cantarell text-lightscale-6 font-semibold mb-0.5 pl-1">
                   Map
                 </div>
-                <input value={mapInput} onChange={(e)=>{setMapInput(e.target.value)}} type="text" className="rounded-sm bg-warmscale-85 ring-1 ring-warmscale-82 h-8 mt-0.5 text-lightscale-2 pl-2 font-semibold font-cantarell focus:outline-none"/>
+                <input value={mapInput === "none" ? "" : mapInput} onChange={(e)=>{setMapInput(e.target.value.length === 0 ? "none" : e.target.value)}} type="text" className="rounded-sm bg-warmscale-85 ring-1 ring-warmscale-82 h-8 mt-0.5 text-lightscale-2 pl-2 font-semibold font-cantarell focus:outline-none"/>
                 
               </div>  
             </div>
