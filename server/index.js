@@ -135,7 +135,7 @@ app.get('/api/per-map-stats/:id', (req, response) => {
 
 app.get('/api/username-search/:username', (req, response) => {
   let playerUserName = req.params.username;
-  pool.query(`SELECT id64, count(id64) as count FROM players WHERE name like'%${playerUserName}%' GROUP BY id64 Order BY count DESC`)
+  pool.query(`SELECT id64,count(id64) as count FROM players WHERE name like'%${playerUserName}%' GROUP BY id64 Order BY count DESC`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
@@ -159,14 +159,21 @@ app.get('/api/peers-search/:id', (req, response) => {
   .catch((err) => console.error(err))
 });
 
-app.get('/api/match-history/:id&limit=:limit', (req, response) => {
+app.get('/api/match-history/:id&class-played=:classPlayed&map=:map&after=:after&format=:format&order=:order&limit=:limit', (req, response) => {
 
-  let playerId = req.params.id;
-  let limit = req.params.limit;
-
-  pool.query(`select kills,assists,deaths,dpm,dtm,heals,players,map,date,match_length,class,title,match_result,format,logs.logid from 
-  logs left join players on players.logid=logs.logid where id64=${playerId}
-  order by logs.logid desc
+  const playerId = req.params.id;
+  const classSearched = req.params.classPlayed === "none" ? "class" : "'" + req.params.classPlayed + "'" ;
+  const mapSearched = req.params.map === "none" ? "" : req.params.map;
+  const dateAfter = req.params.after === "none" ? "0" : req.params.after;
+  const format = req.params.format === "none" ? "format" : "'" + req.params.format + "'";
+  const orderBy = req.params.order === "none" ? "date" : req.params.order;
+  const limit = req.params.limit === "none" ? "10000" : req.params.limit;
+  
+  pool.query(`select * from
+  (select id64,kills,assists,deaths,dpm,dtm,heals,map,date,match_length,class,title,match_result,format,logs.logid from logs
+  left join players on players.logid=logs.logid) as T1
+  where id64=${playerId} and class=${classSearched} and map like '%${mapSearched}%' and date > ${dateAfter} and format=${format}
+  order by ${orderBy} desc
   limit ${limit}`)
   
   .then((res) => response.send(res))

@@ -101,7 +101,7 @@ const Home = () => {
                       {searchInput !== "" && searchSteamData.length !== undefined && inputFocused && 
                         <div className="w-full absolute left-0 top-0 min-h-40 bg-warmscale-85 rounded-b-md">
                           {searchSteamData.map((currentSearch, index) => {
-                            console.log(currentSearch)
+                            console.log(searchInternalData[index])
                             return(
                               <a href={`profile/${currentSearch.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
                                 <div className="flex items-center">

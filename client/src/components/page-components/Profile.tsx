@@ -46,7 +46,7 @@ const Profile = () => {
 
   async function matchesInfoCall() {
     const response: any = await fetch(
-      `http://localhost:8082/api/match-history/${playerId}&limit=15`,
+      `http://localhost:8082/api/match-history/${playerId}&class-played=none&map=none&after=none&format=none&order=none&limit=15`,
       FetchResultTypes.JSON
     );
     setMatchesPlayedInfo(response.rows);
@@ -98,6 +98,7 @@ const Profile = () => {
       `http://localhost:8082/api/per-format-stats/${playerId}`,
       FetchResultTypes.JSON
     );
+    console.log(response.rows)
     setFormatData(response.rows);
   }
   
@@ -174,7 +175,6 @@ const Profile = () => {
         activityObject[weekIndex][dayOfTheWeekFinder[dayIndex]]++;
       }
     });
-    console.log(activityObject);
     setActivity(activityObject);
   }
 
