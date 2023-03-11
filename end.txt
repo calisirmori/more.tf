@@ -1,3 +1,0 @@
-organize the damagespread to highest to lowest
-
-pl mapper, show how long each point capped was in a similar way the player formats are handled on profile

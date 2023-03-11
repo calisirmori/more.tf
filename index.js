@@ -63,7 +63,7 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}
 });
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
  console.log(crypto.randomUUID());
- res.redirect(`http://localhost:5173/profile/${res.req.user.id}`)
+ res.redirect(`/profile/${res.req.user.id}`)
 });
 
 const pool = new Pool({
