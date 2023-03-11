@@ -1,5 +1,5 @@
 
-export const weaponsList = {
+export const weaponsList: any = {
     'ambassador': {
       key: 'ambassador',
       name: "Ambassador",

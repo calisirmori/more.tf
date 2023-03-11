@@ -7,15 +7,15 @@ const Profile = () => {
   const idArray = id.split("/");
   const playerId = idArray[4];
 
-  const [playerSteamInfo, setPlayerSteamInfo] = useState({});
-  const [matchesPlayedInfo, setMatchesPlayedInfo] = useState([]);
-  const [rglInfo, setRglInfo] = useState({});
-  const [activity, setActivity] = useState({});
-  const [teamMatesList, setTeamMatesList] = useState([]);
-  const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState([]);
-  const [perClassPlaytimeData, setPerClassPlaytimeData] = useState([]);
-  const [formatData, setFormatData] = useState([]);
-  const [mapDisparityData, setMapDisparityData] = useState([]);
+  const [playerSteamInfo, setPlayerSteamInfo] = useState<any>({});
+  const [matchesPlayedInfo, setMatchesPlayedInfo] = useState<any>([]);
+  const [rglInfo, setRglInfo] = useState<any>({});
+  const [activity, setActivity] = useState<any>({});
+  const [teamMatesList, setTeamMatesList] = useState<any>([]);
+  const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState<any>([]);
+  const [perClassPlaytimeData, setPerClassPlaytimeData] = useState<any>([]);
+  const [formatData, setFormatData] = useState<any>([]);
+  const [mapDisparityData, setMapDisparityData] = useState<any>([]);
 
   useEffect(() => {
     steamInfoCallProfile();
@@ -323,7 +323,7 @@ const Profile = () => {
                   </a>
                 </div>
                 <div className="mt-3">
-                  {matchesPlayedInfo.map((match, index) => {
+                  {matchesPlayedInfo.map((match: any, index: any) => {
                     while (index < 15) {
                       return (
                         <a
@@ -580,7 +580,7 @@ const Profile = () => {
                     <div>OTH: {formatData[2] !== undefined && Math.round((parseInt(formatData[2].w)+parseInt(formatData[2].l)+parseInt(formatData[2].t))/totalMatches*1000)/10}%</div>
                   </div>
                 </div>
-                <div>{formatData.map(currentFormat => {
+                <div>{formatData.map((currentFormat: any) => {
                   const formatWins = parseInt(currentFormat.w);
                   const formatLosses = parseInt(currentFormat.l);
                   const formatTies = parseInt(currentFormat.t);

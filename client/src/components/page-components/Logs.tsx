@@ -17,8 +17,7 @@ const Logs = () => {
   const [scoreboardCollapsed, setScoreboardCollapsed] = useState(true);
   const [sortType, setSortType] = useState<any>("hl");
   const [currentPerformanceFocus, setPerformanceFocus] = useState<any>("");
-  const [performanceChartSort, setPerformanceChartSort] =
-    useState<any>("dealt");
+  const [performanceChartSort, setPerformanceChartSort] = useState<any>("dealt");
   const [killMapActive, setKillMapActive] = useState<any>(false);
   const [focusedKillEvent, setFocusedKillEvent] = useState<any>({});
   const [currentKillMapFilter, setCurrentKillMapFilter] = useState<any>("none");
@@ -41,8 +40,8 @@ const Logs = () => {
     "spy",
   ];
 
-  const refOne = useRef(null);
-  const refTwo = useRef(null);
+  const refOne: any = useRef(null);
+  const refTwo: any = useRef(null);
 
   useEffect(() => {
     apiCall();
@@ -52,7 +51,7 @@ const Logs = () => {
     document.addEventListener("click", handleClickOutside, true);
   }, []);
 
-  const handleClickOutside = (e) => {
+  const handleClickOutside = (e :any) => {
     if (tab == "scoreboard" && refOne.current.contains(e.target) !== null && !refOne.current.contains(e.target)) {
       setLinkView("none");
     }
@@ -63,7 +62,7 @@ const Logs = () => {
 
   async function apiCall() {
     try {
-      const response: { players: Array<Object> } = await fetch(
+      const response: any = await fetch(
         `/api/log/${logId}`,
         FetchResultTypes.JSON
       );
@@ -76,11 +75,11 @@ const Logs = () => {
   }
 
   function damageDivisionSortByClass() {
-    let sortedArray: Array<Object> = [];
+    let sortedArray: any = [];
     for (let classIndex = 0; classIndex < classOrder.length; classIndex++) {
       Object.entries(
         apiResponse.players[currentPerformanceFocus].damageDivision.damageTo
-      ).map((player, index) => {
+      ).map((player: any, index: any) => {
         if (apiResponse.players[player[0]].class === classOrder[classIndex])
           sortedArray.push({
             [player[0]]: {
@@ -106,8 +105,8 @@ const Logs = () => {
   }
 
   function scoreboardSorter(sortBy: string) {
-    let sortedArray: Array<Array<Object>> = [];
-    let unsortedArray: Array<Array<Object>> = scoreboard;
+    let sortedArray: any = [];
+    let unsortedArray: any = scoreboard;
 
     if (sortBy === currentScoreboardSort) {
       if (sortType === "hl") {
@@ -218,12 +217,12 @@ const Logs = () => {
   }
 
   async function demostfLinkIdFinder(){
-    let currentPlayersArray = Object.entries(apiResponse.players);
-    let currentResponse = "";
+    let currentPlayersArray: any = Object.entries(apiResponse.players);
+    let currentResponse: any = "";
     for (let index = 0; index < 1; index++) {
       currentResponse += currentPlayersArray[index][0];
     }
-    let demostfApiResponse = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-1000}`, FetchResultTypes.JSON);
+    let demostfApiResponse: any = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-1000}`, FetchResultTypes.JSON);
     if(demostfApiResponse.length !== 0){
       setCurrentDemosID(demostfApiResponse[0].id)
     } 
@@ -239,14 +238,14 @@ const Logs = () => {
         searchIndex < unsortedArray.length + 1;
         searchIndex++
       ) {
-        let max = Number.MIN_SAFE_INTEGER;
-        let currentMaxIndex = 0;
+        let max: any = Number.MIN_SAFE_INTEGER;
+        let currentMaxIndex: any = 0;
         for (
-          let secondaryIndex = 0;
+          let secondaryIndex: any = 0;
           secondaryIndex < unsortedArray.length;
           secondaryIndex++
         ) {
-          let currentPlayerArray = Object.entries(
+          let currentPlayerArray: any = Object.entries(
             unsortedArray[secondaryIndex][1]
           );
           for (
@@ -500,7 +499,7 @@ const Logs = () => {
               <div id="scoreboard" className="p-2 rounded-md m-4">
                 <div className=" h-1 flex bg-warmscale-4 mt-8 mb-10 mx-2 justify-between">
                   {apiResponse.rounds.map(
-                    (round: { roundWinner: string; roundDuration: number } , index) => {
+                    (round: any, index: any) => {
                       return (
                         <div
                           className={` ${ apiResponse.info.map.includes("pl_") ? ( index === 1 || index % 2 === 1
@@ -627,13 +626,8 @@ const Logs = () => {
                       </div>
                     </div>
                     {apiResponse !== undefined &&
-                      scoreboard.map((player: Array<any>, index) => {
-                        const playerObject: {
-                          team: string;
-                          userName: string;
-                          class: string;
-                          resup: { ammo: number; medkit: number };
-                        } = player[1];
+                      scoreboard.map((player: any, index: any) => {
+                        const playerObject: any = player[1];
                         if(playerObject.damageTaken !== 0){
                           return (
                             <div id="player-stat-card" >
@@ -720,7 +714,7 @@ const Logs = () => {
                                 </div>
                                 <div className="flex justify-center items-center border-l border-warmscale-6">
                                   {Object.entries(playerObject.classStats).map(
-                                    (classPlayed, index) => {
+                                    (classPlayed: any, index: any) => {
                                       if (
                                         classPlayed[0] !== "changedClass" &&
                                         (classPlayed[1].time /
@@ -792,7 +786,7 @@ const Logs = () => {
                                                 </div>
                                                 {Object.entries(
                                                   classPlayed[1].weapons
-                                                ).map((weapon, index) => {
+                                                ).map((weapon: any, index: any) => {
                                                   return (
                                                     <div
                                                       
@@ -979,14 +973,7 @@ const Logs = () => {
                     <div>Red DMG</div>
                   </div>
                   {apiResponse.rounds.map(
-                    (round: {
-                      roundWinner: string;
-                      roundDuration: number;
-                      teamScores: {
-                        blue: { score: string; kills: number; damage: number };
-                        red: { score: string; kills: number; damage: number };
-                      };
-                    } , index) => {
+                    (round: any , index: any) => {
                       return (
                         <div
                           
@@ -1242,7 +1229,7 @@ const Logs = () => {
                       K
                     </div>
                   </div>
-                  {killSpread.map((killer, index) => {
+                  {killSpread.map((killer: any, index: any) => {
                     return (
                       <div
                         
@@ -1272,7 +1259,7 @@ const Logs = () => {
                           />
                         </div>
                         {classOrder.map((currentClass, index) => {
-                          let currentArray = Object.entries(killer[1]);
+                          let currentArray: any = Object.entries(killer[1]);
                           let classFound = false;
                           for (
                             let currentVictim = 0;
@@ -1510,16 +1497,18 @@ const Logs = () => {
                               Object.entries(
                                 apiResponse.players[currentPerformanceFocus]
                                   .damageDivision.damageTo
-                              ).map((player: Array<any>, index) => {
-                                let currentMax = Math.max(
-                                  Object.entries(
-                                    apiResponse.players[currentPerformanceFocus]
-                                      .damageDivision.damageTo
-                                  )[0][1],
-                                  Object.entries(
-                                    apiResponse.players[currentPerformanceFocus]
-                                      .damageDivision.damageFrom
-                                  )[0][1]
+                              ).map((player: any, index) => {
+                                let objectA: any = Object.entries(
+                                  apiResponse.players[currentPerformanceFocus]
+                                    .damageDivision.damageTo
+                                )[0][1];
+                                let objectB: any = Object.entries(
+                                  apiResponse.players[currentPerformanceFocus]
+                                    .damageDivision.damageFrom
+                                )[0][1];
+                                let currentMax: any = Math.max(
+                                  objectA,
+                                  objectB
                                 );
                                 let currentPercent = Math.round(
                                   (apiResponse.players[currentPerformanceFocus]
@@ -1650,15 +1639,17 @@ const Logs = () => {
                                 apiResponse.players[currentPerformanceFocus]
                                   .damageDivision.damageFrom
                               ).map((player: any, index) => {
-                                let currentMax = Math.max(
-                                  Object.entries(
-                                    apiResponse.players[currentPerformanceFocus]
-                                      .damageDivision.damageTo
-                                  )[0][1],
-                                  Object.entries(
-                                    apiResponse.players[currentPerformanceFocus]
-                                      .damageDivision.damageFrom
-                                  )[0][1]
+                                let objectA: any = Object.entries(
+                                  apiResponse.players[currentPerformanceFocus]
+                                    .damageDivision.damageTo
+                                )[0][1];
+                                let objectB: any = Object.entries(
+                                  apiResponse.players[currentPerformanceFocus]
+                                    .damageDivision.damageFrom
+                                )[0][1];
+                                let currentMax: any = Math.max(
+                                  objectA,
+                                  objectB
                                 );
                                 let currentPercent = Math.round(
                                   (apiResponse.players[currentPerformanceFocus]
@@ -1811,19 +1802,21 @@ const Logs = () => {
                                 );
                               })}
                             {performanceChartSort === "class" &&
-                              damageDivisionSortByClass().map((player: any , index) => {
+                              damageDivisionSortByClass().map((player: any , index: any) => {
                                 let currentPlayerArray: Array<any> =
                                   Object.entries(player);
-                                let currentMax = Math.max(
-                                  Object.entries(
+                                  let objectA: any = Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
                                       .damageDivision.damageTo
-                                  )[0][1],
-                                  Object.entries(
+                                  )[0][1];
+                                  let objectB: any = Object.entries(
                                     apiResponse.players[currentPerformanceFocus]
                                       .damageDivision.damageFrom
-                                  )[0][1]
-                                );
+                                  )[0][1];
+                                  let currentMax: any = Math.max(
+                                    objectA,
+                                    objectB
+                                  );
                                 let currentPercent = Math.round(
                                   (apiResponse.players[currentPerformanceFocus]
                                     .damageDivision.damageFrom[
@@ -2107,7 +2100,7 @@ const Logs = () => {
                               aria-hidden="true"
                               className="absolute top-0 left-0 w-full h-full"
                             >
-                              {apiResponse.events.map((killEvent: any, index) => {
+                              {apiResponse.events.map((killEvent: any, index: any) => {
                                 let currentScale = 0.06;
                                 let calibrationX = 300;
                                 let calibrationY = 240;
@@ -2743,7 +2736,7 @@ const Logs = () => {
                 <div className="absolute top-[12.4rem] ml-7 w-full h-[550px]">
                   <svg className="w-full h-full">
                     {apiResponse.damagePerInterval.red.map(
-                      (interval: any, index: number) => {
+                      (interval: any, index: any) => {
                         let chartXMax = 1250;
                         let chartYMax = 550;
                         let currentArrayLength =
@@ -2863,7 +2856,7 @@ const Logs = () => {
                   </div>
                   <div className="h-0.5 w-full bg-warmscale-7 mb-2"></div>
                   {apiResponse.chat.map(
-                    (chatEvent: { userId: string; message: string }) => {
+                    (chatEvent: any) => {
                       return (
                         <div className="py-0.5 text-lightscale-2">
                           {" "}

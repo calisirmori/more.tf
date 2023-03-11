@@ -5,8 +5,8 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
 const Home = () => {
 
   const [searchInput, setSearchInput] = useState("");
-  const [searchInternalData, setSearchInternalData] = useState({});
-  const [searchSteamData, setSearchSteamData] = useState({});
+  const [searchInternalData, setSearchInternalData] = useState<any>({});
+  const [searchSteamData, setSearchSteamData] = useState<any>({});
   const [searching, setSearching] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
 
@@ -29,7 +29,7 @@ const Home = () => {
 
     setSearchInternalData(response.rows);
 
-    let steamCallArray = [];
+    let steamCallArray :any = [];
     
     if( response.rows !== undefined ){
       for (let index = 0; index < response.rows.length; index++) {
@@ -41,7 +41,7 @@ const Home = () => {
       }
     }
     setSearching(false);
-    setSearchSteamData(steamCallArray);
+    setSearchSteamData(steamCallArray );
   }
 
   return (
@@ -100,7 +100,7 @@ const Home = () => {
                     <div className="flex relative justify-between text-lg font-semibold text-lightscale-1 py-2 px-3 ">
                       {searchInput !== "" && searchSteamData.length !== undefined && inputFocused && 
                         <div className="w-full absolute left-0 top-0 min-h-40 bg-warmscale-85 rounded-b-md">
-                          {searchSteamData.map((currentSearch, index) => {
+                          {searchSteamData.map((currentSearch:any, index:any) => {
                             console.log(searchInternalData[index])
                             return(
                               <a href={`profile/${currentSearch.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>

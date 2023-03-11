@@ -11,16 +11,16 @@ const Matches = () => {
   const idArray = id.split("/");
   const playerId = idArray[4];
 
-  const [classSearched, setClassSearched] = useState("none");
-  const [mapInput, setMapInput] = useState("none");
-  const [mapSeached, setMapSearched] = useState("none");
-  const [dateSearched, setDateSearched] = useState("none");
-  const [formatSearched, setFormatSearched] = useState("none");
-  const [sortBySearch, setSortBySearched] = useState("none");
-  const [limit, setLimit] = useState("none");
+  const [classSearched, setClassSearched] = useState<any>("none");
+  const [mapInput, setMapInput] = useState<any>("none");
+  const [mapSeached, setMapSearched] = useState<any>("none");
+  const [dateSearched, setDateSearched] = useState<any>("none");
+  const [formatSearched, setFormatSearched] = useState<any>("none");
+  const [sortBySearch, setSortBySearched] = useState<any>("none");
+  const [limit, setLimit] = useState<any>("none");
   const todaysEpoch = Math.round(Date.now() / 1000);
 
-  const statNames = {
+  const statNames:any = {
     none: "Date",
     kills: "Kills",
     assists: "Assists",
@@ -30,7 +30,7 @@ const Matches = () => {
     heals: "Heals",
   };
 
-  const formatNames = {
+  const formatNames:any = {
     none: "Any",
     HL: "Highlander",
     "6s": "Sixes",
@@ -72,10 +72,10 @@ const Matches = () => {
     matchesInfoCall();
   }, [classSearched, sortBySearch, formatSearched, dateSearched,mapSeached]);
 
-  const [profileData, setProfileData] = useState({});
-  const [logsData, setLogsData] = useState([]);
-  const [currentLogsView, setCurrentLogsView] = useState(1);
-  const [pageSearch, setPageSearch] = useState(0);
+  const [profileData, setProfileData] = useState<any>({});
+  const [logsData, setLogsData] = useState<any>([]);
+  const [currentLogsView, setCurrentLogsView] = useState<any>(1);
+  const [pageSearch, setPageSearch] = useState<any>(0);
 
   async function steamInfoCallProfile() {
     const response: any = await fetch(
@@ -368,7 +368,7 @@ const Matches = () => {
           <div className="bg-warmscale-8 mt-4 py-3 px-4 rounded-md font-cantarell drop-shadow-sm mb-6">
             <div className="mt-0">
               {logsData.length === 0 && <div className="text-lightscale-8 text-md font-semibold text-center mt-2">NO MATCHING LOGS FOR THESE FILTERS</div> }
-              {logsData.map((match, index) => {
+              {logsData.map((match: any, index: any) => {
                 while (
                   index >= 25 * (currentLogsView - 1) &&
                   index < 25 * currentLogsView

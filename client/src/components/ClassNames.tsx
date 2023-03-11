@@ -1,5 +1,5 @@
 
-export const classList = {
+export const classList: any = {
   'scout': {
     key: 'scout',
     name: 'Scout'
