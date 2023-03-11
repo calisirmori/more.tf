@@ -38,7 +38,7 @@ passport.serializeUser((user, done) => {
 
 passport.use(new SteamStrategy({
  returnURL: '/api/auth/steam/return',
- realm: '/',
+ realm: '/api/steam',
  apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
  }, function (identifier, profile, done) {
   process.nextTick(function () {
@@ -55,13 +55,13 @@ app.use(function(req, res, next) {
 });
 
 //Steam login 
-app.get('/', (req, res) => {
+app.get('/api/steam', (req, res) => {
  res.send(req.user);
 });
-app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
- res.redirect('/')
+app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
+ res.redirect('/api/steam')
 });
-app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
+app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
  console.log(crypto.randomUUID());
  res.redirect(`/profile/${res.req.user.id}`)
 });
