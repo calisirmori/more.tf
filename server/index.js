@@ -13,6 +13,8 @@ const SteamStrategy = passportSteam.Strategy;
 const fs = require('fs');
 const Pool = require('pg').Pool
 
+const port = process.env.PORT || 3000;
+
 app.use(express.json());
 app.use(cors());
 app.use(session({
@@ -35,8 +37,8 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: 'http://localhost:' + 8083 + '/api/auth/steam/return',
- realm: 'http://localhost:' + 8083 + '/',
+ returnURL: 'http://localhost:' + port + '/api/auth/steam/return',
+ realm: 'http://localhost:' + port + '/',
  apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
  }, function (identifier, profile, done) {
   process.nextTick(function () {
@@ -275,7 +277,7 @@ app.get("*", (_, res) => {
   res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
 });
 
-app.listen(process.env.PORT || 8083, function () {
+app.listen(port, function () {
   console.info(
     `Express server listening on port ${this.address().port} in ${
       app.settings.env
