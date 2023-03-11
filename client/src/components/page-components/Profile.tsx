@@ -548,7 +548,7 @@ const Profile = () => {
                     if(index < 7){
                       return(
                         <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<6 && "border-b border-warmscale-7"}`}>
-                          <div className="">{currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
+                          {/* <div className="">{currentMap.map.length > 0 && currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div> */}
                           <div className="text-right">
                             <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
                             <div className="text-xs flex font-semibold text-lightscale-9">

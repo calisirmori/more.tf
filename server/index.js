@@ -35,8 +35,8 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: 'http://localhost:' + 8082 + '/api/auth/steam/return',
- realm: 'http://localhost:' + 8082 + '/',
+ returnURL: 'http://localhost:' + 8083 + '/api/auth/steam/return',
+ realm: 'http://localhost:' + 8083 + '/',
  apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
  }, function (identifier, profile, done) {
   process.nextTick(function () {
@@ -118,6 +118,22 @@ app.get('/api/per-format-stats/:id', (req, response) => {
 });
 
 app.get('/api/per-map-stats/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select map,
+  sum(match_length) as time,
+  COUNT(match_result) filter (where match_result='W') as W,
+  COUNT(match_result) filter (where match_result='L') as L,
+  COUNT(match_result) filter (where match_result='T') as T
+  From ((Select logid,match_result FROM players where id64=${playerId}) AS T1
+  left JOIN (SELECT match_length,logid,date,map FROM logs where date >0) AS T2
+  On t1.logid=t2.logid)
+  group by map
+  order by time desc`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/db-try', (req, response) => {
   let playerId = req.params.id;
   pool.query(`select map,
   sum(match_length) as time,
@@ -259,7 +275,7 @@ app.get("*", (_, res) => {
   res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
 });
 
-app.listen(process.env.PORT || 8082, function () {
+app.listen(process.env.PORT || 8083, function () {
   console.info(
     `Express server listening on port ${this.address().port} in ${
       app.settings.env

@@ -428,7 +428,7 @@ const Logs = () => {
             </div>
             <div
               id="tabs"
-              className="grid bg-warmscale-8 select-none grid-cols-5 text-center pt-5 drop-shadow-md"
+              className="grid bg-warmscale-8 select-none grid-cols-5 text-center pt-5"
             >
               <div
                 onClick={() => {
@@ -503,33 +503,41 @@ const Logs = () => {
                     (round: { roundWinner: string; roundDuration: number } , index) => {
                       return (
                         <div
-                        
-                          className={` ${
-                            round.roundWinner === "blue"
+                          className={` ${ apiResponse.info.map.includes("pl_") ? ( index === 1 || index % 2 === 1
+                          ? "bg-tf-blue-dark"
+                          : "bg-tf-red-dark") : 
+                            (round.roundWinner === "blue"
                               ? "bg-tf-blue-dark"
-                              : "bg-tf-red-dark"
+                              : "bg-tf-red-dark")
                           } h-1 justify-end items-center flex `}
                           style={{
                             width: `${
-                              (round.roundDuration /
+                              (round.roundDuration + 15 /
                                 apiResponse.info.matchLength) *
                               100
                             }%`,
                           }}
                         >
-                          <div className="justify-center flex w-full mt-6 text-sm font-semibold text-lightscale-6">
-                            {Math.floor(round.roundDuration / 60)}:
-                            {round.roundDuration % 60 < 10
-                              ? "0" + (round.roundDuration % 60)
-                              : round.roundDuration % 60}{" "}
-                            min
-                          </div>
+                          <div className="justify-center flex w-full text-sm font-semibold text-lightscale-6">
+                            <div className=" text-center">
+                              <div className="mb-2 ">Round {index+1}</div>
+                                <div className="text-center">
+                                {Math.floor(round.roundDuration / 60)}:
+                                  {round.roundDuration % 60 < 10
+                                    ? "0" + (round.roundDuration % 60)
+                                    : round.roundDuration % 60}{" "}
+                                  min
+                                </div>
+                              </div>
+                            </div>
                           <div
-                            className={`px-1.5 py-1 ${
-                              round.roundWinner === "blue"
-                                ? "bg-tf-blue border-2 border-tf-blue-dark2"
-                                : "bg-tf-red border-2 border-tf-red-dark2"
-                            } rounded-md text-xs text-lightscale-2 font-cantarell font-bold flex justify-center items-center`}
+                            className={`px-1.5 py-1 ${ apiResponse.info.map.includes("pl_") ? ( index === 1 || index % 2 === 1
+                              ? "bg-tf-blue border-2 border-tf-blue-dark2"
+                              : "bg-tf-red border-2 border-tf-red-dark2") : 
+                                (round.roundWinner === "blue"
+                                  ? "bg-tf-blue border-2 border-tf-blue-dark2"
+                                  : "bg-tf-red border-2 border-tf-red-dark2")
+                              } rounded-md text-xs text-lightscale-2 font-cantarell font-bold flex justify-center items-center`}
                           >
                             {currentRound++}
                           </div>
@@ -2101,7 +2109,7 @@ const Logs = () => {
                             >
                               {apiResponse.events.map((killEvent: any, index) => {
                                 let currentScale = 0.06;
-                                let calibrationX = 380;
+                                let calibrationX = 300;
                                 let calibrationY = 240;
                                 if (
                                   killEvent[
@@ -2696,32 +2704,32 @@ const Logs = () => {
                     <div className=" top-0 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
                         <div className="h-0.5 w-full bg-warmscale-8"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">
-                          4000
+                        <div className=" text-sm font-robotomono font-bold w-24 text-warmscale-6">
+                          3000 {chartFilter === "damage" ? "DMG" : "HEALS"}
                         </div>
                       </div>
                     </div>
                     <div className=" top-1/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
                         <div className="h-0.5 w-full bg-warmscale-8"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">
-                          3000
+                        <div className=" text-sm font-robotomono font-bold w-24 text-warmscale-6">
+                          2250 {chartFilter === "damage" ? "DMG" : "HEALS"}
                         </div>
                       </div>
                     </div>
                     <div className=" top-2/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
                         <div className="h-0.5 w-full bg-warmscale-8"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">
-                          2000
+                        <div className=" text-sm font-robotomono font-bold w-24 text-warmscale-6">
+                          1500 {chartFilter === "damage" ? "DMG" : "HEALS"}
                         </div>
                       </div>
                     </div>
                     <div className=" top-3/4 absolute w-full">
                       <div className="flex mx-1 items-center gap-2">
                         <div className="h-0.5 w-full bg-warmscale-8"></div>
-                        <div className=" text-sm font-robotomono font-bold text-warmscale-6">
-                          1000
+                        <div className=" text-sm font-robotomono font-bold w-24 text-warmscale-6">
+                          750 {chartFilter === "damage" ? "DMG" : "HEALS"}
                         </div>
                       </div>
                     </div>
@@ -2765,12 +2773,12 @@ const Logs = () => {
                               d={`M${currentIntervalWidth * index},${
                                 chartYMax -
                                 (apiResponse.damagePerInterval.red[index] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               } L${currentIntervalWidth * (index + 1)},${
                                 chartYMax -
                                 (apiResponse.damagePerInterval.red[index + 1] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               }`}
                             />
@@ -2785,12 +2793,12 @@ const Logs = () => {
                               d={`M${currentIntervalWidth * index},${
                                 chartYMax -
                                 (apiResponse.damagePerInterval.blue[index] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               } L${currentIntervalWidth * (index + 1)},${
                                 chartYMax -
                                 (apiResponse.damagePerInterval.blue[index + 1] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               }`}
                             />
@@ -2805,12 +2813,12 @@ const Logs = () => {
                               d={`M${currentIntervalWidth * index},${
                                 chartYMax -
                                 (apiResponse.healsPerInterval.red[index] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               } L${currentIntervalWidth * (index + 1)},${
                                 chartYMax -
                                 (apiResponse.healsPerInterval.red[index + 1] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               }`}
                             />
@@ -2825,12 +2833,12 @@ const Logs = () => {
                               d={`M${currentIntervalWidth * index},${
                                 chartYMax -
                                 (apiResponse.healsPerInterval.blue[index] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               } L${currentIntervalWidth * (index + 1)},${
                                 chartYMax -
                                 (apiResponse.healsPerInterval.blue[index + 1] /
-                                  4000) *
+                                  3000) *
                                   chartYMax
                               }`}
                             />

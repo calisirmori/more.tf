@@ -37,7 +37,7 @@ function scoreUpdate(unparsedEvent, finalObject){
         unparsedEvent.includes('Blue') && (finalObject.rounds[finalObject.rounds.length - 1].teamScores.blue.score = unparsedEvent.slice(unparsedEvent.indexOf('current score "') + 15, unparsedEvent.indexOf('" with')));
     } else if (unparsedEvent.includes('final score')){
         unparsedEvent.includes('Red') && (finalObject.teams.red.score =  unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
-        unparsedEvent.includes('Blue') && (finalObject.teams.blue.score = unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
+        unparsedEvent.includes('Blue') && (finalObject.teams.blue.score = finalObject.info.map.includes("pl_") ? 1 : unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
     }
 }
 
@@ -59,36 +59,38 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     let killerCordinates = (unparsedEvent.slice(unparsedEvent.indexOf('attacker_position') + 19, unparsedEvent.lastIndexOf(') (victim_position') - 1)).split(" ");
     let victimCordinates = (unparsedEvent.slice(unparsedEvent.indexOf('victim_position') + 17, unparsedEvent.lastIndexOf('")'))).split(" ");
     let killerWeapon = unparsedEvent.slice(unparsedEvent.indexOf('with "') + 6, unparsedEvent.lastIndexOf('" ('));
-
+    
+    let killerObject = finalObject.players[playerIDFinder[killerId3]];
+    let victimObject = finalObject.players[playerIDFinder[victimId3]];
+    
     //Record kill to player stat
-    finalObject.players[playerIDFinder[killerId3]].kills++;
-    finalObject.players[playerIDFinder[victimId3]].deaths++;
-
+    killerObject.kills++;
+    victimObject.deaths++;
     //killer gun stat
     
     //kill to round
-    finalObject.rounds[finalObject.rounds.length - 1].teamScores[finalObject.players[playerIDFinder[killerId3]].team].kills++;
+    finalObject.rounds[finalObject.rounds.length - 1].teamScores[killerObject.team].kills++;
     
     //team object kill stat
-    finalObject.teams[finalObject.players[playerIDFinder[killerId3]].team].kills ++;
+    finalObject.teams[killerObject.team].kills ++;
     
     //Last death time recorded
     lastDeathTime[playerIDFinder[victimId3]] = eventDateToSeconds(unparsedEvent);
     
     //kill class specific stats
-    let currentKillerClass = finalObject.players[playerIDFinder[killerId3]].class;
-    let currentvictimClass = finalObject.players[playerIDFinder[victimId3]].class;
+    let currentKillerClass = killerObject.class;
+    let currentvictimClass = victimObject.class;
 
 
-    if(finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] === undefined){
-        finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon] = {
+    if(killerObject.classStats[currentKillerClass].weapons[killerWeapon] === undefined){
+        killerObject.classStats[currentKillerClass].weapons[killerWeapon] = {
             kills: 0
         }
     }
 
-    finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].weapons[killerWeapon].kills++;
-    finalObject.players[playerIDFinder[killerId3]].classStats[currentKillerClass].kills++;
-    finalObject.players[playerIDFinder[victimId3]].classStats[currentvictimClass].deaths++;
+    killerObject.classStats[currentKillerClass].weapons[killerWeapon].kills++;
+    killerObject.classStats[currentKillerClass].kills++;
+    victimObject.classStats[currentvictimClass].deaths++;
     
     // Kill event is made here
     let eventObject = {
@@ -272,8 +274,9 @@ function suicideEvent(unparsedEvent, finalObject, playerIDFinder){
 
 function deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    if (lastDeathTime[playerIDFinder[userId3]] !== undefined){
-        finalObject.players[playerIDFinder[userId3]].deathScreenTime += (eventDateToSeconds(unparsedEvent) - (lastDeathTime[playerIDFinder[userId3]] < finalObject.rounds[finalObject.rounds.length-1].roundBegin ? finalObject.rounds[finalObject.rounds.length-1].roundBegin : lastDeathTime[playerIDFinder[userId3]]));
+    if (lastDeathTime[playerIDFinder[userId3]] !== undefined && lastDeathTime[playerIDFinder[userId3]] !== 1){
+        finalObject.players[playerIDFinder[userId3]].deathScreenTime += (eventDateToSeconds(unparsedEvent) - (((lastDeathTime[playerIDFinder[userId3]] < finalObject.rounds[finalObject.rounds.length-1].roundBegin) ? finalObject.rounds[finalObject.rounds.length-1].roundBegin : lastDeathTime[playerIDFinder[userId3]])));
+        lastDeathTime[playerIDFinder[userId3]] = 1 ;
     }
 }
 

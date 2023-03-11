@@ -169,7 +169,7 @@ async function worldEvents(unparsedEvent, finalObject) {
                 }
             }
 
-            finalObject.players[finalObjectArray[playerIndex][0]].combatScore = playerCombatScore;
+            finalObject.players[finalObjectArray[playerIndex][0]].combatScore = playerCombatScore === -1 ? 100 : playerCombatScore;
         }
     }
 }

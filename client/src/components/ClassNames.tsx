@@ -24,9 +24,9 @@ export const classList = {
     key: 'soldier',
     name: 'Soldier'
   },
-  'demo': {
+  'demoman': {
     key: 'demo',
-    name: 'Demo'
+    name: 'Demoman'
   },
   'engineer': {
     key: 'engineer',
