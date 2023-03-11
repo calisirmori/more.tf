@@ -23,7 +23,7 @@ const Home = () => {
   async function searchCall(input: string){
 
     const response: any = await fetch(
-      `http://localhost:8082/api/username-search/${input}`,
+      `/api/username-search/${input}`,
       FetchResultTypes.JSON
     );
 
@@ -34,7 +34,7 @@ const Home = () => {
     if( response.rows !== undefined ){
       for (let index = 0; index < response.rows.length; index++) {
         const steamResponse: any = await fetch(
-          `http://localhost:8082/api/steam-info/${response.rows[index].id64}`,
+          `/api/steam-info/${response.rows[index].id64}`,
           FetchResultTypes.JSON
         );
         steamCallArray.push(steamResponse.response.players[0]);
@@ -135,7 +135,7 @@ const Home = () => {
                   </span>
                   <div className="h-0.5 w-48 bg-warmscale-2"></div>
                 </div>
-                <a href="http://localhost:8082/api/auth/steam" className="flex h-10 items-center justify-center bg-gradient-to-t from-blue-900 to-warmscale-6 rounded-lg mt-4 py-5 cursor-pointer">
+                <a href="/api/auth/steam" className="flex h-10 items-center justify-center bg-gradient-to-t from-blue-900 to-warmscale-6 rounded-lg mt-4 py-5 cursor-pointer">
                   <span>Sign in through Steam</span>
                   <img
                     className="h-7 ml-3"

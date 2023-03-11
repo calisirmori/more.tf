@@ -64,7 +64,7 @@ const Logs = () => {
   async function apiCall() {
     try {
       const response: { players: Array<Object> } = await fetch(
-        `http://localhost:8082/api/log/${logId}`,
+        `/api/log/${logId}`,
         FetchResultTypes.JSON
       );
       setResponse(response);
@@ -680,7 +680,7 @@ const Logs = () => {
                                       >
                                         <a
                                           target="_blank"
-                                          href={`http://localhost:5173/profile/${player[0]}`}
+                                          href={`/profile/${player[0]}`}
                                           className="hover:bg-warmscale-8  px-2 py-1"
                                         >
                                           Profile

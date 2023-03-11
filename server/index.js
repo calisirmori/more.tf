@@ -37,8 +37,8 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: 'http://localhost:' + port + '/api/auth/steam/return',
- realm: 'http://localhost:' + port + '/',
+ returnURL: '/api/auth/steam/return',
+ realm: '/',
  apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
  }, function (identifier, profile, done) {
   process.nextTick(function () {
@@ -271,10 +271,10 @@ app.get("/api/log/:id", async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
 app.get("*", (_, res) => {
-  res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
 });
 
 app.listen(port, function () {

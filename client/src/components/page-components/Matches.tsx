@@ -79,7 +79,7 @@ const Matches = () => {
 
   async function steamInfoCallProfile() {
     const response: any = await fetch(
-      `http://localhost:8082/api/steam-info/${playerId}`,
+      `/api/steam-info/${playerId}`,
       FetchResultTypes.JSON
     );
     setProfileData(response.response.players[0]);
@@ -87,7 +87,7 @@ const Matches = () => {
 
   async function matchesInfoCall() {
     const response: any = await fetch(
-      `http://localhost:8082/api/match-history/${playerId}&class-played=${classSearched}&map=${mapSeached}&after=${dateSearched}&format=${formatSearched}&order=${sortBySearch}&limit=${limit}`,
+      `/api/match-history/${playerId}&class-played=${classSearched}&map=${mapSeached}&after=${dateSearched}&format=${formatSearched}&order=${sortBySearch}&limit=${limit}`,
       FetchResultTypes.JSON
     );
     setLogsData(response.rows);
