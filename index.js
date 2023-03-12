@@ -67,8 +67,7 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 });
 
 const pool = new Pool({
-  username: 'mori',
-  password: 'AVNS_Mgjn3GVV2dUH2ho46Nn',
+  password: 'AVNS_W6t7NShPvhKH3ijgW9j',
   host: 'moretf-db-do-user-13704767-0.b.db.ondigitalocean.com',
   port: 25060,
   database: 'preload-db',
