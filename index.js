@@ -37,9 +37,9 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: '/api/auth/steam/return',
- realm: '/api/steam',
- apiKey: '18D6B8C4F205B3A1BD6608A68EC83C3F'
+ returnURL: 'https://seahorse-app-xobrf.ondigitalocean.app/api/auth/steam/return',
+ realm: 'https://seahorse-app-xobrf.ondigitalocean.app',
+ apiKey: `${process.env.STEAMKEY}`
  }, function (identifier, profile, done) {
   process.nextTick(function () {
    profile.identifier = identifier;
@@ -62,7 +62,6 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/ap
  res.redirect('/api/steam')
 });
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
- console.log(crypto.randomUUID());
  res.redirect(`/profile/${res.req.user.id}`)
 });
 
@@ -204,7 +203,7 @@ app.get('/api/match-history/:id&class-played=:classPlayed&map=:map&after=:after&
 
 app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
-  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=18D6B8C4F205B3A1BD6608A68EC83C3F&steamids=${userId}`;
+  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY}&steamids=${userId}`;
 
   const logsApiResponse = await fetch(
     URL,
