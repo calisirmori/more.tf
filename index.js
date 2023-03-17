@@ -78,8 +78,11 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 });
 
 app.get('/api/myprofile', (req, res) => {
-  console.log("inrequest" + req.cookies , req.cookies.userid)
-  res.redirect(`/profile/${req.cookies.userid}`)
+  if (req.cookies.userid !== undefined){
+    res.redirect(`/profile/${req.cookies.userid}`)
+  } else {
+    res.redirect(`/api/auth/steam`)
+  }
 });
 
 const pool = new Pool({

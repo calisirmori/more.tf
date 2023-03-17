@@ -11,8 +11,9 @@ const Navbar = () => {
         <input className="bg-grayscale-9 h-9 text-white border border-grayscale-4 rounded-l-sm w-96 duration-300 max-lg:w-72 max-md:w-40 max-sm:w-0 max-sm:border-0" type="text" />
         <button className="bg-grayscale-6 h-9 px-4 rounded-r-sm text-white font-medium">SEARCH</button>
       </div> */}
-      <div className="flex text-white font-semibold text-2xl px-3 pt-1 font-cantarell">
+      <div className="flex text-white font-semibold text-2xl px-3 gap-8 pt-1 font-cantarell">
         <a href="/season-14-summary"> S14 Summary</a>
+        <a href="/api/myprofile">Profile</a>
       </div>
     </div>
   );
