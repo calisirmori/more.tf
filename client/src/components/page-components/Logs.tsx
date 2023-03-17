@@ -223,7 +223,7 @@ const Logs = () => {
     for (let index = 0; index < 1; index++) {
       currentResponse += currentPlayersArray[index][0];
     }
-    let demostfApiResponse: any = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-1000}&before=${apiResponse.info.date+5000}`, FetchResultTypes.JSON);
+    let demostfApiResponse: any = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-5000}&before=${apiResponse.info.date+5000}`, FetchResultTypes.JSON);
     if(demostfApiResponse.length !== 0){
       setCurrentDemosID(demostfApiResponse[demostfApiResponse.length-1].id)
     }

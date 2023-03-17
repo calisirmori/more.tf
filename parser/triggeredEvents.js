@@ -282,7 +282,21 @@ function commonEvents(unparsedEvent, finalObject, playerIDFinder, eventType) {
 
 function healEvent(unparsedEvent, finalObject, playerIDFinder) {
     let healerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(healerId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        healerId3 = "[U:1:" + steamAccount + "]";
+    }
     let recieverId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
+    if(recieverId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        recieverId3 = "[U:1:" + steamAccount + "]";
+     }
     let healDone = parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('")')));
 
     healDone > 80 && (finalObject.players[playerIDFinder[healerId3]].crossbowHealing += healDone);
@@ -360,7 +374,21 @@ function shotEvents(unparsedEvent, finalObject, playerIDFinder) {
 
 function damageEvent(unparsedEvent, finalObject, playerIDFinder) {
     let damageDealerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(damageDealerId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        damageDealerId3 = "[U:1:" + steamAccount + "]";
+    }
     let damageRecieverId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
+    if(damageRecieverId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        damageRecieverId3 = "[U:1:" + steamAccount + "]";
+    }
     let damageDealt = parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(damage "') + 9, unparsedEvent.lastIndexOf('") (weapon')));
 
     damageDealt === 0 && finalObject.players[playerIDFinder[damageDealerId3]].uberHits++;

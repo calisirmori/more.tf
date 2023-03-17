@@ -295,7 +295,6 @@ const SeasonSummary = () => {
               {displayArray.map((currentPlayer: any, index: number) => {
                 const playtimeInMinutes = currentPlayer[1].totalTime / 60;
                 const playerObject = currentPlayer[1];
-                console.log(currentPlayer);
                 return (
                   <div
                     key={index}

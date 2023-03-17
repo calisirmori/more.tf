@@ -146,6 +146,14 @@ function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
 
 function resupEvents(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(userId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        userId3 = "[U:1:" + steamAccount + "]";
+    }
 
     if(unparsedEvent.includes('tf_ammo_pack')){
         finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
@@ -169,6 +177,15 @@ function resupEvents(unparsedEvent, finalObject, playerIDFinder){
 
 function playerConnected(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(userId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        userId3 = "[U:1:" + steamAccount + "]";
+     }
+
     playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
     //Player Objects are initialized here
     if( !unparsedEvent.includes('connected, address') && !unparsedEvent.includes('entered') && !unparsedEvent.includes(' changed role to "undefined"')){
@@ -251,6 +268,14 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
 
 function classSwaps(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(userId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        userId3 = "[U:1:" + steamAccount + "]";
+     }
     let playerObject = finalObject.players[playerIDFinder[userId3]];
     let eventTime = eventDateToSeconds(unparsedEvent);
 
@@ -269,11 +294,27 @@ function classSwaps(unparsedEvent, finalObject, playerIDFinder){
 
 function suicideEvent(unparsedEvent, finalObject, playerIDFinder){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(userId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        userId3 = "[U:1:" + steamAccount + "]";
+     }
     finalObject.players[playerIDFinder[userId3]].suicides++;
 }
 
 function deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    if(userId3 === ""){
+        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
+        
+        const y = parseInt(currentId1.split(":")[1])
+        const z = parseInt(currentId1.split(":")[2])
+        let steamAccount = z * 2 + y;
+        userId3 = "[U:1:" + steamAccount + "]";
+     }
     if (lastDeathTime[playerIDFinder[userId3]] !== undefined && lastDeathTime[playerIDFinder[userId3]] !== 1){
         finalObject.players[playerIDFinder[userId3]].deathScreenTime += (eventDateToSeconds(unparsedEvent) - (((lastDeathTime[playerIDFinder[userId3]] < finalObject.rounds[finalObject.rounds.length-1].roundBegin) ? finalObject.rounds[finalObject.rounds.length-1].roundBegin : lastDeathTime[playerIDFinder[userId3]])));
         lastDeathTime[playerIDFinder[userId3]] = 1 ;

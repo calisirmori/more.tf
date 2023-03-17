@@ -51,12 +51,6 @@ passport.use(new SteamStrategy({
  }
 ));
 
-app.use(function (req, res, next) {
-  console.log(req.cookies);
-  console.log(req.cookies.userid);
-  next();
-});
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -257,7 +251,6 @@ app.get('/api/rgl-profile/:id', async(req, res) => {
 })
 
 app.post('/api/rgl-profile-bulk', async(req, res) => {
-  console.log(req)
   const rglApiResponse = await fetch(
       "https://api.rgl.gg/v0/profile/getmany",
       {

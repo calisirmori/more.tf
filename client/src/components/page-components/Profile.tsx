@@ -98,7 +98,6 @@ const Profile = () => {
       `/api/per-format-stats/${playerId}`,
       FetchResultTypes.JSON
     );
-    console.log(response.rows)
     setFormatData(response.rows);
   }
   
@@ -537,19 +536,21 @@ const Profile = () => {
                     const mapTies = parseInt(currentMap.t);
                     const currentmapSum = mapWins + mapLosses + mapTies;
                     if(index < 7){
-                      return(
-                        <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<6 && "border-b border-warmscale-7"}`}>
-                          <div className="">{currentMap.map.length > 0 && currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
-                          <div className="text-right">
-                            <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
-                            <div className="text-xs flex font-semibold text-lightscale-9">
-                              <div className="text-green-500 text-opacity-70">{mapWins}</div>-
-                              <div className="text-red-500 text-opacity-70">{mapLosses}</div>-
-                              <div className="text-stone-500 text-opacity-70">{mapTies}</div>
+                      if(currentMap.map !== null){
+                        return(
+                          <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<6 && "border-b border-warmscale-7"}`}>
+                            <div className="">{currentMap.map.length > 0 && currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
+                            <div className="text-right">
+                              <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
+                              <div className="text-xs flex font-semibold text-lightscale-9">
+                                <div className="text-green-500 text-opacity-70">{mapWins}</div>-
+                                <div className="text-red-500 text-opacity-70">{mapLosses}</div>-
+                                <div className="text-stone-500 text-opacity-70">{mapTies}</div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )
+                        )
+                      }
                     }
                   })}
                 <div className="text-sm flex justify-center text-warmscale-3 font-semibold -mt-2">
@@ -576,33 +577,35 @@ const Profile = () => {
                   const formatLosses = parseInt(currentFormat.l);
                   const formatTies = parseInt(currentFormat.t);
                   const currentFormatSum = formatWins + formatLosses + formatTies;
-                  return(
-                    <div className="flex text-right w-full items-center">
-                      <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
-                        {currentFormat.format === "other" ? "OTH" : currentFormat.format.toUpperCase()}
+                  if(currentFormat.format !== null){
+                    return(
+                      <div className="flex text-right w-full items-center">
+                        <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
+                          {currentFormat.format !== null && (currentFormat.format === "other" ? "OTH" : currentFormat.format.toUpperCase())}
+                        </div>
+                        <div className="h-2 group bg-warmscale-7 rounded-sm w-full flex hover:h-6 my-2 hover:my-0 duration-75">
+                          <div className="bg-green-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatWins / totalMatches)*100}%`}}>
+                            <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-green-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatWins !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
+                              {formatWins}
+                              <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                            </div>
+                          </div>
+                          <div className="bg-red-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full bg-opacity-70" style={{width : `${(formatLosses / totalMatches)*100}%`}}>
+                            <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-red-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatLosses !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
+                              {formatLosses}
+                              <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                            </div>
+                          </div>
+                          <div className="bg-stone-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-r-sm bg-opacity-70" style={{width : `${(formatTies / totalMatches)*100}%`}}>
+                            <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-stone-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatTies !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
+                              {formatTies}
+                              <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="h-2 group bg-warmscale-7 rounded-sm w-full flex hover:h-6 my-2 hover:my-0 duration-75">
-                        <div className="bg-green-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-l-sm bg-opacity-70" style={{width : `${(formatWins / totalMatches)*100}%`}}>
-                          <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-green-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatWins !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
-                            {formatWins}
-                            <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
-                          </div>
-                        </div>
-                        <div className="bg-red-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full bg-opacity-70" style={{width : `${(formatLosses / totalMatches)*100}%`}}>
-                          <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-red-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatLosses !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
-                            {formatLosses}
-                            <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
-                          </div>
-                        </div>
-                        <div className="bg-stone-500 group-hover:bg-opacity-100 relative flex items-center justify-center h-full rounded-r-sm bg-opacity-70" style={{width : `${(formatTies / totalMatches)*100}%`}}>
-                          <div className={`scale-0 bg-warmscale-6 px-1.5 rounded-sm text-stone-300 text-opacity-70 font-semibold text-sm py-0.5 ${formatTies !== 0 && "group-hover:scale-100"}  bottom-8 absolute left-1/2 transform -translate-x-1/2`}>
-                            {formatTies}
-                            <div className="h-2 w-2 flex justify-center  items-center bg-warmscale-6 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
+                    )
+                  }
                   })}
                 </div>
                 </div>
