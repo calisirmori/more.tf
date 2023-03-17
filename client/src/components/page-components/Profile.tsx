@@ -273,9 +273,6 @@ const Profile = () => {
                         Matches
                       </div>
                     </div>
-                    <div className=" text-lightscale-9 font-cantarell font-semibold">
-                      First Match: Feb 20, 2014
-                    </div>
                   </div>
                   <div className="bg-tf-orange h-2 mt-3 rounded-sm"></div>
                 </div>
@@ -410,13 +407,7 @@ const Profile = () => {
                             </div>
                             <div className="border-l text-lightscale-1 font-cantarell font-semibold border-warmscale-7 ml-3 py-2 h-full">
                               <div className="ml-3 text-xs text-lightscale-5">
-                                {match.players > 15
-                                  ? "HL"
-                                  : match.players > 10
-                                  ? "6S"
-                                  : match.players > 6
-                                  ? "4S"
-                                  : "2S"}
+                                {match.format === "other" ? "OTH" : match.format.toUpperCase()}
                               </div>
                             </div>
                             <div className="border-l text-lightscale-1 font-cantarellfont-semibold border-warmscale-7 w-24 ml-3 pl-3 h-full pr-3">
@@ -548,7 +539,7 @@ const Profile = () => {
                     if(index < 7){
                       return(
                         <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<6 && "border-b border-warmscale-7"}`}>
-                          {/* <div className="">{currentMap.map.length > 0 && currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div> */}
+                          <div className="">{currentMap.map.length > 0 && currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
                           <div className="text-right">
                             <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
                             <div className="text-xs flex font-semibold text-lightscale-9">

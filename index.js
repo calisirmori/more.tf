@@ -11,6 +11,7 @@ const session = require('express-session');
 const passportSteam = require('passport-steam');
 const SteamStrategy = passportSteam.Strategy;
 const fs = require('fs');
+const { makeSummary, rglAPIcalls } = require("./seasonSummaryMaker.js");
 const Pool = require('pg').Pool
 
 const port = process.env.PORT || 3000;
@@ -39,7 +40,7 @@ passport.serializeUser((user, done) => {
 passport.use(new SteamStrategy({
  returnURL: 'https://seahorse-app-xobrf.ondigitalocean.app/api/auth/steam/return',
  realm: 'https://seahorse-app-xobrf.ondigitalocean.app',
- apiKey: `${process.env.STEAMKEY}`
+ apiKey: `${process.env.STEAMKEY || "18D6B8C4F205B3A1BD6608A68EC83C3F"}`
  }, function (identifier, profile, done) {
   process.nextTick(function () {
    profile.identifier = identifier;
@@ -66,15 +67,18 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 });
 
 const pool = new Pool({
-  username: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  port: process.env.PGPORT,
-  database: process.env.PGDATABASE,
+  username: process.env.PGUSER || "mori",
+  password: process.env.PGPASSWORD || "AVNS_Mgjn3GVV2dUH2ho46Nn",
+  host: process.env.PGHOST || "moretf-db-do-user-13704767-0.b.db.ondigitalocean.com",
+  port: process.env.PGPORT || "25060",
+  database: process.env.PGDATABASE || "preload-db",
   ssl: {
     ca: fs.readFileSync("./ca-certificate.crt")
   },
 })
+
+// makeSummary();
+// rglAPIcalls();
 
 app.get('/api/calendar/:id', (req, response) => {
   let playerId = req.params.id;
@@ -203,7 +207,7 @@ app.get('/api/match-history/:id&class-played=:classPlayed&map=:map&after=:after&
 
 app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
-  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY}&steamids=${userId}`;
+  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY || "18D6B8C4F205B3A1BD6608A68EC83C3F"}&steamids=${userId}`;
 
   const logsApiResponse = await fetch(
     URL,

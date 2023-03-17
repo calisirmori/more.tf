@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../shared-components/Navbar";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { weaponsList } from "../WeaponNames";
+import { mapCordinates } from "../MapCalibrations";
 
 const Logs = () => {
   const id = window.location.href;
@@ -222,10 +223,10 @@ const Logs = () => {
     for (let index = 0; index < 1; index++) {
       currentResponse += currentPlayersArray[index][0];
     }
-    let demostfApiResponse: any = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-1000}`, FetchResultTypes.JSON);
+    let demostfApiResponse: any = await fetch(`https://api.demos.tf/demos/?map=${apiResponse.info.map}&players[]=${currentResponse}&after=${apiResponse.info.date-1000}&before=${apiResponse.info.date+5000}`, FetchResultTypes.JSON);
     if(demostfApiResponse.length !== 0){
-      setCurrentDemosID(demostfApiResponse[0].id)
-    } 
+      setCurrentDemosID(demostfApiResponse[demostfApiResponse.length-1].id)
+    }
   }
 
   function killSpreadSorter(sortBy: string) {
@@ -2045,13 +2046,13 @@ const Logs = () => {
                               />
                             </svg>
                           </div>
-                          <img
-                            src={`../../../map images/${
-                              apiResponse.info.map.split("_")[0]
-                            }_${apiResponse.info.map.split("_")[1]}.png`}
-                            alt=""
-                            className="h-full"
-                          />
+                          <div className="w-full h-full justify-center items-center">
+                            <img
+                              src={`../../../map images/${apiResponse.info.map.split("_")[1]}.png`}
+                              alt=""
+                              className="h-full w-full object-contain"
+                            />
+                          </div>
                           <div className="absolute top-0 left-0 h-full w-full">
                             {focusedKillEvent.killerId !== undefined && (
                               <div className="absolute right-12 top-3.5 text-lightscale-1 w-fit h-fit bg-lightscale-1 rounded-md bg-opacity-80 text-xs px-2 py-1 font-cantarell">
@@ -2101,9 +2102,10 @@ const Logs = () => {
                               className="absolute top-0 left-0 w-full h-full"
                             >
                               {apiResponse.events.map((killEvent: any, index: any) => {
-                                let currentScale = 0.06;
-                                let calibrationX = 300;
-                                let calibrationY = 240;
+                                const mapName = apiResponse.info.map.split("_")[1];
+                                let currentScale = mapCordinates[mapName].scale;
+                                let calibrationX = mapCordinates[mapName].x;
+                                let calibrationY = mapCordinates[mapName].y;
                                 if (
                                   killEvent[
                                     killMapShowDeaths ? "victimId" : "killerId"
