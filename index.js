@@ -74,7 +74,9 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/ap
 });
 
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
-  res.cookie('userkey', crypto.randomUUID() , { maxAge: 900000, httpOnly: true });
+  const randomKey = crypto.randomUUID();
+  res.cookie('userkey', randomKey , { maxAge: 900000, httpOnly: true });
+  pool.query(`INSERT INTO cookies VALUES (${res.req.user.id},${randomKey})`).then((res) => response.send(res)).catch((err) => console.error(err));
   res.redirect(`/profile/${res.req.user.id}`)
 });
 
@@ -100,6 +102,15 @@ app.get('/api/calendar/:id', (req, response) => {
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
+
+app.get('/api/findcookie/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select steamid from cookies where uuid="${playerId}"`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+
 
 app.get('/api/per-class-stats/:id', (req, response) => {
   let playerId = req.params.id;
