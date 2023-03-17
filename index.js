@@ -52,10 +52,9 @@ passport.use(new SteamStrategy({
 ));
 
 app.use(function (req, res, next) {
-  // check if client sent cookie
-  var cookie = req.cookies.userkey;
   console.log(req.cookies);
-  next(); // <-- important!
+  console.log(req.cookies.userid);
+  next();
 });
 
 app.use(function(req, res, next) {
@@ -74,19 +73,13 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/ap
 });
 
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
-  const randomKey = crypto.randomUUID();
-  res.cookie('userkey', randomKey , { maxAge: 900000, httpOnly: true });
-  pool.query(`INSERT INTO cookies VALUES (${res.req.user.id},${randomKey})`).then((res) => console.log(res)).catch((err) => console.error(err));
+  res.cookie('userid', res.req.user.id , { maxAge: 900000, httpOnly: true });
   res.redirect(`/profile/${res.req.user.id}`)
 });
 
-app.get('/api/profile/:id', (req, res) => {
-  let playerId = req.params.id;
-  pool.query(`select steamid from cookies where uuid="${playerId}"`)
-  .then((res) => response.send(res))
-  .catch((err) => console.error(err))
-  console.log(res);
-  res.redirect(`/profile/${res.req.user.id}`)
+app.get('/api/myprofile', (req, res) => {
+  console.log("inrequest" + req.cookies , req.cookies.userid)
+  res.redirect(`/profile/${req.cookies.userid}`)
 });
 
 const pool = new Pool({
