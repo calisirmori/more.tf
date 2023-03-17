@@ -29,18 +29,31 @@ const Profile = () => {
   }, []);
 
   async function steamInfoCallProfile() {
-    const response: any = await fetch(
-      `/api/steam-info/${playerId}`,
-      FetchResultTypes.JSON
-    );
-    setPlayerSteamInfo(response.response.players[0]);
+    let response: any;
+    try {
+      response = await fetch(
+        `/api/steam-info/${playerId}`,
+        FetchResultTypes.JSON
+      );  
+      setPlayerSteamInfo(response.response.players[0]);
+    } catch (error) {
+      console.log(error);
+      response.personaname = "Steam Error"
+      response.avatarfull = "Steam Error"
+      setPlayerSteamInfo(response);
+    }
   }
 
   async function steamInfoCall(currentPlayer: string) {
-    const response: any = await fetch(
-      `/api/steam-info/${currentPlayer}`,
-      FetchResultTypes.JSON
-    );
+    let response: any;
+    try {
+      response = await fetch(
+        `/api/steam-info/${currentPlayer}`,
+        FetchResultTypes.JSON
+      );
+    } catch (error) {
+      console.log(error);
+    }
     return response;
   }
 

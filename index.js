@@ -231,12 +231,16 @@ app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
   var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY || "18D6B8C4F205B3A1BD6608A68EC83C3F"}&steamids=${userId}`;
 
-  const logsApiResponse = await fetch(
-    URL,
-    FetchResultTypes.JSON
-  );
-
-  res.send(logsApiResponse);
+  try {
+    const logsApiResponse = await fetch(
+      URL,
+      FetchResultTypes.JSON
+    );
+    res.send(logsApiResponse);
+  } catch (error) {
+    res.send("steam error")
+  }
+  
 });
 
 app.get('/api/rgl-profile/:id', async(req, res) => {
