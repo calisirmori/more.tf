@@ -80,14 +80,14 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
   res.redirect(`/profile/${res.req.user.id}`)
 });
 
-app.get('/api/profile/:id', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
+app.get('/api/profile/:id', (req, res) => {
   let playerId = req.params.id;
   pool.query(`select steamid from cookies where uuid="${playerId}"`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
   console.log(res);
   res.redirect(`/profile/${res.req.user.id}`)
- });
+});
 
 const pool = new Pool({
   username: process.env.PGUSER || "mori",

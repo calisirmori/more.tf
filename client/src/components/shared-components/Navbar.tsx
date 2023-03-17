@@ -4,6 +4,12 @@ import moretfWhiteLogo from "../../assets/moretf-white-medium.png";
 const Navbar = () => {
   console.log(document.cookie)
   console.log(document)
+  var match = document.cookie.match(new RegExp('(^| )' + "userkey" + '=([^;]+)'));
+  if (match){
+    console.log(match);
+    console.log(match[2]);
+  } 
+  
   return (
     <div className="flex px-4 flex-wrap justify-between">
       <a href="/">
