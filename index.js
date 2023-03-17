@@ -40,8 +40,8 @@ passport.serializeUser((user, done) => {
  });
 
 passport.use(new SteamStrategy({
- returnURL: 'https://seahorse-app-xobrf.ondigitalocean.app/api/auth/steam/return',
- realm: 'https://seahorse-app-xobrf.ondigitalocean.app',
+ returnURL: 'https://dev.more.tf/api/auth/steam/return',
+ realm: 'https://dev.more.tf',
  apiKey: `${process.env.STEAMKEY || "18D6B8C4F205B3A1BD6608A68EC83C3F"}`
  }, function (identifier, profile, done) {
   process.nextTick(function () {
