@@ -280,7 +280,7 @@ const Profile = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex">
                       <div className={`${totalMatchWins > totalMatchLosses ? "text-green-600" : "text-red-600"} text-xl font-semibold font-cantarell`}>
-                        {Math.round(Math.max(totalMatchWins,totalMatchLosses)/totalMatches*1000)/10}%
+                        {Math.round(totalMatchWins/totalMatches*1000)/10}%
                       </div>
                       <div className="text-lightscale-1 text-xl ml-2 font-semibold font-cantarell">
                         Win Rate
@@ -294,7 +294,7 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="bg-warmscale-7 h-2 mt-3 rounded-sm drop-shadow-sm">
-                    <div className={`${totalMatchWins > totalMatchLosses ? "bg-green-600" : "bg-red-600"} h-2 rounded-sm`} style={{width: `${Math.max(totalMatchWins,totalMatchLosses)/totalMatches*100}%`}}></div>
+                    <div className={`${totalMatchWins > totalMatchLosses ? "bg-green-600" : "bg-red-600"} h-2 rounded-sm`} style={{width:`${totalMatchWins/totalMatches*100}%`}}></div>
                   </div>
                 </div>
               </div>
@@ -489,7 +489,7 @@ const Profile = () => {
                             <div className="ml-4 flex items-center">
                               <div className="text-right w-14 text-lightscale-1 font-semibold mb-0.5">
                                 {Math.round(
-                                  (Math.max(classPlayed.w, classPlayed.l) /
+                                  (classPlayed.w /
                                     totalGamesWithClass) *
                                     1000
                                 ) / 10}
@@ -504,7 +504,7 @@ const Profile = () => {
                                   }`}
                                   style={{
                                     width: `${
-                                      (Math.max(classPlayed.w, classPlayed.l) /
+                                      (classPlayed.w /
                                         totalGamesWithClass) *
                                       100
                                     }%`,
@@ -707,7 +707,7 @@ const Profile = () => {
                           <div className="flex items-center ml-4">
                             <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
                               {Math.round(
-                                (Math.max(teammateLoses, teammateWins) /
+                                (teammateWins /
                                   teammate.count) *
                                   100
                               )}
@@ -722,7 +722,7 @@ const Profile = () => {
                                 } rounded-sm`}
                                 style={{
                                   width: `${Math.round(
-                                    (Math.max(teammateLoses, teammateWins) /
+                                    (teammateWins /
                                       teammate.count) *
                                       100
                                   )}%`,

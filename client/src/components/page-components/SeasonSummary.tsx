@@ -267,7 +267,7 @@ const SeasonSummary = () => {
                     </svg>
                   </div>
                 )}
-                  DTM/m
+                  DT/m
                 </div>
                 <div
                   className="cursor-pointer flex justify-center items-center"
