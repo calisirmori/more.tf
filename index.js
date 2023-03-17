@@ -54,13 +54,7 @@ passport.use(new SteamStrategy({
 app.use(function (req, res, next) {
   // check if client sent cookie
   var cookie = req.cookies.userkey;
-  if (cookie === undefined) {
-    // no: set a new cookie
-    console.log('no cookie');
-  } else {
-    // yes, cookie was already present 
-    console.log('cookie exists', cookie);
-  } 
+  console.log(req.cookies);
   next(); // <-- important!
 });
 

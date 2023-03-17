@@ -1,6 +1,9 @@
 import React from "react";
 import moretfWhiteLogo from "../../assets/moretf-white-medium.png";
+
 const Navbar = () => {
+  console.log(document.cookie)
+  console.log(document)
   return (
     <div className="flex px-4 flex-wrap justify-between">
       <a href="/">
