@@ -13,8 +13,10 @@ const SteamStrategy = passportSteam.Strategy;
 const fs = require('fs');
 const { makeSummary, rglAPIcalls } = require("./seasonSummaryMaker.js");
 const Pool = require('pg').Pool
+const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 3000;
+
 
 app.use(express.json());
 app.use(cors());
@@ -28,7 +30,7 @@ app.use(session({
  }))
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(cookieParser());
  // Required to get data from user for sessions
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -49,6 +51,19 @@ passport.use(new SteamStrategy({
  }
 ));
 
+app.use(function (req, res, next) {
+  // check if client sent cookie
+  var cookie = req.cookies.userkey;
+  if (cookie === undefined) {
+    // no: set a new cookie
+    console.log('no cookie');
+  } else {
+    // yes, cookie was already present 
+    console.log('cookie exists', cookie);
+  } 
+  next(); // <-- important!
+});
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -59,11 +74,14 @@ app.use(function(req, res, next) {
 app.get('/api/steam', (req, res) => {
  res.send(req.user);
 });
+
 app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
  res.redirect('/api/steam')
 });
+
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
- res.redirect(`/profile/${res.req.user.id}`)
+  res.cookie('userkey', crypto.randomUUID , { maxAge: 900000, httpOnly: true });
+  res.redirect(`/profile/${res.req.user.id}`)
 });
 
 const pool = new Pool({

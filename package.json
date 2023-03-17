@@ -3,6 +3,7 @@
     "@sapphire/fetch": "^2.4.1",
     "@types/node": "^18.13.0",
     "adm-zip": "^0.5.10",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",

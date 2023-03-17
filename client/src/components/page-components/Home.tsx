@@ -101,16 +101,18 @@ const Home = () => {
                       {searchInput !== "" && searchSteamData.length !== undefined && inputFocused && 
                         <div className="w-full absolute left-0 top-0 min-h-40 bg-warmscale-85 rounded-b-md">
                           {searchSteamData.map((currentSearch:any, index:any) => {
-                            console.log(searchInternalData[index])
-                            return(
-                              <a href={`profile/${currentSearch.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
-                                <div className="flex items-center">
-                                  <img src={currentSearch.avatar} className="h-6" alt="" />
-                                  <div className="ml-2">{currentSearch.personaname}</div>
-                                </div>
-                                <div>{searchInternalData[index].count}</div>
-                              </a>
-                            )
+                            if(index < 10){
+                              return(
+                                <a href={`profile/${currentSearch.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
+                                  <div className="flex items-center">
+                                    <img src={currentSearch.avatar} className="h-6" alt="" />
+                                    <div className="ml-2">{currentSearch.personaname}</div>
+                                  </div>
+                                  <div>{searchInternalData[index].count}</div>
+                                </a>
+                              )
+                            }
+
                           })}
                         </div>
                       }
@@ -147,36 +149,36 @@ const Home = () => {
             </div>
             <div className="flex justify-center items-center w-[36rem] h-full max-xl:w-full max-md:px-10  max-sm:px-2 max-sm:scale-90 duration-100">
               <div className="grid grid-cols-3 w-full lg:h-60 gap-3 ">
-                <div className="relative">
+                <a className="relative" href="/log/3378398">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-lightscale-2 max-md:text-sm">
-                    YOUR LAST GAME
+                    EXAMPLE LOG
                   </span>
                   <div className="bg-warmscale-8 relative rounded-md border-2 border-warmscale-4 h-56 hover:border-warmscale-2 cursor-pointer duration-100">
                     <div className="font-light flex justify-center items-center font-robotomono py-1 bg-warmscale-7 drop-shadow-md rounded-t-md">
-                      #330694
+                      #3378398
                     </div>
                     <div className="flex justify-center items-center">
                       <div className=" rounded-full bg-gradient-to-b from-black to-warmscale-8 drop-shadow-lg mt-4">
                         <img
                           className="border-2 border-orange-600 h-14 w-14 object-cover m-1.5 rounded-full"
-                          src="https://i1.sndcdn.com/avatars-o3aKLC4MdTH7WA8t-4WjbyQ-t500x500.jpg"
+                          src="https://avatars.akamai.steamstatic.com/0462901bf034ef06615019cdb2bbfc9bc747b256_full.jpg"
                           alt=""
                         />
                       </div>
                     </div>
                     <div className="flex justify-center mt-3 font-quicksand max-md:text-sm  max-sm:text-xs">
-                      koth_ashville_rc1
+                      koth_product_final
                     </div>
                     <div className="flex justify-center -mt-1 font-quicksand text-orange-400 max-md:text-sm ">
                       Highlander
                     </div>
                     <div className="flex font-quicksand justify-center text-lightscale-2 mt-4 max-md:text-sm  max-sm:text-xs">
-                      <span className="max-sm:hidden">2:00PM </span>
-                      <span>01/24/2023</span>
+                      <span className="max-sm:hidden">5:35PM</span>
+                      <div className="ml-2">03/16/2023</div>
                     </div>
                   </div>
-                </div>
-                <a href="/profile/76561198068401396" className="relative">
+                </a>
+                <a href="/profile/76561197970669109" className="relative">
                   <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-lightscale-2 max-md:text-sm">
                     SIXES S10 MVP
                   </span>
@@ -185,41 +187,41 @@ const Home = () => {
                       <div className=" rounded-full bg-gradient-to-b from-black to-warmscale-8 drop-shadow-lg mt-12">
                         <img
                           className="border-2 border-orange-600 h-14 w-14 object-cover m-1.5 rounded-full"
-                          src="https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg"
+                          src="https://avatars.akamai.steamstatic.com/cd78b56fcb7cc9f74ae30b5b2add073f87bf7fdb_full.jpg"
                           alt=""
                         />
                       </div>
                     </div>
                     <div className="flex justify-center mt-3 font-quicksand font-semibold max-md:text-sm">
-                      BigJoe
+                      FROYO b4nny
                     </div>
                     <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400 max-md:text-sm">
-                      BestTeamEver
+                      froyotech
                     </div>
                   </div>
                 </a>
-                <div className="relative">
-                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-lightscale-32 max-md:text-sm">
-                    HL S13 MVP
+                <a href="/profile/76561198105529673" className="relative">
+                  <span className="flex justify-center items-center font-rajdhani font-semibold text-lg mb-1 text-lightscale-2 max-md:text-sm">
+                    HIGHLANDER S13 MVP
                   </span>
                   <div className="bg-warmscale-8 relative rounded-md border-2 border-warmscale-4 h-56 hover:border-warmscale-2 cursor-pointer duration-100">
                     <div className="flex justify-center items-center">
                       <div className=" rounded-full bg-gradient-to-b from-black to-warmscale-8 drop-shadow-lg mt-12">
                         <img
                           className="border-2 border-orange-600 h-14 w-14 object-cover m-1.5 rounded-full"
-                          src="https://marketplace.canva.com/EAEeKH905XY/2/0/1600w/canva-yellow-and-black-gamer-grunge-twitch-profile-picture-Yf5RCMJroQI.jpg"
+                          src="https://avatars.akamai.steamstatic.com/ae65b1629c9cdc1e20a938242bb10c51604587a1_full.jpg"
                           alt=""
                         />
                       </div>
                     </div>
                     <div className="flex justify-center mt-3 font-quicksand font-semibold max-md:text-sm">
-                      SmallerJoe
+                      blank
                     </div>
                     <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400 max-md:text-sm">
-                      NotSoBestTeam
+                      Team Fun
                     </div>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
