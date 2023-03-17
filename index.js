@@ -80,7 +80,7 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/ap
 });
 
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/api/steam'}), function (req, res) {
-  res.cookie('userkey', crypto.randomUUID , { maxAge: 900000, httpOnly: true });
+  res.cookie('userkey', crypto.randomUUID() , { maxAge: 900000, httpOnly: true });
   res.redirect(`/profile/${res.req.user.id}`)
 });
 
