@@ -9,6 +9,7 @@ const SeasonSummary = () => {
   const [currentClass, setCurrentClass] = useState<string>("scout");
   const [displayArray, setDisplayArray] = useState<any>([]);
   const [currentSort, setCurrentSort] = useState("kills");
+
   useEffect(() => {
     sortTable();
   }, [currentDivision, currentClass, currentSort]);
@@ -24,8 +25,9 @@ const SeasonSummary = () => {
       playerIndex < currentArray.length;
       playerIndex++
     ) {
-      if (currentArray[playerIndex][1].classPlayed === currentClass) {
-        playersWithClassSelection.push(currentArray[playerIndex]);
+      if (currentArray[playerIndex][1].classPlayed[currentClass] !== undefined) {
+        currentArray[playerIndex][1].classPlayed[currentClass].totalTime > 3600 && playersWithClassSelection.push(currentArray[playerIndex]);
+
       }
     }
     let unsortedArray: any = playersWithClassSelection;
@@ -44,12 +46,12 @@ const SeasonSummary = () => {
         let sortByStat;
         if (currentSort !== "kd") {
           sortByStat =
-            unsortedArray[innerIndex][1][currentSort] /
-            (unsortedArray[innerIndex][1].totalTime / 60);
+            unsortedArray[innerIndex][1].classPlayed[currentClass][currentSort] /
+            (unsortedArray[innerIndex][1].classPlayed[currentClass].totalTime / 60);
         } else {
           sortByStat =
-            unsortedArray[innerIndex][1].kills /
-            unsortedArray[innerIndex][1].deaths;
+            unsortedArray[innerIndex][1].classPlayed[currentClass].kills /
+            unsortedArray[innerIndex][1].classPlayed[currentClass].deaths;
         }
         if (sortByStat >= min) {
           min = sortByStat;
@@ -66,8 +68,8 @@ const SeasonSummary = () => {
   return (
     <div className=" bg-warmscale-7 min-h-screen py-3">
       <Navbar />
-      <div className="w-full h-full font-ubuntu">
-        <div className="flex justify-center mt-10">
+      <div className="w-full h-full font-ubuntu max-sm:scale-50 max-sm:-mt-52 max-lg:scale-50 max-xl:scale-75 max-lg:-mt-36 max-xl:-mt-20 max-md:scale-50">
+        <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
           <div className="bg-warmscale-8 rounded-t-md">
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
               RGL HL S14 SUMMARY
@@ -137,7 +139,7 @@ const SeasonSummary = () => {
               <div className="grid grid-cols-[250px,repeat(7,1fr)] text-center text-lightscale-1 font-semibold py-1 ">
                 <div className="text-left pl-3">PLAYER</div>
                 <div
-                  className="cursor-pointer flex justify-center items-center"
+                  className="cursor-pointer relative group flex justify-center items-center"
                   onClick={() => setCurrentSort("kills")}
                 >
                   {currentSort === "kills" && (
@@ -158,9 +160,13 @@ const SeasonSummary = () => {
                     </div>
                   )}
                   K/m
+                  <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+                    Kills Per Minute
+                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                  </div>
                 </div>
                 <div
-                  className="cursor-pointer flex justify-center items-center"
+                  className="cursor-pointer group relative flex justify-center items-center"
                   onClick={() => setCurrentSort("assists")}
                 >{currentSort === "assists" && (
                   <div className="-ml-2">
@@ -179,10 +185,15 @@ const SeasonSummary = () => {
                     </svg>
                   </div>
                 )}
+                
                   A/m
+                  <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+                    Assists Per Minute
+                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                  </div>
                 </div>
                 <div
-                  className="cursor-pointer flex justify-center items-center"
+                  className="cursor-pointer relative group flex justify-center items-center"
                   onClick={() => setCurrentSort("deaths")}
                 >{currentSort === "deaths" && (
                   <div className="-ml-2">
@@ -202,9 +213,13 @@ const SeasonSummary = () => {
                   </div>
                 )}
                   D/m
+                  <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+                    Deaths Per Minute
+                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                  </div>
                 </div>
                 <div
-                  className="cursor-pointer flex justify-center items-center"
+                  className="cursor-pointer relative group flex justify-center items-center"
                   onClick={() => setCurrentSort("kd")}
                 >{currentSort === "kd" && (
                   <div className="-ml-2">
@@ -224,9 +239,13 @@ const SeasonSummary = () => {
                   </div>
                 )}
                   K/D
+                  <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+                    Kill / Deaths
+                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                  </div>
                 </div>
                 <div
-                  className="cursor-pointer flex justify-center items-center"
+                  className="cursor-pointer relative group flex justify-center items-center"
                   onClick={() => setCurrentSort("damage")}
                 >{currentSort === "damage" && (
                   <div className="-ml-2">
@@ -246,9 +265,13 @@ const SeasonSummary = () => {
                   </div>
                 )}
                   DMG/m
+                  <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+                    Damage Per Minute
+                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                  </div>
                 </div>
                 <div
-                  className="cursor-pointer flex justify-center items-center"
+                  className="cursor-pointer group relative flex justify-center items-center"
                   onClick={() => setCurrentSort("damageTaken")}
                 >{currentSort === "damageTaken" && (
                   <div className="-ml-2">
@@ -268,6 +291,10 @@ const SeasonSummary = () => {
                   </div>
                 )}
                   DT/m
+                  <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+                    Damage Taken Per Minute
+                    <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                  </div>
                 </div>
                 <div
                   className="cursor-pointer flex justify-center items-center"
@@ -293,9 +320,9 @@ const SeasonSummary = () => {
                 </div>
               </div>
               {displayArray.map((currentPlayer: any, index: number) => {
-                const playtimeInMinutes = currentPlayer[1].totalTime / 60;
+                const playtimeInMinutes = currentPlayer[1].classPlayed[currentClass] !== undefined ?  (currentPlayer[1].classPlayed[currentClass].totalTime/ 60) : 0;
                 const playerObject = currentPlayer[1];
-                if(playtimeInMinutes > 60){
+                if(playtimeInMinutes > 60 ){
                   return (
                     <div
                       key={index}
@@ -332,7 +359,7 @@ const SeasonSummary = () => {
                           currentSort === "kills" && "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {(playerObject.kills / playtimeInMinutes).toFixed(2)}
+                        {(playerObject.classPlayed[currentClass].kills / playtimeInMinutes).toFixed(2)}
                       </div>
                       <div
                         className={` py-2.5 ${
@@ -340,7 +367,7 @@ const SeasonSummary = () => {
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {(playerObject.assists / playtimeInMinutes).toFixed(2)}
+                        {(playerObject.classPlayed[currentClass].assists / playtimeInMinutes).toFixed(2)}
                       </div>
                       <div
                         className={` py-2.5 ${
@@ -348,14 +375,14 @@ const SeasonSummary = () => {
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {(playerObject.deaths / playtimeInMinutes).toFixed(2)}
+                        {(playerObject.classPlayed[currentClass].deaths / playtimeInMinutes).toFixed(2)}
                       </div>
                       <div
                         className={` py-2.5 ${
                           currentSort === "kd" && "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {(playerObject.kills / playerObject.deaths).toFixed(2)}
+                        {(playerObject.classPlayed[currentClass].kills / playerObject.classPlayed[currentClass].deaths).toFixed(2)}
                       </div>
                       <div
                         className={` py-2.5 ${
@@ -363,7 +390,7 @@ const SeasonSummary = () => {
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {(playerObject.damage / playtimeInMinutes).toFixed(1)}
+                        {(playerObject.classPlayed[currentClass].damage / playtimeInMinutes).toFixed(1)}
                       </div>
                       <div
                         className={` py-2.5 ${
@@ -371,7 +398,7 @@ const SeasonSummary = () => {
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {(playerObject.damageTaken / playtimeInMinutes).toFixed(
+                        {(playerObject.classPlayed[currentClass].damageTaken / playtimeInMinutes).toFixed(
                           1
                         )}
                       </div>
@@ -381,7 +408,7 @@ const SeasonSummary = () => {
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {currentClass === "medic" ? ((playerObject.heal / playtimeInMinutes).toFixed(2)) : currentClass === "sniper" ? ((playerObject.headshotsHit / playtimeInMinutes).toFixed(2)) : currentClass === "spy" ? ((playerObject.backstabs / playtimeInMinutes).toFixed(2)) : (Math.ceil(playerObject.totalTime/60) + " mins")}
+                        {currentClass === "medic" ? ((playerObject.classPlayed[currentClass].heal / playtimeInMinutes).toFixed(2)) : currentClass === "sniper" ? ((playerObject.classPlayed[currentClass].headshotsHit / playtimeInMinutes).toFixed(2)) : currentClass === "spy" ? ((playerObject.classPlayed[currentClass].backstabs / playtimeInMinutes).toFixed(2)) : (Math.ceil(playerObject.classPlayed[currentClass].totalTime/60) + " mins")}
                       </div>
                     </div>
                   );
