@@ -295,95 +295,97 @@ const SeasonSummary = () => {
               {displayArray.map((currentPlayer: any, index: number) => {
                 const playtimeInMinutes = currentPlayer[1].totalTime / 60;
                 const playerObject = currentPlayer[1];
-                return (
-                  <div
-                    key={index}
-                    className={`grid grid-cols-[250px,repeat(7,1fr)] text-center text-lightscale-4 items-center ${
-                      index % 2 === 0 && "bg-warmscale-85"
-                    }`}
-                  >
-                    <div className="pl-3 text-left text-lightscale-2">
-                      <div className="-mb-2 truncate ">
-                        <a
-                          href={`/profile/${playerObject.playerID64}`}
-                          className="hover:text-tf-orange font-semibold"
-                        >
-                          {playerObject.playerUserName}
-                        </a>
+                if(playtimeInMinutes > 60){
+                  return (
+                    <div
+                      key={index}
+                      className={`grid grid-cols-[250px,repeat(7,1fr)] text-center text-lightscale-4 items-center ${
+                        index % 2 === 0 && "bg-warmscale-85"
+                      }`}
+                    >
+                      <div className="pl-3 text-left text-lightscale-2">
+                        <div className="-mb-2 truncate ">
+                          <a
+                            href={`/profile/${playerObject.playerID64}`}
+                            className="hover:text-tf-orange font-semibold"
+                          >
+                            {playerObject.playerUserName}
+                          </a>
+                        </div>
+                        <div>
+                          <a
+                            href={`${
+                              playerObject.teamId !== "none" &&
+                              "https://rgl.gg/Public/Team.aspx?t=${playerObject.teamId}&r=24"
+                            }`}
+                            className={`${
+                              playerObject.teamId !== "none" &&
+                              "hover:text-tf-orange"
+                            } select-none pl-0.5 text-xs text-lightscale-7`}
+                          >
+                            {playerObject.team}
+                          </a>
+                        </div>
                       </div>
-                      <div>
-                        <a
-                          href={`${
-                            playerObject.teamId !== "none" &&
-                            "https://rgl.gg/Public/Team.aspx?t=${playerObject.teamId}&r=24"
-                          }`}
-                          className={`${
-                            playerObject.teamId !== "none" &&
-                            "hover:text-tf-orange"
-                          } select-none pl-0.5 text-xs text-lightscale-7`}
-                        >
-                          {playerObject.team}
-                        </a>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === "kills" && "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {(playerObject.kills / playtimeInMinutes).toFixed(2)}
+                      </div>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === "assists" &&
+                          "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {(playerObject.assists / playtimeInMinutes).toFixed(2)}
+                      </div>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === "deaths" &&
+                          "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {(playerObject.deaths / playtimeInMinutes).toFixed(2)}
+                      </div>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === "kd" && "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {(playerObject.kills / playerObject.deaths).toFixed(2)}
+                      </div>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === "damage" &&
+                          "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {(playerObject.damage / playtimeInMinutes).toFixed(1)}
+                      </div>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === "damageTaken" &&
+                          "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {(playerObject.damageTaken / playtimeInMinutes).toFixed(
+                          1
+                        )}
+                      </div>
+                      <div
+                        className={` py-2.5 ${
+                          currentSort === `${currentClass === "medic" ? "heal" : currentClass === "sniper" ? "headshotsHit" : currentClass === "spy" ? "backstabs" : "totalTime"}` &&
+                          "bg-warmscale-2 bg-opacity-5"
+                        }`}
+                      >
+                        {currentClass === "medic" ? ((playerObject.heal / playtimeInMinutes).toFixed(2)) : currentClass === "sniper" ? ((playerObject.headshotsHit / playtimeInMinutes).toFixed(2)) : currentClass === "spy" ? ((playerObject.backstabs / playtimeInMinutes).toFixed(2)) : (Math.ceil(playerObject.totalTime/60) + " mins")}
                       </div>
                     </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === "kills" && "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {(playerObject.kills / playtimeInMinutes).toFixed(2)}
-                    </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === "assists" &&
-                        "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {(playerObject.assists / playtimeInMinutes).toFixed(2)}
-                    </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === "deaths" &&
-                        "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {(playerObject.deaths / playtimeInMinutes).toFixed(2)}
-                    </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === "kd" && "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {(playerObject.kills / playerObject.deaths).toFixed(2)}
-                    </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === "damage" &&
-                        "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {(playerObject.damage / playtimeInMinutes).toFixed(1)}
-                    </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === "damageTaken" &&
-                        "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {(playerObject.damageTaken / playtimeInMinutes).toFixed(
-                        1
-                      )}
-                    </div>
-                    <div
-                      className={` py-2.5 ${
-                        currentSort === `${currentClass === "medic" ? "heal" : currentClass === "sniper" ? "headshotsHit" : currentClass === "spy" ? "backstabs" : "totalTime"}` &&
-                        "bg-warmscale-2 bg-opacity-5"
-                      }`}
-                    >
-                      {currentClass === "medic" ? ((playerObject.heal / playtimeInMinutes).toFixed(2)) : currentClass === "sniper" ? ((playerObject.headshotsHit / playtimeInMinutes).toFixed(2)) : currentClass === "spy" ? ((playerObject.backstabs / playtimeInMinutes).toFixed(2)) : (Math.ceil(playerObject.totalTime/60) + " mins")}
-                    </div>
-                  </div>
-                );
+                  );
+                }
               })}
             </div>
           </div>
