@@ -343,7 +343,7 @@ const SeasonSummary = () => {
                           <a
                             href={`${
                               playerObject.teamId !== "none" &&
-                              "https://rgl.gg/Public/Team.aspx?t=${playerObject.teamId}&r=24"
+                              `https://rgl.gg/Public/Team.aspx?t=${playerObject.teamId}&r=24`
                             }`}
                             className={`${
                               playerObject.teamId !== "none" &&
