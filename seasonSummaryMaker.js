@@ -1,17 +1,14 @@
 const { fetch, FetchResultTypes } = require('@sapphire/fetch');
 const fs = require('fs');
-const { S14summary } = require('./summary');
-let inviteLogs   = [3348206,3353114,3357706,3362169,3367016,3371130,3376625,3348236,3353008,3362162,3367018,3371887,3376610,3348168,3357719,3362200,3367037,
-    3376588,3353101,3357681,3362220,3371829,3348281,3353019,3371885,3367006,3376632,3357696];
+const { S15summary } = require('./summary');
 
-let advancedLogs = [3348271,3353044,3362230,3371846,3376596,3353048,3367036,3371834,3348225,3353087,3357668,3348222,3353085,3357728,3362223,3371868,3376591
-    ,3348274,3367028,3376659,3367014,3357686,3362240,3357667,3362224,3367009];
+let inviteLogs   = [3429957,3429937,3430002];
 
-let mainLogs = [3348305,3353102,3357735,3362239,3367030,3371900,3376584,3348208,3353035,3357699,3367077,3353090,3362233,3376628,3348216,3367024,3371873,3376600,3353094,3357720,3362252,3366987,3376592
-    ,3348289,3353063,3357718,3362214,3367040,3371881,3353076,3357727,3367123,3371816,3348295,3357762,3376605,3348224,3348312,3360092,3362226,3371869,3376560];
+let advancedLogs = [3429952,3429944,3429979,3429935];
 
-let intermediateLogs = [3348268,3353025,3357723,3362175,3367000 ,3366943,3371825,3376567 ,3376542 ,3348176,3353173,3357804,3366912,3366954,3371865 ,3371822 ,3371788,3376619,3357639 ,3357692,3376639
-,3353053,3362202,3367061,3376566,3348209,3362246,3353081,3357677,3367069,3376638,3348228,3353139,3362161,3367073,3371949,3362227,3371810,3348257,3371901,3357715];
+let mainLogs = [3429972,3429956,3429931,3429942,3430214,3429982,3429950,3429971];
+
+let intermediateLogs = [3429864,3429833,3429908,3429959,3429976];
 
 let playerObject = { ["id3"] : {
                 "playerID64" : 0, 
@@ -115,7 +112,7 @@ function makeSummary(){
                 } 
             });
             if(count == intermediateLogs.length){
-                fs.writeFile('im.txt', JSON.stringify(currentObject,null,2), err => {
+                fs.writeFile('intermediateLogs.txt', JSON.stringify(currentObject,null,2), err => {
                     if (err) {
                       console.error(err);
                     }
@@ -131,8 +128,8 @@ function makeSummary(){
 
 function rglAPIcalls(){
 
-    let oldSummary = Object.entries(S14summary);
-    let newSummary = S14summary;
+    let oldSummary = Object.entries(S15summary);
+    let newSummary = S15summary;
     const forLoop = async _ => {
     for (let divisionIndex = 0; divisionIndex < oldSummary.length; divisionIndex++) {
         let playerArray = Object.entries(oldSummary[divisionIndex][1]);
@@ -155,11 +152,15 @@ function rglAPIcalls(){
 
 
 async function rglCall(currentPlayerId, id3, division, newSummary){
-    const response = await fetch(`http://localhost:3000/api/rgl-profile/${currentPlayerId}`, FetchResultTypes.JSON);
-    newSummary[division][id3].playerUserName = response.name;
-    newSummary[division][id3].division = response.currentTeams.highlander !== null ? response.currentTeams.highlander.divisionName : "none";
-    newSummary[division][id3].team = response.currentTeams.highlander !== null ? response.currentTeams.highlander.name : "none";
-    newSummary[division][id3].teamId = response.currentTeams.highlander !== null ? response.currentTeams.highlander.id : "none";
+    try {
+        const response = await fetch(`http://localhost:3000/api/rgl-profile/${currentPlayerId}`, FetchResultTypes.JSON);
+        newSummary[division][id3].playerUserName = response.name;
+        newSummary[division][id3].division = response.currentTeams.highlander !== null ? response.currentTeams.highlander.divisionName : "none";
+        newSummary[division][id3].team = response.currentTeams.highlander !== null ? response.currentTeams.highlander.name : "none";
+        newSummary[division][id3].teamId = response.currentTeams.highlander !== null ? response.currentTeams.highlander.id : "none";
+    } catch (error) {
+        
+    }
 }
 
 module.exports = { makeSummary, rglAPIcalls };

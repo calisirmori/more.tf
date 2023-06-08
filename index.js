@@ -17,6 +17,8 @@ const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 3000;
 
+//makeSummary();
+//rglAPIcalls()
 
 app.use(express.json());
 app.use(cors());
@@ -246,12 +248,16 @@ app.get('/api/steam-info/:id', async(req, res) => {
 app.get('/api/rgl-profile/:id', async(req, res) => {
   const userId = req.params.id;
   var URL = `https://api.rgl.gg/v0/profile/${userId}`;
-
-  const logsApiResponse = await fetch(
-    URL,
-    FetchResultTypes.JSON
-  );
-  res.send(logsApiResponse);
+  try {
+    const logsApiResponse = await fetch(
+      URL,
+      FetchResultTypes.JSON
+    );
+    res.send(logsApiResponse);
+  } catch (error) {
+    
+  }
+  
 })
 
 app.post('/api/rgl-profile-bulk', async(req, res) => {
