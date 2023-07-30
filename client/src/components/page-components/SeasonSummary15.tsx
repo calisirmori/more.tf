@@ -324,7 +324,7 @@ const SeasonSummary = () => {
                 
                 const playtimeInMinutes = currentPlayer[1].classPlayed[currentClass] !== undefined ?  (currentPlayer[1].classPlayed[currentClass].totalTime/ 60) : 0;
                 const playerObject = currentPlayer[1];
-                if(playtimeInMinutes > 0 ){
+                if(playtimeInMinutes > 45 ){
                   return (
                     <div
                       key={index}

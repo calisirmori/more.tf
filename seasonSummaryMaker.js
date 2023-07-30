@@ -2,7 +2,8 @@ const { fetch, FetchResultTypes } = require('@sapphire/fetch');
 const fs = require('fs');
 const { S15summary } = require('./summary');
 
-let inviteLogs   = [3429957,3429937,3430002];
+let inviteLogs   = [3429937,3434537,3439428,3444003,3451747,3453159,3429957,3434528,3439481,3443979,3453180,3457650,3434510,3439491,3448650,3457626
+    ,3430002,3439556,3443974,3444057,3448591,3453186,3434540,3448663,3457549,3429944];
 
 let advancedLogs = [3429952,3429944,3429979,3429935];
 
@@ -41,26 +42,31 @@ function id3toid64(userid3) {
 }
 
 function makeSummary(){
-    let summaryFinalObject = {};
-    let currentObject = {};
+    let summaryFinalObject = {
+        invite: {},
+        advanced: {},
+        main: {},
+        im: {}
+    };
+    let currentObjectInv = {};
+    let currentObjectAdv = {};
+    let currentObjectMain = {};
+    let currentObjectIm = {};
     let count = 1;
 
     const forLoop = async _ => {
         console.log('Start')
-        for (let index = 0; index < intermediateLogs.length; index++) {
-            let gameId = intermediateLogs[index];
-          console.log(count + "/" + intermediateLogs.length)
-          let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
-          let playersArray = Object.entries(apiResponse.players);
-          await new Promise(resolve => setTimeout(resolve, 100));
+        for (let index = 0; index < inviteLogs.length; index++) {
+            let gameId = inviteLogs[index];
+            console.log(count + "/" + (inviteLogs.length+advancedLogs.length+mainLogs.length+intermediateLogs.length))
+            let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
+            let playersArray = Object.entries(apiResponse.players);
+            await new Promise(resolve => setTimeout(resolve, 100));
             playersArray.map((playerStats) => {
-                // if(playerStats[1].class_stats[0].type === "pyro" ){
-                //     console.log(playerStats[1].class_stats[0].type,apiResponse.names[playerStats[0]],gameId )
-                // }
                 let playerObject = {
                     "playerID64" : id3toid64(playerStats[0]), 
                     playerUserName : apiResponse.names[playerStats[0]], 
-                    division : "intermediate", 
+                    division : "placeholder", 
                     team : apiResponse.info.title, 
                     teamPlacement : 0,
                     classPlayed : {},
@@ -84,52 +90,238 @@ function makeSummary(){
                     totalTime: playerStats[1].class_stats[0].total_time
                 }
                     
-                if(currentObject[playerStats[0]] == undefined){
-                    currentObject[playerStats[0]]= {...currentObject[playerStats], ...playerObject}
+                if(currentObjectInv[playerStats[0]] == undefined){
+                    currentObjectInv[playerStats[0]]= {...currentObjectInv[playerStats], ...playerObject}
                 }
                 
-                if(currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
+                if(currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
                 }
 
                 else {
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
-                    currentObject[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
+                    currentObjectInv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
                 } 
             });
-            if(count == intermediateLogs.length){
-                fs.writeFile('intermediateLogs.txt', JSON.stringify(currentObject,null,2), err => {
-                    if (err) {
-                      console.error(err);
-                    }
-                    console.log("wrote new file")
-                   });
-             }
+            summaryFinalObject.invite = currentObjectInv;
             count++;
         }
-        console.log('End')
+        for (let index = 0; index < advancedLogs.length; index++) {
+            let gameId = advancedLogs[index];
+            console.log(count + "/" + (inviteLogs.length+advancedLogs.length+mainLogs.length+intermediateLogs.length))
+            let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
+            let playersArray = Object.entries(apiResponse.players);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            playersArray.map((playerStats) => {
+                let playerObject = {
+                    "playerID64" : id3toid64(playerStats[0]), 
+                    playerUserName : apiResponse.names[playerStats[0]], 
+                    division : "placeholder", 
+                    team : apiResponse.info.title, 
+                    teamPlacement : 0,
+                    classPlayed : {},
+                }
+
+                let playerClassPlayedOject = {
+                    kills : playerStats[1].kills,
+                    deaths : playerStats[1].deaths,
+                    assists : playerStats[1].assists,
+                    damage : playerStats[1].dmg,
+                    dpm: playerStats[1].dapm,
+                    damageTaken : playerStats[1].dt,
+                    ubers : playerStats[1].ubers,
+                    drops : playerStats[1].drops,
+                    medkits : playerStats[1].medkits,
+                    backstabs : playerStats[1].backstabs,
+                    headshots : playerStats[1].headshots,
+                    headshotsHit : playerStats[1].headshots_hit,
+                    heal : playerStats[1].heal,
+                    pointsCapped : playerStats[1].cpc,
+                    totalTime: playerStats[1].class_stats[0].total_time
+                }
+                    
+                if(currentObjectAdv[playerStats[0]] == undefined){
+                    currentObjectAdv[playerStats[0]]= {...currentObjectAdv[playerStats], ...playerObject}
+                }
+                
+                if(currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
+                }
+
+                else {
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
+                    currentObjectAdv[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
+                } 
+            });
+            summaryFinalObject.advanced = currentObjectAdv;
+            count++;
+        }
+        for (let index = 0; index < mainLogs.length; index++) {
+            let gameId = mainLogs[index];
+            console.log(count + "/" + (inviteLogs.length+advancedLogs.length+mainLogs.length+intermediateLogs.length))
+            let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
+            let playersArray = Object.entries(apiResponse.players);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            playersArray.map((playerStats) => {
+                let playerObject = {
+                    "playerID64" : id3toid64(playerStats[0]), 
+                    playerUserName : apiResponse.names[playerStats[0]], 
+                    division : "placeholder", 
+                    team : apiResponse.info.title, 
+                    teamPlacement : 0,
+                    classPlayed : {},
+                }
+
+                let playerClassPlayedOject = {
+                    kills : playerStats[1].kills,
+                    deaths : playerStats[1].deaths,
+                    assists : playerStats[1].assists,
+                    damage : playerStats[1].dmg,
+                    dpm: playerStats[1].dapm,
+                    damageTaken : playerStats[1].dt,
+                    ubers : playerStats[1].ubers,
+                    drops : playerStats[1].drops,
+                    medkits : playerStats[1].medkits,
+                    backstabs : playerStats[1].backstabs,
+                    headshots : playerStats[1].headshots,
+                    headshotsHit : playerStats[1].headshots_hit,
+                    heal : playerStats[1].heal,
+                    pointsCapped : playerStats[1].cpc,
+                    totalTime: playerStats[1].class_stats[0].total_time
+                }
+                    
+                if(currentObjectMain[playerStats[0]] == undefined){
+                    currentObjectMain[playerStats[0]]= {...currentObjectMain[playerStats], ...playerObject}
+                }
+                
+                if(currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
+                }
+
+                else {
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
+                    currentObjectMain[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
+                } 
+            });
+            summaryFinalObject.main = currentObjectMain;
+            count++;
+        }
+        for (let index = 0; index < intermediateLogs.length; index++) {
+            let gameId = intermediateLogs[index];
+            console.log(count + "/" + (inviteLogs.length+advancedLogs.length+mainLogs.length+intermediateLogs.length))
+            let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
+            let playersArray = Object.entries(apiResponse.players);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            playersArray.map((playerStats) => {
+                let playerObject = {
+                    "playerID64" : id3toid64(playerStats[0]), 
+                    playerUserName : apiResponse.names[playerStats[0]], 
+                    division : "placeholder", 
+                    team : apiResponse.info.title, 
+                    teamPlacement : 0,
+                    classPlayed : {},
+                }
+
+                let playerClassPlayedOject = {
+                    kills : playerStats[1].kills,
+                    deaths : playerStats[1].deaths,
+                    assists : playerStats[1].assists,
+                    damage : playerStats[1].dmg,
+                    dpm: playerStats[1].dapm,
+                    damageTaken : playerStats[1].dt,
+                    ubers : playerStats[1].ubers,
+                    drops : playerStats[1].drops,
+                    medkits : playerStats[1].medkits,
+                    backstabs : playerStats[1].backstabs,
+                    headshots : playerStats[1].headshots,
+                    headshotsHit : playerStats[1].headshots_hit,
+                    heal : playerStats[1].heal,
+                    pointsCapped : playerStats[1].cpc,
+                    totalTime: playerStats[1].class_stats[0].total_time
+                }
+                    
+                if(currentObjectIm[playerStats[0]] == undefined){
+                    currentObjectIm[playerStats[0]]= {...currentObjectIm[playerStats], ...playerObject}
+                }
+                
+                if(currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
+                }
+
+                else {
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
+                    currentObjectIm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
+                } 
+            });
+            summaryFinalObject.im = currentObjectIm;
+            count++;
+        }
+        summaryFinalObject.im = currentObjectIm;
+        console.log('End');
+        rglAPIcalls(summaryFinalObject);
     }
     forLoop();
 }
 
-function rglAPIcalls(){
-
-    let oldSummary = Object.entries(S15summary);
-    let newSummary = S15summary;
+function rglAPIcalls(currentLog){
+    let oldSummary = Object.entries(currentLog);
+    let newSummary = currentLog;
     const forLoop = async _ => {
     for (let divisionIndex = 0; divisionIndex < oldSummary.length; divisionIndex++) {
         let playerArray = Object.entries(oldSummary[divisionIndex][1]);
@@ -141,7 +333,6 @@ function rglAPIcalls(){
                 if (err) {
                   console.error(err);
                 }
-                console.log("wrote new file")
             });
         }
         await new Promise(resolve => setTimeout(resolve, 100));       
