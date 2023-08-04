@@ -9,14 +9,14 @@ const SeasonSummary = () => {
   const [currentClass, setCurrentClass] = useState<string>("scout");
   const [displayArray, setDisplayArray] = useState<any>([]);
   const [currentSort, setCurrentSort] = useState("kills");
-
+  let rowCount = 0;
   useEffect(() => {
     sortTable();
   }, [currentDivision, currentClass, currentSort]);
 
   function sortTable() {
+    console.log(currentSort);
     let currentArray: any = Object.entries(summary[currentDivision]);
-    console.log(currentArray);
     let playersWithClassSelection: any = [];
     let sortedArray: any = [];
     
@@ -27,7 +27,6 @@ const SeasonSummary = () => {
     ) {
       if (currentArray[playerIndex][1].classPlayed[currentClass] !== undefined) {
         currentArray[playerIndex][1].classPlayed[currentClass].totalTime > 0 && playersWithClassSelection.push(currentArray[playerIndex]);
-
       }
     }
     let unsortedArray: any = playersWithClassSelection;
@@ -44,10 +43,13 @@ const SeasonSummary = () => {
         innerIndex++
       ) {
         let sortByStat;
-        if (currentSort !== "kd") {
+        
+        if (currentSort !== "kd" && currentSort !== "totalTime") {
           sortByStat =
             unsortedArray[innerIndex][1].classPlayed[currentClass][currentSort] /
             (unsortedArray[innerIndex][1].classPlayed[currentClass].totalTime / 60);
+        } else if (currentSort === "totalTime"){
+            sortByStat =unsortedArray[innerIndex][1].classPlayed[currentClass][currentSort];
         } else {
           sortByStat =
             unsortedArray[innerIndex][1].classPlayed[currentClass].kills /
@@ -62,7 +64,6 @@ const SeasonSummary = () => {
       unsortedArray.splice(currentSpot, 1);
       playerIndex = 0;
     }
-    console.log(sortedArray)
     setDisplayArray(sortedArray);
   }
 
@@ -71,7 +72,7 @@ const SeasonSummary = () => {
       <Navbar />
       <div className="w-full h-full font-ubuntu max-sm:scale-50 max-sm:-mt-52 max-lg:scale-50 max-xl:scale-75 max-lg:-mt-36 max-xl:-mt-20 max-md:scale-50">
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
-          <div className="bg-warmscale-8 rounded-t-md">
+          <div className="bg-warmscale-8 rounded-md">
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
               RGL HL S15 SUMMARY
             </div>
@@ -324,12 +325,14 @@ const SeasonSummary = () => {
                 
                 const playtimeInMinutes = currentPlayer[1].classPlayed[currentClass] !== undefined ?  (currentPlayer[1].classPlayed[currentClass].totalTime/ 60) : 0;
                 const playerObject = currentPlayer[1];
+
                 if(playtimeInMinutes > 45 ){
+                  rowCount++;
                   return (
                     <div
                       key={index}
                       className={`grid grid-cols-[250px,repeat(7,1fr)] text-center text-lightscale-4 items-center ${
-                        index % 2 === 0 && "bg-warmscale-85"
+                        rowCount % 2 === 1 && "bg-warmscale-85"
                       }`}
                     >
                       <div className="pl-3 text-left text-lightscale-2">
@@ -416,6 +419,9 @@ const SeasonSummary = () => {
                   );
                 }
               })}
+            </div>
+            <div className=" text-right text-warmscale-5 mb-2 mr-3 font-bold">
+              THANK YOU ZAHIR FOR COLLECTING THE LOGS
             </div>
           </div>
         </div>
