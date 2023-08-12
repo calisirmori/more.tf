@@ -445,7 +445,7 @@ const SeasonSummary = () => {
               })}
             </div>
             <div className=" text-right text-warmscale-5 mb-2 mr-3 font-bold">
-              THANK YOU ZAHIR FOR COLLECTING THE LOGS
+              THANK YOU ZAHIR AND POGO FOR COLLECTING THE LOGS
             </div>
           </div>
         </div>
