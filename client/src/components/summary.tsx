@@ -22104,7 +22104,7 @@ export const S15summary: any = {
       "playerID64": "76561198116398716",
       "playerUserName": "Empyrean",
       "division": "RGL-Main",
-      "team": "kendrick farmar",
+      "team": "Free Agent - Main",
       "teamPlacement": 0,
       "classPlayed": {
         "medic": {
@@ -22125,7 +22125,7 @@ export const S15summary: any = {
           "totalTime": 5659
         }
       },
-      "teamId": 11364
+      "teamId": 11137
     },
     "[U:1:56420567]": {
       "playerID64": "76561198016686295",
@@ -24834,7 +24834,7 @@ export const S15summary: any = {
     },
     "[U:1:215689410]": {
       "playerID64": "76561198175955138",
-      "playerUserName": "narwhal thing",
+      "playerUserName": "narwool",
       "division": "RGL-Main",
       "team": "BigBrainComp?",
       "teamPlacement": 0,
@@ -27955,7 +27955,7 @@ export const S15summary: any = {
       "playerID64": "76561198116398716",
       "playerUserName": "Empyrean",
       "division": "RGL-Main",
-      "team": "kendrick farmar",
+      "team": "Free Agent - Main",
       "teamPlacement": 0,
       "classPlayed": {
         "medic": {
@@ -27976,7 +27976,7 @@ export const S15summary: any = {
           "totalTime": 14063
         }
       },
-      "teamId": 11364
+      "teamId": 11137
     },
     "[U:1:190766514]": {
       "playerID64": "76561198151032242",
@@ -34239,9 +34239,9 @@ export const S15summary: any = {
     },
     "[U:1:150993992]": {
       "playerID64": "76561198111259720",
-      "playerUserName": "Talking Ben.",
-      "division": "placeholder",
-      "team": "official week 4",
+      "playerUserName": "firepow",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
       "teamPlacement": 0,
       "classPlayed": {
         "heavyweapons": {
@@ -34260,6 +34260,12988 @@ export const S15summary: any = {
           "heal": 89,
           "pointsCapped": 0,
           "totalTime": 264
+        }
+      },
+      "teamId": 11514
+    }
+  },
+  "am": {
+    "[U:1:414503476]": {
+      "playerID64": "76561198374769204",
+      "playerUserName": "karma",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 216,
+          "deaths": 118,
+          "assists": 82,
+          "damage": 108273,
+          "dpm": 3320,
+          "damageTaken": 75715,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 81,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 29,
+          "totalTime": 13691
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:78733613]": {
+      "playerID64": "76561198038999341",
+      "playerUserName": "pastry",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 74,
+          "deaths": 66,
+          "assists": 64,
+          "damage": 26308,
+          "dpm": 859,
+          "damageTaken": 23079,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5390,
+          "pointsCapped": 26,
+          "totalTime": 9395
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:427306081]": {
+      "playerID64": "76561198387571809",
+      "playerUserName": "floom",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 180,
+          "deaths": 87,
+          "assists": 41,
+          "damage": 63896,
+          "dpm": 2226,
+          "damageTaken": 36084,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 48,
+          "backstabs": 0,
+          "headshots": 132,
+          "headshotsHit": 224,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 10537
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:919085644]": {
+      "playerID64": "76561198879351372",
+      "playerUserName": "Coin",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 122,
+          "deaths": 63,
+          "assists": 77,
+          "damage": 35195,
+          "dpm": 1012,
+          "damageTaken": 50940,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 58,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1108,
+          "pointsCapped": 11,
+          "totalTime": 8501
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:457735407]": {
+      "playerID64": "76561198418001135",
+      "playerUserName": "Salt",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 141,
+          "deaths": 104,
+          "assists": 125,
+          "damage": 40324,
+          "dpm": 1272,
+          "damageTaken": 61205,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 140,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 31,
+          "pointsCapped": 30,
+          "totalTime": 13680
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:310697700]": {
+      "playerID64": "76561198270963428",
+      "playerUserName": "Garm",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 171,
+          "deaths": 162,
+          "assists": 18,
+          "damage": 71100,
+          "dpm": 2246,
+          "damageTaken": 29479,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 182,
+          "backstabs": 132,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 11772
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:108000904]": {
+      "playerID64": "76561198068266632",
+      "playerUserName": "A2",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 141,
+          "deaths": 127,
+          "assists": 63,
+          "damage": 55364,
+          "dpm": 1718,
+          "damageTaken": 47979,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 440,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 378,
+          "pointsCapped": 6,
+          "totalTime": 11772
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:200189345]": {
+      "playerID64": "76561198160455073",
+      "playerUserName": "hoot",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 295,
+          "deaths": 143,
+          "assists": 98,
+          "damage": 73860,
+          "dpm": 2387,
+          "damageTaken": 49664,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 225,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 213,
+          "pointsCapped": 32,
+          "totalTime": 13650
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:95447021]": {
+      "playerID64": "76561198055712749",
+      "playerUserName": "czarchasm",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 3,
+          "assists": 27,
+          "damage": 129,
+          "dpm": 4,
+          "damageTaken": 1445,
+          "ubers": 20,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 42310,
+          "pointsCapped": 2,
+          "totalTime": 1830
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:454694226]": {
+      "playerID64": "76561198414959954",
+      "playerUserName": "Mr_Stevie16",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 136,
+          "deaths": 195,
+          "assists": 14,
+          "damage": 45109,
+          "dpm": 1291,
+          "damageTaken": 36955,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 169,
+          "backstabs": 83,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 21,
+          "totalTime": 11947
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:103039631]": {
+      "playerID64": "76561198063305359",
+      "playerUserName": "Artgrenadier",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 25,
+          "deaths": 50,
+          "assists": 27,
+          "damage": 7947,
+          "dpm": 211,
+          "damageTaken": 18442,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 34,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 4174
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:348744899]": {
+      "playerID64": "76561198309010627",
+      "playerUserName": "pHIL - [3 sab",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 6,
+          "deaths": 27,
+          "assists": 80,
+          "damage": 2229,
+          "dpm": 56,
+          "damageTaken": 11411,
+          "ubers": 58,
+          "drops": 2,
+          "medkits": 28,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 130415,
+          "pointsCapped": 0,
+          "totalTime": 6551
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:219301563]": {
+      "playerID64": "76561198179567291",
+      "playerUserName": "loreson",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 55,
+          "deaths": 126,
+          "assists": 69,
+          "damage": 25434,
+          "dpm": 656,
+          "damageTaken": 36615,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 146,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 25,
+          "totalTime": 9109
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:326361429]": {
+      "playerID64": "76561198286627157",
+      "playerUserName": "Wubber",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 46,
+          "deaths": 29,
+          "assists": 20,
+          "damage": 28806,
+          "dpm": 918,
+          "damageTaken": 17654,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 42,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 3750
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:424423660]": {
+      "playerID64": "76561198384689388",
+      "playerUserName": "Guz",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 169,
+          "deaths": 88,
+          "assists": 81,
+          "damage": 49047,
+          "dpm": 1593,
+          "damageTaken": 59412,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 96,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1455,
+          "pointsCapped": 14,
+          "totalTime": 9064
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:168642801]": {
+      "playerID64": "76561198128908529",
+      "playerUserName": "pn20",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 114,
+          "deaths": 149,
+          "assists": 32,
+          "damage": 44812,
+          "dpm": 1215,
+          "damageTaken": 36684,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 190,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 13,
+          "totalTime": 8647
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:932411525]": {
+      "playerID64": "76561198892677253",
+      "playerUserName": "JuiceBoxoi",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 283,
+          "deaths": 143,
+          "assists": 30,
+          "damage": 93912,
+          "dpm": 2840,
+          "damageTaken": 46413,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 5,
+          "headshots": 198,
+          "headshotsHit": 276,
+          "heal": 0,
+          "pointsCapped": 15,
+          "totalTime": 11765
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:312405936]": {
+      "playerID64": "76561198272671664",
+      "playerUserName": "Panaman",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 151,
+          "deaths": 163,
+          "assists": 124,
+          "damage": 47640,
+          "dpm": 1385,
+          "damageTaken": 45652,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 170,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3521,
+          "pointsCapped": 28,
+          "totalTime": 14572
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:134514905]": {
+      "playerID64": "76561198094780633",
+      "playerUserName": "hart",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 129,
+          "deaths": 124,
+          "assists": 52,
+          "damage": 64308,
+          "dpm": 1878,
+          "damageTaken": 58748,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 110,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 24,
+          "totalTime": 11557
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:86136105]": {
+      "playerID64": "76561198046401833",
+      "playerUserName": "Spunk Nugget",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 51,
+          "deaths": 63,
+          "assists": 41,
+          "damage": 12233,
+          "dpm": 488,
+          "damageTaken": 27423,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 35,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 18,
+          "totalTime": 5951
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:205038078]": {
+      "playerID64": "76561198165303806",
+      "playerUserName": "Tony Cannoli",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 110,
+          "deaths": 147,
+          "assists": 47,
+          "damage": 37949,
+          "dpm": 1153,
+          "damageTaken": 39173,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 254,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 30,
+          "totalTime": 13083
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:156154203]": {
+      "playerID64": "76561198116419931",
+      "playerUserName": "Theory-Y",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 6,
+          "deaths": 42,
+          "assists": 116,
+          "damage": 2017,
+          "dpm": 64,
+          "damageTaken": 21148,
+          "ubers": 80,
+          "drops": 3,
+          "medkits": 40,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 226387,
+          "pointsCapped": 8,
+          "totalTime": 9471
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:464688390]": {
+      "playerID64": "76561198424954118",
+      "playerUserName": "Infamy",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 127,
+          "deaths": 121,
+          "assists": 27,
+          "damage": 45026,
+          "dpm": 1266,
+          "damageTaken": 37574,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 43,
+          "backstabs": 0,
+          "headshots": 93,
+          "headshotsHit": 149,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 11812
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:87075085]": {
+      "playerID64": "76561198047340813",
+      "playerUserName": "Omelette",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 134,
+          "deaths": 139,
+          "assists": 89,
+          "damage": 49921,
+          "dpm": 1512,
+          "damageTaken": 89130,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 65,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1032,
+          "pointsCapped": 22,
+          "totalTime": 13162
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:125123234]": {
+      "playerID64": "76561198085388962",
+      "playerUserName": "paste",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 76,
+          "deaths": 76,
+          "assists": 40,
+          "damage": 23486,
+          "dpm": 869,
+          "damageTaken": 22127,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 79,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1816,
+          "pointsCapped": 17,
+          "totalTime": 8432
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:30548234]": {
+      "playerID64": "76561197990813962",
+      "playerUserName": "Cheeseman420",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 176,
+          "deaths": 125,
+          "assists": 39,
+          "damage": 64964,
+          "dpm": 1790,
+          "damageTaken": 44150,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 508,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 11545
+        },
+        "demoman": {
+          "kills": 41,
+          "deaths": 8,
+          "assists": 17,
+          "damage": 16032,
+          "dpm": 620,
+          "damageTaken": 8452,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1551
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:250167635]": {
+      "playerID64": "76561198210433363",
+      "playerUserName": "steady",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 7,
+          "deaths": 90,
+          "assists": 116,
+          "damage": 2035,
+          "dpm": 48,
+          "damageTaken": 29041,
+          "ubers": 59,
+          "drops": 6,
+          "medkits": 54,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 183686,
+          "pointsCapped": 10,
+          "totalTime": 13126
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:249375631]": {
+      "playerID64": "76561198209641359",
+      "playerUserName": "BobbyBigPlays",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 118,
+          "deaths": 140,
+          "assists": 10,
+          "damage": 48210,
+          "dpm": 1429,
+          "damageTaken": 25662,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 147,
+          "backstabs": 100,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 12345
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:487334809]": {
+      "playerID64": "76561198447600537",
+      "playerUserName": "doorknob",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 82,
+          "deaths": 49,
+          "assists": 56,
+          "damage": 26939,
+          "dpm": 946,
+          "damageTaken": 38365,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 32,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 611,
+          "pointsCapped": 7,
+          "totalTime": 5185
+        },
+        "engineer": {
+          "kills": 52,
+          "deaths": 42,
+          "assists": 51,
+          "damage": 15065,
+          "dpm": 452,
+          "damageTaken": 13374,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 55,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1284,
+          "pointsCapped": 2,
+          "totalTime": 4295
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:156092861]": {
+      "playerID64": "76561198116358589",
+      "playerUserName": "WinterPyro",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 267,
+          "deaths": 157,
+          "assists": 37,
+          "damage": 86090,
+          "dpm": 2312,
+          "damageTaken": 58507,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 56,
+          "backstabs": 0,
+          "headshots": 199,
+          "headshotsHit": 277,
+          "heal": 0,
+          "pointsCapped": 15,
+          "totalTime": 16096
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:281222158]": {
+      "playerID64": "76561198241487886",
+      "playerUserName": "nurse sam",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 7,
+          "deaths": 86,
+          "assists": 151,
+          "damage": 1909,
+          "dpm": 50,
+          "damageTaken": 32138,
+          "ubers": 106,
+          "drops": 6,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 256841,
+          "pointsCapped": 16,
+          "totalTime": 13983
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:192982016]": {
+      "playerID64": "76561198153247744",
+      "playerUserName": "{GTS} King Shruu",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 60,
+          "deaths": 59,
+          "assists": 53,
+          "damage": 18704,
+          "dpm": 447,
+          "damageTaken": 17062,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 92,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1596,
+          "pointsCapped": 9,
+          "totalTime": 4940
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:115728765]": {
+      "playerID64": "76561198075994493",
+      "playerUserName": "Cipherlock",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 162,
+          "deaths": 192,
+          "assists": 113,
+          "damage": 58559,
+          "dpm": 1513,
+          "damageTaken": 125082,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 104,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2629,
+          "pointsCapped": 20,
+          "totalTime": 15917
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:183275815]": {
+      "playerID64": "76561198143541543",
+      "playerUserName": "Phantom",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 173,
+          "deaths": 152,
+          "assists": 70,
+          "damage": 65253,
+          "dpm": 1616,
+          "damageTaken": 52805,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 490,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1695,
+          "pointsCapped": 3,
+          "totalTime": 11740
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:57009979]": {
+      "playerID64": "76561198017275707",
+      "playerUserName": "Frank Accardi",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 281,
+          "deaths": 252,
+          "assists": 120,
+          "damage": 85176,
+          "dpm": 2214,
+          "damageTaken": 60518,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 293,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1016,
+          "pointsCapped": 34,
+          "totalTime": 16096
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:333926559]": {
+      "playerID64": "76561198294192287",
+      "playerUserName": "On Jah",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 126,
+          "deaths": 206,
+          "assists": 19,
+          "damage": 51950,
+          "dpm": 1274,
+          "damageTaken": 35572,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 105,
+          "backstabs": 96,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 12065
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:58249780]": {
+      "playerID64": "76561198018515508",
+      "playerUserName": "french fry",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 173,
+          "deaths": 144,
+          "assists": 84,
+          "damage": 41755,
+          "dpm": 1036,
+          "damageTaken": 60853,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 171,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 62,
+          "pointsCapped": 19,
+          "totalTime": 13943
+        },
+        "spy": {
+          "kills": 36,
+          "deaths": 22,
+          "assists": 3,
+          "damage": 13308,
+          "dpm": 378,
+          "damageTaken": 6220,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 72,
+          "backstabs": 24,
+          "headshots": 2,
+          "headshotsHit": 4,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2113
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:233271814]": {
+      "playerID64": "76561198193537542",
+      "playerUserName": "Cola",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 2,
+          "deaths": 13,
+          "assists": 27,
+          "damage": 512,
+          "dpm": 12,
+          "damageTaken": 6279,
+          "ubers": 21,
+          "drops": 4,
+          "medkits": 36,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 48104,
+          "pointsCapped": 0,
+          "totalTime": 2382
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:918431441]": {
+      "playerID64": "76561198878697169",
+      "playerUserName": "Game Knight",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 281,
+          "deaths": 145,
+          "assists": 91,
+          "damage": 130142,
+          "dpm": 3467,
+          "damageTaken": 85913,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 154,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 16096
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:88629310]": {
+      "playerID64": "76561198048895038",
+      "playerUserName": "Bumbler",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 166,
+          "deaths": 200,
+          "assists": 96,
+          "damage": 59933,
+          "dpm": 1769,
+          "damageTaken": 118855,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 68,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1495,
+          "pointsCapped": 28,
+          "totalTime": 13955
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:80822980]": {
+      "playerID64": "76561198041088708",
+      "playerUserName": "Kalaner",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 8,
+          "deaths": 101,
+          "assists": 145,
+          "damage": 2663,
+          "dpm": 82,
+          "damageTaken": 35796,
+          "ubers": 101,
+          "drops": 6,
+          "medkits": 92,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 239219,
+          "pointsCapped": 19,
+          "totalTime": 13955
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:95321331]": {
+      "playerID64": "76561198055587059",
+      "playerUserName": "Kodiak",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 117,
+          "deaths": 144,
+          "assists": 80,
+          "damage": 29272,
+          "dpm": 892,
+          "damageTaken": 59527,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 117,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 23,
+          "totalTime": 13955
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:75697820]": {
+      "playerID64": "76561198035963548",
+      "playerUserName": "Twobold",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 253,
+          "deaths": 187,
+          "assists": 81,
+          "damage": 98981,
+          "dpm": 2942,
+          "damageTaken": 59285,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 486,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 13929
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:83052908]": {
+      "playerID64": "76561198043318636",
+      "playerUserName": "Salty Phish",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 190,
+          "deaths": 217,
+          "assists": 8,
+          "damage": 78693,
+          "dpm": 2320,
+          "damageTaken": 39233,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 218,
+          "backstabs": 169,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 13955
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:84163640]": {
+      "playerID64": "76561198044429368",
+      "playerUserName": "w puffpuff",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 196,
+          "deaths": 189,
+          "assists": 80,
+          "damage": 82417,
+          "dpm": 2382,
+          "damageTaken": 68315,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 154,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 19,
+          "totalTime": 13954
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:116000844]": {
+      "playerID64": "76561198076266572",
+      "playerUserName": "Nat1110",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 44,
+          "deaths": 76,
+          "assists": 51,
+          "damage": 22584,
+          "dpm": 827,
+          "damageTaken": 23691,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 73,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2247,
+          "pointsCapped": 11,
+          "totalTime": 8213
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:85698845]": {
+      "playerID64": "76561198045964573",
+      "playerUserName": "LazyPurple",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 254,
+          "deaths": 200,
+          "assists": 112,
+          "damage": 76745,
+          "dpm": 2384,
+          "damageTaken": 55316,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 347,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 97,
+          "pointsCapped": 31,
+          "totalTime": 13955
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:124045278]": {
+      "playerID64": "76561198084311006",
+      "playerUserName": "sat",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 154,
+          "deaths": 155,
+          "assists": 26,
+          "damage": 49069,
+          "dpm": 1738,
+          "damageTaken": 46417,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 33,
+          "backstabs": 0,
+          "headshots": 119,
+          "headshotsHit": 173,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 10274
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:312154930]": {
+      "playerID64": "76561198272420658",
+      "playerUserName": "Helloppl65",
+      "division": "RGL-Intermediate",
+      "team": "Free Agent - Intermediate",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 51,
+          "deaths": 29,
+          "assists": 10,
+          "damage": 16943,
+          "dpm": 322,
+          "damageTaken": 12864,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 10,
+          "backstabs": 0,
+          "headshots": 34,
+          "headshotsHit": 66,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 3152
+        }
+      },
+      "teamId": 11138
+    },
+    "[U:1:109689228]": {
+      "playerID64": "76561198069954956",
+      "playerUserName": "loot",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 224,
+          "deaths": 170,
+          "assists": 39,
+          "damage": 73593,
+          "dpm": 2069,
+          "damageTaken": 53565,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 83,
+          "backstabs": 0,
+          "headshots": 135,
+          "headshotsHit": 211,
+          "heal": 0,
+          "pointsCapped": 14,
+          "totalTime": 12996
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:967251743]": {
+      "playerID64": "76561198927517471",
+      "playerUserName": "spoonful",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 106,
+          "deaths": 120,
+          "assists": 77,
+          "damage": 35774,
+          "dpm": 1113,
+          "damageTaken": 34519,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 99,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 4252,
+          "pointsCapped": 16,
+          "totalTime": 12996
+        },
+        "sniper": {
+          "kills": 38,
+          "deaths": 35,
+          "assists": 5,
+          "damage": 11960,
+          "dpm": 303,
+          "damageTaken": 10204,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 28,
+          "headshotsHit": 44,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2366
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:87844409]": {
+      "playerID64": "76561198048110137",
+      "playerUserName": "gr4ndp4",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 205,
+          "deaths": 155,
+          "assists": 72,
+          "damage": 81108,
+          "dpm": 2070,
+          "damageTaken": 55806,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 497,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 222,
+          "pointsCapped": 17,
+          "totalTime": 13769
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:103861284]": {
+      "playerID64": "76561198064127012",
+      "playerUserName": "Wingm4n",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 155,
+          "deaths": 249,
+          "assists": 98,
+          "damage": 60180,
+          "dpm": 1687,
+          "damageTaken": 56888,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 329,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 33,
+          "totalTime": 15363
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:85256868]": {
+      "playerID64": "76561198045522596",
+      "playerUserName": "Le4n!!!",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 221,
+          "deaths": 141,
+          "assists": 85,
+          "damage": 117597,
+          "dpm": 3245,
+          "damageTaken": 81563,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 153,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 27,
+          "totalTime": 15363
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:131869842]": {
+      "playerID64": "76561198092135570",
+      "playerUserName": "Oak",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 170,
+          "deaths": 122,
+          "assists": 73,
+          "damage": 52184,
+          "dpm": 1437,
+          "damageTaken": 76268,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 105,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2442,
+          "pointsCapped": 18,
+          "totalTime": 11404
+        },
+        "soldier": {
+          "kills": 40,
+          "deaths": 27,
+          "assists": 7,
+          "damage": 10129,
+          "dpm": 381,
+          "damageTaken": 6796,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 49,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1592
+        },
+        "engineer": {
+          "kills": 38,
+          "deaths": 36,
+          "assists": 18,
+          "damage": 11896,
+          "dpm": 301,
+          "damageTaken": 9977,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 26,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 737,
+          "pointsCapped": 4,
+          "totalTime": 2367
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:286434644]": {
+      "playerID64": "76561198246700372",
+      "playerUserName": "Deez Noodlez",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 104,
+          "deaths": 154,
+          "assists": 100,
+          "damage": 36719,
+          "dpm": 1082,
+          "damageTaken": 68802,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 128,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 52,
+          "pointsCapped": 23,
+          "totalTime": 15363
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:426421818]": {
+      "playerID64": "76561198386687546",
+      "playerUserName": "Lylith",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 9,
+          "deaths": 70,
+          "assists": 158,
+          "damage": 1774,
+          "dpm": 42,
+          "damageTaken": 29338,
+          "ubers": 126,
+          "drops": 13,
+          "medkits": 72,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 295144,
+          "pointsCapped": 19,
+          "totalTime": 15362
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:1020743280]": {
+      "playerID64": "76561198981009008",
+      "playerUserName": "to4st",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 285,
+          "deaths": 222,
+          "assists": 12,
+          "damage": 110577,
+          "dpm": 3166,
+          "damageTaken": 39970,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 259,
+          "backstabs": 229,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 15363
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:156380250]": {
+      "playerID64": "76561198116645978",
+      "playerUserName": "Induce Salt",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 113,
+          "deaths": 138,
+          "assists": 109,
+          "damage": 46483,
+          "dpm": 1452,
+          "damageTaken": 45468,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 118,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 9695,
+          "pointsCapped": 33,
+          "totalTime": 13593
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:84721178]": {
+      "playerID64": "76561198044986906",
+      "playerUserName": "Fitts1099",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 127,
+          "deaths": 114,
+          "assists": 54,
+          "damage": 47542,
+          "dpm": 1190,
+          "damageTaken": 86025,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 51,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1302,
+          "pointsCapped": 17,
+          "totalTime": 9194
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:114680945]": {
+      "playerID64": "76561198074946673",
+      "playerUserName": "local man",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 116,
+          "deaths": 116,
+          "assists": 65,
+          "damage": 36836,
+          "dpm": 950,
+          "damageTaken": 31595,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 250,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 27,
+          "totalTime": 9240
+        },
+        "heavyweapons": {
+          "kills": 71,
+          "deaths": 25,
+          "assists": 35,
+          "damage": 21272,
+          "dpm": 801,
+          "damageTaken": 20606,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 69,
+          "pointsCapped": 8,
+          "totalTime": 3141
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:491237810]": {
+      "playerID64": "76561198451503538",
+      "playerUserName": "Rez LeRoux",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 5,
+          "deaths": 52,
+          "assists": 148,
+          "damage": 1723,
+          "dpm": 45,
+          "damageTaken": 25388,
+          "ubers": 119,
+          "drops": 11,
+          "medkits": 68,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 251792,
+          "pointsCapped": 13,
+          "totalTime": 13593
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:204798190]": {
+      "playerID64": "76561198165063918",
+      "playerUserName": "dougrocks421",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 156,
+          "deaths": 147,
+          "assists": 53,
+          "damage": 83815,
+          "dpm": 2611,
+          "damageTaken": 67249,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 82,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 19,
+          "totalTime": 13587
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:96187363]": {
+      "playerID64": "76561198056453091",
+      "playerUserName": "Danmar33",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 224,
+          "deaths": 179,
+          "assists": 99,
+          "damage": 92864,
+          "dpm": 2856,
+          "damageTaken": 67250,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 512,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 13,
+          "pointsCapped": 16,
+          "totalTime": 13593
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:463455726]": {
+      "playerID64": "76561198423721454",
+      "playerUserName": "LegacyKiwi",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 20,
+          "deaths": 26,
+          "assists": 13,
+          "damage": 5513,
+          "dpm": 153,
+          "damageTaken": 9384,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 2151
+        },
+        "spy": {
+          "kills": 120,
+          "deaths": 147,
+          "assists": 8,
+          "damage": 42650,
+          "dpm": 1187,
+          "damageTaken": 28098,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 89,
+          "backstabs": 79,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 8716
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:244334885]": {
+      "playerID64": "76561198204600613",
+      "playerUserName": "syco",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 198,
+          "deaths": 239,
+          "assists": 16,
+          "damage": 74516,
+          "dpm": 2269,
+          "damageTaken": 49266,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 273,
+          "backstabs": 128,
+          "headshots": 6,
+          "headshotsHit": 22,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 13892
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:190362271]": {
+      "playerID64": "76561198150627999",
+      "playerUserName": "sxl",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 206,
+          "deaths": 172,
+          "assists": 32,
+          "damage": 66989,
+          "dpm": 1882,
+          "damageTaken": 49129,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 48,
+          "backstabs": 0,
+          "headshots": 132,
+          "headshotsHit": 160,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 12383
+        },
+        "pyro": {
+          "kills": 20,
+          "deaths": 9,
+          "assists": 10,
+          "damage": 3759,
+          "dpm": 186,
+          "damageTaken": 6020,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1210
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:313247268]": {
+      "playerID64": "76561198273512996",
+      "playerUserName": "The father",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 94,
+          "assists": 134,
+          "damage": 2299,
+          "dpm": 58,
+          "damageTaken": 36445,
+          "ubers": 104,
+          "drops": 9,
+          "medkits": 88,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 282332,
+          "pointsCapped": 11,
+          "totalTime": 15452
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:107729140]": {
+      "playerID64": "76561198067994868",
+      "playerUserName": "Ekohtwo",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 216,
+          "deaths": 267,
+          "assists": 71,
+          "damage": 89084,
+          "dpm": 2424,
+          "damageTaken": 67815,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 487,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1242,
+          "pointsCapped": 26,
+          "totalTime": 15451
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:160611672]": {
+      "playerID64": "76561198120877400",
+      "playerUserName": "neil",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 239,
+          "deaths": 147,
+          "assists": 111,
+          "damage": 125292,
+          "dpm": 3358,
+          "damageTaken": 78666,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 132,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 36,
+          "totalTime": 15452
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:138808374]": {
+      "playerID64": "76561198099074102",
+      "playerUserName": "BrickMac",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 224,
+          "deaths": 184,
+          "assists": 24,
+          "damage": 76176,
+          "dpm": 2069,
+          "damageTaken": 40632,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 283,
+          "backstabs": 124,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 13441
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:376331310]": {
+      "playerID64": "76561198336597038",
+      "playerUserName": "Joe From Progressive",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 14,
+          "deaths": 19,
+          "assists": 3,
+          "damage": 6451,
+          "dpm": 201,
+          "damageTaken": 7435,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 68,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1918
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:177039533]": {
+      "playerID64": "76561198137305261",
+      "playerUserName": "Hermric",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 127,
+          "deaths": 152,
+          "assists": 89,
+          "damage": 37639,
+          "dpm": 997,
+          "damageTaken": 75973,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 62,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 24,
+          "totalTime": 15452
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:398509648]": {
+      "playerID64": "76561198358775376",
+      "playerUserName": "Gaminator",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 98,
+          "deaths": 63,
+          "assists": 87,
+          "damage": 36022,
+          "dpm": 1088,
+          "damageTaken": 24531,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 139,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5998,
+          "pointsCapped": 29,
+          "totalTime": 12206
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:283429862]": {
+      "playerID64": "76561198243695590",
+      "playerUserName": "neanderzz",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 60,
+          "deaths": 55,
+          "assists": 4,
+          "damage": 18142,
+          "dpm": 487,
+          "damageTaken": 16207,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 43,
+          "headshotsHit": 62,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 4315
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:432273994]": {
+      "playerID64": "76561198392539722",
+      "playerUserName": "creeeeeee",
+      "division": "RGL-Amateur",
+      "team": "karma demo",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 15,
+          "deaths": 13,
+          "assists": 5,
+          "damage": 6576,
+          "dpm": 205,
+          "damageTaken": 3462,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 32,
+          "backstabs": 10,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1919
+        }
+      },
+      "teamId": 11356
+    },
+    "[U:1:221256185]": {
+      "playerID64": "76561198181521913",
+      "playerUserName": "Highly",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 159,
+          "deaths": 199,
+          "assists": 122,
+          "damage": 61731,
+          "dpm": 1705,
+          "damageTaken": 56630,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 322,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 178,
+          "pointsCapped": 34,
+          "totalTime": 15453
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:837452860]": {
+      "playerID64": "76561198797718588",
+      "playerUserName": "IAmArch",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 216,
+          "deaths": 187,
+          "assists": 103,
+          "damage": 74901,
+          "dpm": 2021,
+          "damageTaken": 107726,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 122,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3234,
+          "pointsCapped": 18,
+          "totalTime": 15454
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:308143641]": {
+      "playerID64": "76561198268409369",
+      "playerUserName": "xJoshua",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 70,
+          "deaths": 67,
+          "assists": 10,
+          "damage": 20274,
+          "dpm": 815,
+          "damageTaken": 17461,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 43,
+          "backstabs": 0,
+          "headshots": 35,
+          "headshotsHit": 43,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 4381
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:152197537]": {
+      "playerID64": "76561198112463265",
+      "playerUserName": "Smokie",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 22,
+          "deaths": 42,
+          "assists": 8,
+          "damage": 11257,
+          "dpm": 580,
+          "damageTaken": 12261,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 110,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2419
+        },
+        "heavyweapons": {
+          "kills": 16,
+          "deaths": 23,
+          "assists": 15,
+          "damage": 5757,
+          "dpm": 176,
+          "damageTaken": 14739,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 848,
+          "pointsCapped": 2,
+          "totalTime": 1962
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:147366279]": {
+      "playerID64": "76561198107632007",
+      "playerUserName": "Hunta",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 90,
+          "deaths": 78,
+          "assists": 84,
+          "damage": 28924,
+          "dpm": 886,
+          "damageTaken": 37432,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 106,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 10232
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:154778906]": {
+      "playerID64": "76561198115044634",
+      "playerUserName": "Admirel",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 36,
+          "deaths": 59,
+          "assists": 5,
+          "damage": 14349,
+          "dpm": 592,
+          "damageTaken": 13165,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 86,
+          "backstabs": 26,
+          "headshots": 1,
+          "headshotsHit": 8,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 4332
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1280209163]": {
+      "playerID64": "76561199240474891",
+      "playerUserName": "Mr.hunt.exe",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 14,
+          "deaths": 27,
+          "assists": 5,
+          "damage": 7036,
+          "dpm": 253,
+          "damageTaken": 9897,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1668
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:125402425]": {
+      "playerID64": "76561198085668153",
+      "playerUserName": "mustard",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 54,
+          "deaths": 44,
+          "assists": 24,
+          "damage": 16780,
+          "dpm": 638,
+          "damageTaken": 12191,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 78,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 12,
+          "totalTime": 3143
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:93978659]": {
+      "playerID64": "76561198054244387",
+      "playerUserName": "BloodNut",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 5,
+          "deaths": 55,
+          "assists": 9,
+          "damage": 4285,
+          "dpm": 248,
+          "damageTaken": 10832,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 25,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2419
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:164815058]": {
+      "playerID64": "76561198125080786",
+      "playerUserName": "SandersXL",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 11,
+          "deaths": 36,
+          "assists": 7,
+          "damage": 3568,
+          "dpm": 128,
+          "damageTaken": 9953,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1668
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:75298997]": {
+      "playerID64": "76561198035564725",
+      "playerUserName": "Burning",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 15,
+          "deaths": 21,
+          "assists": 9,
+          "damage": 6152,
+          "dpm": 221,
+          "damageTaken": 6014,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 192,
+          "pointsCapped": 0,
+          "totalTime": 1668
+        },
+        "demoman": {
+          "kills": 52,
+          "deaths": 43,
+          "assists": 12,
+          "damage": 20347,
+          "dpm": 994,
+          "damageTaken": 17129,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 69,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 2713
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:101314114]": {
+      "playerID64": "76561198061579842",
+      "playerUserName": "frenchfrithefish",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 23,
+          "deaths": 47,
+          "assists": 11,
+          "damage": 9649,
+          "dpm": 493,
+          "damageTaken": 25473,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1162,
+          "pointsCapped": 4,
+          "totalTime": 2419
+        },
+        "pyro": {
+          "kills": 9,
+          "deaths": 31,
+          "assists": 12,
+          "damage": 3600,
+          "dpm": 110,
+          "damageTaken": 9476,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1962
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:144089503]": {
+      "playerID64": "76561198104355231",
+      "playerUserName": "Herothroughtime",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 42,
+          "assists": 15,
+          "damage": 428,
+          "dpm": 16,
+          "damageTaken": 10728,
+          "ubers": 6,
+          "drops": 2,
+          "medkits": 19,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 32382,
+          "pointsCapped": 2,
+          "totalTime": 2419
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:194996755]": {
+      "playerID64": "76561198155262483",
+      "playerUserName": "CARCASS",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 89,
+          "deaths": 140,
+          "assists": 86,
+          "damage": 35781,
+          "dpm": 1031,
+          "damageTaken": 41351,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 149,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5225,
+          "pointsCapped": 20,
+          "totalTime": 14337
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:229064914]": {
+      "playerID64": "76561198189330642",
+      "playerUserName": "Brocklee",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 27,
+          "deaths": 20,
+          "assists": 11,
+          "damage": 7633,
+          "dpm": 310,
+          "damageTaken": 6277,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 27,
+          "pointsCapped": 8,
+          "totalTime": 1475
+        },
+        "demoman": {
+          "kills": 164,
+          "deaths": 96,
+          "assists": 56,
+          "damage": 72756,
+          "dpm": 1872,
+          "damageTaken": 50584,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 76,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 9349
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:288196026]": {
+      "playerID64": "76561198248461754",
+      "playerUserName": "violet",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 45,
+          "deaths": 22,
+          "assists": 34,
+          "damage": 11684,
+          "dpm": 413,
+          "damageTaken": 11882,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 43,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 131,
+          "pointsCapped": 4,
+          "totalTime": 3363
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:1044048268]": {
+      "playerID64": "76561199004313996",
+      "playerUserName": "Spoony Spoon",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 35,
+          "deaths": 39,
+          "assists": 14,
+          "damage": 21379,
+          "dpm": 756,
+          "damageTaken": 17963,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 3363
+        },
+        "soldier": {
+          "kills": 134,
+          "deaths": 124,
+          "assists": 48,
+          "damage": 51268,
+          "dpm": 1455,
+          "damageTaken": 42697,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 325,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2090,
+          "pointsCapped": 8,
+          "totalTime": 8559
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:53482173]": {
+      "playerID64": "76561198013747901",
+      "playerUserName": "IMM0RTAL",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 87,
+          "assists": 161,
+          "damage": 605,
+          "dpm": 17,
+          "damageTaken": 35137,
+          "ubers": 95,
+          "drops": 10,
+          "medkits": 80,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 273227,
+          "pointsCapped": 18,
+          "totalTime": 14337
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:161368092]": {
+      "playerID64": "76561198121633820",
+      "playerUserName": "Mobe",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 235,
+          "deaths": 130,
+          "assists": 115,
+          "damage": 76667,
+          "dpm": 2376,
+          "damageTaken": 93711,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 78,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1188,
+          "pointsCapped": 13,
+          "totalTime": 11961
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:420871184]": {
+      "playerID64": "76561198381136912",
+      "playerUserName": "almos",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 271,
+          "deaths": 138,
+          "assists": 46,
+          "damage": 86614,
+          "dpm": 2591,
+          "damageTaken": 52909,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 63,
+          "backstabs": 0,
+          "headshots": 209,
+          "headshotsHit": 316,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 14337
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:140212037]": {
+      "playerID64": "76561198100477765",
+      "playerUserName": "natalexei",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 45,
+          "deaths": 39,
+          "assists": 29,
+          "damage": 18165,
+          "dpm": 644,
+          "damageTaken": 11561,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 102,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 3363
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:1025545024]": {
+      "playerID64": "76561198985810752",
+      "playerUserName": "[[] Gambet81",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 169,
+          "deaths": 214,
+          "assists": 21,
+          "damage": 61840,
+          "dpm": 1707,
+          "damageTaken": 38547,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 361,
+          "backstabs": 119,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 14337
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:37805894]": {
+      "playerID64": "76561197998071622",
+      "playerUserName": "Sqiddwr",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 32,
+          "deaths": 19,
+          "assists": 1,
+          "damage": 12562,
+          "dpm": 510,
+          "damageTaken": 4092,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 27,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1475
+        },
+        "scout": {
+          "kills": 23,
+          "deaths": 16,
+          "assists": 6,
+          "damage": 7310,
+          "dpm": 362,
+          "damageTaken": 4810,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 37,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1208
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:38887876]": {
+      "playerID64": "76561197999153604",
+      "playerUserName": "Trees",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 34,
+          "deaths": 12,
+          "assists": 5,
+          "damage": 10133,
+          "dpm": 502,
+          "damageTaken": 4217,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 22,
+          "headshotsHit": 34,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1210
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:468318989]": {
+      "playerID64": "76561198428584717",
+      "playerUserName": "Ban",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 49,
+          "deaths": 42,
+          "assists": 41,
+          "damage": 16586,
+          "dpm": 387,
+          "damageTaken": 15780,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 54,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 4682,
+          "pointsCapped": 14,
+          "totalTime": 7292
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:98241139]": {
+      "playerID64": "76561198058506867",
+      "playerUserName": "Lotusberry :)",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 19,
+          "deaths": 33,
+          "assists": 18,
+          "damage": 7477,
+          "dpm": 138,
+          "damageTaken": 11706,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 34,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1233,
+          "pointsCapped": 3,
+          "totalTime": 3247
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:885640145]": {
+      "playerID64": "76561198845905873",
+      "playerUserName": "pipepeepi",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 202,
+          "deaths": 124,
+          "assists": 30,
+          "damage": 71621,
+          "dpm": 1948,
+          "damageTaken": 45613,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 154,
+          "headshotsHit": 244,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 11138
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:307358306]": {
+      "playerID64": "76561198267624034",
+      "playerUserName": "plumpy",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 195,
+          "deaths": 209,
+          "assists": 57,
+          "damage": 70764,
+          "dpm": 2163,
+          "damageTaken": 62092,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 403,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 13853
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:908078618]": {
+      "playerID64": "76561198868344346",
+      "playerUserName": "Renegade Radish",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 100,
+          "deaths": 93,
+          "assists": 46,
+          "damage": 28927,
+          "dpm": 848,
+          "damageTaken": 27402,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 83,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3873,
+          "pointsCapped": 18,
+          "totalTime": 10003
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:146583819]": {
+      "playerID64": "76561198106849547",
+      "playerUserName": "DarkEmpireOne",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 129,
+          "deaths": 187,
+          "assists": 63,
+          "damage": 38099,
+          "dpm": 1148,
+          "damageTaken": 48635,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 217,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 38,
+          "totalTime": 11485
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:894350876]": {
+      "playerID64": "76561198854616604",
+      "playerUserName": "Sergeant Joker",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 8,
+          "deaths": 81,
+          "assists": 154,
+          "damage": 2544,
+          "dpm": 70,
+          "damageTaken": 35586,
+          "ubers": 101,
+          "drops": 14,
+          "medkits": 129,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 228911,
+          "pointsCapped": 13,
+          "totalTime": 12108
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:102169455]": {
+      "playerID64": "76561198062435183",
+      "playerUserName": "Donkey",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 206,
+          "deaths": 146,
+          "assists": 70,
+          "damage": 102109,
+          "dpm": 3033,
+          "damageTaken": 74598,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 121,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 13852
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:369454463]": {
+      "playerID64": "76561198329720191",
+      "playerUserName": "Subauce",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 217,
+          "deaths": 187,
+          "assists": 110,
+          "damage": 75146,
+          "dpm": 2190,
+          "damageTaken": 124561,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 128,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2691,
+          "pointsCapped": 17,
+          "totalTime": 13842
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:933649916]": {
+      "playerID64": "76561198893915644",
+      "playerUserName": "wicc",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 177,
+          "deaths": 137,
+          "assists": 21,
+          "damage": 54128,
+          "dpm": 1408,
+          "damageTaken": 39067,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 115,
+          "headshotsHit": 158,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 9038
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:10293251]": {
+      "playerID64": "76561197970558979",
+      "playerUserName": "Joe Biden Gaming",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 145,
+          "deaths": 215,
+          "assists": 14,
+          "damage": 55300,
+          "dpm": 1703,
+          "damageTaken": 40876,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 208,
+          "backstabs": 90,
+          "headshots": 4,
+          "headshotsHit": 13,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 13844
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:408933264]": {
+      "playerID64": "76561198369198992",
+      "playerUserName": "Abraxas",
+      "division": "RGL-Amateur",
+      "team": "Nonagon Infinity",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 126,
+          "deaths": 91,
+          "assists": 65,
+          "damage": 37462,
+          "dpm": 1108,
+          "damageTaken": 59721,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 82,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1468,
+          "pointsCapped": 14,
+          "totalTime": 10298
+        }
+      },
+      "teamId": 11204
+    },
+    "[U:1:436418841]": {
+      "playerID64": "76561198396684569",
+      "playerUserName": "pineforest",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 117,
+          "deaths": 150,
+          "assists": 95,
+          "damage": 34503,
+          "dpm": 886,
+          "damageTaken": 61531,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 127,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 37,
+          "pointsCapped": 39,
+          "totalTime": 17224
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:479144682]": {
+      "playerID64": "76561198439410410",
+      "playerUserName": "2_Amps",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 18,
+          "deaths": 24,
+          "assists": 9,
+          "damage": 8748,
+          "dpm": 284,
+          "damageTaken": 12295,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 124,
+          "pointsCapped": 3,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1053372404]": {
+      "playerID64": "76561199013638132",
+      "playerUserName": "Harusrl",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 16,
+          "deaths": 21,
+          "assists": 5,
+          "damage": 2930,
+          "dpm": 95,
+          "damageTaken": 8610,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:385978397]": {
+      "playerID64": "76561198346244125",
+      "playerUserName": "fish",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 12,
+          "deaths": 27,
+          "assists": 10,
+          "damage": 4759,
+          "dpm": 155,
+          "damageTaken": 8108,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:246743835]": {
+      "playerID64": "76561198207009563",
+      "playerUserName": "Colonel Salt",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 16,
+          "deaths": 29,
+          "assists": 6,
+          "damage": 6164,
+          "dpm": 200,
+          "damageTaken": 9809,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 13,
+          "headshotsHit": 21,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:80752249]": {
+      "playerID64": "76561198041017977",
+      "playerUserName": "Xbmann | Resurfed",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 11,
+          "assists": 20,
+          "damage": 39,
+          "dpm": 1,
+          "damageTaken": 3894,
+          "ubers": 17,
+          "drops": 3,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 36307,
+          "pointsCapped": 0,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:71614703]": {
+      "playerID64": "76561198031880431",
+      "playerUserName": "Truemon",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 19,
+          "deaths": 22,
+          "assists": 4,
+          "damage": 7673,
+          "dpm": 249,
+          "damageTaken": 9263,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 69,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:81156241]": {
+      "playerID64": "76561198041421969",
+      "playerUserName": "exx",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 17,
+          "deaths": 26,
+          "assists": 3,
+          "damage": 6916,
+          "dpm": 225,
+          "damageTaken": 3722,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 23,
+          "backstabs": 14,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1176644786]": {
+      "playerID64": "76561199136910514",
+      "playerUserName": "Jukesy",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 20,
+          "deaths": 15,
+          "assists": 5,
+          "damage": 8926,
+          "dpm": 290,
+          "damageTaken": 7940,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1194212397]": {
+      "playerID64": "76561199154478125",
+      "playerUserName": "Werealldead",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 10,
+          "deaths": 13,
+          "assists": 6,
+          "damage": 3750,
+          "dpm": 122,
+          "damageTaken": 5387,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 26,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 77,
+          "pointsCapped": 1,
+          "totalTime": 1842
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:348863365]": {
+      "playerID64": "76561198309129093",
+      "playerUserName": "DusterDan35",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 57,
+          "deaths": 93,
+          "assists": 37,
+          "damage": 18024,
+          "dpm": 623,
+          "damageTaken": 27591,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 66,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 988,
+          "pointsCapped": 7,
+          "totalTime": 6692
+        },
+        "pyro": {
+          "kills": 28,
+          "deaths": 53,
+          "assists": 19,
+          "damage": 6868,
+          "dpm": 268,
+          "damageTaken": 18880,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 11,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 11,
+          "pointsCapped": 5,
+          "totalTime": 3325
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:464713928]": {
+      "playerID64": "76561198424979656",
+      "playerUserName": "S25",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 92,
+          "assists": 93,
+          "damage": 777,
+          "dpm": 29,
+          "damageTaken": 30870,
+          "ubers": 67,
+          "drops": 10,
+          "medkits": 66,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 187904,
+          "pointsCapped": 8,
+          "totalTime": 10042
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:183122872]": {
+      "playerID64": "76561198143388600",
+      "playerUserName": "jammies:)",
+      "division": "RGL-Main",
+      "team": "plan MB",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 30,
+          "deaths": 18,
+          "assists": 6,
+          "damage": 8529,
+          "dpm": 427,
+          "damageTaken": 6072,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 27,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 57,
+          "pointsCapped": 0,
+          "totalTime": 1197
+        }
+      },
+      "teamId": 11507
+    },
+    "[U:1:204857450]": {
+      "playerID64": "76561198165123178",
+      "playerUserName": "typhrev",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 124,
+          "deaths": 154,
+          "assists": 31,
+          "damage": 51551,
+          "dpm": 1850,
+          "damageTaken": 48666,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 350,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 10041
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:171529688]": {
+      "playerID64": "76561198131795416",
+      "playerUserName": "[vCity] Stoic",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 29,
+          "deaths": 52,
+          "assists": 8,
+          "damage": 10394,
+          "dpm": 476,
+          "damageTaken": 13591,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 28,
+          "backstabs": 0,
+          "headshots": 21,
+          "headshotsHit": 39,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 2679
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:920287495]": {
+      "playerID64": "76561198880553223",
+      "playerUserName": "nichik",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 65,
+          "deaths": 54,
+          "assists": 52,
+          "damage": 15892,
+          "dpm": 606,
+          "damageTaken": 26270,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 49,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 5890
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:241327510]": {
+      "playerID64": "76561198201593238",
+      "playerUserName": "Mike Spika",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 167,
+          "deaths": 163,
+          "assists": 50,
+          "damage": 81698,
+          "dpm": 2819,
+          "damageTaken": 63675,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 86,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 14,
+          "totalTime": 10043
+        },
+        "engineer": {
+          "kills": 13,
+          "deaths": 28,
+          "assists": 7,
+          "damage": 6023,
+          "dpm": 179,
+          "damageTaken": 6826,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 2,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 263,
+          "pointsCapped": 1,
+          "totalTime": 2011
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:147799118]": {
+      "playerID64": "76561198108064846",
+      "playerUserName": "fr3ak",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 9,
+          "deaths": 26,
+          "assists": 8,
+          "damage": 5034,
+          "dpm": 252,
+          "damageTaken": 12270,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 282,
+          "pointsCapped": 0,
+          "totalTime": 1197
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:1113932925]": {
+      "playerID64": "76561199074198653",
+      "playerUserName": "Toyley",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 59,
+          "deaths": 132,
+          "assists": 10,
+          "damage": 21942,
+          "dpm": 794,
+          "damageTaken": 23577,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 98,
+          "backstabs": 38,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 7930
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:248295369]": {
+      "playerID64": "76561198208561097",
+      "playerUserName": "Albino Jellyfish",
+      "division": "RGL-Amateur",
+      "team": "Good Golly Gumdrops",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 76,
+          "deaths": 37,
+          "assists": 49,
+          "damage": 20394,
+          "dpm": 611,
+          "damageTaken": 27631,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 950,
+          "pointsCapped": 22,
+          "totalTime": 3959
+        }
+      },
+      "teamId": 11197
+    },
+    "[U:1:194448951]": {
+      "playerID64": "76561198154714679",
+      "playerUserName": "Fuzzycoco",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 38,
+          "deaths": 29,
+          "assists": 26,
+          "damage": 12046,
+          "dpm": 305,
+          "damageTaken": 10179,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 12,
+          "totalTime": 2367
+        },
+        "demoman": {
+          "kills": 42,
+          "deaths": 33,
+          "assists": 20,
+          "damage": 24416,
+          "dpm": 987,
+          "damageTaken": 16479,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 29,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 2966
+        },
+        "engineer": {
+          "kills": 13,
+          "deaths": 6,
+          "assists": 6,
+          "damage": 3545,
+          "dpm": 143,
+          "damageTaken": 1527,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 6,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 785,
+          "pointsCapped": 3,
+          "totalTime": 1482
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:120267382]": {
+      "playerID64": "76561198080533110",
+      "playerUserName": "RapidKebab",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 67,
+          "deaths": 93,
+          "assists": 45,
+          "damage": 20544,
+          "dpm": 403,
+          "damageTaken": 31351,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 71,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 6048
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:2221629]": {
+      "playerID64": "76561197962487357",
+      "playerUserName": "Adena",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 29,
+          "deaths": 29,
+          "assists": 12,
+          "damage": 6874,
+          "dpm": 174,
+          "damageTaken": 8798,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 32,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 533,
+          "pointsCapped": 0,
+          "totalTime": 2367
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:879214363]": {
+      "playerID64": "76561198839480091",
+      "playerUserName": "Rageminer",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 167,
+          "deaths": 166,
+          "assists": 104,
+          "damage": 48688,
+          "dpm": 1449,
+          "damageTaken": 52008,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 254,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 68,
+          "pointsCapped": 47,
+          "totalTime": 14358
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:260372979]": {
+      "playerID64": "76561198220638707",
+      "playerUserName": "thicc!",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 242,
+          "deaths": 137,
+          "assists": 150,
+          "damage": 66064,
+          "dpm": 1946,
+          "damageTaken": 59841,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 112,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 35,
+          "totalTime": 14358
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:1014447192]": {
+      "playerID64": "76561198974712920",
+      "playerUserName": "Obama_Crab",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 215,
+          "deaths": 134,
+          "assists": 79,
+          "damage": 74349,
+          "dpm": 2125,
+          "damageTaken": 91707,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 103,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3145,
+          "pointsCapped": 10,
+          "totalTime": 12807
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:241098911]": {
+      "playerID64": "76561198201364639",
+      "playerUserName": "Nomayy_",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 214,
+          "deaths": 197,
+          "assists": 101,
+          "damage": 92869,
+          "dpm": 2745,
+          "damageTaken": 68558,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 547,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 4363,
+          "pointsCapped": 11,
+          "totalTime": 14358
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:358435766]": {
+      "playerID64": "76561198318701494",
+      "playerUserName": "chunkyMerchant",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 155,
+          "deaths": 181,
+          "assists": 17,
+          "damage": 60455,
+          "dpm": 1724,
+          "damageTaken": 34205,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 228,
+          "backstabs": 122,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 14,
+          "totalTime": 12808
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:492660664]": {
+      "playerID64": "76561198452926392",
+      "playerUserName": "Dotshin",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 169,
+          "deaths": 166,
+          "assists": 69,
+          "damage": 90679,
+          "dpm": 2653,
+          "damageTaken": 83425,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 86,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 40,
+          "totalTime": 14604
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:87181413]": {
+      "playerID64": "76561198047447141",
+      "playerUserName": "AthenaTheDoe",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 260,
+          "deaths": 171,
+          "assists": 37,
+          "damage": 87583,
+          "dpm": 2465,
+          "damageTaken": 56904,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 87,
+          "backstabs": 0,
+          "headshots": 207,
+          "headshotsHit": 298,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 13447
+        },
+        "medic": {
+          "kills": 2,
+          "deaths": 10,
+          "assists": 17,
+          "damage": 665,
+          "dpm": 19,
+          "damageTaken": 4511,
+          "ubers": 21,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 36380,
+          "pointsCapped": 1,
+          "totalTime": 2011
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:1091755708]": {
+      "playerID64": "76561199052021436",
+      "playerUserName": "avery",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 2,
+          "deaths": 82,
+          "assists": 125,
+          "damage": 1877,
+          "dpm": 48,
+          "damageTaken": 36487,
+          "ubers": 124,
+          "drops": 9,
+          "medkits": 117,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 267389,
+          "pointsCapped": 21,
+          "totalTime": 14358
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:466424973]": {
+      "playerID64": "76561198426690701",
+      "playerUserName": "Uncle Poots",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 79,
+          "deaths": 98,
+          "assists": 51,
+          "damage": 32253,
+          "dpm": 1048,
+          "damageTaken": 69237,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 101,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 661,
+          "pointsCapped": 5,
+          "totalTime": 9152
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:1075193198]": {
+      "playerID64": "76561199035458926",
+      "playerUserName": "Wizened",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 19,
+          "deaths": 17,
+          "assists": 2,
+          "damage": 8221,
+          "dpm": 318,
+          "damageTaken": 3074,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 21,
+          "backstabs": 15,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1551
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:184907869]": {
+      "playerID64": "76561198145173597",
+      "playerUserName": "punkr",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 98,
+          "deaths": 172,
+          "assists": 12,
+          "damage": 35038,
+          "dpm": 1085,
+          "damageTaken": 58214,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 0,
+          "headshots": 65,
+          "headshotsHit": 126,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 13455
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:245081032]": {
+      "playerID64": "76561198205346760",
+      "playerUserName": "jello",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 12,
+          "deaths": 17,
+          "assists": 10,
+          "damage": 7494,
+          "dpm": 289,
+          "damageTaken": 5363,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 57,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1551
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:1055576574]": {
+      "playerID64": "76561199015842302",
+      "playerUserName": "bjc.",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 23,
+          "deaths": 45,
+          "assists": 34,
+          "damage": 12844,
+          "dpm": 325,
+          "damageTaken": 15240,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 57,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 779,
+          "pointsCapped": 11,
+          "totalTime": 4175
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:136303952]": {
+      "playerID64": "76561198096569680",
+      "playerUserName": "/WG/LexDash IFN.GG",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 83,
+          "deaths": 144,
+          "assists": 100,
+          "damage": 37157,
+          "dpm": 1036,
+          "damageTaken": 39956,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 59,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3756,
+          "pointsCapped": 25,
+          "totalTime": 12889
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:240993917]": {
+      "playerID64": "76561198201259645",
+      "playerUserName": ":bangbang:",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 20,
+          "assists": 23,
+          "damage": 797,
+          "dpm": 18,
+          "damageTaken": 8662,
+          "ubers": 21,
+          "drops": 2,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 50453,
+          "pointsCapped": 14,
+          "totalTime": 2624
+        },
+        "scout": {
+          "kills": 81,
+          "deaths": 74,
+          "assists": 39,
+          "damage": 22541,
+          "dpm": 789,
+          "damageTaken": 21208,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 81,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 5249
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:118113991]": {
+      "playerID64": "76561198078379719",
+      "playerUserName": "Wiggs is the Shiggs",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 124,
+          "deaths": 119,
+          "assists": 56,
+          "damage": 64106,
+          "dpm": 1918,
+          "damageTaken": 55146,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 31,
+          "totalTime": 10060
+        },
+        "heavyweapons": {
+          "kills": 16,
+          "deaths": 22,
+          "assists": 11,
+          "damage": 7504,
+          "dpm": 223,
+          "damageTaken": 15167,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 43,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 311,
+          "pointsCapped": 2,
+          "totalTime": 2003
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:121680082]": {
+      "playerID64": "76561198081945810",
+      "playerUserName": "[gac]nighthawk",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 68,
+          "deaths": 95,
+          "assists": 5,
+          "damage": 30342,
+          "dpm": 844,
+          "damageTaken": 17493,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 149,
+          "backstabs": 60,
+          "headshots": 1,
+          "headshotsHit": 5,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 5879
+        },
+        "heavyweapons": {
+          "kills": 46,
+          "deaths": 55,
+          "assists": 27,
+          "damage": 24289,
+          "dpm": 631,
+          "damageTaken": 35661,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 41,
+          "pointsCapped": 1,
+          "totalTime": 4461
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:88152068]": {
+      "playerID64": "76561198048417796",
+      "playerUserName": "SteevStanman",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 206,
+          "deaths": 196,
+          "assists": 70,
+          "damage": 85125,
+          "dpm": 2482,
+          "damageTaken": 71931,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 391,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2479,
+          "pointsCapped": 23,
+          "totalTime": 14904
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:403823361]": {
+      "playerID64": "76561198364089089",
+      "playerUserName": "kotun",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 38,
+          "deaths": 30,
+          "assists": 21,
+          "damage": 12774,
+          "dpm": 292,
+          "damageTaken": 9344,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 37,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 2624
+        },
+        "sniper": {
+          "kills": 15,
+          "deaths": 29,
+          "assists": 2,
+          "damage": 5900,
+          "dpm": 176,
+          "damageTaken": 8037,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 13,
+          "headshotsHit": 20,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2011
+        },
+        "spy": {
+          "kills": 92,
+          "deaths": 93,
+          "assists": 11,
+          "damage": 40076,
+          "dpm": 1011,
+          "damageTaken": 19735,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 136,
+          "backstabs": 79,
+          "headshots": 0,
+          "headshotsHit": 3,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 9025
+        },
+        "heavyweapons": {
+          "kills": 24,
+          "deaths": 17,
+          "assists": 18,
+          "damage": 8438,
+          "dpm": 406,
+          "damageTaken": 9273,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 7,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 100,
+          "pointsCapped": 3,
+          "totalTime": 1244
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:92783482]": {
+      "playerID64": "76561198053049210",
+      "playerUserName": "rageheavy",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 29,
+          "deaths": 35,
+          "assists": 20,
+          "damage": 13286,
+          "dpm": 303,
+          "damageTaken": 25085,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 75,
+          "pointsCapped": 13,
+          "totalTime": 2624
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:108788487]": {
+      "playerID64": "76561198069054215",
+      "playerUserName": "Kurtismazi",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 47,
+          "deaths": 58,
+          "assists": 44,
+          "damage": 11487,
+          "dpm": 438,
+          "damageTaken": 20888,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 38,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 12,
+          "pointsCapped": 10,
+          "totalTime": 4758
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:1204405784]": {
+      "playerID64": "76561199164671512",
+      "playerUserName": "Lemon_boi",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 23,
+          "deaths": 22,
+          "assists": 2,
+          "damage": 7651,
+          "dpm": 239,
+          "damageTaken": 7950,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 62,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 36,
+          "pointsCapped": 0,
+          "totalTime": 1920
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:153484495]": {
+      "playerID64": "76561198113750223",
+      "playerUserName": "Dorothy Haze",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 65,
+          "deaths": 70,
+          "assists": 56,
+          "damage": 25162,
+          "dpm": 779,
+          "damageTaken": 20730,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 106,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3250,
+          "pointsCapped": 9,
+          "totalTime": 7559
+        },
+        "medic": {
+          "kills": 3,
+          "deaths": 18,
+          "assists": 34,
+          "damage": 424,
+          "dpm": 9,
+          "damageTaken": 9084,
+          "ubers": 13,
+          "drops": 3,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 42644,
+          "pointsCapped": 11,
+          "totalTime": 2533
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:182885080]": {
+      "playerID64": "76561198143150808",
+      "playerUserName": "kawaiicakes",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 220,
+          "deaths": 166,
+          "assists": 35,
+          "damage": 71679,
+          "dpm": 2124,
+          "damageTaken": 53617,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 49,
+          "backstabs": 0,
+          "headshots": 151,
+          "headshotsHit": 239,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 15280
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:275187768]": {
+      "playerID64": "76561198235453496",
+      "playerUserName": "Buson Bill",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 124,
+          "deaths": 144,
+          "assists": 103,
+          "damage": 33222,
+          "dpm": 1017,
+          "damageTaken": 59477,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 11,
+          "pointsCapped": 17,
+          "totalTime": 15301
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:132996060]": {
+      "playerID64": "76561198093261788",
+      "playerUserName": "A Fucking Degenerate",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 70,
+          "deaths": 154,
+          "assists": 61,
+          "damage": 30526,
+          "dpm": 903,
+          "damageTaken": 42422,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 85,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3043,
+          "pointsCapped": 20,
+          "totalTime": 15241
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:315292467]": {
+      "playerID64": "76561198275558195",
+      "playerUserName": "Kasmira",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 153,
+          "deaths": 185,
+          "assists": 71,
+          "damage": 59798,
+          "dpm": 1921,
+          "damageTaken": 110772,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 55,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1134,
+          "pointsCapped": 14,
+          "totalTime": 15457
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:115470974]": {
+      "playerID64": "76561198075736702",
+      "playerUserName": "Rattle Bones",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 208,
+          "deaths": 201,
+          "assists": 54,
+          "damage": 59003,
+          "dpm": 1853,
+          "damageTaken": 50078,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 233,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 54,
+          "pointsCapped": 27,
+          "totalTime": 15344
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:227534983]": {
+      "playerID64": "76561198187800711",
+      "playerUserName": "Sad Moa",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 24,
+          "assists": 36,
+          "damage": 560,
+          "dpm": 16,
+          "damageTaken": 9017,
+          "ubers": 33,
+          "drops": 3,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 75289,
+          "pointsCapped": 0,
+          "totalTime": 4312
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:394666219]": {
+      "playerID64": "76561198354931947",
+      "playerUserName": "doritoguy52",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 38,
+          "deaths": 16,
+          "assists": 2,
+          "damage": 9215,
+          "dpm": 364,
+          "damageTaken": 6237,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 2,
+          "backstabs": 0,
+          "headshots": 30,
+          "headshotsHit": 42,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1518
+        }
+      },
+      "teamId": 11514
+    },
+    "[U:1:194806596]": {
+      "playerID64": "76561198155072324",
+      "playerUserName": "ArcadeProAlexTTV",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 138,
+          "deaths": 115,
+          "assists": 13,
+          "damage": 57388,
+          "dpm": 2107,
+          "damageTaken": 20329,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 104,
+          "backstabs": 118,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 10577
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:356808334]": {
+      "playerID64": "76561198317074062",
+      "playerUserName": "RoamerYT",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 73,
+          "deaths": 78,
+          "assists": 21,
+          "damage": 28653,
+          "dpm": 802,
+          "damageTaken": 21239,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 140,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 4312
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:94828116]": {
+      "playerID64": "76561198055093844",
+      "playerUserName": "Benjy52",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 180,
+          "deaths": 191,
+          "assists": 46,
+          "damage": 81815,
+          "dpm": 2621,
+          "damageTaken": 64083,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 101,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 13462
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:1050276884]": {
+      "playerID64": "76561199010542612",
+      "playerUserName": "TOOLS",
+      "division": "RGL-Intermediate",
+      "team": "Froggotech",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 22,
+          "deaths": 28,
+          "assists": 10,
+          "damage": 10004,
+          "dpm": 252,
+          "damageTaken": 18049,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2376
+        }
+      },
+      "teamId": 11164
+    },
+    "[U:1:73888918]": {
+      "playerID64": "76561198034154646",
+      "playerUserName": "Wadsworth",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 23,
+          "deaths": 26,
+          "assists": 14,
+          "damage": 9695,
+          "dpm": 244,
+          "damageTaken": 9401,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 99,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2376
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:401061127]": {
+      "playerID64": "76561198361326855",
+      "playerUserName": "ooblz",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 212,
+          "deaths": 155,
+          "assists": 103,
+          "damage": 62946,
+          "dpm": 1780,
+          "damageTaken": 45088,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 304,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 38,
+          "totalTime": 12862
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:220259846]": {
+      "playerID64": "76561198180525574",
+      "playerUserName": "knowuh",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 71,
+          "deaths": 103,
+          "assists": 64,
+          "damage": 21294,
+          "dpm": 578,
+          "damageTaken": 42786,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 51,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 26,
+          "totalTime": 10974
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:62160570]": {
+      "playerID64": "76561198022426298",
+      "playerUserName": "Beersy",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 9,
+          "deaths": 22,
+          "assists": 0,
+          "damage": 2872,
+          "dpm": 98,
+          "damageTaken": 3775,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 5,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1428
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:118735826]": {
+      "playerID64": "76561198079001554",
+      "playerUserName": "Toasty",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 23,
+          "deaths": 31,
+          "assists": 18,
+          "damage": 7245,
+          "dpm": 248,
+          "damageTaken": 7719,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 585,
+          "pointsCapped": 5,
+          "totalTime": 1751
+        },
+        "medic": {
+          "kills": 0,
+          "deaths": 10,
+          "assists": 24,
+          "damage": 195,
+          "dpm": 5,
+          "damageTaken": 3712,
+          "ubers": 16,
+          "drops": 1,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 33740,
+          "pointsCapped": 2,
+          "totalTime": 2113
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:183914056]": {
+      "playerID64": "76561198144179784",
+      "playerUserName": "Weaverstein",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 3,
+          "deaths": 6,
+          "assists": 0,
+          "damage": 1052,
+          "dpm": 36,
+          "damageTaken": 946,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 2,
+          "backstabs": 2,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 283
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:336174356]": {
+      "playerID64": "76561198296440084",
+      "playerUserName": "scarybroccoli",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 27,
+          "deaths": 25,
+          "assists": 3,
+          "damage": 11567,
+          "dpm": 345,
+          "damageTaken": 5115,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 46,
+          "backstabs": 22,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2011
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:285837700]": {
+      "playerID64": "76561198246103428",
+      "playerUserName": "Depruu",
+      "division": "RGL-Intermediate",
+      "team": "Free Agent - Intermediate",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 22,
+          "deaths": 25,
+          "assists": 8,
+          "damage": 10377,
+          "dpm": 309,
+          "damageTaken": 10973,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2011
+        },
+        "scout": {
+          "kills": 171,
+          "deaths": 99,
+          "assists": 69,
+          "damage": 45660,
+          "dpm": 1358,
+          "damageTaken": 29822,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 159,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 145,
+          "pointsCapped": 19,
+          "totalTime": 8609
+        }
+      },
+      "teamId": 11138
+    },
+    "[U:1:886560362]": {
+      "playerID64": "76561198846826090",
+      "playerUserName": "Eagan Gbao",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 20,
+          "deaths": 48,
+          "assists": 9,
+          "damage": 8082,
+          "dpm": 292,
+          "damageTaken": 16981,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 9,
+          "headshotsHit": 14,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 3331
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:341350191]": {
+      "playerID64": "76561198301615919",
+      "playerUserName": "King of Rats, Bringer of Plague",
+      "division": "RGL-Amateur",
+      "team": "Smoying Weed",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 30,
+          "deaths": 53,
+          "assists": 33,
+          "damage": 8705,
+          "dpm": 308,
+          "damageTaken": 24500,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 5075
+        }
+      },
+      "teamId": 11195
+    },
+    "[U:1:101286375]": {
+      "playerID64": "76561198061552103",
+      "playerUserName": "Colton",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 14,
+          "deaths": 30,
+          "assists": 15,
+          "damage": 4404,
+          "dpm": 106,
+          "damageTaken": 11366,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 10,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 2481
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:106433194]": {
+      "playerID64": "76561198066698922",
+      "playerUserName": "XTQuakeX",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 50,
+          "deaths": 75,
+          "assists": 21,
+          "damage": 25240,
+          "dpm": 686,
+          "damageTaken": 19059,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 145,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 4351
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:467926192]": {
+      "playerID64": "76561198428191920",
+      "playerUserName": "Strange Diplomat",
+      "division": "RGL-Main",
+      "team": "Ceviche de tiburon",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 57,
+          "deaths": 69,
+          "assists": 31,
+          "damage": 30160,
+          "dpm": 815,
+          "damageTaken": 25182,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 55,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 4161
+        }
+      },
+      "teamId": 11538
+    },
+    "[U:1:1208414341]": {
+      "playerID64": "76561199168680069",
+      "playerUserName": "faux",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 107,
+          "deaths": 50,
+          "assists": 28,
+          "damage": 44758,
+          "dpm": 1415,
+          "damageTaken": 28285,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 64,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 13,
+          "totalTime": 5639
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:97850867]": {
+      "playerID64": "76561198058116595",
+      "playerUserName": "Danjoah Dingus",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 60,
+          "deaths": 77,
+          "assists": 36,
+          "damage": 21259,
+          "dpm": 601,
+          "damageTaken": 30928,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 55,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 6192
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:192851668]": {
+      "playerID64": "76561198153117396",
+      "playerUserName": "Cheezer",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 47,
+          "deaths": 48,
+          "assists": 2,
+          "damage": 13365,
+          "dpm": 286,
+          "damageTaken": 12782,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 36,
+          "headshotsHit": 53,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2801
+        },
+        "heavyweapons": {
+          "kills": 24,
+          "deaths": 21,
+          "assists": 10,
+          "damage": 9459,
+          "dpm": 327,
+          "damageTaken": 14960,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1731
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:428594566]": {
+      "playerID64": "76561198388860294",
+      "playerUserName": "timin",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 7,
+          "deaths": 54,
+          "assists": 89,
+          "damage": 2375,
+          "dpm": 74,
+          "damageTaken": 19892,
+          "ubers": 58,
+          "drops": 8,
+          "medkits": 64,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 159218,
+          "pointsCapped": 11,
+          "totalTime": 8536
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:170462580]": {
+      "playerID64": "76561198130728308",
+      "playerUserName": "orren8r",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 24,
+          "deaths": 34,
+          "assists": 15,
+          "damage": 12836,
+          "dpm": 274,
+          "damageTaken": 24229,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 106,
+          "pointsCapped": 0,
+          "totalTime": 2801
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:245121232]": {
+      "playerID64": "76561198205386960",
+      "playerUserName": "fallin",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 32,
+          "deaths": 30,
+          "assists": 16,
+          "damage": 8460,
+          "dpm": 181,
+          "damageTaken": 14278,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 14,
+          "pointsCapped": 1,
+          "totalTime": 2801
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:318633054]": {
+      "playerID64": "76561198278898782",
+      "playerUserName": "theta",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 80,
+          "deaths": 67,
+          "assists": 25,
+          "damage": 21065,
+          "dpm": 715,
+          "damageTaken": 17169,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 81,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 4006
+        },
+        "heavyweapons": {
+          "kills": 16,
+          "deaths": 28,
+          "assists": 5,
+          "damage": 6612,
+          "dpm": 318,
+          "damageTaken": 13293,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 10,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 30,
+          "pointsCapped": 0,
+          "totalTime": 1244
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:259915625]": {
+      "playerID64": "76561198220181353",
+      "playerUserName": "sam?",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 14,
+          "deaths": 47,
+          "assists": 12,
+          "damage": 8591,
+          "dpm": 328,
+          "damageTaken": 10472,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 236,
+          "pointsCapped": 1,
+          "totalTime": 3325
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:339024341]": {
+      "playerID64": "76561198299290069",
+      "playerUserName": "empress of bile",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 19,
+          "deaths": 12,
+          "assists": 4,
+          "damage": 5537,
+          "dpm": 274,
+          "damageTaken": 4878,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 40,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 1213
+        },
+        "scout": {
+          "kills": 10,
+          "deaths": 26,
+          "assists": 3,
+          "damage": 2856,
+          "dpm": 105,
+          "damageTaken": 5709,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 33,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 1625
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:582446]": {
+      "playerID64": "76561197960848174",
+      "playerUserName": "Krissy",
+      "division": "RGL-Intermediate",
+      "team": "Beastie Boys",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 6,
+          "assists": 27,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 2983,
+          "ubers": 10,
+          "drops": 1,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 26150,
+          "pointsCapped": 4,
+          "totalTime": 1213
+        }
+      },
+      "teamId": 11184
+    },
+    "[U:1:238748447]": {
+      "playerID64": "76561198199014175",
+      "playerUserName": "Shen Bapiro",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 23,
+          "deaths": 19,
+          "assists": 10,
+          "damage": 6550,
+          "dpm": 324,
+          "damageTaken": 4955,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1213
+        },
+        "medic": {
+          "kills": 0,
+          "deaths": 7,
+          "assists": 12,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 2352,
+          "ubers": 10,
+          "drops": 1,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 28752,
+          "pointsCapped": 3,
+          "totalTime": 1625
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:431619703]": {
+      "playerID64": "76561198391885431",
+      "playerUserName": "UsefulNevada012",
+      "division": "RGL-Amateur",
+      "team": "Hurt Me Please",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 19,
+          "deaths": 18,
+          "assists": 4,
+          "damage": 5264,
+          "dpm": 194,
+          "damageTaken": 6895,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 1625
+        }
+      },
+      "teamId": 11248
+    },
+    "[U:1:161960689]": {
+      "playerID64": "76561198122226417",
+      "playerUserName": "Borat",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 29,
+          "deaths": 35,
+          "assists": 13,
+          "damage": 18518,
+          "dpm": 392,
+          "damageTaken": 16861,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 43,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2833
+        },
+        "spy": {
+          "kills": 16,
+          "deaths": 31,
+          "assists": 5,
+          "damage": 5233,
+          "dpm": 148,
+          "damageTaken": 6972,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 72,
+          "backstabs": 5,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2113
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:177375401]": {
+      "playerID64": "76561198137641129",
+      "playerUserName": "Freddy *",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 28,
+          "deaths": 28,
+          "assists": 18,
+          "damage": 11681,
+          "dpm": 247,
+          "damageTaken": 18855,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 9,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 499,
+          "pointsCapped": 1,
+          "totalTime": 2833
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:1124823012]": {
+      "playerID64": "76561199085088740",
+      "playerUserName": "RYDINO",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 26,
+          "assists": 15,
+          "damage": 324,
+          "dpm": 11,
+          "damageTaken": 7709,
+          "ubers": 6,
+          "drops": 2,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 25825,
+          "pointsCapped": 3,
+          "totalTime": 1744
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:1044112899]": {
+      "playerID64": "76561199004378627",
+      "playerUserName": "BORD GUY",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 65,
+          "assists": 110,
+          "damage": 671,
+          "dpm": 19,
+          "damageTaken": 24655,
+          "ubers": 71,
+          "drops": 6,
+          "medkits": 40,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 140938,
+          "pointsCapped": 7,
+          "totalTime": 10973
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:392126961]": {
+      "playerID64": "76561198352392689",
+      "playerUserName": "PoeticYeti",
+      "division": "RGL-Amateur",
+      "team": "Golden Ducks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 82,
+          "deaths": 127,
+          "assists": 18,
+          "damage": 34363,
+          "dpm": 1088,
+          "damageTaken": 39531,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 296,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 554,
+          "pointsCapped": 2,
+          "totalTime": 11124
+        }
+      },
+      "teamId": 11536
+    },
+    "[U:1:370816546]": {
+      "playerID64": "76561198331082274",
+      "playerUserName": "Godfather",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 71,
+          "deaths": 74,
+          "assists": 55,
+          "damage": 19546,
+          "dpm": 476,
+          "damageTaken": 32356,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 51,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 7527
+        },
+        "scout": {
+          "kills": 24,
+          "deaths": 41,
+          "assists": 18,
+          "damage": 10323,
+          "dpm": 419,
+          "damageTaken": 12152,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 26,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 2966
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:152801455]": {
+      "playerID64": "76561198113067183",
+      "playerUserName": "GonzoSpawn",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 157,
+          "deaths": 64,
+          "assists": 47,
+          "damage": 72019,
+          "dpm": 1745,
+          "damageTaken": 36806,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 69,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 7526
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:276090276]": {
+      "playerID64": "76561198236356004",
+      "playerUserName": "Trianull",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 68,
+          "deaths": 89,
+          "assists": 52,
+          "damage": 21557,
+          "dpm": 559,
+          "damageTaken": 25370,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 58,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2215,
+          "pointsCapped": 14,
+          "totalTime": 7528
+        },
+        "medic": {
+          "kills": 1,
+          "deaths": 25,
+          "assists": 28,
+          "damage": 231,
+          "dpm": 9,
+          "damageTaken": 8420,
+          "ubers": 24,
+          "drops": 4,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 47093,
+          "pointsCapped": 3,
+          "totalTime": 2966
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:386496066]": {
+      "playerID64": "76561198346761794",
+      "playerUserName": "]Snail",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 110,
+          "deaths": 129,
+          "assists": 62,
+          "damage": 46259,
+          "dpm": 1339,
+          "damageTaken": 37558,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 251,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2165,
+          "pointsCapped": 5,
+          "totalTime": 9050
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:39073899]": {
+      "playerID64": "76561197999339627",
+      "playerUserName": "Sidular!",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 220,
+          "deaths": 149,
+          "assists": 31,
+          "damage": 82403,
+          "dpm": 2615,
+          "damageTaken": 53168,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 36,
+          "backstabs": 0,
+          "headshots": 158,
+          "headshotsHit": 215,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 13883
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:257664101]": {
+      "playerID64": "76561198217929829",
+      "playerUserName": "Phantom_03",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 50,
+          "assists": 84,
+          "damage": 873,
+          "dpm": 20,
+          "damageTaken": 16082,
+          "ubers": 55,
+          "drops": 7,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 151658,
+          "pointsCapped": 3,
+          "totalTime": 7528
+        },
+        "engineer": {
+          "kills": 10,
+          "deaths": 23,
+          "assists": 13,
+          "damage": 4780,
+          "dpm": 135,
+          "damageTaken": 4990,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 19,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 886,
+          "pointsCapped": 0,
+          "totalTime": 2113
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:280817170]": {
+      "playerID64": "76561198241082898",
+      "playerUserName": "Ice",
+      "division": "RGL-Intermediate",
+      "team": "Froggotech",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 46,
+          "deaths": 73,
+          "assists": 23,
+          "damage": 11134,
+          "dpm": 155,
+          "damageTaken": 16726,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 82,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 4289
+        }
+      },
+      "teamId": 11164
+    },
+    "[U:1:231266579]": {
+      "playerID64": "76561198191532307",
+      "playerUserName": "R053",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 24,
+          "deaths": 16,
+          "assists": 16,
+          "damage": 6178,
+          "dpm": 175,
+          "damageTaken": 6979,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 2113
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:193850986]": {
+      "playerID64": "76561198154116714",
+      "playerUserName": "aldente",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 56,
+          "deaths": 65,
+          "assists": 15,
+          "damage": 14820,
+          "dpm": 436,
+          "damageTaken": 14497,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 146,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 4075
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:361712175]": {
+      "playerID64": "76561198321977903",
+      "playerUserName": "mad",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 31,
+          "deaths": 15,
+          "assists": 9,
+          "damage": 7363,
+          "dpm": 306,
+          "damageTaken": 9784,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 63,
+          "pointsCapped": 2,
+          "totalTime": 1442
+        },
+        "engineer": {
+          "kills": 12,
+          "deaths": 7,
+          "assists": 9,
+          "damage": 3923,
+          "dpm": 154,
+          "damageTaken": 2589,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 255,
+          "pointsCapped": 3,
+          "totalTime": 1524
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:134981610]": {
+      "playerID64": "76561198095247338",
+      "playerUserName": "I'm Ded",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 22,
+          "deaths": 24,
+          "assists": 7,
+          "damage": 7022,
+          "dpm": 292,
+          "damageTaken": 6533,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 1442
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:430749389]": {
+      "playerID64": "76561198391015117",
+      "playerUserName": "RedTheKiller",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 13,
+          "deaths": 34,
+          "assists": 18,
+          "damage": 3421,
+          "dpm": 137,
+          "damageTaken": 11346,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 2966
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:150993992]": {
+      "playerID64": "76561198111259720",
+      "playerUserName": "firepow",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 14,
+          "deaths": 24,
+          "assists": 6,
+          "damage": 5778,
+          "dpm": 240,
+          "damageTaken": 6088,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 305,
+          "pointsCapped": 0,
+          "totalTime": 1442
+        },
+        "spy": {
+          "kills": 31,
+          "deaths": 40,
+          "assists": 2,
+          "damage": 14228,
+          "dpm": 174,
+          "damageTaken": 9453,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 44,
+          "backstabs": 25,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 4693
+        }
+      },
+      "teamId": 11514
+    },
+    "[U:1:180185701]": {
+      "playerID64": "76561198140451429",
+      "playerUserName": "Neat",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 26,
+          "deaths": 15,
+          "assists": 15,
+          "damage": 7427,
+          "dpm": 216,
+          "damageTaken": 5570,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 27,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 613,
+          "pointsCapped": 2,
+          "totalTime": 2061
+        },
+        "sniper": {
+          "kills": 60,
+          "deaths": 57,
+          "assists": 19,
+          "damage": 21392,
+          "dpm": 348,
+          "damageTaken": 12787,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 40,
+          "headshotsHit": 75,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 3681
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:70840768]": {
+      "playerID64": "76561198031106496",
+      "playerUserName": "Queen Derpy",
+      "division": "RGL-Amateur",
+      "team": "Big Time Sus",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 32,
+          "deaths": 20,
+          "assists": 22,
+          "damage": 10758,
+          "dpm": 175,
+          "damageTaken": 6751,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2731,
+          "pointsCapped": 3,
+          "totalTime": 3665
+        }
+      },
+      "teamId": 11392
+    },
+    "[U:1:172633943]": {
+      "playerID64": "76561198132899671",
+      "playerUserName": "Cinderace",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 16,
+          "assists": 25,
+          "damage": 406,
+          "dpm": 14,
+          "damageTaken": 5152,
+          "ubers": 8,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 35079,
+          "pointsCapped": 3,
+          "totalTime": 1731
+        }
+      },
+      "teamId": 11514
+    },
+    "[U:1:382082900]": {
+      "playerID64": "76561198342348628",
+      "playerUserName": "Roofon",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 8,
+          "deaths": 24,
+          "assists": 5,
+          "damage": 3904,
+          "dpm": 158,
+          "damageTaken": 5161,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 37,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1482
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:248391605]": {
+      "playerID64": "76561198208657333",
+      "playerUserName": "Spud [3",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 39,
+          "deaths": 11,
+          "assists": 1,
+          "damage": 10359,
+          "dpm": 419,
+          "damageTaken": 3595,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 31,
+          "headshotsHit": 34,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1482
+        }
+      },
+      "teamId": 11514
+    },
+    "[U:1:1132212470]": {
+      "playerID64": "76561199092478198",
+      "playerUserName": "Arkus",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 9,
+          "deaths": 5,
+          "assists": 22,
+          "damage": 4032,
+          "dpm": 163,
+          "damageTaken": 4572,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1482
+        }
+      },
+      "teamId": 11514
+    },
+    "[U:1:425359222]": {
+      "playerID64": "76561198385624950",
+      "playerUserName": "Appcap",
+      "division": "RGL-Amateur",
+      "team": "ReeeVamp",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 10,
+          "deaths": 19,
+          "assists": 4,
+          "damage": 4373,
+          "dpm": 205,
+          "damageTaken": 5943,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 5,
+          "headshotsHit": 14,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1277
+        }
+      },
+      "teamId": 11149
+    },
+    "[U:1:162995344]": {
+      "playerID64": "76561198123261072",
+      "playerUserName": "Qwefti Beraplaus",
+      "division": "RGL-Amateur",
+      "team": "Silly Monkes",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 23,
+          "deaths": 27,
+          "assists": 18,
+          "damage": 6807,
+          "dpm": 83,
+          "damageTaken": 7174,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 638,
+          "pointsCapped": 0,
+          "totalTime": 4694
+        }
+      },
+      "teamId": 11147
+    },
+    "[U:1:151106074]": {
+      "playerID64": "76561198111371802",
+      "playerUserName": "Tag",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 17,
+          "deaths": 46,
+          "assists": 16,
+          "damage": 5427,
+          "dpm": 241,
+          "damageTaken": 11568,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 25,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 624,
+          "pointsCapped": 3,
+          "totalTime": 2713
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:104368158]": {
+      "playerID64": "76561198064633886",
+      "playerUserName": "Captain Crocket",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 6,
+          "deaths": 14,
+          "assists": 8,
+          "damage": 2131,
+          "dpm": 170,
+          "damageTaken": 5031,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 751
+        },
+        "soldier": {
+          "kills": 22,
+          "deaths": 41,
+          "assists": 7,
+          "damage": 10037,
+          "dpm": 306,
+          "damageTaken": 11343,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 66,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1962
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:145347382]": {
+      "playerID64": "76561198105613110",
+      "playerUserName": "MissRaptor",
+      "division": "RGL-Intermediate",
+      "team": "Banner Hawks",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 22,
+          "deaths": 26,
+          "assists": 15,
+          "damage": 6404,
+          "dpm": 231,
+          "damageTaken": 5364,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 33,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 1660
+        }
+      },
+      "teamId": 11202
+    },
+    "[U:1:1197580809]": {
+      "playerID64": "76561199157846537",
+      "playerUserName": "Cozy",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 22,
+          "deaths": 23,
+          "assists": 13,
+          "damage": 6607,
+          "dpm": 318,
+          "damageTaken": 6954,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 7,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 37,
+          "pointsCapped": 3,
+          "totalTime": 1244
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:182989790]": {
+      "playerID64": "76561198143255518",
+      "playerUserName": "King Of The Crabs",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 22,
+          "assists": 17,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 5662,
+          "ubers": 10,
+          "drops": 2,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 25124,
+          "pointsCapped": 1,
+          "totalTime": 1962
+        }
+      },
+      "teamId": "none"
+    }
+  },
+  "nc": {
+    "[U:1:37577982]": {
+      "playerID64": "76561197997843710",
+      "playerUserName": "Vegerot",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 210,
+          "deaths": 238,
+          "assists": 59,
+          "damage": 78485,
+          "dpm": 2236,
+          "damageTaken": 73634,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 472,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 308,
+          "pointsCapped": 19,
+          "totalTime": 15186
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:237061994]": {
+      "playerID64": "76561198197327722",
+      "playerUserName": "Eddie Munson(Kas)",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 257,
+          "deaths": 186,
+          "assists": 39,
+          "damage": 78527,
+          "dpm": 2158,
+          "damageTaken": 51559,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 108,
+          "backstabs": 0,
+          "headshots": 146,
+          "headshotsHit": 197,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 15095
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:183151382]": {
+      "playerID64": "76561198143417110",
+      "playerUserName": "Mank",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 102,
+          "deaths": 111,
+          "assists": 90,
+          "damage": 42760,
+          "dpm": 1136,
+          "damageTaken": 39934,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 120,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5828,
+          "pointsCapped": 21,
+          "totalTime": 13799
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:423986614]": {
+      "playerID64": "76561198384252342",
+      "playerUserName": "saved the fish",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 36,
+          "deaths": 45,
+          "assists": 25,
+          "damage": 10410,
+          "dpm": 397,
+          "damageTaken": 15277,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 3186
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:1162988647]": {
+      "playerID64": "76561199123254375",
+      "playerUserName": "gxnjo",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 107,
+          "deaths": 195,
+          "assists": 2,
+          "damage": 42424,
+          "dpm": 1267,
+          "damageTaken": 30858,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 50,
+          "backstabs": 89,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 10540
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:427110230]": {
+      "playerID64": "76561198387375958",
+      "playerUserName": "ler",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 82,
+          "deaths": 60,
+          "assists": 23,
+          "damage": 27364,
+          "dpm": 1000,
+          "damageTaken": 20265,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 258,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 4804
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:399643505]": {
+      "playerID64": "76561198359909233",
+      "playerUserName": "AbuzzSquirrel",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 48,
+          "deaths": 79,
+          "assists": 27,
+          "damage": 17938,
+          "dpm": 799,
+          "damageTaken": 23712,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 50,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2427,
+          "pointsCapped": 9,
+          "totalTime": 6024
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1046519168]": {
+      "playerID64": "76561199006784896",
+      "playerUserName": "Jim",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 45,
+          "deaths": 65,
+          "assists": 1,
+          "damage": 19159,
+          "dpm": 586,
+          "damageTaken": 9885,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 65,
+          "backstabs": 39,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 5595
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:177521089]": {
+      "playerID64": "76561198137786817",
+      "playerUserName": "redacted",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 86,
+          "deaths": 72,
+          "assists": 3,
+          "damage": 27105,
+          "dpm": 1081,
+          "damageTaken": 22036,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 42,
+          "backstabs": 0,
+          "headshots": 57,
+          "headshotsHit": 69,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 6024
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:191661301]": {
+      "playerID64": "76561198151927029",
+      "playerUserName": "Kimchi",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 12,
+          "assists": 14,
+          "damage": 56,
+          "dpm": 1,
+          "damageTaken": 4069,
+          "ubers": 11,
+          "drops": 2,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 28560,
+          "pointsCapped": 0,
+          "totalTime": 1799
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:249544349]": {
+      "playerID64": "76561198209810077",
+      "playerUserName": "crime santa",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 51,
+          "deaths": 78,
+          "assists": 28,
+          "damage": 20143,
+          "dpm": 1006,
+          "damageTaken": 47458,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 21,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 494,
+          "pointsCapped": 4,
+          "totalTime": 6024
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1221050467]": {
+      "playerID64": "76561199181316195",
+      "playerUserName": "ent",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 17,
+          "deaths": 14,
+          "assists": 14,
+          "damage": 5717,
+          "dpm": 190,
+          "damageTaken": 7524,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 11,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1799
+        },
+        "medic": {
+          "kills": 1,
+          "deaths": 31,
+          "assists": 34,
+          "damage": 929,
+          "dpm": 46,
+          "damageTaken": 12344,
+          "ubers": 32,
+          "drops": 1,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 75681,
+          "pointsCapped": 1,
+          "totalTime": 4225
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:113212832]": {
+      "playerID64": "76561198073478560",
+      "playerUserName": "Manly Miner",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 6,
+          "deaths": 71,
+          "assists": 179,
+          "damage": 2122,
+          "dpm": 60,
+          "damageTaken": 31567,
+          "ubers": 107,
+          "drops": 6,
+          "medkits": 87,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 243880,
+          "pointsCapped": 22,
+          "totalTime": 14979
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:37508741]": {
+      "playerID64": "76561197997774469",
+      "playerUserName": "Ass Blaster, Disaster Master",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 282,
+          "deaths": 264,
+          "assists": 103,
+          "damage": 78571,
+          "dpm": 2242,
+          "damageTaken": 65339,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 453,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 968,
+          "pointsCapped": 35,
+          "totalTime": 15186
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:96508625]": {
+      "playerID64": "76561198056774353",
+      "playerUserName": "NightFury",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 36,
+          "deaths": 92,
+          "assists": 48,
+          "damage": 13799,
+          "dpm": 593,
+          "damageTaken": 23713,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 63,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 48,
+          "pointsCapped": 7,
+          "totalTime": 6024
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:250172243]": {
+      "playerID64": "76561198210437971",
+      "playerUserName": "twunny phaiv",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 230,
+          "deaths": 139,
+          "assists": 86,
+          "damage": 97291,
+          "dpm": 2731,
+          "damageTaken": 73085,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 121,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 27,
+          "totalTime": 15183
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:467179150]": {
+      "playerID64": "76561198427444878",
+      "playerUserName": "Simply",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 171,
+          "deaths": 144,
+          "assists": 80,
+          "damage": 62060,
+          "dpm": 1668,
+          "damageTaken": 87895,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 130,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1750,
+          "pointsCapped": 6,
+          "totalTime": 11332
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:1145197036]": {
+      "playerID64": "76561199105462764",
+      "playerUserName": "sm0key",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 71,
+          "deaths": 46,
+          "assists": 16,
+          "damage": 36279,
+          "dpm": 1336,
+          "damageTaken": 25414,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 54,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 4834
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:398100060]": {
+      "playerID64": "76561198358365788",
+      "playerUserName": "Fang0111",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 84,
+          "deaths": 115,
+          "assists": 31,
+          "damage": 45867,
+          "dpm": 1504,
+          "damageTaken": 53184,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 19,
+          "totalTime": 9124
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:384969872]": {
+      "playerID64": "76561198345235600",
+      "playerUserName": "Doober2f7",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 221,
+          "deaths": 208,
+          "assists": 103,
+          "damage": 64893,
+          "dpm": 1842,
+          "damageTaken": 57796,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 321,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 186,
+          "pointsCapped": 27,
+          "totalTime": 15147
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:48552618]": {
+      "playerID64": "76561198008818346",
+      "playerUserName": "Comfy!",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 203,
+          "deaths": 125,
+          "assists": 88,
+          "damage": 66096,
+          "dpm": 2195,
+          "damageTaken": 78195,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 118,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1033,
+          "pointsCapped": 14,
+          "totalTime": 9123
+        },
+        "demoman": {
+          "kills": 132,
+          "deaths": 50,
+          "assists": 50,
+          "damage": 62698,
+          "dpm": 1222,
+          "damageTaken": 31167,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 6023
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:1010493530]": {
+      "playerID64": "76561198970759258",
+      "playerUserName": "cookiegenius2398",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 161,
+          "deaths": 128,
+          "assists": 140,
+          "damage": 60114,
+          "dpm": 1667,
+          "damageTaken": 41791,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 112,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5778,
+          "pointsCapped": 22,
+          "totalTime": 15147
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:193818644]": {
+      "playerID64": "76561198154084372",
+      "playerUserName": "z1g5",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 226,
+          "deaths": 116,
+          "assists": 33,
+          "damage": 72860,
+          "dpm": 1913,
+          "damageTaken": 38768,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 27,
+          "backstabs": 0,
+          "headshots": 165,
+          "headshotsHit": 218,
+          "heal": 0,
+          "pointsCapped": 17,
+          "totalTime": 13054
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:451605080]": {
+      "playerID64": "76561198411870808",
+      "playerUserName": "_enigma",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 168,
+          "deaths": 138,
+          "assists": 106,
+          "damage": 44030,
+          "dpm": 1199,
+          "damageTaken": 67019,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 59,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 30,
+          "totalTime": 15146
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:1134053782]": {
+      "playerID64": "76561199094319510",
+      "playerUserName": "HoboHoovy",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 10,
+          "deaths": 74,
+          "assists": 118,
+          "damage": 3212,
+          "dpm": 86,
+          "damageTaken": 32237,
+          "ubers": 81,
+          "drops": 9,
+          "medkits": 63,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 193720,
+          "pointsCapped": 7,
+          "totalTime": 11167
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:112457664]": {
+      "playerID64": "76561198072723392",
+      "playerUserName": "Mr. Luggy",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 193,
+          "deaths": 260,
+          "assists": 52,
+          "damage": 76720,
+          "dpm": 2125,
+          "damageTaken": 73198,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 498,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 15146
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:334395615]": {
+      "playerID64": "76561198294661343",
+      "playerUserName": "xboo1x",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 151,
+          "deaths": 257,
+          "assists": 12,
+          "damage": 60963,
+          "dpm": 1710,
+          "damageTaken": 39432,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 136,
+          "backstabs": 122,
+          "headshots": 0,
+          "headshotsHit": 2,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 15147
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:66222804]": {
+      "playerID64": "76561198026488532",
+      "playerUserName": "Grassman (Cc)",
+      "division": "Admin Placement",
+      "team": "Free Agent - Unassigned",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 30,
+          "deaths": 15,
+          "assists": 20,
+          "damage": 7648,
+          "dpm": 330,
+          "damageTaken": 5227,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 501,
+          "pointsCapped": 6,
+          "totalTime": 1387
+        },
+        "spy": {
+          "kills": 67,
+          "deaths": 82,
+          "assists": 11,
+          "damage": 19742,
+          "dpm": 513,
+          "damageTaken": 18464,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 89,
+          "backstabs": 25,
+          "headshots": 10,
+          "headshotsHit": 36,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 4645
+        },
+        "medic": {
+          "kills": 1,
+          "deaths": 15,
+          "assists": 9,
+          "damage": 861,
+          "dpm": 15,
+          "damageTaken": 4994,
+          "ubers": 7,
+          "drops": 5,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 25930,
+          "pointsCapped": 0,
+          "totalTime": 1471
+        },
+        "heavyweapons": {
+          "kills": 20,
+          "deaths": 19,
+          "assists": 14,
+          "damage": 8096,
+          "dpm": 304,
+          "damageTaken": 11645,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 6,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 322,
+          "pointsCapped": 5,
+          "totalTime": 1597
+        }
+      },
+      "teamId": 11141
+    },
+    "[U:1:371020348]": {
+      "playerID64": "76561198331286076",
+      "playerUserName": "Litwix",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 142,
+          "deaths": 122,
+          "assists": 95,
+          "damage": 42884,
+          "dpm": 1088,
+          "damageTaken": 58815,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 72,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 12000
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:135323644]": {
+      "playerID64": "76561198095589372",
+      "playerUserName": "sorry, dude",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 31,
+          "deaths": 33,
+          "assists": 21,
+          "damage": 8344,
+          "dpm": 201,
+          "damageTaken": 9206,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 60,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 2483
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:293761784]": {
+      "playerID64": "76561198254027512",
+      "playerUserName": "Penguin God 935 | KLBC",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 10,
+          "deaths": 77,
+          "assists": 143,
+          "damage": 2032,
+          "dpm": 60,
+          "damageTaken": 35602,
+          "ubers": 94,
+          "drops": 2,
+          "medkits": 76,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 214848,
+          "pointsCapped": 20,
+          "totalTime": 11938
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:12981888]": {
+      "playerID64": "76561197973247616",
+      "playerUserName": "Clenchface",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 196,
+          "deaths": 98,
+          "assists": 81,
+          "damage": 68686,
+          "dpm": 2140,
+          "damageTaken": 40531,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 279,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 12,
+          "totalTime": 9687
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:278893216]": {
+      "playerID64": "76561198239158944",
+      "playerUserName": "horactix",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 52,
+          "deaths": 26,
+          "assists": 39,
+          "damage": 18179,
+          "dpm": 523,
+          "damageTaken": 10940,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 61,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 4174,
+          "pointsCapped": 11,
+          "totalTime": 4167
+        },
+        "scout": {
+          "kills": 21,
+          "deaths": 18,
+          "assists": 12,
+          "damage": 8138,
+          "dpm": 297,
+          "damageTaken": 5666,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 9,
+          "totalTime": 1641
+        },
+        "heavyweapons": {
+          "kills": 42,
+          "deaths": 32,
+          "assists": 31,
+          "damage": 13553,
+          "dpm": 361,
+          "damageTaken": 22657,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1420,
+          "pointsCapped": 9,
+          "totalTime": 2250
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:222295090]": {
+      "playerID64": "76561198182560818",
+      "playerUserName": "Utsuho, Vaporizer of Degenerate",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 95,
+          "deaths": 47,
+          "assists": 66,
+          "damage": 29130,
+          "dpm": 1001,
+          "damageTaken": 41360,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 112,
+          "pointsCapped": 11,
+          "totalTime": 7261
+        },
+        "scout": {
+          "kills": 26,
+          "deaths": 20,
+          "assists": 13,
+          "damage": 10553,
+          "dpm": 281,
+          "damageTaken": 6637,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 60,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2250
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:1193232368]": {
+      "playerID64": "76561199153498096",
+      "playerUserName": "Naut",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 72,
+          "deaths": 110,
+          "assists": 71,
+          "damage": 19440,
+          "dpm": 583,
+          "damageTaken": 53039,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 75,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 39,
+          "totalTime": 11937
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:8566291]": {
+      "playerID64": "76561197968832019",
+      "playerUserName": "Reisen",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 218,
+          "deaths": 106,
+          "assists": 35,
+          "damage": 68057,
+          "dpm": 2128,
+          "damageTaken": 32771,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 49,
+          "backstabs": 0,
+          "headshots": 156,
+          "headshotsHit": 217,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 9511
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:101655618]": {
+      "playerID64": "76561198061921346",
+      "playerUserName": "Retrowave",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 84,
+          "deaths": 56,
+          "assists": 5,
+          "damage": 29832,
+          "dpm": 844,
+          "damageTaken": 11247,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 128,
+          "backstabs": 52,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 4166
+        },
+        "engineer": {
+          "kills": 77,
+          "deaths": 80,
+          "assists": 72,
+          "damage": 26924,
+          "dpm": 819,
+          "damageTaken": 25393,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 89,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 11289,
+          "pointsCapped": 20,
+          "totalTime": 7771
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:155268469]": {
+      "playerID64": "76561198115534197",
+      "playerUserName": "SCUMGANG",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 161,
+          "deaths": 62,
+          "assists": 62,
+          "damage": 72897,
+          "dpm": 2458,
+          "damageTaken": 34628,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 70,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 7260
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:283133608]": {
+      "playerID64": "76561198243399336",
+      "playerUserName": "MORE BOUNCE TO THE OUNCE",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 91,
+          "deaths": 59,
+          "assists": 78,
+          "damage": 32956,
+          "dpm": 995,
+          "damageTaken": 27615,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 83,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 5830
+        },
+        "spy": {
+          "kills": 40,
+          "deaths": 32,
+          "assists": 2,
+          "damage": 14630,
+          "dpm": 669,
+          "damageTaken": 6107,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 27,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2354
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:1169085197]": {
+      "playerID64": "76561199129350925",
+      "playerUserName": "CRYHAVOC",
+      "division": "RGL-Newcomer",
+      "team": "Damage, Inc.",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 28,
+          "deaths": 29,
+          "assists": 16,
+          "damage": 9635,
+          "dpm": 256,
+          "damageTaken": 17745,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 26,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 771,
+          "pointsCapped": 7,
+          "totalTime": 2257
+        },
+        "medic": {
+          "kills": 0,
+          "deaths": 9,
+          "assists": 35,
+          "damage": 252,
+          "dpm": 4,
+          "damageTaken": 3068,
+          "ubers": 23,
+          "drops": 1,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 55874,
+          "pointsCapped": 1,
+          "totalTime": 3119
+        }
+      },
+      "teamId": 11321
+    },
+    "[U:1:1025371875]": {
+      "playerID64": "76561198985637603",
+      "playerUserName": "Wendall555",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 27,
+          "deaths": 29,
+          "assists": 27,
+          "damage": 9878,
+          "dpm": 302,
+          "damageTaken": 9751,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2101,
+          "pointsCapped": 6,
+          "totalTime": 3874
+        },
+        "pyro": {
+          "kills": 28,
+          "deaths": 57,
+          "assists": 22,
+          "damage": 9618,
+          "dpm": 394,
+          "damageTaken": 18539,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 27,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 226,
+          "pointsCapped": 7,
+          "totalTime": 3817
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:185664285]": {
+      "playerID64": "76561198145930013",
+      "playerUserName": "ShadowZiki",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 224,
+          "deaths": 127,
+          "assists": 84,
+          "damage": 61287,
+          "dpm": 2036,
+          "damageTaken": 98035,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 77,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3671,
+          "pointsCapped": 34,
+          "totalTime": 12627
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:219657365]": {
+      "playerID64": "76561198179923093",
+      "playerUserName": "nat",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 153,
+          "deaths": 112,
+          "assists": 78,
+          "damage": 72430,
+          "dpm": 2237,
+          "damageTaken": 49424,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 208,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 13,
+          "totalTime": 10712
+        },
+        "undefined": {
+          "kills": 2,
+          "deaths": 0,
+          "assists": 2,
+          "damage": 1121,
+          "dpm": 55,
+          "damageTaken": 894,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 2,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 572
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:106930781]": {
+      "playerID64": "76561198067196509",
+      "playerUserName": "triph",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 203,
+          "deaths": 135,
+          "assists": 22,
+          "damage": 65419,
+          "dpm": 2244,
+          "damageTaken": 34988,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 62,
+          "backstabs": 0,
+          "headshots": 135,
+          "headshotsHit": 188,
+          "heal": 0,
+          "pointsCapped": 19,
+          "totalTime": 10666
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:190899820]": {
+      "playerID64": "76561198151165548",
+      "playerUserName": "Kasm",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 112,
+          "deaths": 66,
+          "assists": 44,
+          "damage": 37536,
+          "dpm": 1014,
+          "damageTaken": 29802,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 142,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 6640
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:157026597]": {
+      "playerID64": "76561198117292325",
+      "playerUserName": "Archduke",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 5,
+          "deaths": 25,
+          "assists": 32,
+          "damage": 986,
+          "dpm": 29,
+          "damageTaken": 9648,
+          "ubers": 19,
+          "drops": 1,
+          "medkits": 33,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 66369,
+          "pointsCapped": 2,
+          "totalTime": 3874
+        },
+        "scout": {
+          "kills": 37,
+          "deaths": 55,
+          "assists": 26,
+          "damage": 14767,
+          "dpm": 477,
+          "damageTaken": 16858,
+          "ubers": 1,
+          "drops": 0,
+          "medkits": 121,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5053,
+          "pointsCapped": 6,
+          "totalTime": 4781
+        },
+        "sniper": {
+          "kills": 32,
+          "deaths": 20,
+          "assists": 7,
+          "damage": 10350,
+          "dpm": 317,
+          "damageTaken": 7998,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 9,
+          "backstabs": 0,
+          "headshots": 19,
+          "headshotsHit": 23,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1956
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:75414077]": {
+      "playerID64": "76561198035679805",
+      "playerUserName": "CeoVortex",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 217,
+          "deaths": 163,
+          "assists": 20,
+          "damage": 70977,
+          "dpm": 2132,
+          "damageTaken": 31393,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 209,
+          "backstabs": 108,
+          "headshots": 1,
+          "headshotsHit": 20,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 9973
+        },
+        "demoman": {
+          "kills": 39,
+          "deaths": 16,
+          "assists": 1,
+          "damage": 10258,
+          "dpm": 504,
+          "damageTaken": 6522,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 53,
+          "backstabs": 8,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 920
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:197681407]": {
+      "playerID64": "76561198157947135",
+      "playerUserName": "Grapevine",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 22,
+          "deaths": 60,
+          "assists": 25,
+          "damage": 11603,
+          "dpm": 339,
+          "damageTaken": 15256,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 78,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 3874
+        },
+        "engineer": {
+          "kills": 50,
+          "deaths": 104,
+          "assists": 53,
+          "damage": 21489,
+          "dpm": 732,
+          "damageTaken": 29169,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 65,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 7346,
+          "pointsCapped": 15,
+          "totalTime": 8197
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:251579099]": {
+      "playerID64": "76561198211844827",
+      "playerUserName": "Rhino",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 97,
+          "deaths": 111,
+          "assists": 80,
+          "damage": 39500,
+          "dpm": 1027,
+          "damageTaken": 74374,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 532,
+          "pointsCapped": 13,
+          "totalTime": 9477
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:1053024797]": {
+      "playerID64": "76561199013290525",
+      "playerUserName": "Z0mbie0975",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 77,
+          "assists": 161,
+          "damage": 1347,
+          "dpm": 28,
+          "damageTaken": 33054,
+          "ubers": 99,
+          "drops": 10,
+          "medkits": 99,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 247580,
+          "pointsCapped": 15,
+          "totalTime": 13486
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:425955553]": {
+      "playerID64": "76561198386221281",
+      "playerUserName": "GeneralAlias",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 229,
+          "deaths": 192,
+          "assists": 9,
+          "damage": 95356,
+          "dpm": 2527,
+          "damageTaken": 28805,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 162,
+          "backstabs": 199,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 11667
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:1154314094]": {
+      "playerID64": "76561199114579822",
+      "playerUserName": "Ligoboi",
+      "division": "RGL-Intermediate",
+      "team": "EGO",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 210,
+          "deaths": 153,
+          "assists": 81,
+          "damage": 58815,
+          "dpm": 1581,
+          "damageTaken": 42316,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 299,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 144,
+          "pointsCapped": 30,
+          "totalTime": 11671
+        }
+      },
+      "teamId": 11514
+    },
+    "[U:1:1014010607]": {
+      "playerID64": "76561198974276335",
+      "playerUserName": "bubbles",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 102,
+          "deaths": 142,
+          "assists": 77,
+          "damage": 28308,
+          "dpm": 748,
+          "damageTaken": 53667,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 19,
+          "totalTime": 11671
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:283429862]": {
+      "playerID64": "76561198243695590",
+      "playerUserName": "neanderzz",
+      "division": "RGL-Amateur",
+      "team": "Beefin' While They Stroganoff",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 167,
+          "deaths": 123,
+          "assists": 29,
+          "damage": 50837,
+          "dpm": 1330,
+          "damageTaken": 38488,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 58,
+          "backstabs": 0,
+          "headshots": 114,
+          "headshotsHit": 168,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 11671
+        }
+      },
+      "teamId": 11182
+    },
+    "[U:1:1120950856]": {
+      "playerID64": "76561199081216584",
+      "playerUserName": "Salty Seadog",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 171,
+          "deaths": 266,
+          "assists": 74,
+          "damage": 74051,
+          "dpm": 1733,
+          "damageTaken": 84703,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 693,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 18209
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:334391733]": {
+      "playerID64": "76561198294657461",
+      "playerUserName": "Nictrol",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 228,
+          "deaths": 132,
+          "assists": 75,
+          "damage": 104095,
+          "dpm": 2236,
+          "damageTaken": 71363,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 105,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 13490
+        },
+        "heavyweapons": {
+          "kills": 68,
+          "deaths": 57,
+          "assists": 38,
+          "damage": 22790,
+          "dpm": 573,
+          "damageTaken": 35969,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 26,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 970,
+          "pointsCapped": 13,
+          "totalTime": 4720
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:337512684]": {
+      "playerID64": "76561198297778412",
+      "playerUserName": "Steve.pp",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 40,
+          "deaths": 41,
+          "assists": 23,
+          "damage": 11880,
+          "dpm": 217,
+          "damageTaken": 10752,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 28,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1280,
+          "pointsCapped": 5,
+          "totalTime": 3270
+        },
+        "heavyweapons": {
+          "kills": 8,
+          "deaths": 6,
+          "assists": 3,
+          "damage": 2948,
+          "dpm": 418,
+          "damageTaken": 3524,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 2,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 76,
+          "pointsCapped": 0,
+          "totalTime": 458
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:939667632]": {
+      "playerID64": "76561198899933360",
+      "playerUserName": "aspecton",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 201,
+          "deaths": 126,
+          "assists": 68,
+          "damage": 87493,
+          "dpm": 2334,
+          "damageTaken": 68194,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 155,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 22,
+          "totalTime": 15828
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:234135190]": {
+      "playerID64": "76561198194400918",
+      "playerUserName": "MrBubblesf1",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 2,
+          "deaths": 15,
+          "assists": 8,
+          "damage": 373,
+          "dpm": 14,
+          "damageTaken": 4640,
+          "ubers": 11,
+          "drops": 1,
+          "medkits": 20,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 30804,
+          "pointsCapped": 1,
+          "totalTime": 1597
+        },
+        "scout": {
+          "kills": 247,
+          "deaths": 152,
+          "assists": 102,
+          "damage": 79375,
+          "dpm": 2062,
+          "damageTaken": 50504,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 322,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 36,
+          "totalTime": 14231
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:1050276884]": {
+      "playerID64": "76561199010542612",
+      "playerUserName": "TOOLS",
+      "division": "RGL-Intermediate",
+      "team": "Froggotech",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 46,
+          "deaths": 28,
+          "assists": 4,
+          "damage": 9551,
+          "dpm": 358,
+          "damageTaken": 6964,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 66,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 30,
+          "pointsCapped": 1,
+          "totalTime": 1526
+        },
+        "spy": {
+          "kills": 23,
+          "deaths": 17,
+          "assists": 0,
+          "damage": 9640,
+          "dpm": 528,
+          "damageTaken": 3317,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 20,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1094
+        }
+      },
+      "teamId": 11164
+    },
+    "[U:1:185860484]": {
+      "playerID64": "76561198146126212",
+      "playerUserName": "mos",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 244,
+          "deaths": 164,
+          "assists": 43,
+          "damage": 78080,
+          "dpm": 2091,
+          "damageTaken": 52058,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 182,
+          "headshotsHit": 291,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 12425
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:1025118403]": {
+      "playerID64": "76561198985384131",
+      "playerUserName": "Skelly",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 12,
+          "deaths": 25,
+          "assists": 8,
+          "damage": 3950,
+          "dpm": 148,
+          "damageTaken": 6636,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 354,
+          "pointsCapped": 0,
+          "totalTime": 1597
+        },
+        "spy": {
+          "kills": 189,
+          "deaths": 207,
+          "assists": 27,
+          "damage": 68841,
+          "dpm": 1816,
+          "damageTaken": 42817,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 237,
+          "backstabs": 121,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 17,
+          "totalTime": 14231
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:865731946]": {
+      "playerID64": "76561198825997674",
+      "playerUserName": "ATL1 | Lav4ie",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 135,
+          "deaths": 131,
+          "assists": 70,
+          "damage": 46645,
+          "dpm": 1176,
+          "damageTaken": 92892,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 93,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2894,
+          "pointsCapped": 10,
+          "totalTime": 12099
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:210583977]": {
+      "playerID64": "76561198170849705",
+      "playerUserName": "socks!",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 72,
+          "deaths": 107,
+          "assists": 76,
+          "damage": 22174,
+          "dpm": 654,
+          "damageTaken": 47135,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 78,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 16,
+          "totalTime": 10061
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:257664101]": {
+      "playerID64": "76561198217929829",
+      "playerUserName": "Phantom_03",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 17,
+          "deaths": 33,
+          "assists": 2,
+          "damage": 6200,
+          "dpm": 232,
+          "damageTaken": 5251,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 6,
+          "backstabs": 10,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1597
+        },
+        "engineer": {
+          "kills": 10,
+          "deaths": 19,
+          "assists": 5,
+          "damage": 4642,
+          "dpm": 191,
+          "damageTaken": 5276,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 165,
+          "pointsCapped": 0,
+          "totalTime": 1453
+        },
+        "heavyweapons": {
+          "kills": 16,
+          "deaths": 22,
+          "assists": 19,
+          "damage": 8823,
+          "dpm": 322,
+          "damageTaken": 17546,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 496,
+          "pointsCapped": 2,
+          "totalTime": 1641
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:156063574]": {
+      "playerID64": "76561198116329302",
+      "playerUserName": "Mr. Epic guy",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 80,
+          "deaths": 114,
+          "assists": 50,
+          "damage": 46095,
+          "dpm": 1266,
+          "damageTaken": 45947,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 163,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2639,
+          "pointsCapped": 6,
+          "totalTime": 9005
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:334013174]": {
+      "playerID64": "76561198294278902",
+      "playerUserName": "Spy Checker 3000",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 178,
+          "deaths": 163,
+          "assists": 75,
+          "damage": 73851,
+          "dpm": 1839,
+          "damageTaken": 56769,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 327,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1099,
+          "pointsCapped": 8,
+          "totalTime": 11935
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:1109206494]": {
+      "playerID64": "76561199069472222",
+      "playerUserName": "Haggan",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 207,
+          "deaths": 263,
+          "assists": 130,
+          "damage": 76688,
+          "dpm": 1704,
+          "damageTaken": 139902,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 144,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2116,
+          "pointsCapped": 24,
+          "totalTime": 16110
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:414124730]": {
+      "playerID64": "76561198374390458",
+      "playerUserName": "cola :)",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 107,
+          "deaths": 102,
+          "assists": 14,
+          "damage": 41654,
+          "dpm": 1008,
+          "damageTaken": 21094,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 154,
+          "backstabs": 77,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 11,
+          "totalTime": 7316
+        },
+        "soldier": {
+          "kills": 79,
+          "deaths": 45,
+          "assists": 33,
+          "damage": 24304,
+          "dpm": 349,
+          "damageTaken": 18871,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 153,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 612,
+          "pointsCapped": 3,
+          "totalTime": 4176
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:168925139]": {
+      "playerID64": "76561198129190867",
+      "playerUserName": "Dark Helmet",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 62,
+          "assists": 85,
+          "damage": 902,
+          "dpm": 16,
+          "damageTaken": 20387,
+          "ubers": 51,
+          "drops": 11,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 140085,
+          "pointsCapped": 3,
+          "totalTime": 9242
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:64551729]": {
+      "playerID64": "76561198024817457",
+      "playerUserName": "shugi",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 74,
+          "deaths": 64,
+          "assists": 22,
+          "damage": 30700,
+          "dpm": 724,
+          "damageTaken": 26320,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 5051
+        },
+        "scout": {
+          "kills": 51,
+          "deaths": 19,
+          "assists": 18,
+          "damage": 11791,
+          "dpm": 264,
+          "damageTaken": 6752,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 72,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2678
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:224810557]": {
+      "playerID64": "76561198185076285",
+      "playerUserName": "cat",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 80,
+          "deaths": 181,
+          "assists": 69,
+          "damage": 31944,
+          "dpm": 731,
+          "damageTaken": 54105,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 84,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 8385,
+          "pointsCapped": 21,
+          "totalTime": 16111
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:325881644]": {
+      "playerID64": "76561198286147372",
+      "playerUserName": "Save your wifi",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 153,
+          "deaths": 168,
+          "assists": 28,
+          "damage": 53816,
+          "dpm": 1105,
+          "damageTaken": 49068,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 0,
+          "headshots": 94,
+          "headshotsHit": 149,
+          "heal": 0,
+          "pointsCapped": 15,
+          "totalTime": 11477
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:386671291]": {
+      "playerID64": "76561198346937019",
+      "playerUserName": "F0X3RY",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 140,
+          "deaths": 142,
+          "assists": 91,
+          "damage": 36194,
+          "dpm": 784,
+          "damageTaken": 60607,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 83,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 28,
+          "totalTime": 14157
+        },
+        "sniper": {
+          "kills": 9,
+          "deaths": 24,
+          "assists": 5,
+          "damage": 3240,
+          "dpm": 99,
+          "damageTaken": 6845,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 6,
+          "backstabs": 0,
+          "headshots": 6,
+          "headshotsHit": 6,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1956
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:410240465]": {
+      "playerID64": "76561198370506193",
+      "playerUserName": "greg club",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 186,
+          "deaths": 165,
+          "assists": 91,
+          "damage": 53213,
+          "dpm": 1127,
+          "damageTaken": 45449,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 299,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 318,
+          "pointsCapped": 31,
+          "totalTime": 11477
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:436548053]": {
+      "playerID64": "76561198396813781",
+      "playerUserName": "Reit The Protogen",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 19,
+          "deaths": 43,
+          "assists": 12,
+          "damage": 7752,
+          "dpm": 372,
+          "damageTaken": 14546,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2454
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:50830404]": {
+      "playerID64": "76561198011096132",
+      "playerUserName": "M4 Sherman",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 13,
+          "deaths": 9,
+          "assists": 15,
+          "damage": 4804,
+          "dpm": 198,
+          "damageTaken": 3573,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 27,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 16,
+          "pointsCapped": 3,
+          "totalTime": 1453
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:446491829]": {
+      "playerID64": "76561198406757557",
+      "playerUserName": "Linguard",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 2,
+          "deaths": 22,
+          "assists": 23,
+          "damage": 493,
+          "dpm": 26,
+          "damageTaken": 6769,
+          "ubers": 10,
+          "drops": 3,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 41467,
+          "pointsCapped": 1,
+          "totalTime": 2454
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:40542815]": {
+      "playerID64": "76561198000808543",
+      "playerUserName": "Dekameter",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 151,
+          "deaths": 167,
+          "assists": 14,
+          "damage": 44625,
+          "dpm": 1165,
+          "damageTaken": 49403,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 42,
+          "backstabs": 0,
+          "headshots": 104,
+          "headshotsHit": 148,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 10302
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:1318682652]": {
+      "playerID64": "76561199278948380",
+      "playerUserName": "Kaze",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 108,
+          "deaths": 104,
+          "assists": 2,
+          "damage": 46656,
+          "dpm": 1449,
+          "damageTaken": 19718,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 100,
+          "backstabs": 102,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 7771
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:915974531]": {
+      "playerID64": "76561198876240259",
+      "playerUserName": "t0m",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 20,
+          "deaths": 31,
+          "assists": 0,
+          "damage": 5923,
+          "dpm": 304,
+          "damageTaken": 5884,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 29,
+          "backstabs": 12,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2454
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:1043831507]": {
+      "playerID64": "76561199004097235",
+      "playerUserName": "MonkeeBoy",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 41,
+          "deaths": 60,
+          "assists": 15,
+          "damage": 24741,
+          "dpm": 832,
+          "damageTaken": 24518,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 93,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 5107
+        },
+        "pyro": {
+          "kills": 40,
+          "deaths": 37,
+          "assists": 14,
+          "damage": 13713,
+          "dpm": 196,
+          "damageTaken": 14947,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 45,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 996,
+          "pointsCapped": 0,
+          "totalTime": 2097
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:1038678117]": {
+      "playerID64": "76561198998943845",
+      "playerUserName": "Dankbongripper78",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 12,
+          "deaths": 47,
+          "assists": 6,
+          "damage": 6292,
+          "dpm": 321,
+          "damageTaken": 11584,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 25,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 18,
+          "pointsCapped": 3,
+          "totalTime": 2454
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:457198075]": {
+      "playerID64": "76561198417463803",
+      "playerUserName": "LAR",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 94,
+          "deaths": 150,
+          "assists": 49,
+          "damage": 63353,
+          "dpm": 1808,
+          "damageTaken": 66676,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 81,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 16,
+          "totalTime": 10883
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:907604258]": {
+      "playerID64": "76561198867869986",
+      "playerUserName": "SHUMT__",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 72,
+          "deaths": 139,
+          "assists": 61,
+          "damage": 38068,
+          "dpm": 1204,
+          "damageTaken": 85862,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 35,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 391,
+          "pointsCapped": 11,
+          "totalTime": 10302
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:1091198868]": {
+      "playerID64": "76561199051464596",
+      "playerUserName": "CocoBalls",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 81,
+          "deaths": 155,
+          "assists": 90,
+          "damage": 39463,
+          "dpm": 1015,
+          "damageTaken": 46555,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 93,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 12614,
+          "pointsCapped": 18,
+          "totalTime": 14231
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:909099988]": {
+      "playerID64": "76561198869365716",
+      "playerUserName": "Mr. R3d",
+      "division": "RGL-Newcomer",
+      "team": "Nerdbobs",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 68,
+          "assists": 110,
+          "damage": 371,
+          "dpm": 7,
+          "damageTaken": 29877,
+          "ubers": 56,
+          "drops": 13,
+          "medkits": 60,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 183269,
+          "pointsCapped": 5,
+          "totalTime": 11112
+        }
+      },
+      "teamId": 11173
+    },
+    "[U:1:929732081]": {
+      "playerID64": "76561198889997809",
+      "playerUserName": "shullers",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 38,
+          "deaths": 23,
+          "assists": 20,
+          "damage": 11002,
+          "dpm": 392,
+          "damageTaken": 5529,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 29,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 1683
+        },
+        "sniper": {
+          "kills": 45,
+          "deaths": 23,
+          "assists": 9,
+          "damage": 13346,
+          "dpm": 329,
+          "damageTaken": 8393,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 36,
+          "headshotsHit": 51,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2427
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:259718607]": {
+      "playerID64": "76561198219984335",
+      "playerUserName": "Perplex",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 22,
+          "deaths": 30,
+          "assists": 19,
+          "damage": 8943,
+          "dpm": 221,
+          "damageTaken": 11273,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 27,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2427
+        },
+        "soldier": {
+          "kills": 49,
+          "deaths": 34,
+          "assists": 30,
+          "damage": 22646,
+          "dpm": 963,
+          "damageTaken": 14830,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 113,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 4271
+        },
+        "scout": {
+          "kills": 32,
+          "deaths": 52,
+          "assists": 21,
+          "damage": 12873,
+          "dpm": 422,
+          "damageTaken": 12693,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 76,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 50,
+          "pointsCapped": 7,
+          "totalTime": 3672
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:30568423]": {
+      "playerID64": "76561197990834151",
+      "playerUserName": "Black Baron",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 33,
+          "deaths": 17,
+          "assists": 15,
+          "damage": 10945,
+          "dpm": 270,
+          "damageTaken": 14149,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1243,
+          "pointsCapped": 1,
+          "totalTime": 2427
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1368225333]": {
+      "playerID64": "76561199328491061",
+      "playerUserName": "sprokenuke",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 88,
+          "deaths": 46,
+          "assists": 23,
+          "damage": 37449,
+          "dpm": 955,
+          "damageTaken": 23418,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 65,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 4677
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1131213888]": {
+      "playerID64": "76561199091479616",
+      "playerUserName": "Squash",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 16,
+          "assists": 24,
+          "damage": 445,
+          "dpm": 11,
+          "damageTaken": 6729,
+          "ubers": 8,
+          "drops": 7,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 40558,
+          "pointsCapped": 0,
+          "totalTime": 2427
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:129236347]": {
+      "playerID64": "76561198089502075",
+      "playerUserName": "Masada",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 19,
+          "deaths": 54,
+          "assists": 7,
+          "damage": 5633,
+          "dpm": 139,
+          "damageTaken": 11274,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 23,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 2427
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:215612670]": {
+      "playerID64": "76561198175878398",
+      "playerUserName": "exotics",
+      "division": "RGL-Newcomer",
+      "team": "Kogasa",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 44,
+          "deaths": 26,
+          "assists": 14,
+          "damage": 18787,
+          "dpm": 500,
+          "damageTaken": 9654,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 100,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2250
+        }
+      },
+      "teamId": 11296
+    },
+    "[U:1:84010179]": {
+      "playerID64": "76561198044275907",
+      "playerUserName": "Mase",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 6,
+          "deaths": 27,
+          "assists": 69,
+          "damage": 1615,
+          "dpm": 39,
+          "damageTaken": 10569,
+          "ubers": 34,
+          "drops": 2,
+          "medkits": 10,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 92867,
+          "pointsCapped": 4,
+          "totalTime": 4796
+        },
+        "sniper": {
+          "kills": 40,
+          "deaths": 28,
+          "assists": 4,
+          "damage": 16117,
+          "dpm": 463,
+          "damageTaken": 7958,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 29,
+          "headshotsHit": 32,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2088
+        },
+        "scout": {
+          "kills": 29,
+          "deaths": 31,
+          "assists": 20,
+          "damage": 10069,
+          "dpm": 352,
+          "damageTaken": 7038,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 144,
+          "pointsCapped": 5,
+          "totalTime": 1716
+        },
+        "engineer": {
+          "kills": 73,
+          "deaths": 37,
+          "assists": 23,
+          "damage": 19630,
+          "dpm": 280,
+          "damageTaken": 11985,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 50,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1790,
+          "pointsCapped": 2,
+          "totalTime": 4192
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:342816030]": {
+      "playerID64": "76561198303081758",
+      "playerUserName": "Pops8790",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 179,
+          "deaths": 123,
+          "assists": 53,
+          "damage": 83739,
+          "dpm": 1793,
+          "damageTaken": 52259,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 146,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 8,
+          "totalTime": 11060
+        },
+        "medic": {
+          "kills": 3,
+          "deaths": 18,
+          "assists": 43,
+          "damage": 900,
+          "dpm": 20,
+          "damageTaken": 7719,
+          "ubers": 16,
+          "drops": 5,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 47851,
+          "pointsCapped": 3,
+          "totalTime": 2663
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:102727760]": {
+      "playerID64": "76561198062993488",
+      "playerUserName": "Marsh",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 225,
+          "deaths": 169,
+          "assists": 55,
+          "damage": 83043,
+          "dpm": 1627,
+          "damageTaken": 53590,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 276,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1665,
+          "pointsCapped": 4,
+          "totalTime": 11581
+        },
+        "sniper": {
+          "kills": 27,
+          "deaths": 24,
+          "assists": 1,
+          "damage": 8729,
+          "dpm": 323,
+          "damageTaken": 6365,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 16,
+          "headshotsHit": 23,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1617
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:291005220]": {
+      "playerID64": "76561198251270948",
+      "playerUserName": "DieCoughman",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 106,
+          "deaths": 109,
+          "assists": 72,
+          "damage": 43456,
+          "dpm": 977,
+          "damageTaken": 35765,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 143,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 4390,
+          "pointsCapped": 4,
+          "totalTime": 13200
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:206883367]": {
+      "playerID64": "76561198167149095",
+      "playerUserName": "Dr. Poop",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 136,
+          "deaths": 157,
+          "assists": 68,
+          "damage": 34244,
+          "dpm": 733,
+          "damageTaken": 59095,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 61,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 7,
+          "pointsCapped": 16,
+          "totalTime": 13201
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:108089263]": {
+      "playerID64": "76561198068354991",
+      "playerUserName": "Flatline1013",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 161,
+          "deaths": 175,
+          "assists": 36,
+          "damage": 57791,
+          "dpm": 1108,
+          "damageTaken": 47054,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 76,
+          "backstabs": 0,
+          "headshots": 107,
+          "headshotsHit": 152,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 11584
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:122326768]": {
+      "playerID64": "76561198082592496",
+      "playerUserName": "deeeefers",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 37,
+          "deaths": 16,
+          "assists": 8,
+          "damage": 19164,
+          "dpm": 549,
+          "damageTaken": 9508,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2092
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:283254910]": {
+      "playerID64": "76561198243520638",
+      "playerUserName": "Pip",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 136,
+          "deaths": 117,
+          "assists": 99,
+          "damage": 54951,
+          "dpm": 1093,
+          "damageTaken": 88566,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 34,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2169,
+          "pointsCapped": 7,
+          "totalTime": 11584
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:87823397]": {
+      "playerID64": "76561198048089125",
+      "playerUserName": "Cooperkopecs",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 191,
+          "deaths": 238,
+          "assists": 9,
+          "damage": 80852,
+          "dpm": 1701,
+          "damageTaken": 39963,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 67,
+          "backstabs": 160,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 12495
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:340213872]": {
+      "playerID64": "76561198300479600",
+      "playerUserName": "Rookie",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 4,
+          "deaths": 71,
+          "assists": 99,
+          "damage": 1397,
+          "dpm": 31,
+          "damageTaken": 25256,
+          "ubers": 52,
+          "drops": 9,
+          "medkits": 67,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 177361,
+          "pointsCapped": 11,
+          "totalTime": 9007
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:390224026]": {
+      "playerID64": "76561198350489754",
+      "playerUserName": "OniSpace",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 138,
+          "deaths": 197,
+          "assists": 53,
+          "damage": 40466,
+          "dpm": 915,
+          "damageTaken": 48963,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 288,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 3,
+          "pointsCapped": 22,
+          "totalTime": 13201
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:1195729603]": {
+      "playerID64": "76561199155995331",
+      "playerUserName": "CATBOY BF (PARTY ROCKING)",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 34,
+          "deaths": 23,
+          "assists": 3,
+          "damage": 10336,
+          "dpm": 296,
+          "damageTaken": 6476,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 11,
+          "backstabs": 0,
+          "headshots": 24,
+          "headshotsHit": 31,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2092
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:838981241]": {
+      "playerID64": "76561198799246969",
+      "playerUserName": "Purple Hobo",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 143,
+          "deaths": 138,
+          "assists": 53,
+          "damage": 39759,
+          "dpm": 1130,
+          "damageTaken": 41770,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 65,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 15,
+          "totalTime": 10114
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:136634065]": {
+      "playerID64": "76561198096899793",
+      "playerUserName": "lankykang",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 60,
+          "deaths": 70,
+          "assists": 44,
+          "damage": 18049,
+          "dpm": 365,
+          "damageTaken": 40426,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 18,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 581,
+          "pointsCapped": 3,
+          "totalTime": 6023
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:944251264]": {
+      "playerID64": "76561198904516992",
+      "playerUserName": "beans",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 108,
+          "deaths": 138,
+          "assists": 69,
+          "damage": 18060,
+          "dpm": 474,
+          "damageTaken": 18794,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 38,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1789,
+          "pointsCapped": 7,
+          "totalTime": 8396
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:46306652]": {
+      "playerID64": "76561198006572380",
+      "playerUserName": "DmonicPlays",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 112,
+          "deaths": 141,
+          "assists": 56,
+          "damage": 26009,
+          "dpm": 772,
+          "damageTaken": 59688,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2468,
+          "pointsCapped": 17,
+          "totalTime": 10114
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:340973707]": {
+      "playerID64": "76561198301239435",
+      "playerUserName": "Decibel",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 45,
+          "deaths": 72,
+          "assists": 9,
+          "damage": 11618,
+          "dpm": 304,
+          "damageTaken": 17337,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 110,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 115,
+          "pointsCapped": 9,
+          "totalTime": 4634
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:188639842]": {
+      "playerID64": "76561198148905570",
+      "playerUserName": "AutumnOpossum",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 128,
+          "deaths": 84,
+          "assists": 78,
+          "damage": 20548,
+          "dpm": 581,
+          "damageTaken": 26327,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 14,
+          "totalTime": 10114
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:101421793]": {
+      "playerID64": "76561198061687521",
+      "playerUserName": "LtPrillan",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 96,
+          "deaths": 132,
+          "assists": 12,
+          "damage": 17219,
+          "dpm": 518,
+          "damageTaken": 15007,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 80,
+          "backstabs": 74,
+          "headshots": 2,
+          "headshotsHit": 6,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 10114
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:1010410371]": {
+      "playerID64": "76561198970676099",
+      "playerUserName": "Sickz",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 60,
+          "deaths": 67,
+          "assists": 8,
+          "damage": 20829,
+          "dpm": 608,
+          "damageTaken": 17039,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 19,
+          "backstabs": 0,
+          "headshots": 46,
+          "headshotsHit": 65,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 4262
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:874081632]": {
+      "playerID64": "76561198834347360",
+      "playerUserName": "A.Z.X.",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 199,
+          "deaths": 150,
+          "assists": 60,
+          "damage": 44417,
+          "dpm": 1284,
+          "damageTaken": 31411,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 245,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 15,
+          "totalTime": 10114
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:838617771]": {
+      "playerID64": "76561198798883499",
+      "playerUserName": "Blond",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 5,
+          "deaths": 15,
+          "assists": 25,
+          "damage": 1053,
+          "dpm": 24,
+          "damageTaken": 5700,
+          "ubers": 14,
+          "drops": 2,
+          "medkits": 21,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 42243,
+          "pointsCapped": 0,
+          "totalTime": 2546
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:154804763]": {
+      "playerID64": "76561198115070491",
+      "playerUserName": "Carl Jerger",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 226,
+          "deaths": 189,
+          "assists": 39,
+          "damage": 52113,
+          "dpm": 1621,
+          "damageTaken": 43514,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 167,
+          "headshotsHit": 220,
+          "heal": 0,
+          "pointsCapped": 14,
+          "totalTime": 15124
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:94566721]": {
+      "playerID64": "76561198054832449",
+      "playerUserName": "bachira",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 256,
+          "deaths": 197,
+          "assists": 69,
+          "damage": 61394,
+          "dpm": 2098,
+          "damageTaken": 43090,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 431,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 12,
+          "totalTime": 13133
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:413438107]": {
+      "playerID64": "76561198373703835",
+      "playerUserName": "[BC] Blahaj Gaming",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 104,
+          "deaths": 158,
+          "assists": 68,
+          "damage": 19808,
+          "dpm": 875,
+          "damageTaken": 42729,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 46,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 18,
+          "totalTime": 10948
+        },
+        "demoman": {
+          "kills": 41,
+          "deaths": 57,
+          "assists": 14,
+          "damage": 14343,
+          "dpm": 206,
+          "damageTaken": 18870,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 46,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 2784
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:1198030356]": {
+      "playerID64": "76561199158296084",
+      "playerUserName": "Sandwich",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 92,
+          "deaths": 54,
+          "assists": 44,
+          "damage": 34245,
+          "dpm": 1114,
+          "damageTaken": 48734,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 43,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2343,
+          "pointsCapped": 3,
+          "totalTime": 6003
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:126140978]": {
+      "playerID64": "76561198086406706",
+      "playerUserName": "lemoN",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 248,
+          "deaths": 144,
+          "assists": 7,
+          "damage": 68441,
+          "dpm": 2601,
+          "damageTaken": 18542,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 181,
+          "backstabs": 208,
+          "headshots": 0,
+          "headshotsHit": 1,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 13133
+        },
+        "scout": {
+          "kills": 28,
+          "deaths": 25,
+          "assists": 7,
+          "damage": 8673,
+          "dpm": 261,
+          "damageTaken": 6442,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 81,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 1991
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:198992404]": {
+      "playerID64": "76561198159258132",
+      "playerUserName": "Saoirse de Historia",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 52,
+          "assists": 62,
+          "damage": 1425,
+          "dpm": 44,
+          "damageTaken": 19398,
+          "ubers": 38,
+          "drops": 6,
+          "medkits": 84,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 92638,
+          "pointsCapped": 1,
+          "totalTime": 6003
+        },
+        "demoman": {
+          "kills": 62,
+          "deaths": 63,
+          "assists": 18,
+          "damage": 2346,
+          "dpm": 332,
+          "damageTaken": 1983,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 3660
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:1175991495]": {
+      "playerID64": "76561199136257223",
+      "playerUserName": "drahyrt",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 36,
+          "deaths": 50,
+          "assists": 17,
+          "damage": 9866,
+          "dpm": 255,
+          "damageTaken": 13876,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 50,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2506,
+          "pointsCapped": 3,
+          "totalTime": 4012
+        },
+        "medic": {
+          "kills": 11,
+          "deaths": 44,
+          "assists": 38,
+          "damage": 3605,
+          "dpm": 105,
+          "damageTaken": 15577,
+          "ubers": 16,
+          "drops": 5,
+          "medkits": 10,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 38362,
+          "pointsCapped": 5,
+          "totalTime": 3207
+        },
+        "scout": {
+          "kills": 35,
+          "deaths": 57,
+          "assists": 19,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 0,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2715
+        },
+        "spy": {
+          "kills": 24,
+          "deaths": 21,
+          "assists": 2,
+          "damage": 9388,
+          "dpm": 282,
+          "damageTaken": 4781,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 35,
+          "backstabs": 21,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1991
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:425390993]": {
+      "playerID64": "76561198385656721",
+      "playerUserName": "RedAl93",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 153,
+          "deaths": 156,
+          "assists": 72,
+          "damage": 45171,
+          "dpm": 1484,
+          "damageTaken": 37844,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 221,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 33,
+          "pointsCapped": 14,
+          "totalTime": 9896
+        },
+        "soldier": {
+          "kills": 36,
+          "deaths": 27,
+          "assists": 13,
+          "damage": 15773,
+          "dpm": 475,
+          "damageTaken": 8660,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 56,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 1989
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:192240792]": {
+      "playerID64": "76561198152506520",
+      "playerUserName": "glampler",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 69,
+          "deaths": 78,
+          "assists": 31,
+          "damage": 32437,
+          "dpm": 980,
+          "damageTaken": 25542,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 114,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 6003
+        },
+        "engineer": {
+          "kills": 69,
+          "deaths": 113,
+          "assists": 56,
+          "damage": 19062,
+          "dpm": 545,
+          "damageTaken": 16434,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 42,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1782,
+          "pointsCapped": 3,
+          "totalTime": 5922
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:33553650]": {
+      "playerID64": "76561197993819378",
+      "playerUserName": "Lorxus",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 55,
+          "deaths": 82,
+          "assists": 43,
+          "damage": 17014,
+          "dpm": 324,
+          "damageTaken": 33183,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 17,
+          "totalTime": 6538
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:272235028]": {
+      "playerID64": "76561198232500756",
+      "playerUserName": "james",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 104,
+          "deaths": 106,
+          "assists": 5,
+          "damage": 43011,
+          "dpm": 800,
+          "damageTaken": 17644,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 70,
+          "backstabs": 89,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 6539
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:185518777]": {
+      "playerID64": "76561198145784505",
+      "playerUserName": "gatorbelt",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 115,
+          "deaths": 83,
+          "assists": 55,
+          "damage": 28480,
+          "dpm": 538,
+          "damageTaken": 22919,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 234,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 6539
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:209641622]": {
+      "playerID64": "76561198169907350",
+      "playerUserName": "Statix",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 29,
+          "deaths": 33,
+          "assists": 15,
+          "damage": 11101,
+          "dpm": 263,
+          "damageTaken": 9949,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 17,
+          "headshotsHit": 36,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2526
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:188354323]": {
+      "playerID64": "76561198148620051",
+      "playerUserName": "Dr.Downfall",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 32,
+          "deaths": 31,
+          "assists": 23,
+          "damage": 11792,
+          "dpm": 361,
+          "damageTaken": 10576,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 30,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 2238,
+          "pointsCapped": 0,
+          "totalTime": 3620
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:207212248]": {
+      "playerID64": "76561198167477976",
+      "playerUserName": "Fernal",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 48,
+          "assists": 65,
+          "damage": 602,
+          "dpm": 21,
+          "damageTaken": 17555,
+          "ubers": 33,
+          "drops": 4,
+          "medkits": 35,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 105329,
+          "pointsCapped": 5,
+          "totalTime": 6025
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:321725190]": {
+      "playerID64": "76561198281990918",
+      "playerUserName": "Walls34",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 13,
+          "assists": 19,
+          "damage": 236,
+          "dpm": 9,
+          "damageTaken": 4263,
+          "ubers": 10,
+          "drops": 1,
+          "medkits": 5,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 30929,
+          "pointsCapped": 4,
+          "totalTime": 1969
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:118944984]": {
+      "playerID64": "76561198079210712",
+      "playerUserName": "Hey Buddy",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 119,
+          "deaths": 126,
+          "assists": 14,
+          "damage": 50865,
+          "dpm": 989,
+          "damageTaken": 24177,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 192,
+          "backstabs": 103,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 8795
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:148818757]": {
+      "playerID64": "76561198109084485",
+      "playerUserName": "FLUiDiTY",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 21,
+          "deaths": 17,
+          "assists": 11,
+          "damage": 5544,
+          "dpm": 170,
+          "damageTaken": 6671,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1956
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:81876408]": {
+      "playerID64": "76561198042142136",
+      "playerUserName": "earllgray",
+      "division": "RGL-Newcomer",
+      "team": "Eleventh Hour",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 15,
+          "assists": 20,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 4976,
+          "ubers": 9,
+          "drops": 1,
+          "medkits": 1,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 25596,
+          "pointsCapped": 0,
+          "totalTime": 1956
+        }
+      },
+      "teamId": 11540
+    },
+    "[U:1:188748604]": {
+      "playerID64": "76561198149014332",
+      "playerUserName": "Yooni",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 23,
+          "deaths": 32,
+          "assists": 7,
+          "damage": 7896,
+          "dpm": 242,
+          "damageTaken": 7403,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 36,
+          "pointsCapped": 3,
+          "totalTime": 1956
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:176031175]": {
+      "playerID64": "76561198136296903",
+      "playerUserName": "WCSkyes",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 60,
+          "deaths": 33,
+          "assists": 33,
+          "damage": 33018,
+          "dpm": 836,
+          "damageTaken": 20273,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 87,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 14,
+          "totalTime": 4720
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:1253438495]": {
+      "playerID64": "76561199213704223",
+      "playerUserName": "user",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 69,
+          "deaths": 92,
+          "assists": 36,
+          "damage": 22647,
+          "dpm": 557,
+          "damageTaken": 27682,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 96,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 1479,
+          "pointsCapped": 14,
+          "totalTime": 7281
+        },
+        "demoman": {
+          "kills": 20,
+          "deaths": 21,
+          "assists": 0,
+          "damage": 8367,
+          "dpm": 411,
+          "damageTaken": 5742,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1220
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:411246503]": {
+      "playerID64": "76561198371512231",
+      "playerUserName": "Lemz",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 2,
+          "deaths": 38,
+          "assists": 31,
+          "damage": 214,
+          "dpm": 4,
+          "damageTaken": 13338,
+          "ubers": 9,
+          "drops": 5,
+          "medkits": 32,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 35120,
+          "pointsCapped": 12,
+          "totalTime": 2663
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:1112250187]": {
+      "playerID64": "76561199072515915",
+      "playerUserName": "Garf",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 114,
+          "deaths": 102,
+          "assists": 48,
+          "damage": 16208,
+          "dpm": 232,
+          "damageTaken": 30882,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 11,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 213,
+          "pointsCapped": 7,
+          "totalTime": 7925
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:227664137]": {
+      "playerID64": "76561198187929865",
+      "playerUserName": "Nexus",
+      "division": "RGL-Newcomer",
+      "team": "Blahaj Cult",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 22,
+          "deaths": 45,
+          "assists": 29,
+          "damage": 6495,
+          "dpm": 93,
+          "damageTaken": 16956,
+          "ubers": 4,
+          "drops": 1,
+          "medkits": 28,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 22152,
+          "pointsCapped": 4,
+          "totalTime": 2784
+        }
+      },
+      "teamId": 11214
+    },
+    "[U:1:197438899]": {
+      "playerID64": "76561198157704627",
+      "playerUserName": "Scoobert Doobert",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 24,
+          "deaths": 52,
+          "assists": 2,
+          "damage": 9591,
+          "dpm": 214,
+          "damageTaken": 15581,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 19,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2676
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:186370682]": {
+      "playerID64": "76561198146636410",
+      "playerUserName": "FemboyNate",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 41,
+          "deaths": 42,
+          "assists": 10,
+          "damage": 12765,
+          "dpm": 285,
+          "damageTaken": 9416,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 6,
+          "backstabs": 0,
+          "headshots": 27,
+          "headshotsHit": 35,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2678
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:152606775]": {
+      "playerID64": "76561198112872503",
+      "playerUserName": "matt",
+      "division": "RGL-Intermediate",
+      "team": "Free Agent - Intermediate",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 76,
+          "deaths": 21,
+          "assists": 9,
+          "damage": 20619,
+          "dpm": 461,
+          "damageTaken": 5756,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 54,
+          "headshotsHit": 69,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 2678
+        }
+      },
+      "teamId": 11138
+    },
+    "[U:1:348863365]": {
+      "playerID64": "76561198309129093",
+      "playerUserName": "DusterDan35",
+      "division": "RGL-Amateur",
+      "team": "Intro to Calculus III",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 13,
+          "assists": 12,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 5616,
+          "ubers": 21,
+          "drops": 2,
+          "medkits": 7,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 36757,
+          "pointsCapped": 2,
+          "totalTime": 2057
+        }
+      },
+      "teamId": 11199
+    },
+    "[U:1:1174196928]": {
+      "playerID64": "76561199134462656",
+      "playerUserName": "find lofi",
+      "division": "RGL-Newcomer",
+      "team": "FR*nc",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 31,
+          "deaths": 21,
+          "assists": 7,
+          "damage": 10776,
+          "dpm": 314,
+          "damageTaken": 8736,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 68,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 249,
+          "pointsCapped": 0,
+          "totalTime": 2057
+        }
+      },
+      "teamId": 11513
+    },
+    "[U:1:311831023]": {
+      "playerID64": "76561198272096751",
+      "playerUserName": "Dabsol",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 41,
+          "deaths": 31,
+          "assists": 31,
+          "damage": 9439,
+          "dpm": 438,
+          "damageTaken": 16557,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 4225
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:426092786]": {
+      "playerID64": "76561198386358514",
+      "playerUserName": "Soloclimber",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 89,
+          "deaths": 57,
+          "assists": 28,
+          "damage": 25178,
+          "dpm": 1087,
+          "damageTaken": 16356,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 140,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 4742
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:883018499]": {
+      "playerID64": "76561198843284227",
+      "playerUserName": "bombware",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 5,
+          "deaths": 15,
+          "assists": 4,
+          "damage": 3246,
+          "dpm": 178,
+          "damageTaken": 7294,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 29,
+          "pointsCapped": 2,
+          "totalTime": 581
+        },
+        "scout": {
+          "kills": 15,
+          "deaths": 27,
+          "assists": 6,
+          "damage": 4014,
+          "dpm": 120,
+          "damageTaken": 6632,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 5,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 1991
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:397099946]": {
+      "playerID64": "76561198357365674",
+      "playerUserName": "[TWL] DURIAN",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 63,
+          "deaths": 95,
+          "assists": 26,
+          "damage": 31165,
+          "dpm": 1014,
+          "damageTaken": 33581,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 214,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 4,
+          "totalTime": 5733
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:386765553]": {
+      "playerID64": "76561198347031281",
+      "playerUserName": "Mythical Lag/#Tf2Center",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 60,
+          "deaths": 55,
+          "assists": 9,
+          "damage": 18867,
+          "dpm": 851,
+          "damageTaken": 12599,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 14,
+          "backstabs": 1,
+          "headshots": 31,
+          "headshotsHit": 42,
+          "heal": 0,
+          "pointsCapped": 5,
+          "totalTime": 3529
+        },
+        "pyro": {
+          "kills": 25,
+          "deaths": 28,
+          "assists": 14,
+          "damage": 7648,
+          "dpm": 173,
+          "damageTaken": 10062,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 16,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 2648
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:883386651]": {
+      "playerID64": "76561198843652379",
+      "playerUserName": "doctor sex #savetf2",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 0,
+          "deaths": 13,
+          "assists": 6,
+          "damage": 89,
+          "dpm": 4,
+          "damageTaken": 4515,
+          "ubers": 5,
+          "drops": 2,
+          "medkits": 2,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 16411,
+          "pointsCapped": 2,
+          "totalTime": 1094
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1118182258]": {
+      "playerID64": "76561199078447986",
+      "playerUserName": "BB.MOON",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 17,
+          "deaths": 44,
+          "assists": 20,
+          "damage": 5480,
+          "dpm": 206,
+          "damageTaken": 15527,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 13,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 3085
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:1241727396]": {
+      "playerID64": "76561199201993124",
+      "playerUserName": "cobby",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 37,
+          "deaths": 70,
+          "assists": 33,
+          "damage": 18028,
+          "dpm": 669,
+          "damageTaken": 20384,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 12,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 5737,
+          "pointsCapped": 9,
+          "totalTime": 6734
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:315498064]": {
+      "playerID64": "76561198275763792",
+      "playerUserName": "Glizzy Gladiator",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 76,
+          "deaths": 50,
+          "assists": 10,
+          "damage": 23780,
+          "dpm": 355,
+          "damageTaken": 17767,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 36,
+          "backstabs": 0,
+          "headshots": 49,
+          "headshotsHit": 74,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 4012
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:393372863]": {
+      "playerID64": "76561198353638591",
+      "playerUserName": "sofa king",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 86,
+          "deaths": 116,
+          "assists": 38,
+          "damage": 56994,
+          "dpm": 997,
+          "damageTaken": 52905,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 99,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 7,
+          "totalTime": 9492
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:110114604]": {
+      "playerID64": "76561198070380332",
+      "playerUserName": "Blazinbanjo\"DUEL ME COWARD!\"",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 47,
+          "deaths": 43,
+          "assists": 17,
+          "damage": 16855,
+          "dpm": 252,
+          "damageTaken": 34082,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 48,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 565,
+          "pointsCapped": 0,
+          "totalTime": 4013
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:901754375]": {
+      "playerID64": "76561198862020103",
+      "playerUserName": "Adien_",
+      "division": "RGL-Newcomer",
+      "team": "Ecliptic Cosmos",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 26,
+          "deaths": 33,
+          "assists": 11,
+          "damage": 7092,
+          "dpm": 106,
+          "damageTaken": 10673,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 184,
+          "pointsCapped": 4,
+          "totalTime": 4013
+        }
+      },
+      "teamId": 11161
+    },
+    "[U:1:890160155]": {
+      "playerID64": "76561198850425883",
+      "playerUserName": "Sammy",
+      "division": "Admin Placement",
+      "team": "Free Agent - Unassigned",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 30,
+          "deaths": 30,
+          "assists": 3,
+          "damage": 9515,
+          "dpm": 215,
+          "damageTaken": 7664,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 44,
+          "backstabs": 0,
+          "headshots": 23,
+          "headshotsHit": 28,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2647
+        }
+      },
+      "teamId": 11141
+    },
+    "[U:1:337976717]": {
+      "playerID64": "76561198298242445",
+      "playerUserName": "Luma",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 32,
+          "deaths": 40,
+          "assists": 2,
+          "damage": 13873,
+          "dpm": 314,
+          "damageTaken": 6063,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 37,
+          "backstabs": 28,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 2648
+        },
+        "soldier": {
+          "kills": 23,
+          "deaths": 12,
+          "assists": 6,
+          "damage": 7545,
+          "dpm": 452,
+          "damageTaken": 3516,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 31,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1001
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:851462682]": {
+      "playerID64": "76561198811728410",
+      "playerUserName": "Khailby",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 2,
+          "deaths": 26,
+          "assists": 42,
+          "damage": 401,
+          "dpm": 9,
+          "damageTaken": 10074,
+          "ubers": 20,
+          "drops": 5,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 60591,
+          "pointsCapped": 1,
+          "totalTime": 3649
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:117459196]": {
+      "playerID64": "76561198077724924",
+      "playerUserName": "Thats Tuff",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 79,
+          "deaths": 55,
+          "assists": 40,
+          "damage": 25365,
+          "dpm": 841,
+          "damageTaken": 39478,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 38,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 469,
+          "pointsCapped": 7,
+          "totalTime": 5640
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:1014447192]": {
+      "playerID64": "76561198974712920",
+      "playerUserName": "Obama_Crab",
+      "division": "RGL-Amateur",
+      "team": "Temp Name",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 38,
+          "deaths": 22,
+          "assists": 24,
+          "damage": 10971,
+          "dpm": 248,
+          "damageTaken": 11729,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 47,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 2648
+        }
+      },
+      "teamId": 11423
+    },
+    "[U:1:18825227]": {
+      "playerID64": "76561197979090955",
+      "playerUserName": "Walt jr",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 102,
+          "deaths": 52,
+          "assists": 39,
+          "damage": 49826,
+          "dpm": 1685,
+          "damageTaken": 26868,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 87,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 5640
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:128052346]": {
+      "playerID64": "76561198088318074",
+      "playerUserName": "inzang",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 4,
+          "deaths": 70,
+          "assists": 87,
+          "damage": 790,
+          "dpm": 25,
+          "damageTaken": 14842,
+          "ubers": 37,
+          "drops": 7,
+          "medkits": 24,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 64331,
+          "pointsCapped": 10,
+          "totalTime": 7565
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:424423660]": {
+      "playerID64": "76561198384689388",
+      "playerUserName": "Guz",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 43,
+          "deaths": 17,
+          "assists": 29,
+          "damage": 13834,
+          "dpm": 397,
+          "damageTaken": 15057,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 7,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 383,
+          "pointsCapped": 0,
+          "totalTime": 2088
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:285837700]": {
+      "playerID64": "76561198246103428",
+      "playerUserName": "Depruu",
+      "division": "RGL-Intermediate",
+      "team": "Free Agent - Intermediate",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 38,
+          "deaths": 23,
+          "assists": 16,
+          "damage": 14148,
+          "dpm": 406,
+          "damageTaken": 9718,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 94,
+          "backstabs": 0,
+          "headshots": 4,
+          "headshotsHit": 7,
+          "heal": 79,
+          "pointsCapped": 1,
+          "totalTime": 1523
+        }
+      },
+      "teamId": 11138
+    },
+    "[U:1:403823361]": {
+      "playerID64": "76561198364089089",
+      "playerUserName": "kotun",
+      "division": "RGL-Amateur",
+      "team": "Wun Granglers",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 35,
+          "deaths": 33,
+          "assists": 15,
+          "damage": 10811,
+          "dpm": 207,
+          "damageTaken": 11312,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 54,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 3119
+        },
+        "spy": {
+          "kills": 21,
+          "deaths": 23,
+          "assists": 0,
+          "damage": 7667,
+          "dpm": 231,
+          "damageTaken": 5198,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 22,
+          "backstabs": 12,
+          "headshots": 5,
+          "headshotsHit": 7,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1454
+        }
+      },
+      "teamId": 11206
+    },
+    "[U:1:167179694]": {
+      "playerID64": "76561198127445422",
+      "playerUserName": "Pizza",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 70,
+          "deaths": 128,
+          "assists": 41,
+          "damage": 24769,
+          "dpm": 606,
+          "damageTaken": 32070,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 145,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 66,
+          "pointsCapped": 12,
+          "totalTime": 7847
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:209907334]": {
+      "playerID64": "76561198170173062",
+      "playerUserName": "Jest",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 30,
+          "deaths": 58,
+          "assists": 1,
+          "damage": 12059,
+          "dpm": 626,
+          "damageTaken": 12073,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 65,
+          "backstabs": 24,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 10,
+          "totalTime": 3654
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:52524401]": {
+      "playerID64": "76561198012790129",
+      "playerUserName": "Chop",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 15,
+          "assists": 24,
+          "damage": 451,
+          "dpm": 8,
+          "damageTaken": 5496,
+          "ubers": 24,
+          "drops": 2,
+          "medkits": 14,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 54957,
+          "pointsCapped": 4,
+          "totalTime": 3119
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:387660880]": {
+      "playerID64": "76561198347926608",
+      "playerUserName": "Larks'",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 9,
+          "deaths": 21,
+          "assists": 9,
+          "damage": 5540,
+          "dpm": 106,
+          "damageTaken": 7317,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 52,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 979,
+          "pointsCapped": 2,
+          "totalTime": 3116
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:998239081]": {
+      "playerID64": "76561198958504809",
+      "playerUserName": "solstice",
+      "division": "RGL-Intermediate",
+      "team": "Froggotech",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 51,
+          "deaths": 27,
+          "assists": 18,
+          "damage": 18646,
+          "dpm": 358,
+          "damageTaken": 14643,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 72,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 101,
+          "pointsCapped": 2,
+          "totalTime": 3119
+        }
+      },
+      "teamId": 11164
+    },
+    "[U:1:347837333]": {
+      "playerID64": "76561198308103061",
+      "playerUserName": "jp",
+      "division": "RGL-Newcomer",
+      "team": "The Poor Gamer's",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "scout": {
+          "kills": 20,
+          "deaths": 48,
+          "assists": 25,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 0,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 3764
+        }
+      },
+      "teamId": 11230
+    },
+    "[U:1:1428996313]": {
+      "playerID64": "76561199389262041",
+      "playerUserName": "redolent",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "sniper": {
+          "kills": 43,
+          "deaths": 39,
+          "assists": 16,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 0,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 31,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 3764
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:214510393]": {
+      "playerID64": "76561198174776121",
+      "playerUserName": "NightCrawlr",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 4,
+          "deaths": 34,
+          "assists": 44,
+          "damage": 0,
+          "dpm": 0,
+          "damageTaken": 0,
+          "ubers": 22,
+          "drops": 2,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 3,
+          "totalTime": 3237
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:38396643]": {
+      "playerID64": "76561197998662371",
+      "playerUserName": "Tom Servo",
+      "division": "RGL-Main",
+      "team": "Free Agent - Main",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 28,
+          "deaths": 18,
+          "assists": 20,
+          "damage": 9005,
+          "dpm": 314,
+          "damageTaken": 5851,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 26,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 799,
+          "pointsCapped": 2,
+          "totalTime": 1716
+        }
+      },
+      "teamId": 11137
+    },
+    "[U:1:1300477]": {
+      "playerID64": "76561197961566205",
+      "playerUserName": "BruteDuke",
+      "division": "RGL-Newcomer",
+      "team": "Cal Poly",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 28,
+          "deaths": 26,
+          "assists": 12,
+          "damage": 11105,
+          "dpm": 388,
+          "damageTaken": 9112,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 25,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 1716
+        }
+      },
+      "teamId": 11528
+    },
+    "[U:1:1178428881]": {
+      "playerID64": "76561199138694609",
+      "playerUserName": "LUNER",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 23,
+          "deaths": 18,
+          "assists": 1,
+          "damage": 9137,
+          "dpm": 339,
+          "damageTaken": 5801,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 10,
+          "backstabs": 8,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 911
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:249778093]": {
+      "playerID64": "76561198210043821",
+      "playerUserName": "Milkmur",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 5,
+          "deaths": 19,
+          "assists": 4,
+          "damage": 3741,
+          "dpm": 138,
+          "damageTaken": 13031,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 4,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 150,
+          "pointsCapped": 0,
+          "totalTime": 1617
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:1054964072]": {
+      "playerID64": "76561199015229800",
+      "playerUserName": "Zapzerohero",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 13,
+          "deaths": 29,
+          "assists": 6,
+          "damage": 6650,
+          "dpm": 246,
+          "damageTaken": 9473,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 25,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1617
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:161960689]": {
+      "playerID64": "76561198122226417",
+      "playerUserName": "Borat",
+      "division": "RGL-Newcomer",
+      "team": "Free Agent - Newcomer",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "demoman": {
+          "kills": 41,
+          "deaths": 8,
+          "assists": 23,
+          "damage": 16955,
+          "dpm": 791,
+          "damageTaken": 8665,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 19,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 6,
+          "totalTime": 1285
+        }
+      },
+      "teamId": 11140
+    },
+    "[U:1:127308509]": {
+      "playerID64": "76561198087574237",
+      "playerUserName": "rogo",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "heavyweapons": {
+          "kills": 18,
+          "deaths": 10,
+          "assists": 19,
+          "damage": 6657,
+          "dpm": 310,
+          "damageTaken": 7942,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 5,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 75,
+          "pointsCapped": 1,
+          "totalTime": 1285
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:289567042]": {
+      "playerID64": "76561198249832770",
+      "playerUserName": ".4b",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 22,
+          "deaths": 11,
+          "assists": 18,
+          "damage": 6524,
+          "dpm": 304,
+          "damageTaken": 3502,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 453,
+          "pointsCapped": 0,
+          "totalTime": 1285
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:87984987]": {
+      "playerID64": "76561198048250715",
+      "playerUserName": "like whatsapp danger",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 1,
+          "deaths": 7,
+          "assists": 27,
+          "damage": 236,
+          "dpm": 11,
+          "damageTaken": 3348,
+          "ubers": 9,
+          "drops": 3,
+          "medkits": 1,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 26966,
+          "pointsCapped": 3,
+          "totalTime": 1285
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:91249122]": {
+      "playerID64": "76561198051514850",
+      "playerUserName": "Doggo",
+      "division": "RGL-Newcomer",
+      "team": "Ch1-Lander",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 10,
+          "deaths": 25,
+          "assists": 44,
+          "damage": 2434,
+          "dpm": 34,
+          "damageTaken": 10584,
+          "ubers": 39,
+          "drops": 2,
+          "medkits": 32,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 79221,
+          "pointsCapped": 1,
+          "totalTime": 4194
+        }
+      },
+      "teamId": 11523
+    },
+    "[U:1:238748447]": {
+      "playerID64": "76561198199014175",
+      "playerUserName": "Shen Bapiro",
+      "division": "RGL-Amateur",
+      "team": "Buff Botanists",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 7,
+          "deaths": 22,
+          "assists": 44,
+          "damage": 1641,
+          "dpm": 23,
+          "damageTaken": 9439,
+          "ubers": 35,
+          "drops": 2,
+          "medkits": 17,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 88687,
+          "pointsCapped": 1,
+          "totalTime": 4194
+        }
+      },
+      "teamId": 11167
+    },
+    "[U:1:122068635]": {
+      "playerID64": "76561198082334363",
+      "playerUserName": "Berner",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 55,
+          "deaths": 53,
+          "assists": 4,
+          "damage": 23739,
+          "dpm": 339,
+          "damageTaken": 11147,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 128,
+          "backstabs": 50,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 4194
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:181434841]": {
+      "playerID64": "76561198141700569",
+      "playerUserName": "clio",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 47,
+          "deaths": 33,
+          "assists": 15,
+          "damage": 17438,
+          "dpm": 249,
+          "damageTaken": 11193,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 44,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 4194
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:390634912]": {
+      "playerID64": "76561198350900640",
+      "playerUserName": "AilurosMajor88",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 15,
+          "deaths": 53,
+          "assists": 22,
+          "damage": 6752,
+          "dpm": 152,
+          "damageTaken": 20070,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 15,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 2,
+          "totalTime": 3219
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:874044010]": {
+      "playerID64": "76561198834309738",
+      "playerUserName": "cobbery",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 2,
+          "deaths": 8,
+          "assists": 4,
+          "damage": 1703,
+          "dpm": 190,
+          "damageTaken": 2255,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 0,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 482,
+          "pointsCapped": 1,
+          "totalTime": 535
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:2221629]": {
+      "playerID64": "76561197962487357",
+      "playerUserName": "Adena",
+      "division": "RGL-Amateur",
+      "team": "Free Agent - Amateur",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 15,
+          "deaths": 20,
+          "assists": 4,
+          "damage": 5666,
+          "dpm": 339,
+          "damageTaken": 6158,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 28,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1001
+        }
+      },
+      "teamId": 11139
+    },
+    "[U:1:1106756060]": {
+      "playerID64": "76561199067021788",
+      "playerUserName": "Omori",
+      "division": "RGL-Newcomer",
+      "team": "Paralysis Palace",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 17,
+          "deaths": 10,
+          "assists": 2,
+          "damage": 7132,
+          "dpm": 427,
+          "damageTaken": 1684,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 18,
+          "backstabs": 15,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1001
+        }
+      },
+      "teamId": 11207
+    },
+    "[U:1:79677200]": {
+      "playerID64": "76561198039942928",
+      "playerUserName": "Blue Fairy",
+      "division": "RGL-Newcomer",
+      "team": "Grove Street",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 11,
+          "deaths": 20,
+          "assists": 7,
+          "damage": 3427,
+          "dpm": 205,
+          "damageTaken": 4575,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 8,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 55,
+          "pointsCapped": 0,
+          "totalTime": 1001
+        }
+      },
+      "teamId": 11188
+    },
+    "[U:1:877188668]": {
+      "playerID64": "76561198837454396",
+      "playerUserName": "notkadenk",
+      "division": "RGL-Main",
+      "team": "Video Game University",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "pyro": {
+          "kills": 18,
+          "deaths": 12,
+          "assists": 11,
+          "damage": 4361,
+          "dpm": 261,
+          "damageTaken": 4727,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 10,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 1,
+          "totalTime": 1001
+        }
+      },
+      "teamId": 11151
+    },
+    "[U:1:364121086]": {
+      "playerID64": "76561198324386814",
+      "playerUserName": "CrazyCactus",
+      "division": "none",
+      "team": "none",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "engineer": {
+          "kills": 21,
+          "deaths": 13,
+          "assists": 13,
+          "damage": 5876,
+          "dpm": 177,
+          "damageTaken": 3853,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 25,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 875,
+          "pointsCapped": 1,
+          "totalTime": 1991
+        }
+      },
+      "teamId": "none"
+    },
+    "[U:1:144400924]": {
+      "playerID64": "76561198104666652",
+      "playerUserName": "jeff",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "medic": {
+          "kills": 3,
+          "deaths": 12,
+          "assists": 21,
+          "damage": 780,
+          "dpm": 23,
+          "damageTaken": 4422,
+          "ubers": 12,
+          "drops": 1,
+          "medkits": 21,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 35051,
+          "pointsCapped": 4,
+          "totalTime": 1991
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:177375401]": {
+      "playerID64": "76561198137641129",
+      "playerUserName": "Freddy *",
+      "division": "RGL-Intermediate",
+      "team": "L33T G4M3R 5QU4D",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "spy": {
+          "kills": 7,
+          "deaths": 7,
+          "assists": 1,
+          "damage": 3151,
+          "dpm": 446,
+          "damageTaken": 1148,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 6,
+          "backstabs": 6,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 423
+        }
+      },
+      "teamId": 11183
+    },
+    "[U:1:148788930]": {
+      "playerID64": "76561198109054658",
+      "playerUserName": "fernlover98",
+      "division": "placeholder",
+      "team": "ashville w6 Cal Poly vs BLB",
+      "teamPlacement": 0,
+      "classPlayed": {
+        "soldier": {
+          "kills": 23,
+          "deaths": 12,
+          "assists": 7,
+          "damage": 7699,
+          "dpm": 378,
+          "damageTaken": 5321,
+          "ubers": 0,
+          "drops": 0,
+          "medkits": 78,
+          "backstabs": 0,
+          "headshots": 0,
+          "headshotsHit": 0,
+          "heal": 0,
+          "pointsCapped": 0,
+          "totalTime": 1220
         }
       }
     }

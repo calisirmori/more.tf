@@ -85,7 +85,7 @@ const SeasonSummary = () => {
                   currentDivision === "invite"
                     ? "text-lightscale-1 border-b-2 border-tf-orange"
                     : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
-                } select-none w-72 text-center py-2`}
+                } select-none w-56 text-center py-2`}
               >
                 INVITE
               </div>
@@ -97,7 +97,7 @@ const SeasonSummary = () => {
                   currentDivision === "advanced"
                     ? "text-lightscale-1 border-b-2 border-tf-orange"
                     : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
-                } select-none w-72 text-center py-2`}
+                } select-none  w-56 text-center py-2`}
               >
                 ADVANCED
               </div>
@@ -109,7 +109,7 @@ const SeasonSummary = () => {
                   currentDivision === "main"
                     ? "text-lightscale-1 border-b-2 border-tf-orange"
                     : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
-                } select-none w-72 text-center py-2`}
+                } select-none  w-56 text-center py-2`}
               >
                 MAIN
               </div>
@@ -121,9 +121,33 @@ const SeasonSummary = () => {
                   currentDivision === "im"
                     ? "text-lightscale-1 border-b-2 border-tf-orange"
                     : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
-                } select-none w-72 text-center py-2`}
+                } select-none  w-56 text-center py-2`}
               >
                 INTERMEDIATE
+              </div>
+              <div
+                onClick={() => {
+                  setCurrentDivision("am");
+                }}
+                className={` ${
+                  currentDivision === "am"
+                    ? "text-lightscale-1 border-b-2 border-tf-orange"
+                    : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
+                } select-none  w-56 text-center py-2`}
+              >
+                AMATEUR
+              </div>
+              <div
+                onClick={() => {
+                  setCurrentDivision("nc");
+                }}
+                className={` ${
+                  currentDivision === "nc"
+                    ? "text-lightscale-1 border-b-2 border-tf-orange"
+                    : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
+                } select-none  w-56 text-center py-2`}
+              >
+                NEWCOMER
               </div>
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">

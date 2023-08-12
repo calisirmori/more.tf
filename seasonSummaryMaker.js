@@ -18,6 +18,17 @@ let mainLogs = [3429950, 3434511, 3439513, 3444012, 3448601, 3453217, 3457657, 3
 let intermediateLogs = [3429959,3434506,3439483,3443997,3453207,3457653,3429976,3439586,3444015,3453334,3453205,
                         3429954,3434499,3439429,3448714,3457662,3467769,3429956,3434549,3439504,3443985,3467763];
 
+let amateurLogs = [3429932, 3458245, 3439489, 3443973, 3448652, 3453225, 3457630, 3472781, 3472782, 3440553, 3472784, 3472786, 3472788, 
+                    3472778, 3472780, 3444051, 3453239, 3457689, 3472789, 3434570, 3439485, 3444018, 3448633, 3453221, 3472795, 3472798, 
+                    3472802, 3472830, 3434576, 3448699, 3453420, 3472820, 3472826, 3439511, 3444017, 3472837, 3449003, 3472840, 3472855, 
+                    3472851, 3448669, 3453655, 3472847, 3429961, 3472866, 3444297, 3455045, 3434450, 3472880, 3472881, 3444002, 3439453];
+   
+
+let newcomerLogs = [3472887, 3434531, 3472888, 3472891, 3448666, 3472892, 3472893, 3472895, 3472896, 3444048, 3472898, 3472902, 3430044, 3439482, 3453941, 
+                    3453230, 3457609, 3472922, 3472918, 3439555, 3472916, 3472930, 3439587, 3444020, 3472926, 3441893, 3472935, 3460077, 3431176, 3472934, 
+                    3472937, 3444049, 3449365, 3453175, 3472948, 3472952, 3434645, 3472940];
+
+
 let playerObject = { ["id3"] : {
                 "playerID64" : 0, 
                 playerUserName : 0, 
@@ -53,12 +64,16 @@ function makeSummary(){
         invite: {},
         advanced: {},
         main: {},
-        im: {}
+        im: {},
+        am:{},
+        nc:{}
     };
     let currentObjectInv = {};
     let currentObjectAdv = {};
     let currentObjectMain = {};
     let currentObjectIm = {};
+    let currentObjectAm = {};
+    let currentObjectNc = {};
     let count = 1;
 
     const forLoop = async _ => {
@@ -319,7 +334,135 @@ function makeSummary(){
             summaryFinalObject.im = currentObjectIm;
             count++;
         }
-        summaryFinalObject.im = currentObjectIm;
+        for (let index = 0; index < amateurLogs.length; index++) {
+            let gameId = amateurLogs[index];
+            console.log(count + "/" + (inviteLogs.length+advancedLogs.length+mainLogs.length+intermediateLogs.length+amateurLogs.length));
+            let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
+            let playersArray = Object.entries(apiResponse.players);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            playersArray.map((playerStats) => {
+                let playerObject = {
+                    "playerID64" : id3toid64(playerStats[0]), 
+                    playerUserName : apiResponse.names[playerStats[0]], 
+                    division : "placeholder", 
+                    team : apiResponse.info.title, 
+                    teamPlacement : 0,
+                    classPlayed : {},
+                }
+
+                let playerClassPlayedOject = {
+                    kills : playerStats[1].kills,
+                    deaths : playerStats[1].deaths,
+                    assists : playerStats[1].assists,
+                    damage : playerStats[1].dmg,
+                    dpm: playerStats[1].dapm,
+                    damageTaken : playerStats[1].dt,
+                    ubers : playerStats[1].ubers,
+                    drops : playerStats[1].drops,
+                    medkits : playerStats[1].medkits,
+                    backstabs : playerStats[1].backstabs,
+                    headshots : playerStats[1].headshots,
+                    headshotsHit : playerStats[1].headshots_hit,
+                    heal : playerStats[1].heal,
+                    pointsCapped : playerStats[1].cpc,
+                    totalTime: playerStats[1].class_stats[0].total_time
+                }
+                    
+                if(currentObjectAm[playerStats[0]] == undefined){
+                    currentObjectAm[playerStats[0]]= {...currentObjectAm[playerStats], ...playerObject}
+                }
+                
+                if(currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
+                }
+
+                else {
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
+                    currentObjectAm[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
+                } 
+            });
+            summaryFinalObject.am = currentObjectAm;
+            count++;
+        }
+        for (let index = 0; index < newcomerLogs.length; index++) {
+            let gameId = newcomerLogs[index];
+            console.log(count + "/" + (inviteLogs.length+advancedLogs.length+mainLogs.length+intermediateLogs.length+amateurLogs.length+newcomerLogs.length));
+            let apiResponse = await fetch(`https://logs.tf/api/v1/log/${gameId}`, FetchResultTypes.JSON);
+            let playersArray = Object.entries(apiResponse.players);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            playersArray.map((playerStats) => {
+                let playerObject = {
+                    "playerID64" : id3toid64(playerStats[0]), 
+                    playerUserName : apiResponse.names[playerStats[0]], 
+                    division : "placeholder", 
+                    team : apiResponse.info.title, 
+                    teamPlacement : 0,
+                    classPlayed : {},
+                }
+
+                let playerClassPlayedOject = {
+                    kills : playerStats[1].kills,
+                    deaths : playerStats[1].deaths,
+                    assists : playerStats[1].assists,
+                    damage : playerStats[1].dmg,
+                    dpm: playerStats[1].dapm,
+                    damageTaken : playerStats[1].dt,
+                    ubers : playerStats[1].ubers,
+                    drops : playerStats[1].drops,
+                    medkits : playerStats[1].medkits,
+                    backstabs : playerStats[1].backstabs,
+                    headshots : playerStats[1].headshots,
+                    headshotsHit : playerStats[1].headshots_hit,
+                    heal : playerStats[1].heal,
+                    pointsCapped : playerStats[1].cpc,
+                    totalTime: playerStats[1].class_stats[0].total_time
+                }
+                    
+                if(currentObjectNc[playerStats[0]] == undefined){
+                    currentObjectNc[playerStats[0]]= {...currentObjectNc[playerStats], ...playerObject}
+                }
+                
+                if(currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] === undefined){
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type] = playerClassPlayedOject;
+                }
+
+                else {
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].kills += playerClassPlayedOject.kills;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].classPlayed = playerClassPlayedOject.classPlayed;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].assists += playerClassPlayedOject.assists;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].deaths += playerClassPlayedOject.deaths;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damage += playerClassPlayedOject.damage;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].dpm += playerClassPlayedOject.dpm;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].damageTaken += playerClassPlayedOject.damageTaken;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].ubers += playerClassPlayedOject.ubers;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].drops += playerClassPlayedOject.drops;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].medkits += playerClassPlayedOject.medkits;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].backstabs += playerClassPlayedOject.backstabs;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshots += playerClassPlayedOject.headshots;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].headshotsHit += playerClassPlayedOject.headshotsHit;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].heal += playerClassPlayedOject.heal;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].pointsCapped += playerClassPlayedOject.pointsCapped;
+                    currentObjectNc[playerStats[0]].classPlayed[playerStats[1].class_stats[0].type].totalTime += playerClassPlayedOject.totalTime;
+                } 
+            });
+            summaryFinalObject.nc = currentObjectNc;
+            count++;
+        }
+        summaryFinalObject.nc = currentObjectNc;
         console.log('End');
         rglAPIcalls(summaryFinalObject);
     }
