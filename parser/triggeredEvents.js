@@ -1,3 +1,4 @@
+const { Console } = require("console");
 const { statPercentiles, statWeights, finalScorePercentiles } = require("./combatScoreData");
 const { playerConnected } = require("./nontriggeredEvents");
 const { fetch, FetchResultTypes, FetchMethods  } = require("@sapphire/fetch");
@@ -88,6 +89,7 @@ async function worldEvents(unparsedEvent, finalObject) {
         // await rglData(finalObject);
         for (let playerIndex = 0; playerIndex < finalObjectArray.length && finalObject.players[finalObjectArray[playerIndex][0]].class !== "undefined"; playerIndex++) {
             let player = finalObject.players[finalObjectArray[playerIndex][0]];
+            
             let currentClass = player.class;
             player.classStats[currentClass].time += matchEndTime - player.classStats.changedClass;
             player.damagePerMinute = Math.ceil(player.damage / minutesInMatch);
@@ -121,13 +123,21 @@ async function worldEvents(unparsedEvent, finalObject) {
 
 
             let currentScoreSum = 0;
+            let mapName;
             
-            const mapName = finalObject.info.map.split("_")[0];
+            if (statPercentiles.highlander[currentClass][mapName]  === undefined){
+                mapName = "koth";
+            } else {
+                mapName = finalObject.info.map.split("_")[0]
+            }
+
             const statWeightsForMap = statWeights.highlander[currentClass][mapName];
+
 
             for (let statIndex = 0; statIndex < stats.length; statIndex++) {
                 let currentStatName = stats[statIndex];
-
+                // console.log(statPercentiles.highlander[currentClass])
+                
                 let currentStatArray = statPercentiles.highlander[currentClass][mapName][currentStatName];
                 for (let spotIndex = 0; spotIndex < currentStatArray.length; spotIndex++) {
                     if (combatStats[currentStatName] <= currentStatArray[spotIndex]) {

@@ -189,7 +189,6 @@ function playerConnected(unparsedEvent, finalObject, playerIDFinder){
     playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
     //Player Objects are initialized here
     if( !unparsedEvent.includes('connected, address') && !unparsedEvent.includes('entered') && !unparsedEvent.includes(' changed role to "undefined"')){
-        
         finalObject.players[playerIDFinder[userId3]] === undefined ? (finalObject.players[playerIDFinder[userId3]] = {
             userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
             steamID3: userId3,
@@ -306,7 +305,86 @@ function suicideEvent(unparsedEvent, finalObject, playerIDFinder){
 }
 
 function deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
+
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
+    playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
+    if(finalObject.players[playerIDFinder[userId3]] === undefined){
+
+        finalObject.players[playerIDFinder[userId3]] === undefined ? (finalObject.players[playerIDFinder[userId3]] = {
+            userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
+            steamID3: userId3,
+            joinedGame: eventDateToSeconds(unparsedEvent),
+            playTime: 0,
+            leftGame: false,
+            rgl:{
+                userName: "unknown",
+                rank:"unknown",
+            },
+            team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
+            class: unparsedEvent.slice(unparsedEvent.indexOf('spawned as "') + 12, unparsedEvent.lastIndexOf('"')),
+            classStats: {
+                changedClass: eventDateToSeconds(unparsedEvent),
+                [unparsedEvent.slice(unparsedEvent.indexOf('spawned as "') + 12, unparsedEvent.lastIndexOf('"'))]: {
+                    kills: 0,
+                    assists: 0,
+                    deaths: 0,
+                    damage: 0,
+                    weapons: {},
+                    time: 0,
+                }
+            },
+            combatScore: 0,
+            kills: 0,
+            deaths: 0,
+            assists: 0,
+            suicides: 0,
+            killAssistPerDeath: 0,
+            killsPerDeath: 0,
+            medicPicks: 0,
+            medicDrops: 0,
+            damageDivision: {
+                damageTo:{},
+                damageFrom:{},
+            },
+            damage : 0,
+            damageReal : 0,
+            damagePerMinute: 0,
+            damageTaken : 0,
+            damageTakenReal: 0,
+            damageTakenPerMinute: 0,
+            deathScreenTime: 0,
+            crossbowHealing: 0,
+            medicStats: {
+                uberTypes:{},
+                ubers: 0,
+                drops: 0,
+                uberLength: 0,
+                nearFullDeaths: 0,
+                healAfterSpawn: 0,
+            },
+            uberHits: 0,
+            resup: {
+                medkit: 0,
+                medkitsHealingDone: 0,
+                ammo: 0,
+            },
+            pointCaps: 0,
+            capturesBlocked: 0,
+            extinguished: 0,
+            dominated: 0,
+            revenged: 0,
+            buildingKills: 0,
+            buildings: 0,
+            heals: 0,
+            healsPerMinute: 0,
+            airshots: 0,
+            headshots: 0,
+            headshotKills: 0,
+            backstabs: 0,
+        }) : classSwaps(unparsedEvent, finalObject, playerIDFinder);
+    }
+
+    
     if(userId3 === ""){
         let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
         

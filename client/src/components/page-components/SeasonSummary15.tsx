@@ -15,7 +15,6 @@ const SeasonSummary = () => {
   }, [currentDivision, currentClass, currentSort]);
 
   function sortTable() {
-    console.log(currentSort);
     let currentArray: any = Object.entries(summary[currentDivision]);
     let playersWithClassSelection: any = [];
     let sortedArray: any = [];
@@ -350,7 +349,7 @@ const SeasonSummary = () => {
                 const playtimeInMinutes = currentPlayer[1].classPlayed[currentClass] !== undefined ?  (currentPlayer[1].classPlayed[currentClass].totalTime/ 60) : 0;
                 const playerObject = currentPlayer[1];
 
-                if(playtimeInMinutes > 45 ){
+                if(playtimeInMinutes > 0 ){
                   rowCount++;
                   return (
                     <div

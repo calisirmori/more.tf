@@ -494,7 +494,7 @@ function rglAPIcalls(currentLog){
 
 async function rglCall(currentPlayerId, id3, division, newSummary){
     try {
-        const response = await fetch(`http://localhost:3000/api/rgl-profile/${currentPlayerId}`, FetchResultTypes.JSON);
+        const response = await fetch(`/api/rgl-profile/${currentPlayerId}`, FetchResultTypes.JSON);
         newSummary[division][id3].playerUserName = response.name;
         newSummary[division][id3].division = response.currentTeams.highlander !== null ? response.currentTeams.highlander.divisionName : "none";
         newSummary[division][id3].team = response.currentTeams.highlander !== null ? response.currentTeams.highlander.name : "none";

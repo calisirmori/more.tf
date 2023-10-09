@@ -14,12 +14,11 @@ const fs = require('fs');
 const { makeSummary, rglAPIcalls } = require("./seasonSummaryMaker.js");
 const Pool = require('pg').Pool
 const cookieParser = require('cookie-parser');
-
 const port = process.env.PORT || 3000;
 
 //makeSummary();
 //rglAPIcalls()
-
+require('dotenv').config();
 app.use(express.json());
 app.use(cors());
 app.use(session({
@@ -44,7 +43,7 @@ passport.serializeUser((user, done) => {
 passport.use(new SteamStrategy({
  returnURL: 'https://dev.more.tf/api/auth/steam/return',
  realm: 'https://dev.more.tf',
- apiKey: `${process.env.STEAMKEY || "18D6B8C4F205B3A1BD6608A68EC83C3F"}`
+ apiKey: `${process.env.STEAMKEY}`
  }, function (identifier, profile, done) {
   process.nextTick(function () {
    profile.identifier = identifier;
@@ -82,11 +81,11 @@ app.get('/api/myprofile', (req, res) => {
 });
 
 const pool = new Pool({
-  username: process.env.PGUSER || "mori",
-  password: process.env.PGPASSWORD || "AVNS_Mgjn3GVV2dUH2ho46Nn",
-  host: process.env.PGHOST || "moretf-db-do-user-13704767-0.b.db.ondigitalocean.com",
-  port: process.env.PGPORT || "25060",
-  database: process.env.PGDATABASE || "preload-db",
+  username: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
   ssl: {
     ca: fs.readFileSync("./ca-certificate.crt")
   },
@@ -110,8 +109,6 @@ app.get('/api/findcookie/:id', (req, response) => {
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
-
-
 
 app.get('/api/per-class-stats/:id', (req, response) => {
   let playerId = req.params.id;
@@ -158,6 +155,34 @@ app.get('/api/per-map-stats/:id', (req, response) => {
   On t1.logid=t2.logid)
   group by map
   order by time desc`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/season-summary', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select id64,division,classid,teamname,teamid,name,
+  sum(kills) as kills,
+  sum(assist) as assist,
+  sum(deaths) as deaths,
+  sum(damage) as dmg,
+  sum(damage_taken) as dt,
+  sum(headshots) as hs,
+  sum(backstabs) as bs,
+  sum(airshots) as airshots,
+  sum(spy_kills) as spykills,
+  sum(heals_received) as hr,
+  sum(bleed_dmg) as bleed,
+  sum(sentry_dmg) as sentry_dmg,
+  sum(heals) as heals,
+  sum(ubers) as ubers,
+  sum(ubers_dropped) as drops,
+  sum(crossbows_hit) as crossbow,
+  sum(playtime) as time
+  from season_combined sc 
+  where seasonid=16
+  group by id64,classid,division,teamname,teamid,name
+  order by classid,division`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
@@ -231,7 +256,7 @@ app.get('/api/match-history/:id&class-played=:classPlayed&map=:map&after=:after&
 
 app.get('/api/steam-info/:id', async(req, res) => {
   const userId = req.params.id;
-  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY || "18D6B8C4F205B3A1BD6608A68EC83C3F"}&steamids=${userId}`;
+  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY}&steamids=${userId}`;
 
   try {
     const logsApiResponse = await fetch(

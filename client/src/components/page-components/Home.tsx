@@ -215,10 +215,10 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="flex justify-center mt-3 font-quicksand font-semibold max-md:text-sm">
-                      blank
+                     blank
                     </div>
                     <div className="flex justify-center -mt-1 font-quicksand font-thin text-orange-400 max-md:text-sm">
-                      Team Fun
+                     Team Fun
                     </div>
                   </div>
                 </a>

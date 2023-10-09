@@ -13,7 +13,7 @@ const Navbar = () => {
           <button className="bg-grayscale-6 h-9 px-4 rounded-r-sm text-white font-medium">SEARCH</button>
         </div> */}
         <div className="flex text-white font-semibold text-2xl px-3 gap-8 pt-1 font-cantarell">
-          <a href="/season-15-summary">S15 LIVE</a>
+          <a href="/season-16-summary">S15 LIVE</a>
           <a href="/api/myprofile">Profile</a>
         </div>
       </div>

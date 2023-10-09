@@ -29,17 +29,18 @@ const Profile = () => {
   }, []);
 
   async function steamInfoCallProfile() {
-    let response: any;
+    let response: any = {}; // Initialize with an empty object
     try {
       response = await fetch(
         `/api/steam-info/${playerId}`,
         FetchResultTypes.JSON
-      );  
+      );
       setPlayerSteamInfo(response.response.players[0]);
     } catch (error) {
       console.log(error);
-      response.personaname = "Steam Error"
-      response.avatarfull = "Steam Error"
+      console.log(response);
+      response.personaname = "Steam Error";
+      response.avatarfull = "Steam Error";
       setPlayerSteamInfo(response);
     }
   }
@@ -83,6 +84,7 @@ const Profile = () => {
   }
 
   async function calendar() {
+    
     const response: any = await fetch(
       `/api/calendar/${playerId}`,
       FetchResultTypes.JSON
@@ -119,7 +121,24 @@ const Profile = () => {
       `/api/per-map-stats/${playerId}`,
       FetchResultTypes.JSON
     );
-    setMapDisparityData(response.rows);
+        
+    let unsortedArray = response.rows;
+    let currentMapObject: any = {};
+
+    for (let i = 0; i < unsortedArray.length ; i++){
+      let mapName = unsortedArray[i].map.split('_')[1];
+
+      if(currentMapObject[mapName] === undefined){
+        currentMapObject = {...currentMapObject, [mapName] :unsortedArray[i]}
+        
+      } else {
+        currentMapObject[mapName].w = parseInt(unsortedArray[i].w) + parseInt(currentMapObject[mapName].w)
+        currentMapObject[mapName].l = parseInt(unsortedArray[i].l) + parseInt(currentMapObject[mapName].l)
+        currentMapObject[mapName].t = parseInt(unsortedArray[i].t) + parseInt(currentMapObject[mapName].t)
+        currentMapObject[mapName].time = parseInt(unsortedArray[i].time) + parseInt(currentMapObject[mapName].time)
+      }
+    }
+    setMapDisparityData(Object.values(currentMapObject));
   }
   
   async function perClassPlaytimeCall() {
@@ -127,7 +146,6 @@ const Profile = () => {
       `/api/per-class-stats/${playerId}`,
       FetchResultTypes.JSON
     );
-
     setPerClassPlaytimeData(response.rows);
   }
 

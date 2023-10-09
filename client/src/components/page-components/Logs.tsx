@@ -328,7 +328,8 @@ const Logs = () => {
                     id="map"
                     className=" text-lightscale-2 text-xl font-semibold font-cantarell"
                   >
-                    {apiResponse.info.map.split("_")[1].charAt(0).toUpperCase() + apiResponse.info.map.split("_")[1].slice(1)}
+
+                    {apiResponse.info.map.split("_")[1] !== undefined ? apiResponse.info.map.split("_")[1].charAt(0).toUpperCase() + apiResponse.info.map.split("_")[1].slice(1) : apiResponse.info.map}
                   </div>
                 </div>
                 <div id="match-scores" className="flex">
