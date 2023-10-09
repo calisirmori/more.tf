@@ -84,9 +84,9 @@ const SeasonSummary = () => {
     },
     pyro: {
       id: "spykills",
-      name: "Total Spy Kills",
-      title: "Spy Kills",
-      perMinute: false
+      name: "Spy Kills Per Minute",
+      title: "Spy Kills/m",
+      perMinute: true
     },
     demoman: {
       id: "airshots",
@@ -122,7 +122,7 @@ const SeasonSummary = () => {
       id: "bs",
       name: "Backstabs Per Minute",
       title: "BS/m",
-      perMinute: false
+      perMinute: true
     },
   }
 
