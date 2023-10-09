@@ -7,33 +7,26 @@ import { time } from "console";
 const SeasonSummary = () => {
   const [currentDivision, setCurrentDivision] = useState<string>("invite");
   const [currentClass, setCurrentClass] = useState<string>("scout");
-  const [displayArray, setDisplayArray] = useState<any>([]);
+  const [displayArray, setDisplayArray] = useState<any[]>([]);
   const [currentSort, setCurrentSort] = useState("kills");
-  const [summaryData, setSummaryData] = useState<any>([]);
+  const [summaryData, setSummaryData] = useState<any[]>([]);
   let rowCount = 0;
   
   useEffect(() => {
-    async function fetchDataAndSort() {
-      await getSummaryData();
-      sortTable();
-    }
-    fetchDataAndSort();
+      getSummaryData();
   }, [currentSort, currentClass]);
-
+  
   async function getSummaryData() {
     let response: any;
     try {
-      response = await fetch(
-        `/api/season-summary`,
-        FetchResultTypes.JSON
-      );
+      response = await fetch(`/api/season-summary`, FetchResultTypes.JSON);
+      setSummaryData(response.rows);
+      sortTable(response.rows);
     } catch (error) {
       console.error(error);
     }
-    setSummaryData(response.rows);
-
   }
-
+  
   type PlayerStat = {
     time: number;
     [key: string]: any;
@@ -43,7 +36,7 @@ const SeasonSummary = () => {
     data: PlayerStat;
     value: number;
   };
-
+  
   function calculateValue(playerStat: PlayerStat, sortKey: string, classSpecs: any, currentClass: string): number {
     const playTime = playerStat.time / 60;
   
@@ -60,12 +53,11 @@ const SeasonSummary = () => {
     }
   }
   
-  function sortTable() {
+  function sortTable(data: any[]) {
     const tempArray: TempArrayItem[] = [];
   
-    summaryData.forEach((playerStat: PlayerStat) => {
+    data.forEach((playerStat: PlayerStat) => {
       const currentValue = calculateValue(playerStat, currentSort, classSpecialties, currentClass);
-  
       tempArray.push({
         data: playerStat,
         value: currentValue,
@@ -80,8 +72,8 @@ const SeasonSummary = () => {
   const classSpecialties: any = {
     scout: {
       id: "bleed",
-      name: "Bleed Damage",
-      title: "Bleed",
+      name: "Bleed Damage Per Minute",
+      title: "Bleed/m",
       perMinute: true
     },
     soldier: {
@@ -201,7 +193,9 @@ const SeasonSummary = () => {
                 </div>
                 {columnHeader(setCurrentSort,currentSort,"time","Play Time","Time")}
               </div>
+
               {displayArray.map((currentPlayer: any, index: number) => {
+                
                 const playtimeInMinutes = currentPlayer.time / 60;
                 const userID = currentPlayer.steamid;
                 const userName = currentPlayer.name;
@@ -314,15 +308,12 @@ const SeasonSummary = () => {
                       >
                         {Math.round(currentPlayer.time / 60) + ' min'}
                       </div>
-                      
                     </div>
                   );
                 }
               })}
             </div>
-            <div className=" text-right text-warmscale-5 mb-2 mr-3 font-bold">
-              THANK YOU ZAHIR AND POGO FOR COLLECTING THE LOGS
-            </div>
+          <div className=" text-stone-600 font-semibold text-center py-2">IF YOU WANT TO HELP WITH INTERMEDIATE / AMATEUR / NEWCOMER PLEASE CONTACT ME ON DISCORD</div>
           </div>
         </div>
       </div>
