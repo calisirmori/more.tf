@@ -8,7 +8,7 @@ const Navbar = () => {
             <Logo to="/">more.tf</Logo>
             <ContentHeaders>
                 <ContactHeader href="https://discord.gg/ZbYQGWbUnx" target="_blank">Contact</ContactHeader>
-                <ContactHeader href="https://dev.more.tf/season-16-summary" target="_blank">S15 LIVE</ContactHeader>
+                <ContactHeader href="https://dev.more.tf/season-16-summary" target="_blank">S16 LIVE</ContactHeader>
             </ContentHeaders>
         </NavbarWrapper>
     </>
