@@ -160,7 +160,6 @@ app.get('/api/per-map-stats/:id', (req, response) => {
 });
 
 app.get('/api/season-summary', (req, response) => {
-  let playerId = req.params.id;
   pool.query(`select id64,division,classid,teamname,teamid,name,
   sum(kills) as kills,
   sum(assist) as assist,
@@ -181,6 +180,34 @@ app.get('/api/season-summary', (req, response) => {
   sum(playtime) as time
   from season_combined sc 
   where seasonid=16
+  group by id64,classid,division,teamname,teamid,name
+  order by classid,division`)
+  .then((res) => response.send(res))
+  .catch((err) => console.error(err))
+});
+
+app.get('/api/lastweek-season-summary', (req, response) => {
+  pool.query(`select id64,division,classid,teamname,teamid,name,
+  sum(kills) as kills,
+  sum(assist) as assist,
+  sum(deaths) as deaths,
+  sum(damage) as dmg,
+  sum(damage_taken) as dt,
+  sum(headshots) as hs,
+  sum(backstabs) as bs,
+  sum(airshots) as airshots,
+  sum(spy_kills) as spykills,
+  sum(heals_received) as hr,
+  sum(bleed_dmg) as bleed,
+  sum(sentry_dmg) as sentry_dmg,
+  sum(heals) as heals,
+  sum(ubers) as ubers,
+  sum(ubers_dropped) as drops,
+  sum(crossbows_hit) as crossbow,
+  sum(playtime) as time
+  from season_combined sc 
+  where seasonid=16
+  and week_num!= (select max(week_num) from season_combined sc)
   group by id64,classid,division,teamname,teamid,name
   order by classid,division`)
   .then((res) => response.send(res))

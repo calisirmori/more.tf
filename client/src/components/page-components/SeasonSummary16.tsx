@@ -9,37 +9,75 @@ const SeasonSummary = () => {
   const [currentClass, setCurrentClass] = useState<string>("scout");
   const [displayArray, setDisplayArray] = useState<any[]>([]);
   const [currentSort, setCurrentSort] = useState("kills");
-  const [summaryData, setSummaryData] = useState<any[]>([]);
+  const [summaryLastData, setLastSummaryData] = useState<any>({});
   let rowCount = 0;
-  
+
   useEffect(() => {
-      getSummaryData();
+    getSummaryData();
   }, [currentSort, currentClass]);
-  
-  async function getSummaryData() {
+
+  useEffect(() => {
+    getLastSummaryData();
+  }, []);
+
+  useEffect(() => {
+    console.log(summaryLastData);
+  }, [summaryLastData]);
+
+  async function getLastSummaryData() {
     let response: any;
     try {
-      response = await fetch(`/api/season-summary`, FetchResultTypes.JSON);
-      setSummaryData(response.rows);
+      response = await fetch(
+        `/api/lastweek-season-summary`,
+        FetchResultTypes.JSON
+      );
+
+      let transformedData = response.rows.reduce(
+        (accumulator: any, current: any) => {
+          accumulator[current.id64] = current;
+          return accumulator;
+        },
+        {}
+      );
+
+      setLastSummaryData(transformedData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getSummaryData() {
+    let response: any;
+    let response2: any;
+    try {
+      response = await fetch(
+        `/api/season-summary`,
+        FetchResultTypes.JSON
+      );
       sortTable(response.rows);
     } catch (error) {
       console.error(error);
     }
   }
-  
+
   type PlayerStat = {
     time: number;
     [key: string]: any;
   };
-  
+
   type TempArrayItem = {
     data: PlayerStat;
     value: number;
   };
-  
-  function calculateValue(playerStat: PlayerStat, sortKey: string, classSpecs: any, currentClass: string): number {
+
+  function calculateValue(
+    playerStat: PlayerStat,
+    sortKey: string,
+    classSpecs: any,
+    currentClass: string
+  ): number {
     const playTime = playerStat.time / 60;
-  
+
     switch (sortKey) {
       case "kd":
         return Math.round((playerStat.kills / playerStat.deaths) * 100) / 100;
@@ -47,25 +85,34 @@ const SeasonSummary = () => {
         if (!classSpecs[currentClass].perMinute) {
           return playerStat[classSpecs[currentClass].id];
         }
-        return Math.round((playerStat[classSpecs[currentClass].id] / playTime) * 100) / 100;
+        return (
+          Math.round(
+            (playerStat[classSpecs[currentClass].id] / playTime) * 100
+          ) / 100
+        );
       default:
         return Math.round((playerStat[sortKey] / playTime) * 100) / 100;
     }
   }
-  
+
   function sortTable(data: any[]) {
     const tempArray: TempArrayItem[] = [];
-  
+
     data.forEach((playerStat: PlayerStat) => {
-      const currentValue = calculateValue(playerStat, currentSort, classSpecialties, currentClass);
+      const currentValue = calculateValue(
+        playerStat,
+        currentSort,
+        classSpecialties,
+        currentClass
+      );
       tempArray.push({
         data: playerStat,
         value: currentValue,
       });
     });
-  
+
     tempArray.sort((a: TempArrayItem, b: TempArrayItem) => b.value - a.value);
-    const finalArray = tempArray.map(item => item.data);
+    const finalArray = tempArray.map((item) => item.data);
     setDisplayArray(finalArray);
   }
 
@@ -74,57 +121,57 @@ const SeasonSummary = () => {
       id: "bleed",
       name: "Bleed Damage Per Minute",
       title: "Bleed/m",
-      perMinute: true
+      perMinute: true,
     },
     soldier: {
       id: "airshots",
       name: "Total Airshots",
       title: "Airshots",
-      perMinute: false
+      perMinute: false,
     },
     pyro: {
       id: "spykills",
       name: "Spy Kills Per Minute",
       title: "Spy Kills/m",
-      perMinute: true
+      perMinute: true,
     },
     demoman: {
       id: "airshots",
       name: "Total Airshots",
       title: "Airshots",
-      perMinute: false
+      perMinute: false,
     },
     heavyweapons: {
       id: "hr",
       name: "Heals Received",
       title: "HR/m",
-      perMinute: true
+      perMinute: true,
     },
     engineer: {
       id: "sentry_dmg",
       name: "Sentry Damage",
       title: "Sentry DMG",
-      perMinute: true
+      perMinute: true,
     },
     medic: {
       id: "heals",
       name: "Heals Per Minute",
       title: "Heals/m",
-      perMinute: true
+      perMinute: true,
     },
     sniper: {
       id: "hs",
       name: "Headshots Per Minute",
       title: "HS/m",
-      perMinute: true
+      perMinute: true,
     },
     spy: {
       id: "bs",
       name: "Backstabs Per Minute",
       title: "BS/m",
-      perMinute: true
+      perMinute: true,
     },
-  }
+  };
 
   return (
     <div className=" bg-warmscale-7 min-h-screen py-3">
@@ -133,15 +180,15 @@ const SeasonSummary = () => {
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
           <div className="bg-warmscale-8 rounded-md">
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
-              RGL HL S16 SUMMARY | WEEK1
+              RGL HL S16 SUMMARY | WEEK 2
             </div>
             <div className="flex text-lightscale-1 font-semibold text-xl">
-              {divisionHeader(setCurrentDivision, currentDivision, "invite", "INVITE")}
-              {divisionHeader(setCurrentDivision, currentDivision, "advanced", "ADVANCED")}
-              {divisionHeader(setCurrentDivision, currentDivision, "main", "MAIN")}
-              {divisionHeader(setCurrentDivision, currentDivision, "im", "INTERMEDIATE")}
-              {divisionHeader(setCurrentDivision, currentDivision, "am", "AMATEUR")}
-              {divisionHeader(setCurrentDivision, currentDivision, "nc", "NEWCOMER")}
+              {divisionHeader(setCurrentDivision,currentDivision,"invite","INVITE")}
+              {divisionHeader(setCurrentDivision,currentDivision,"advanced","ADVANCED")}
+              {divisionHeader(setCurrentDivision,currentDivision,"main","MAIN")}
+              {divisionHeader(setCurrentDivision,currentDivision,"intermediate","INTERMEDIATE")}
+              {divisionHeader(setCurrentDivision,currentDivision,"am","AMATEUR")}
+              {divisionHeader(setCurrentDivision,currentDivision,"nc","NEWCOMER")}
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">
               {classHeader(setCurrentClass, currentClass, "scout")}
@@ -184,7 +231,7 @@ const SeasonSummary = () => {
                       </svg>
                     </div>
                   )}
-            
+
                   {classSpecialties[currentClass].title}
                   <div className="absolute scale-0 w-40 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
                     {classSpecialties[currentClass].name}
@@ -195,7 +242,9 @@ const SeasonSummary = () => {
               </div>
 
               {displayArray.map((currentPlayer: any, index: number) => {
-                
+                const lastWeeksStats = summaryLastData[currentPlayer.id64];
+                const lastWeeksPlaytime: any =
+                  lastWeeksStats !== undefined && lastWeeksStats.time / 60;
                 const playtimeInMinutes = currentPlayer.time / 60;
                 const userID = currentPlayer.steamid;
                 const userName = currentPlayer.name;
@@ -205,7 +254,6 @@ const SeasonSummary = () => {
                   currentPlayer.teamname === null
                     ? "Free Agent"
                     : currentPlayer.teamname;
-
                 if (
                   playtimeInMinutes > 0 &&
                   currentPlayer.classid === currentClass &&
@@ -242,63 +290,73 @@ const SeasonSummary = () => {
                           </a>
                         </div>
                       </div>
+                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "kills", 2, 7, 1)}
+                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "assist", 2, 7, 1)}
+                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "deaths", 2, 7, -1)}
                       <div
-                        className={` py-2.5 ${
-                          currentSort === "kills" &&
-                          "bg-warmscale-2 bg-opacity-5"
-                        }`}
+                        className={`relative py-2.5 flex items-center justify-center ${currentSort === "kd" &&
+                          "bg-warmscale-2 bg-opacity-5"}`}
                       >
-                        {(currentPlayer.kills / playtimeInMinutes).toFixed(2)}
+                        {(currentPlayer.kills / currentPlayer.deaths).toFixed(2)}
+                        <div
+                          className={`absolute left-[45%] transform translate-x-full ml-1 w-7 text-[10px] font-robotomono font-semibold ${lastWeeksStats !== undefined
+                              ? (() => {
+                                const difference = Math.round(
+                                  (currentPlayer.kills / currentPlayer.deaths -
+                                  lastWeeksStats.kills / lastWeeksStats.deaths) *
+                                  10
+                                ) / 10;
+                                
+                                if (difference > 0) {
+                                  return "text-green-500"; // Green for positive values
+                                } else if (difference < 0) {
+                                  return "text-red-500"; // Red for negative values
+                                } else {
+                                  return "text-gray-500"; // Gray for zero
+                                }
+                              })()
+                              : ""}`}
+                        >
+                          {lastWeeksStats !== undefined
+                            ? (() => {
+                              const difference = Math.round(
+                                (currentPlayer.kills / currentPlayer.deaths -
+                                  lastWeeksStats.kills / lastWeeksStats.deaths) *
+                                10
+                              ) / 10;
+                              
+                              if (difference > 0) {
+                                return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                              </svg>;
+                              } else if (difference < 0) {
+                                return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                              </svg>;
+                              } else {
+                                return <svg fill="none" stroke="currentColor" strokeWidth={5.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                              </svg>;
+                              }
+                            })()
+                            : null}
+                        </div>
                       </div>
-                      <div
-                        className={` py-2.5 ${
-                          currentSort === "assist" &&
-                          "bg-warmscale-2 bg-opacity-5"
-                        }`}
-                      >
-                        {(currentPlayer.assist / playtimeInMinutes).toFixed(2)}
-                      </div>
-                      <div
-                        className={` py-2.5 ${
-                          currentSort === "deaths" &&
-                          "bg-warmscale-2 bg-opacity-5"
-                        }`}
-                      >
-                        {(currentPlayer.deaths / playtimeInMinutes).toFixed(2)}
-                      </div>
-                      <div
-                        className={` py-2.5 ${
-                          currentSort === "kd" && "bg-warmscale-2 bg-opacity-5"
-                        }`}
-                      >
-                        {(currentPlayer.kills / currentPlayer.deaths).toFixed(
-                          2
-                        )}
-                      </div>
-                      <div
-                        className={` py-2.5 ${
-                          currentSort === "dmg" &&
-                          "bg-warmscale-2 bg-opacity-5"
-                        }`}
-                      >
-                        {(currentPlayer.dmg / playtimeInMinutes).toFixed(1)}
-                      </div>
-                      <div
-                        className={` py-2.5 ${
-                          currentSort === "dt" &&
-                          "bg-warmscale-2 bg-opacity-5"
-                        }`}
-                      >
-                        {(currentPlayer.dt / playtimeInMinutes).toFixed(1)}
-                      </div>
+                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "dmg", 1, 8, 1)}
+                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "dt", 1, 8, -1)}
                       <div
                         className={` py-2.5 ${
                           currentSort === "specialty" &&
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {classSpecialties[currentClass].perMinute && (currentPlayer[classSpecialties[currentClass].id] / playtimeInMinutes).toFixed(2)}
-                        {!classSpecialties[currentClass].perMinute && (currentPlayer[classSpecialties[currentClass].id])}
+                        {classSpecialties[currentClass].perMinute &&
+                          (
+                            currentPlayer[classSpecialties[currentClass].id] /
+                            playtimeInMinutes
+                          ).toFixed(2)}
+                        {!classSpecialties[currentClass].perMinute &&
+                          currentPlayer[classSpecialties[currentClass].id]}
                       </div>
                       <div
                         className={` py-2.5 ${
@@ -306,14 +364,16 @@ const SeasonSummary = () => {
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {Math.round(currentPlayer.time / 60) + ' min'}
+                        {Math.round(currentPlayer.time / 60) + " min"}
                       </div>
                     </div>
                   );
                 }
               })}
             </div>
-          <div className=" text-stone-600 font-semibold text-center py-2">IF YOU WANT TO HELP WITH INTERMEDIATE / AMATEUR / NEWCOMER PLEASE CONTACT ME ON DISCORD</div>
+            <div className=" text-stone-600 font-semibold text-center py-2">
+              UP AND DOWN ARROWS SHOW HOW YOUR SCORE CHANGED FROM LAST WEEKS STATS
+            </div>
           </div>
         </div>
       </div>
@@ -323,17 +383,80 @@ const SeasonSummary = () => {
 
 export default SeasonSummary;
 
-function divisionHeader(setCurrentDivision: React.Dispatch<React.SetStateAction<string>>, currentDivision: string, divisionName: string, title: string) {
+function playerStat(currentSort: string, currentPlayer: any, playtimeInMinutes: number, lastWeeksStats: any, lastWeeksPlaytime: any, stat: string, significantDigits: number, arrowMargin: number, positiveStat: number) {
   return <div
-    onClick={() => {
-      setCurrentDivision(divisionName);
-    } }
-    className={` ${currentDivision === divisionName
-        ? "text-lightscale-1 border-b-2 border-tf-orange"
-        : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"} select-none w-56 text-center py-2`}
+    className={`relative py-2.5 flex items-center justify-center ${currentSort === stat &&
+      "bg-warmscale-2 bg-opacity-5"}`}
   >
-    {title}
+    {(currentPlayer[stat] / playtimeInMinutes).toFixed(significantDigits)}
+    <div
+      className={`absolute left-[45%] transform translate-x-full w-${arrowMargin} text-[10px] font-robotomono font-semibold ${lastWeeksStats !== undefined
+          ? (() => {
+            const difference = Math.round(
+              (currentPlayer[stat] / playtimeInMinutes -
+                lastWeeksStats[stat] /
+                lastWeeksPlaytime) *
+              10
+            ) / 10;
+
+            if (difference > 0) {
+              return positiveStat == 1 ? "text-green-500" : "text-red-500" ;
+            } else if (difference < 0) {
+              return positiveStat !== 1 ? "text-green-500" : "text-red-500";
+            } else {
+              return "text-gray-500";
+            }
+          })()
+          : ""}`}
+    >
+      {lastWeeksStats !== undefined
+        ? (() => {
+          const difference = Math.round(
+            (currentPlayer[stat] / playtimeInMinutes -
+              lastWeeksStats[stat] /
+              lastWeeksPlaytime) *
+            10
+          ) / 10;
+
+          if (difference > 0) {
+            return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+          </svg>;
+          } else if (difference < 0) {
+            return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>;
+          } else {
+            return <svg fill="none" stroke="currentColor" strokeWidth={5.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+          </svg>;
+          }
+        })()
+        : null}
+    </div>
   </div>;
+}
+
+function divisionHeader(
+  setCurrentDivision: React.Dispatch<React.SetStateAction<string>>,
+  currentDivision: string,
+  divisionName: string,
+  title: string
+) {
+  return (
+    <div
+      onClick={() => {
+        setCurrentDivision(divisionName);
+      }}
+      className={` ${
+        currentDivision === divisionName
+          ? "text-lightscale-1 border-b-2 border-tf-orange"
+          : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
+      } select-none w-56 text-center py-2`}
+    >
+      {title}
+    </div>
+  );
 }
 
 function columnHeader(
