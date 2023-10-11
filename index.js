@@ -205,7 +205,20 @@ app.get('/api/db-try', (req, response) => {
 
 app.get('/api/username-search/:username', (req, response) => {
   let playerUserName = req.params.username;
-  pool.query(`SELECT id64,count(id64) as count FROM players WHERE name like'%${playerUserName}%' GROUP BY id64 Order BY count DESC`)
+  pool.query(`WITH ranked_names AS (
+    SELECT
+      id64,
+      name,
+      count,
+      ROW_NUMBER() OVER (PARTITION BY id64 ORDER BY count DESC) AS rn
+    FROM name_search
+    WHERE name LIKE '%${playerUserName}%' 
+  )
+  SELECT id64, name, count
+  FROM ranked_names
+  WHERE rn = 1
+  order by count desc
+  LIMIT 10`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });

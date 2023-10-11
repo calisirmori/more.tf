@@ -19,7 +19,7 @@ const SeasonSummary = () => {
   async function getSummaryData() {
     let response: any;
     try {
-      response = await fetch(`/api/season-summary`, FetchResultTypes.JSON);
+      response = await fetch(`http://localhost:3000/api/season-summary`, FetchResultTypes.JSON);
       setSummaryData(response.rows);
       sortTable(response.rows);
     } catch (error) {
