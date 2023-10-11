@@ -79,6 +79,8 @@ const SeasonSummary = () => {
     const playTime = playerStat.time / 60;
 
     switch (sortKey) {
+      case "time":
+        return Math.round(playerStat.time / 60);
       case "kd":
         return Math.round((playerStat.kills / playerStat.deaths) * 100) / 100;
       case "specialty":
