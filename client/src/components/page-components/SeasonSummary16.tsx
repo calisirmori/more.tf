@@ -189,8 +189,8 @@ const SeasonSummary = () => {
               {divisionHeader(setCurrentDivision,currentDivision,"advanced","ADVANCED")}
               {divisionHeader(setCurrentDivision,currentDivision,"main","MAIN")}
               {divisionHeader(setCurrentDivision,currentDivision,"intermediate","INTERMEDIATE")}
-              {divisionHeader(setCurrentDivision,currentDivision,"am","AMATEUR")}
-              {divisionHeader(setCurrentDivision,currentDivision,"nc","NEWCOMER")}
+              {divisionHeader(setCurrentDivision,currentDivision,"amateur","AMATEUR")}
+              {divisionHeader(setCurrentDivision,currentDivision,"newcomer","NEWCOMER")}
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">
               {classHeader(setCurrentClass, currentClass, "scout")}
