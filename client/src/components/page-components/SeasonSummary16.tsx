@@ -272,7 +272,7 @@ const SeasonSummary = () => {
                       <div className="pl-3 text-left text-lightscale-2">
                         <div className="-mb-2 truncate ">
                           <a
-                            href={`/profile/${currentPlayer.id64]}`}
+                            href={`/profile/${currentPlayer.id64}`}
                             className="hover:text-tf-orange font-semibold"
                           >
                             {userName}
