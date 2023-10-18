@@ -160,15 +160,16 @@ app.get('/api/per-map-stats/:id', (req, response) => {
 });
 
 app.get('/api/season-summary', (req, response) => {
-  pool.query(`select distinct playerinfo.id64,division,classid,teamname,teamid,name,
-  kills,assist,deaths,dmg,dt,
-  hs,bs,airshots,spykills,hr,bleed,
-  sentry_dmg,heals,ubers,drops,crossbow,time
-  from
-    (select id64,teamname,teamid,name
+  pool.query(`select playerinfo.id64,division,classid, teamname,teamid,name,
+kills,assist,deaths,dmg,dt,
+hs,bs,airshots,spykills,hr,bleed,
+sentry_dmg,heals,ubers,drops,crossbow,time
+from
+    (select distinct id64,teamname,teamid,name
     from season_combined sc 
+    where week_num= (select max(week_num) from season_combined sc)
     ) as playerinfo
-      inner join    
+inner join    
     (select id64,division,classid,
     sum(kills) as kills,
     sum(assist) as assist,
@@ -190,21 +191,24 @@ app.get('/api/season-summary', (req, response) => {
     from season_combined sc 
     where seasonid=16
     group by id64,classid,division
-    order by classid,division) as weekinfo on playerinfo.id64=weekinfo.id64`)
+    order by classid,division) as weekinfo
+on
+    playerinfo.id64=weekinfo.id64`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
 
 app.get('/api/lastweek-season-summary', (req, response) => {
-  pool.query(`select distinct playerinfo.id64,division,classid,teamname,teamid,name,
-  kills,assist,deaths,dmg,dt,
-  hs,bs,airshots,spykills,hr,bleed,
-  sentry_dmg,heals,ubers,drops,crossbow,time
-  from
-    (select id64,teamname,teamid,name
+  pool.query(`select playerinfo.id64,division,classid, teamname,teamid,name,
+kills,assist,deaths,dmg,dt,
+hs,bs,airshots,spykills,hr,bleed,
+sentry_dmg,heals,ubers,drops,crossbow,time
+from
+    (select distinct id64,teamname,teamid,name
     from season_combined sc 
+    where week_num= (select max(week_num) from season_combined sc)
     ) as playerinfo
-      inner join    
+inner join    
     (select id64,division,classid,
     sum(kills) as kills,
     sum(assist) as assist,
@@ -227,7 +231,9 @@ app.get('/api/lastweek-season-summary', (req, response) => {
     where seasonid=16
     and week_num!= (select max(week_num) from season_combined sc)
     group by id64,classid,division
-    order by classid,division) as weekinfo on playerinfo.id64=weekinfo.id64`)
+    order by classid,division) as weekinfo
+on
+    playerinfo.id64=weekinfo.id64`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
