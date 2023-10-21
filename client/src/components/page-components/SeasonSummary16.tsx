@@ -13,16 +13,14 @@ const SeasonSummary = () => {
   let rowCount = 0;
 
   useEffect(() => {
-    getSummaryData();
+    sortTable(displayArray);
   }, [currentSort, currentClass]);
 
   useEffect(() => {
     getLastSummaryData();
+    getSummaryData();
   }, []);
 
-  useEffect(() => {
-    console.log(summaryLastData);
-  }, [summaryLastData]);
 
   async function getLastSummaryData() {
     let response: any;
@@ -45,10 +43,9 @@ const SeasonSummary = () => {
       console.error(error);
     }
   }
-
+  
   async function getSummaryData() {
     let response: any;
-    let response2: any;
     try {
       response = await fetch(
         `/api/season-summary`,
@@ -59,6 +56,7 @@ const SeasonSummary = () => {
       console.error(error);
     }
   }
+
 
   type PlayerStat = {
     time: number;
@@ -90,6 +88,8 @@ const SeasonSummary = () => {
             (playerStat[classSpecs[currentClass].id] / playTime) * 100
           ) / 100
         );
+      case "time":
+        return playerStat.time;
       default:
         return Math.round((playerStat[sortKey] / playTime) * 100) / 100;
     }
@@ -396,8 +396,8 @@ function playerStat(currentSort: string, currentPlayer: any, playtimeInMinutes: 
               (currentPlayer[stat] / playtimeInMinutes -
                 lastWeeksStats[stat] /
                 lastWeeksPlaytime) *
-              10
-            ) / 10;
+              100
+            ) / 100;
 
             if (difference > 0) {
               return positiveStat == 1 ? "text-green-500" : "text-red-500" ;
@@ -415,8 +415,8 @@ function playerStat(currentSort: string, currentPlayer: any, playtimeInMinutes: 
             (currentPlayer[stat] / playtimeInMinutes -
               lastWeeksStats[stat] /
               lastWeeksPlaytime) *
-            10
-          ) / 10;
+            100
+          ) / 100;
 
           if (difference > 0) {
             return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
