@@ -11,38 +11,50 @@ const Home = () => {
   const [inputFocused, setInputFocused] = useState(false);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if(searchInput.length > 2){
-        searchCall(searchInput)
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchInput.length > 2) {
+        try {
+          setSearching(true);
+          await searchCall(searchInput);
+        } catch (error) {
+          console.error("Error during search:", error);
+        } finally {
+          setSearching(false);
+        }
       }
     }, 1000);
-    setSearching(true);
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchInput])
   
-  async function searchCall(input: string){
-
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchInput]);
+  
+  async function searchCall(input: string) {
     const response: any = await fetch(
       `/api/username-search/${input}`,
       FetchResultTypes.JSON
-    );
+    ).then();
 
-    setSearchInternalData(response.rows);
-
-    let steamCallArray :any = [];
-    
-    if( response.rows !== undefined ){
-      for (let index = 0; index < response.rows.length; index++) {
-        const steamResponse: any = await fetch(
-          `/api/steam-info/${response.rows[index].id64}`,
-          FetchResultTypes.JSON
-        );
-        steamCallArray.push(steamResponse.response.players[0]);
-      }
+    if (!response.rows) {
+      setSearchInternalData({});
+      setSearchSteamData([]);
+      return;
     }
-    setSearching(false);
-    setSearchSteamData(steamCallArray );
+  
+    setSearchInternalData(response.rows);
+  
+    const steamPromises = response.rows.map((row :any) =>
+      fetch(`/api/steam-info/${row.id64}`, FetchResultTypes.JSON)
+        .then()
+        .catch(err => {
+          console.error(`Error fetching steam info for id ${row.id64}:`, err);
+          return null;
+        })
+    );
+  
+    const steamData = (await Promise.all(steamPromises)).filter(Boolean);
+
+    setSearchSteamData(steamData);
   }
+
 
   return (
     <div className="bg-warmscale-8 min-h-screen pt-3 ">
@@ -102,13 +114,14 @@ const Home = () => {
                         <div className="w-full absolute left-0 top-0 min-h-40 bg-warmscale-85 rounded-b-md">
                           {searchSteamData.map((currentSearch:any, index:any) => {
                             if(index < 10){
+                              const currentPlayerInfo = currentSearch.response.players[0]
                               return(
-                                <a href={`profile/${currentSearch.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
+                                <a href={`profile/${currentPlayerInfo.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
                                   <div className="flex items-center">
-                                    <img src={currentSearch.avatar} className="h-6" alt="" />
-                                    <div className="ml-2">{currentSearch.personaname}</div>
+                                    <img src={currentPlayerInfo.avatar} className="h-6" alt="" />
+                                    <div className="ml-2">{currentPlayerInfo.personaname}</div>
                                   </div>
-                                  <div>{searchInternalData[index].count}</div>
+                                  {searchInternalData[index] !== undefined && <div>{searchInternalData[index].count}</div>}
                                 </a>
                               )
                             }
