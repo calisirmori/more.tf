@@ -30,7 +30,7 @@ const Home = () => {
   async function searchCall(input: string) {
     console.log("Searching...");
     const response: any = await fetch(
-      `http:/localhost:3000/api/username-search/${input}`,
+      `/api/username-search/${input}`,
       FetchResultTypes.JSON
     ).then();
 
@@ -49,7 +49,7 @@ const Home = () => {
 
     const getSteamInfo = async (steamIds: any) => {
       const idsString = steamIds.join(','); // Convert array to comma-separated string
-      let response: any = await fetch(`http:/localhost:3000/api/steam-info?ids=${idsString}`, FetchResultTypes.JSON);
+      let response: any = await fetch(`/api/steam-info?ids=${idsString}`, FetchResultTypes.JSON);
       return response;
     }
 
