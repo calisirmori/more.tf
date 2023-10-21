@@ -259,7 +259,7 @@ app.get('/api/username-search/:username', (req, response) => {
   FROM ranked_names
   WHERE rn = 1
   order by count desc
-  LIMIT 10`)
+  LIMIT 5`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
 });
@@ -305,23 +305,19 @@ app.get('/api/match-history/:id&class-played=:classPlayed&map=:map&after=:after&
 
 });
 
-
-
-
-app.get('/api/steam-info/:id', async(req, res) => {
-  const userId = req.params.id;
-  var URL = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY}&steamids=${userId}`;
+app.get('/api/steam-info', async(req, res) => {
+  const userIds = req.query.ids; // Get comma-separated IDs from query
+  if (!userIds) {
+    return res.status(400).send("No IDs provided");
+  }
+  const URL = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY}&steamids=${userIds}`;
 
   try {
-    const logsApiResponse = await fetch(
-      URL,
-      FetchResultTypes.JSON
-    );
+    const logsApiResponse = await fetch( URL, FetchResultTypes.JSON);
     res.send(logsApiResponse);
   } catch (error) {
-    res.send("steam error")
+    res.status(500).send("steam error");
   }
-  
 });
 
 app.get('/api/rgl-profile/:id', async(req, res) => {

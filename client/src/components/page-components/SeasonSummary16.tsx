@@ -172,7 +172,7 @@ const SeasonSummary = () => {
   };
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen py-3">
+    <div className=" bg-warmscale-7 min-h-screen">
       <Navbar />
       <div className="w-full h-full font-ubuntu max-sm:scale-50 max-sm:-mt-52 max-lg:scale-50 max-xl:scale-75 max-lg:-mt-36 max-xl:-mt-20 max-md:scale-50">
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">

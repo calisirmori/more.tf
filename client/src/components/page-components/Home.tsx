@@ -22,7 +22,7 @@ const Home = () => {
           setSearching(false);
         }
       }
-    }, 500);
+    }, 750);
   
     return () => clearTimeout(delayDebounceFn);
   }, [searchInput]);
@@ -38,27 +38,32 @@ const Home = () => {
       setSearchSteamData([]);
       return;
     }
-  
-    setSearchInternalData(response.rows);
-  
-    const steamPromises = response.rows.map((row :any) =>
-      fetch(`/api/steam-info/${row.id64}`, FetchResultTypes.JSON)
-        .then()
-        .catch(err => {
-          console.error(`Error fetching steam info for id ${row.id64}:`, err);
-          return null;
-        })
-    );
-  
-    const steamData = (await Promise.all(steamPromises)).filter(Boolean);
 
-    setSearchSteamData(steamData);
+    setSearchInternalData(response.rows);
+
+    let steamIds: any = [];
+    for (let index = 0; index < response.rows.length; index++) {
+      steamIds.push(response.rows[index].id64);
+    }
+
+    const getSteamInfo = async (steamIds: any) => {
+      const idsString = steamIds.join(','); // Convert array to comma-separated string
+      let response: any = await fetch(`/api/steam-info?ids=${idsString}`, FetchResultTypes.JSON);
+      return response;
+    }
+
+    const steamInfo = await getSteamInfo(steamIds);
+    let finalObject = {};
+    for (let index = 0; index < steamInfo.response.players.length; index++) {
+      finalObject = {...finalObject, [steamInfo.response.players[index].steamid]: steamInfo.response.players[index]}
+    }
+    
+    setSearchSteamData(finalObject);
   }
 
-
   return (
-    <div className="bg-warmscale-8 min-h-screen pt-3 ">
-      <div className=" absolute z-10 w-screen top-0 pt-3 ">
+    <div className="bg-warmscale-8 min-h-screen ">
+      <div className=" absolute z-10 w-screen top-0  ">
         <Navbar />
       </div>
       <div className="bg-black h-screen w-full absolute z-0 top-0 ">
@@ -110,16 +115,15 @@ const Home = () => {
                   </div>
                   <div className={`${!inputFocused && "h-0"} w-full bg-warmscale-85 `}>
                     <div className="flex relative justify-between text-lg font-semibold text-lightscale-1 py-2 px-3 ">
-                      {searchInput !== "" && searchSteamData.length !== undefined && inputFocused && 
+                      {searchInput !== "" && searchInternalData.length !== undefined && inputFocused && 
                         <div className="w-full absolute left-0 top-0 min-h-40 bg-warmscale-85 rounded-b-md">
-                          {searchSteamData.map((currentSearch:any, index:any) => {
-                            if(index < 10){
-                              const currentPlayerInfo = currentSearch.response.players[0]
+                          {searchInternalData.map((currentSearch:any, index:any) => {
+                            if(index < 10 && searchSteamData[currentSearch.id64]!== undefined){
                               return(
-                                <a href={`profile/${currentPlayerInfo.steamid}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
+                                <a href={`profile/${currentSearch.id64}`} key={index} className={`flex justify-between py-2 px-3 hover:bg-warmscale-82 cursor-pointer items-center ${index !== searchSteamData.length-1 && "border-b"} border-warmscale-4`}>
                                   <div className="flex items-center">
-                                    <img src={currentPlayerInfo.avatar} className="h-6" alt="" />
-                                    <div className="ml-2">{currentPlayerInfo.personaname}</div>
+                                    <img src={searchSteamData[currentSearch.id64].avatar} className="h-6" alt="" />
+                                    <div className="ml-2">{searchSteamData[currentSearch.id64].personaname}</div>
                                   </div>
                                   {searchInternalData[index] !== undefined && <div>{searchInternalData[index].count}</div>}
                                 </a>
