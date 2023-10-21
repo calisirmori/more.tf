@@ -21,7 +21,6 @@ const SeasonSummary = () => {
     getSummaryData();
   }, []);
 
-
   async function getLastSummaryData() {
     let response: any;
     try {
@@ -43,7 +42,7 @@ const SeasonSummary = () => {
       console.error(error);
     }
   }
-  
+
   async function getSummaryData() {
     let response: any;
     try {
@@ -56,7 +55,6 @@ const SeasonSummary = () => {
       console.error(error);
     }
   }
-
 
   type PlayerStat = {
     time: number;
@@ -180,15 +178,45 @@ const SeasonSummary = () => {
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
           <div className="bg-warmscale-8 rounded-md">
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
-              RGL HL S16 SUMMARY | WEEK 2
+              RGL HL S16 SUMMARY | WEEK 3
             </div>
             <div className="flex text-lightscale-1 font-semibold text-xl">
-              {divisionHeader(setCurrentDivision,currentDivision,"invite","INVITE")}
-              {divisionHeader(setCurrentDivision,currentDivision,"advanced","ADVANCED")}
-              {divisionHeader(setCurrentDivision,currentDivision,"main","MAIN")}
-              {divisionHeader(setCurrentDivision,currentDivision,"intermediate","INTERMEDIATE")}
-              {divisionHeader(setCurrentDivision,currentDivision,"am","AMATEUR")}
-              {divisionHeader(setCurrentDivision,currentDivision,"nc","NEWCOMER")}
+              {divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "invite",
+                "INVITE"
+              )}
+              {divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "advanced",
+                "ADVANCED"
+              )}
+              {divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "main",
+                "MAIN"
+              )}
+              {divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "intermediate",
+                "INTERMEDIATE"
+              )}
+              {divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "amateur",
+                "AMATEUR"
+              )}
+              {divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "newcomer",
+                "NEWCOMER"
+              )}
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">
               {classHeader(setCurrentClass, currentClass, "scout")}
@@ -204,12 +232,48 @@ const SeasonSummary = () => {
             <div className="p-2">
               <div className="grid grid-cols-[250px,repeat(8,1fr)] text-center text-lightscale-1 font-semibold py-1 ">
                 <div className="text-left pl-3">PLAYER</div>
-                {columnHeader(setCurrentSort,currentSort,"kills","Kills Per Minute","K/m")}
-                {columnHeader(setCurrentSort,currentSort,"assist","Assists Per Minute","A/m")}
-                {columnHeader(setCurrentSort,currentSort,"deaths","Deaths Per Minute","D/m")}
-                {columnHeader(setCurrentSort,currentSort,"kd","Kill / Deaths","K/D")}
-                {columnHeader(setCurrentSort,currentSort,"dmg","Damage Per Minute","DMG/m")}
-                {columnHeader(setCurrentSort,currentSort,"dt","Damage Taken Per Minute","DT/m")}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "kills",
+                  "Kills Per Minute",
+                  "K/m"
+                )}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "assist",
+                  "Assists Per Minute",
+                  "A/m"
+                )}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "deaths",
+                  "Deaths Per Minute",
+                  "D/m"
+                )}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "kd",
+                  "Kill / Deaths",
+                  "K/D"
+                )}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "dmg",
+                  "Damage Per Minute",
+                  "DMG/m"
+                )}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "dt",
+                  "Damage Taken Per Minute",
+                  "DT/m"
+                )}
                 <div
                   className="cursor-pointer group relative flex justify-center items-center"
                   onClick={() => setCurrentSort("specialty")}
@@ -238,7 +302,13 @@ const SeasonSummary = () => {
                     <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
                   </div>
                 </div>
-                {columnHeader(setCurrentSort,currentSort,"time","Play Time","Time")}
+                {columnHeader(
+                  setCurrentSort,
+                  currentSort,
+                  "time",
+                  "Play Time",
+                  "Time"
+                )}
               </div>
 
               {displayArray.map((currentPlayer: any, index: number) => {
@@ -255,7 +325,7 @@ const SeasonSummary = () => {
                     ? "Free Agent"
                     : currentPlayer.teamname;
                 if (
-                  playtimeInMinutes > 0 &&
+                  playtimeInMinutes > 10 &&
                   currentPlayer.classid === currentClass &&
                   currentPlayer.division === currentDivision
                 ) {
@@ -270,7 +340,7 @@ const SeasonSummary = () => {
                       <div className="pl-3 text-left text-lightscale-2">
                         <div className="-mb-2 truncate ">
                           <a
-                            href={`/profile/${userID}`}
+                            href={`/profile/${currentPlayer.id64}`}
                             className="hover:text-tf-orange font-semibold"
                           >
                             {userName}
@@ -290,74 +360,290 @@ const SeasonSummary = () => {
                           </a>
                         </div>
                       </div>
-                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "kills", 2, 7, 1)}
-                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "assist", 2, 7, 1)}
-                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "deaths", 2, 7, -1)}
+                      {playerStat(
+                        currentSort,
+                        currentPlayer,
+                        playtimeInMinutes,
+                        lastWeeksStats,
+                        lastWeeksPlaytime,
+                        "kills",
+                        2,
+                        7,
+                        1
+                      )}
+                      {playerStat(
+                        currentSort,
+                        currentPlayer,
+                        playtimeInMinutes,
+                        lastWeeksStats,
+                        lastWeeksPlaytime,
+                        "assist",
+                        2,
+                        7,
+                        1
+                      )}
+                      {playerStat(
+                        currentSort,
+                        currentPlayer,
+                        playtimeInMinutes,
+                        lastWeeksStats,
+                        lastWeeksPlaytime,
+                        "deaths",
+                        2,
+                        7,
+                        -1
+                      )}
                       <div
-                        className={`relative py-2.5 flex items-center justify-center ${currentSort === "kd" &&
-                          "bg-warmscale-2 bg-opacity-5"}`}
+                        className={`relative py-2.5 flex items-center justify-center ${
+                          currentSort === "kd" && "bg-warmscale-2 bg-opacity-5"
+                        }`}
                       >
-                        {(currentPlayer.kills / currentPlayer.deaths).toFixed(2)}
+                        {(currentPlayer.kills / currentPlayer.deaths).toFixed(
+                          2
+                        )}
                         <div
-                          className={`absolute left-[45%] transform translate-x-full ml-1 w-7 text-[10px] font-robotomono font-semibold ${lastWeeksStats !== undefined
+                          className={`absolute left-[45%] transform translate-x-full ml-1 w-7 text-[10px] font-robotomono font-semibold ${
+                            lastWeeksStats !== undefined
                               ? (() => {
-                                const difference = Math.round(
-                                  (currentPlayer.kills / currentPlayer.deaths -
-                                  lastWeeksStats.kills / lastWeeksStats.deaths) *
-                                  10
-                                ) / 10;
-                                
-                                if (difference > 0) {
-                                  return "text-green-500"; // Green for positive values
-                                } else if (difference < 0) {
-                                  return "text-red-500"; // Red for negative values
-                                } else {
-                                  return "text-gray-500"; // Gray for zero
-                                }
-                              })()
-                              : ""}`}
+                                  const difference =
+                                    Math.round(
+                                      (currentPlayer.kills /
+                                        currentPlayer.deaths -
+                                        lastWeeksStats.kills /
+                                          lastWeeksStats.deaths) *
+                                        10
+                                    ) / 10;
+
+                                  if (difference > 0) {
+                                    return "text-green-500"; // Green for positive values
+                                  } else if (difference < 0) {
+                                    return "text-red-500"; // Red for negative values
+                                  } else {
+                                    return "text-gray-500"; // Gray for zero
+                                  }
+                                })()
+                              : ""
+                          }`}
                         >
                           {lastWeeksStats !== undefined
                             ? (() => {
-                              const difference = Math.round(
-                                (currentPlayer.kills / currentPlayer.deaths -
-                                  lastWeeksStats.kills / lastWeeksStats.deaths) *
-                                10
-                              ) / 10;
-                              
-                              if (difference > 0) {
-                                return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                              </svg>;
-                              } else if (difference < 0) {
-                                return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                              </svg>;
-                              } else {
-                                return <svg fill="none" stroke="currentColor" strokeWidth={5.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
-                              </svg>;
-                              }
-                            })()
+                                const difference =
+                                  Math.round(
+                                    (currentPlayer.kills /
+                                      currentPlayer.deaths -
+                                      lastWeeksStats.kills /
+                                        lastWeeksStats.deaths) *
+                                      10
+                                  ) / 10;
+
+                                if (difference > 0) {
+                                  return (
+                                    <svg
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth={3.5}
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                      className="h-3"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                                      />
+                                    </svg>
+                                  );
+                                } else if (difference < 0) {
+                                  return (
+                                    <svg
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth={3.5}
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                      className="h-3"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                      />
+                                    </svg>
+                                  );
+                                } else {
+                                  return (
+                                    <svg
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth={5.5}
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                      className="h-3"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M18 12H6"
+                                      />
+                                    </svg>
+                                  );
+                                }
+                              })()
                             : null}
                         </div>
                       </div>
-                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "dmg", 1, 8, 1)}
-                      {playerStat(currentSort, currentPlayer, playtimeInMinutes, lastWeeksStats, lastWeeksPlaytime, "dt", 1, 8, -1)}
+                      {playerStat(
+                        currentSort,
+                        currentPlayer,
+                        playtimeInMinutes,
+                        lastWeeksStats,
+                        lastWeeksPlaytime,
+                        "dmg",
+                        1,
+                        8,
+                        1
+                      )}
+                      {playerStat(
+                        currentSort,
+                        currentPlayer,
+                        playtimeInMinutes,
+                        lastWeeksStats,
+                        lastWeeksPlaytime,
+                        "dt",
+                        1,
+                        8,
+                        -1
+                      )}
                       <div
-                        className={` py-2.5 ${
-                          currentSort === "specialty" &&
+                        className={`relative py-2.5 flex items-center justify-center ${
+                          currentSort === "speciality" &&
                           "bg-warmscale-2 bg-opacity-5"
                         }`}
                       >
-                        {classSpecialties[currentClass].perMinute &&
-                          (
-                            currentPlayer[classSpecialties[currentClass].id] /
-                            playtimeInMinutes
-                          ).toFixed(2)}
-                        {!classSpecialties[currentClass].perMinute &&
-                          currentPlayer[classSpecialties[currentClass].id]}
+                        {classSpecialties[currentClass].perMinute
+                          ? (
+                              currentPlayer[classSpecialties[currentClass].id] /
+                              playtimeInMinutes
+                            ).toFixed(currentClass === "medic" ? 0 : 1)
+                          : currentPlayer[classSpecialties[currentClass].id]}
+                        <div
+                          className={`absolute left-[45%] transform translate-x-full w-${8} text-[10px] font-robotomono font-semibold ${
+                            lastWeeksStats !== undefined
+                              ? (() => {
+                                const specialty = classSpecialties[currentClass];
+                                const isPerMinute = specialty.perMinute;
+                                
+                                const currentPlayerValue = currentPlayer[specialty.id];
+                                const lastWeekValue = lastWeeksStats[specialty.id];
+                                
+                                let difference;
+                                
+                                if (isPerMinute) {
+                                    const currentPlayerPerMinute = currentPlayerValue / playtimeInMinutes;
+                                    const lastWeekPerMinute = lastWeekValue / lastWeeksPlaytime;
+                                    difference = currentPlayerPerMinute - lastWeekPerMinute;
+                                } else {
+                                    difference = currentPlayerValue - lastWeekValue;
+                                }
+                                
+                                difference = Math.round(difference * 100) / 100;
+
+                                  if (difference > 0) {
+                                    return 1 == 1
+                                      ? "text-green-500"
+                                      : "text-red-500";
+                                  } else if (difference < 0) {
+                                    return 1 !== 1
+                                      ? "text-green-500"
+                                      : "text-red-500";
+                                  } else {
+                                    return "text-gray-500";
+                                  }
+                                })()
+                              : ""
+                          }`}
+                        >
+                          {lastWeeksStats !== undefined
+                            ? (() => {
+                                const specialty = classSpecialties[currentClass];
+                                const isPerMinute = specialty.perMinute;
+                                
+                                const currentPlayerValue = currentPlayer[specialty.id];
+                                const lastWeekValue = lastWeeksStats[specialty.id];
+                                
+                                let difference;
+                                
+                                if (isPerMinute) {
+                                    const currentPlayerPerMinute = currentPlayerValue / playtimeInMinutes;
+                                    const lastWeekPerMinute = lastWeekValue / lastWeeksPlaytime;
+                                    difference = currentPlayerPerMinute - lastWeekPerMinute;
+                                } else {
+                                    difference = currentPlayerValue - lastWeekValue;
+                                }
+
+                                if (difference > 0) {
+                                  return (
+                                    <svg
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth={3.5}
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                      className="h-3"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                                      />
+                                    </svg>
+                                  );
+                                } else if (difference < 0) {
+                                  return (
+                                    <svg
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth={3.5}
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                      className="h-3"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                      />
+                                    </svg>
+                                  );
+                                } else {
+                                  return (
+                                    <svg
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth={5.5}
+                                      viewBox="0 0 24 24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      aria-hidden="true"
+                                      className="h-3"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M18 12H6"
+                                      />
+                                    </svg>
+                                  );
+                                }
+                              })()
+                            : null}
+                        </div>
                       </div>
+                      
                       <div
                         className={` py-2.5 ${
                           currentSort === "time" &&
@@ -372,7 +658,8 @@ const SeasonSummary = () => {
               })}
             </div>
             <div className=" text-stone-600 font-semibold text-center py-2">
-              UP AND DOWN ARROWS SHOW HOW YOUR SCORE CHANGED FROM LAST WEEKS STATS
+              UP AND DOWN ARROWS SHOW HOW YOUR SCORE CHANGED FROM LAST WEEKS
+              STATS
             </div>
           </div>
         </div>
@@ -383,58 +670,115 @@ const SeasonSummary = () => {
 
 export default SeasonSummary;
 
-function playerStat(currentSort: string, currentPlayer: any, playtimeInMinutes: number, lastWeeksStats: any, lastWeeksPlaytime: any, stat: string, significantDigits: number, arrowMargin: number, positiveStat: number) {
-  return <div
-    className={`relative py-2.5 flex items-center justify-center ${currentSort === stat &&
-      "bg-warmscale-2 bg-opacity-5"}`}
-  >
-    {(currentPlayer[stat] / playtimeInMinutes).toFixed(significantDigits)}
+function playerStat(
+  currentSort: string,
+  currentPlayer: any,
+  playtimeInMinutes: number,
+  lastWeeksStats: any,
+  lastWeeksPlaytime: any,
+  stat: string,
+  significantDigits: number,
+  arrowMargin: number,
+  positiveStat: number
+) {
+  return (
     <div
-      className={`absolute left-[45%] transform translate-x-full w-${arrowMargin} text-[10px] font-robotomono font-semibold ${lastWeeksStats !== undefined
-          ? (() => {
-            const difference = Math.round(
-              (currentPlayer[stat] / playtimeInMinutes -
-                lastWeeksStats[stat] /
-                lastWeeksPlaytime) *
-              100
-            ) / 100;
-
-            if (difference > 0) {
-              return positiveStat == 1 ? "text-green-500" : "text-red-500" ;
-            } else if (difference < 0) {
-              return positiveStat !== 1 ? "text-green-500" : "text-red-500";
-            } else {
-              return "text-gray-500";
-            }
-          })()
-          : ""}`}
+      className={`relative py-2.5 flex items-center justify-center ${
+        currentSort === stat && "bg-warmscale-2 bg-opacity-5"
+      }`}
     >
-      {lastWeeksStats !== undefined
-        ? (() => {
-          const difference = Math.round(
-            (currentPlayer[stat] / playtimeInMinutes -
-              lastWeeksStats[stat] /
-              lastWeeksPlaytime) *
-            100
-          ) / 100;
+      {(currentPlayer[stat] / playtimeInMinutes).toFixed(significantDigits)}
+      <div
+        className={`absolute left-[45%] transform translate-x-full w-${arrowMargin} text-[10px] font-robotomono font-semibold ${
+          lastWeeksStats !== undefined
+            ? (() => {
+                const difference =
+                  Math.round(
+                    (currentPlayer[stat] / playtimeInMinutes -
+                      lastWeeksStats[stat] / lastWeeksPlaytime) *
+                      100
+                  ) / 100;
 
-          if (difference > 0) {
-            return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-          </svg>;
-          } else if (difference < 0) {
-            return <svg fill="none" stroke="currentColor" strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-          </svg>;
-          } else {
-            return <svg fill="none" stroke="currentColor" strokeWidth={5.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
-          </svg>;
-          }
-        })()
-        : null}
+                if (difference > 0) {
+                  return positiveStat == 1 ? "text-green-500" : "text-red-500";
+                } else if (difference < 0) {
+                  return positiveStat !== 1 ? "text-green-500" : "text-red-500";
+                } else {
+                  return "text-gray-500";
+                }
+              })()
+            : ""
+        }`}
+      >
+        {lastWeeksStats !== undefined
+          ? (() => {
+              const difference =
+                Math.round(
+                  (currentPlayer[stat] / playtimeInMinutes -
+                    lastWeeksStats[stat] / lastWeeksPlaytime) *
+                    100
+                ) / 100;
+
+              if (difference > 0) {
+                return (
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3.5}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className="h-3"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                    />
+                  </svg>
+                );
+              } else if (difference < 0) {
+                return (
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3.5}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className="h-3"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                );
+              } else {
+                return (
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={5.5}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className="h-3"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M18 12H6"
+                    />
+                  </svg>
+                );
+              }
+            })()
+          : null}
+      </div>
     </div>
-  </div>;
+  );
 }
 
 function divisionHeader(
