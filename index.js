@@ -222,7 +222,7 @@ app.get('/api/lastweek-season-summary', (req, response) => {
       and week_num!= (select max(week_num) from season_combined sc)
       group by id64,classid,division
       order by classid,division) as weekinfo
-  on
+      on
       playerinfo.id64=weekinfo.id64`)
   .then((res) => response.send(res))
   .catch((err) => console.error(err))
