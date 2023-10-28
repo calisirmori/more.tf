@@ -16,6 +16,8 @@ const Profile = () => {
   const [perClassPlaytimeData, setPerClassPlaytimeData] = useState<any>([]);
   const [formatData, setFormatData] = useState<any>([]);
   const [mapDisparityData, setMapDisparityData] = useState<any>([]);
+  const [showMoreMaps, setShowMoreMaps] = useState<any>(false);
+  const [playerCardData, setPlayerCardData] = useState<any>([]);
 
   useEffect(() => {
     steamInfoCallProfile();
@@ -26,10 +28,11 @@ const Profile = () => {
     perClassPlaytimeCall();
     formatDisparity();
     mapDisparity();
+    // playerCardCall();
   }, []);
 
   async function steamInfoCallProfile() {
-    let response: any = {}; // Initialize with an empty object
+    let response: any = {};
     try {
       response = await fetch(
         `/api/steam-info?ids=${playerId}`,
@@ -42,6 +45,18 @@ const Profile = () => {
       response.personaname = "Steam Error";
       response.avatarfull = "Steam Error";
       setPlayerSteamInfo(response);
+    }
+  }
+
+  async function playerCardCall() {
+    let response: any = {}; 
+    try {
+      response = await fetch(
+        `/api/playercard-stats/${playerId}`,
+        FetchResultTypes.JSON
+      );
+      setPlayerCardData(response[0]);
+    } catch (error) {
     }
   }
 
@@ -560,22 +575,75 @@ const Profile = () => {
               </div>
             </div>
             <div className="w-[25rem] h-screen ml-4 rounded-md drop-shadow-sm">
-              <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
+              {playerCardData.length !== 0 && 
+                <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell ">
+                  <div className="flex justify-between">
+                    <div className="text-lg text-lightscale-1 mb-1 font-semibold">
+                      Player Card | HL S16
+                    </div>
+                  </div>
+                  <div className="h-96 select-none flex justify-center items-center relative opacity-95">
+                    <img src="\player cards\background.png" className="h-96 opacity-80" alt="" />
+                    <img src={`/player cards/class-portraits/${playerCardData.class}.webp`} className="h-[16rem] top-20 right-24 absolute" alt="" />
+                    <img src={`/player cards/borders/${playerCardData.division}.png`} className="h-96 absolute" alt="" />
+                    <img src="\player cards\gradients.png" className="h-96 absolute" alt="" />
+                    <img src={`/player cards/class-icons/${playerCardData.class}.png`} className="h-5 absolute bottom-6" alt="" />
+                    <img src="\player cards\logo.png" className="h-96 absolute" alt="" />
+                    <div className="absolute text-[10px] left-[98px] top-[72px] text-white font-robotomono font-bold">OVERALL</div>
+                    <div className="absolute text-4xl left-[98px] top-[82px] text-white font-robotomono font-bold">{Math.round((playerCardData.cbt + playerCardData.spt + playerCardData.srv + playerCardData.eff + playerCardData.imp + playerCardData.eva)/6)}</div>
+                    <div className="absolute text-2xl left-[100px] top-[130px] rounded-full h-[1px] w-10 bg-white font-robotomono font-bold"></div>
+                    <img src={`/player cards/division-medals/${playerCardData.division}.png`} className="absolute left-[92px] top-[134px] h-14" alt="" />
+                    <div className="absolute text-3xl top-[200px] text-white font-roboto font-bold">{rglInfo.name}</div>
+                    <div className="absolute text-2xl top-[236px] rounded-full h-[1px] w-48 bg-white font-bold"></div>
+                    <div className="absolute text-2xl top-[244px] rounded-full h-20 w-[1px] bg-white font-bold"></div>
+                    <div className="absolute text-2xl top-[330px] rounded-full h-[1px] w-16 bg-white font-bold"></div>
+                    <div className="absolute text-2xl left-[130px] top-[240px] text-white font-robotomono font-bold">CBT</div>
+                    <div className="absolute text-2xl left-[130px] top-[265px] text-white font-robotomono font-bold">SPT</div>
+                    <div className="absolute text-2xl left-[130px] top-[290px] text-white font-robotomono font-bold">SRV</div>
+                    <div className="absolute text-2xl left-[235px] top-[240px] text-white font-robotomono font-bold">EFF</div>
+                    <div className="absolute text-2xl left-[235px] top-[265px] text-white font-robotomono font-bold">IMP</div>
+                    <div className="absolute text-2xl left-[235px] top-[290px] text-white font-robotomono font-bold">EVA</div>
+                    <div className="absolute text-2xl left-[95px] top-[240px] text-white font-robotomono font-extrabold">{playerCardData.cbt}</div>
+                    <div className="absolute text-2xl left-[95px] top-[265px] text-white font-robotomono font-extrabold">{playerCardData.spt}</div>
+                    <div className="absolute text-2xl left-[95px] top-[290px] text-white font-robotomono font-extrabold">{playerCardData.srv}</div>
+                    <div className="absolute text-2xl left-[200px] top-[240px] text-white font-robotomono font-extrabold">{playerCardData.eff}</div>
+                    <div className="absolute text-2xl left-[200px] top-[265px] text-white font-robotomono font-extrabold">{playerCardData.imp}</div>
+                    <div className="absolute text-2xl left-[200px] top-[290px] text-white font-robotomono font-extrabold">{playerCardData.eva}</div>
+                    
+                    <div></div>
+                  </div>
+                  <div className="text-xs flex justify-center text-warmscale-3 font-semibold mt-2">
+
+                  <div className="">
+                    <div>CBT (Combat) = {playerCardData.class !== "medic" ? "KILLS" : "ASSISTS"}</div>
+                    <div>SPT (Support) = {playerCardData.class !== "medic" ? "ASSISTS" : "UBERS"}</div>
+                    <div>SRV (Survival) = {playerCardData.class !== "medic" ? "DEATHS" : "DEATHS"}</div>
+                  </div>
+                  <div className=" ml-7">
+                    <div>EFF (EFFICIENCY) = {playerCardData.class !== "medic" ? "K/D" : "A/D"}</div>
+                    <div>IMP (IMPACT) = {playerCardData.class !== "medic" ? "DAMAGE" : "HEALS"}</div>
+                    <div>EVA (EVASION) = {playerCardData.class !== "medic" ? "DTM" : "DTM"}</div>
+                  </div>
+                  </div>
+                </div>
+              }
+              <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell ">
               <div className="flex justify-between">
                   <div className="text-lg text-lightscale-1 mb-1 font-semibold">
                     Maps
                   </div>
-                  
                 </div>
                   {mapDisparityData.map((currentMap:any, index:number) =>{
                     const mapWins = parseInt(currentMap.w);
                     const mapLosses = parseInt(currentMap.l);
                     const mapTies = parseInt(currentMap.t);
                     const currentmapSum = mapWins + mapLosses + mapTies;
-                    if(index < 7){
+
+                    const dispalyCount = showMoreMaps || playerCardData.length === 0 ? 7 : 1;
+                    if(index < dispalyCount){
                       if(currentMap.map !== null){
                         return(
-                          <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${index<6 && "border-b border-warmscale-7"}`}>
+                          <div className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${showMoreMaps || playerCardData.length === 0 && index<6 && "border-b border-warmscale-7"}`}>
                             <div className="">{currentMap.map.length > 0 && currentMap.map.split("_")[1].charAt(0).toUpperCase() + currentMap.map.split("_")[1].slice(1)} <span className="text-lightscale-6 text-sm">({currentmapSum})</span> </div>
                             <div className="text-right">
                               <div className="font-semibold">{Math.round(mapWins/currentmapSum*1000)/10}%</div>
@@ -590,13 +658,18 @@ const Profile = () => {
                       }
                     }
                   })}
-                <div className="text-sm flex justify-center text-warmscale-3 font-semibold -mt-2">
-                  <div className="flex items-center mr-1">
-                    <svg fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                    </svg>
-                  </div>
-                  Take payload win percentages ligthly, its not accurate
+                
+                  <div className="flex justify-center">
+                    {!showMoreMaps && playerCardData.length !== 0 && 
+                      <svg fill="none" stroke="currentColor" className="h-5 stroke-warmscale-2 hover:cursor-pointer" onClick={()=> setShowMoreMaps(true)} strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    }
+                    {showMoreMaps && playerCardData.length !== 0 && 
+                      <svg fill="none" stroke="currentColor" className="h-5 stroke-warmscale-2 hover:cursor-pointer" onClick={()=> setShowMoreMaps(false)} strokeWidth={3.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                      </svg>
+                    }
                   </div>
               </div>
               <div className="w-full flex items-center py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">

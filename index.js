@@ -143,6 +143,26 @@ app.get('/api/per-format-stats/:id', (req, response) => {
   .catch((err) => console.error(err))
 });
 
+app.get('/api/playercard-stats/:id', async (req, response) => {
+  try {
+    const playerId = req.params.id;
+    const queryText = 'SELECT * FROM player_card_info WHERE id64 = $1';
+    
+    // Use a parameterized query to prevent SQL injection
+    const result = await pool.query(queryText, [playerId]);
+    
+    // Check if any rows were returned
+    if (result.rows.length === 0) {
+      response.status(404).json({ error: 'Player not found' });
+    } else {
+      response.json(result.rows);
+    }
+  } catch (err) {
+    console.error(err);
+    response.status(500).json({ error: 'An internal server error occurred' });
+  }
+});
+
 app.get('/api/per-map-stats/:id', (req, response) => {
   let playerId = req.params.id;
   pool.query(`select map,
