@@ -48,7 +48,7 @@ const Home = () => {
     }
 
     const getSteamInfo = async (steamIds: any) => {
-      const idsString = steamIds.join(','); // Convert array to comma-separated string
+      const idsString = steamIds.join(',');
       let response: any = await fetch(`/api/steam-info?ids=${idsString}`, FetchResultTypes.JSON);
       return response;
     }

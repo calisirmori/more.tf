@@ -32,7 +32,7 @@ const Profile = () => {
     let response: any = {}; // Initialize with an empty object
     try {
       response = await fetch(
-        `/api/steam-info/${playerId}`,
+        `/api/steam-info?ids=${playerId}`,
         FetchResultTypes.JSON
       );
       setPlayerSteamInfo(response.response.players[0]);
@@ -47,9 +47,10 @@ const Profile = () => {
 
   async function steamInfoCall(currentPlayer: string) {
     let response: any;
+    const idsString = [currentPlayer]
     try {
       response = await fetch(
-        `/api/steam-info/${currentPlayer}`,
+        `/api/steam-info?ids=${idsString}`,
         FetchResultTypes.JSON
       );
     } catch (error) {
@@ -121,23 +122,27 @@ const Profile = () => {
       `/api/per-map-stats/${playerId}`,
       FetchResultTypes.JSON
     );
-        
+  
     let unsortedArray = response.rows;
     let currentMapObject: any = {};
 
     for (let i = 0; i < unsortedArray.length ; i++){
-      let mapName = unsortedArray[i].map.split('_')[1];
+      try {
+        let mapName = unsortedArray[i].map.split('_')[1];
+        if(currentMapObject[mapName] === undefined){
+          currentMapObject = {...currentMapObject, [mapName] :unsortedArray[i]}
 
-      if(currentMapObject[mapName] === undefined){
-        currentMapObject = {...currentMapObject, [mapName] :unsortedArray[i]}
+        } else {
+          currentMapObject[mapName].w = parseInt(unsortedArray[i].w) + parseInt(currentMapObject[mapName].w)
+          currentMapObject[mapName].l = parseInt(unsortedArray[i].l) + parseInt(currentMapObject[mapName].l)
+          currentMapObject[mapName].t = parseInt(unsortedArray[i].t) + parseInt(currentMapObject[mapName].t)
+          currentMapObject[mapName].time = parseInt(unsortedArray[i].time) + parseInt(currentMapObject[mapName].time)
+        }
+      } catch (error) {
         
-      } else {
-        currentMapObject[mapName].w = parseInt(unsortedArray[i].w) + parseInt(currentMapObject[mapName].w)
-        currentMapObject[mapName].l = parseInt(unsortedArray[i].l) + parseInt(currentMapObject[mapName].l)
-        currentMapObject[mapName].t = parseInt(unsortedArray[i].t) + parseInt(currentMapObject[mapName].t)
-        currentMapObject[mapName].time = parseInt(unsortedArray[i].time) + parseInt(currentMapObject[mapName].time)
       }
     }
+    
     setMapDisparityData(Object.values(currentMapObject));
   }
   
@@ -477,11 +482,12 @@ const Profile = () => {
                 <div className=" font-cantarell">
                   {perClassPlaytimeData.map(
                     (classPlayed: any, index: number) => {
+                      const currentMax = perClassPlaytimeData[0].time === null ? 1 : 0;
                       const topMatchesWithAnyClass =
-                        parseInt(perClassPlaytimeData[0].w) +
-                        parseInt(perClassPlaytimeData[0].t) +
-                        parseInt(perClassPlaytimeData[0].l);
-                      if (classPlayed.class !== null && index < 5) {
+                        parseInt(perClassPlaytimeData[currentMax].w) +
+                        parseInt(perClassPlaytimeData[currentMax].t) +
+                        parseInt(perClassPlaytimeData[currentMax].l);
+                      if (classPlayed.class !== null && index < 5 && classPlayed.time !== null) {
                         const totalGamesWithClass =
                           parseInt(classPlayed.w) +
                           parseInt(classPlayed.t) +
