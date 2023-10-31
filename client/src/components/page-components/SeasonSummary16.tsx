@@ -527,7 +527,7 @@ const SeasonSummary = () => {
                           ? (
                               currentPlayer[classSpecialties[currentClass].id] /
                               playtimeInMinutes
-                            ).toFixed(currentClass === "medic" ? 0 : 1)
+                            ).toFixed(currentClass === "medic" ? 0 : currentClass === "pyro" ? 2 : 1)
                           : currentPlayer[classSpecialties[currentClass].id]}
                         <div
                           className={`absolute left-[45%] transform translate-x-full w-${8} text-[10px] font-robotomono font-semibold ${
