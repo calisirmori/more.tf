@@ -178,7 +178,7 @@ const SeasonSummary = () => {
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
           <div className="bg-warmscale-8 rounded-md">
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
-              RGL HL S16 SUMMARY | WEEK 4
+              RGL HL S16 SUMMARY | WEEK 5
             </div>
             <div className="flex text-lightscale-1 font-semibold text-xl">
               {divisionHeader(
