@@ -325,7 +325,7 @@ const SeasonSummary = () => {
                     ? "Free Agent"
                     : currentPlayer.teamname;
                 if (
-                  playtimeInMinutes > 10 &&
+                  playtimeInMinutes > 45 &&
                   currentPlayer.classid === currentClass &&
                   currentPlayer.division === currentDivision
                 ) {
