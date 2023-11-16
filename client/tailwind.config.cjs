@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        // Defining 53 column grid
+        '53': 'repeat(53, minmax(0, 1fr))',
+      },
       colors: {
         'tf2orange': '#F08149',
         'grayscale-9': '#0F1012',

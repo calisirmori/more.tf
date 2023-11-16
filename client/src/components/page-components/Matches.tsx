@@ -78,11 +78,20 @@ const Matches = () => {
   const [pageSearch, setPageSearch] = useState<any>(0);
 
   async function steamInfoCallProfile() {
-    const response: any = await fetch(
-      `/api/steam-info/${playerId}`,
-      FetchResultTypes.JSON
-    );
-    setProfileData(response.response.players[0]);
+    let response: any = {};
+    try {
+      response = await fetch(
+        `/api/steam-info?ids=${playerId}`,
+        FetchResultTypes.JSON
+      );
+      setProfileData(response.response.players[0]);
+    } catch (error) {
+      console.log(error);
+      console.log(response);
+      response.personaname = "Steam Error";
+      response.avatarfull = "Steam Error";
+      setProfileData(response);
+    }
   }
 
   async function matchesInfoCall() {

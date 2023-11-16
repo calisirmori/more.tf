@@ -12,9 +12,11 @@
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
     "@sapphire/fetch": "^2.4.1",
+    "@use-gesture/react": "^10.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.7.0"
+    "react-router-dom": "^6.7.0",
+    "react-spring": "^9.7.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
