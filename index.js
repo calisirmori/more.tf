@@ -70,7 +70,7 @@ app.get('/api/auth/steam', passport.authenticate('steam', { failureRedirect: '/a
 app.get('/api/auth/steam/return', passport.authenticate('steam', { failureRedirect: '/api/steam' }), function (req, res) {
   res.cookie('userid', res.req.user.id, { 
     maxAge: 31556952000, // 1 year
-    httpOnly: true,
+    httpOnly: false,
     secure: true, // set to true if serving over https
     SameSite: 'None' // can be set to 'Lax' or 'Strict' as per requirement
   });
