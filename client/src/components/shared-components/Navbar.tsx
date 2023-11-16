@@ -15,18 +15,17 @@ const loginButton = <div className="flex justify-center items-center">
 </div>;
 
 const getCookies = () => {
-  // Split document.cookie on semicolons and then map to create an object
-  const cookieList = document.cookie.split(';').reduce((cookies:any, cookie) => {
-    const [name, value] = cookie.split('=').map(c => c.trim());
-    cookies[name] = decodeURIComponent(value);
-    return cookies;
+  const cookies = document.cookie.split(';').reduce((cookieObject:any, cookieString) => {
+    const [cookieName, cookieValue] = cookieString.trim().split('=');
+    cookieObject[cookieName] = cookieValue;
+    return cookieObject;
   }, {});
 
-  return cookieList;
+  console.log(cookies);
 };
 
-const cookies = getCookies();
-console.log(cookies);
+getCookies();
+
 
 type SearchResult = {
   rows: Array<{ id64: string }>;
@@ -141,6 +140,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    getCookies();
     return () => timer && clearTimeout(timer);
   }, [timer]);
   
