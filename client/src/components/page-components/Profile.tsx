@@ -1190,7 +1190,7 @@ const Profile = () => {
                                 alt=""
                               />
                               <a
-                                href={`/profile/${teammate.id64}`}
+                                href={`/profile/${teammate.peer_id64}`}
                                 className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
                               >
                                 {teamMatesSteamInfo[index].personaname}
