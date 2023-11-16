@@ -41,8 +41,8 @@ passport.deserializeUser((user, done) => {
 });
 
 passport.use(new SteamStrategy({
-  returnURL: 'https://more.tf/api/auth/steam/return',
-  realm: 'https://more.tf',
+  returnURL: 'https://dev.more.tf/api/auth/steam/return',
+  realm: 'https://dev.more.tf',
   apiKey: `${process.env.STEAMKEY}`
 }, function (identifier, profile, done) {
   process.nextTick(function () {

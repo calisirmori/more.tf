@@ -108,27 +108,27 @@ const Home = () => {
             <div className="bg-warmscale-8 p-3 w-fit border border-warmscale-7 rounded-md">
               <div className=" text-sm text-lightscale-5 font-semibold font-ubuntu mb-2">Team Fortress 2 Matches Parsed</div>
               <div className="flex items-baseline">
-                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">3</div>
-                <div className="text-4xl font-roboto font-extrabold text-tf-orange mx-0.5 ">,</div>
-                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">5</div>
                 <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">1</div>
-                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">2</div>
                 <div className="text-4xl font-roboto font-extrabold text-tf-orange mx-0.5 ">,</div>
-                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">6</div>
-                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">2</div>
-                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">8</div>
+                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">4</div>
+                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">7</div>
+                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">0</div>
+                <div className="text-4xl font-roboto font-extrabold text-tf-orange mx-0.5 ">,</div>
+                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">9</div>
+                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">5</div>
+                <div className="text-4xl font-robotomono font-bold text-tf-orange px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">4</div>
               </div>
             </div>
             <div className="flex justify-center items-center">
               <div className="bg-warmscale-8 p-3 w-fit border border-warmscale-7 rounded-md mt-4">
                 <div className=" text-sm text-lightscale-5 font-semibold font-ubuntu mb-2">Profile Pages</div>
                   <div className="flex items-baseline">
-                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">2</div>
-                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">1</div>
+                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">8</div>
+                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">7</div>
                     <div className="text-4xl font-roboto font-extrabold text-lightscale-2 mx-0.5 ">,</div>
+                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">9</div>
+                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">6</div>
                     <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">4</div>
-                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">5</div>
-                    <div className="text-4xl font-robotomono font-bold text-lightscale-2 px-1.5 py-1 border border-warmscale-6 bg-warmscale-82/40 rounded-md mx-0.5">2</div>
                   </div>
                 </div>
               </div>
