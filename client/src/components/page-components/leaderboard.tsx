@@ -183,7 +183,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
                               </div>
                               <div className="flex font-extrabold text-2xl text-lightscale-2 font-robotomono w-48">
                                 <div className=" truncate">
-                                    {playerStats.name}
+                                  <a href={`/profile/${playerStats.id64}`}>{playerStats.name}</a>
                                 </div>
                               </div>
                             </td>
@@ -194,7 +194,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
                             <td className="text-center border-l border-warmscale-8 border-opacity-50">{playerStats.imp}</td>
                             <td className="text-center border-l border-warmscale-8 border-opacity-50">{playerStats.eva}</td>
                             <td className="text-center font-extrabold text-2xl text-lightscale-2 border-l sticky right-0 border-warmscale-8 border-opacity-50 max-xl:bg-warmscale-8" >
-                              {playerStats.avg_score}
+                              {Math.round(playerStats.avg_score)}
                             </td>
                           </tr>
                         );
