@@ -18,7 +18,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
     let response: any = {};
     try {
       response = await fetch(
-        `http://localhost:3000/api/leaderboard-stats`,
+        `/api/leaderboard-stats`,
         FetchResultTypes.JSON
       );
       setLeaderboardStats(response);
