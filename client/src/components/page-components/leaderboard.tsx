@@ -18,7 +18,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
     let response: any = {};
     try {
       response = await fetch(
-        `/api/leaderboard-stats`,
+        `http://localhost:3000/api/leaderboard-stats`,
         FetchResultTypes.JSON
       );
       setLeaderboardStats(response);
@@ -194,7 +194,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
                             <td className="text-center border-l border-warmscale-8 border-opacity-50">{playerStats.imp}</td>
                             <td className="text-center border-l border-warmscale-8 border-opacity-50">{playerStats.eva}</td>
                             <td className="text-center font-extrabold text-2xl text-lightscale-2 border-l sticky right-0 border-warmscale-8 border-opacity-50 max-xl:bg-warmscale-8" >
-                              {Math.round(playerStats.avg_score)}
+                              {playerStats.avg_score}
                             </td>
                           </tr>
                         );
