@@ -29,7 +29,7 @@ const Navbar = () => {
   const [logsData, setLogsData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [profileID, setProfileID] = useState<any>(null);
+  const [profileID, setProfileID] = useState<any>({});
 
   // Function to toggle the menu's state
   const toggleMenu = () => {
@@ -50,10 +50,10 @@ const Navbar = () => {
   const loginButton = <div className="flex justify-center items-center">
   <a href="/api/myprofile">
     <div className="flex justify-center items-center border rounded-md h-8 px-3 border-warmscale-3 bg-warmscale-6 bg-opacity-20 hover:border-warmscale-2 hover:bg-opacity-60 hover:cursor-pointer duration-200">
-      {profileID === null && <svg height="18" viewBox="0 0 24 24" className="fill-lightscale-2 mr-2">
+      {profileID.userid === undefined && <svg height="18" viewBox="0 0 24 24" className="fill-lightscale-2 mr-2">
         <path d="M23.938 12c0 6.595-5.353 11.938-11.957 11.938A11.95 11.95 0 0 1 .476 15.254l4.583 1.892a3.382 3.382 0 0 0 6.696-.823l4.067-2.898a4.512 4.512 0 0 0 4.611-4.5 4.511 4.511 0 0 0-9.02 0v.057l-2.85 4.125a3.37 3.37 0 0 0-2.094.583L.062 11.042C.553 4.895 5.7.062 11.981.062 18.585.062 23.938 5.405 23.938 12zm-16.38 6.176l-1.469-.607a2.541 2.541 0 0 0 1.31 1.242 2.544 2.544 0 0 0 3.32-1.367 2.51 2.51 0 0 0 .005-1.94A2.53 2.53 0 0 0 7.48 14.1l1.516.625a1.862 1.862 0 0 1 1.006 2.44 1.87 1.87 0 0 1-2.445 1.012zm8.365-6.253c-1.656 0-3.004-1.348-3.004-2.999s1.348-2.999 3.004-2.999 3.004 1.348 3.004 3-1.343 2.998-3.004 2.998zm.005-.75a2.254 2.254 0 0 0 0-4.505 2.257 2.257 0 0 0-2.258 2.251 2.263 2.263 0 0 0 2.258 2.253z"></path>
       </svg>}
-      <div className="text-lightscale-2 hover:text-lightscale-0 duration-200 font-semibold text-xs">{profileID === null ? "LOGIN" : "PROFILE"}</div>
+      <div className="text-lightscale-2 hover:text-lightscale-0 duration-200 font-semibold text-xs">{profileID.userid === undefined ? "LOGIN" : "PROFILE"}</div>
     </div>
   </a>
   </div>;
@@ -148,6 +148,10 @@ const Navbar = () => {
     return () => timer && clearTimeout(timer);
   }, [timer]);
   
+  useEffect(() => {
+  }, [profileID])
+  
+
   function extractLogId(inputValue:any) {
     const parts = inputValue.split('#');
     const match = parts[0].match(/\b\d+\b/); // This will match the first numerical value
