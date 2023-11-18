@@ -17,21 +17,6 @@ const Footer = () => {
             </span>
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-            {/* <li>
-                <a href="#" className="mr-4 hover:underline md:mr-6 ">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" className="mr-4 hover:underline md:mr-6">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="mr-4 hover:underline md:mr-6 ">
-                  Licensing
-                </a>
-              </li> */}
             <li>
               <a
                 href="https://discord.gg/dRVbHUy8ZT"
@@ -49,7 +34,7 @@ const Footer = () => {
           <a href="https://discord.gg/dRVbHUy8ZT" className="hover:underline">
             more.tf
           </a>
-          . All Rights Reserved.
+          by mori and Treemonkey . All Rights Reserved. 
         </span>
       </div>
     </footer>
