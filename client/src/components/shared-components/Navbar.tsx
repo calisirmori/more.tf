@@ -3,6 +3,11 @@ import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import searchByUsername from "./searchUsername";
 
+
+
+
+
+
 type SearchResult = {
   rows: Array<{ id64: string }>;
 };
@@ -37,7 +42,9 @@ const Navbar = () => {
       cookieObject[cookieName] = cookieValue;
       return cookieObject;
     }, {});
+    console.log('cookies', cookies);
     setProfileID(cookies);
+    console.log('profileID', profileID);
   };
   
   const loginButton = <div className="flex justify-center items-center">
