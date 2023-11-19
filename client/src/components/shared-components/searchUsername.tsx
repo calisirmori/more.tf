@@ -96,6 +96,7 @@ const SearchBox = () => {
         FetchResultTypes.JSON
         );
         if (!response || !response.rows || response.rows.length === 0) {
+          console.log(logID)
           setLogsData( parseInt(logID) );
           return null;
         }
@@ -188,7 +189,7 @@ const SearchBox = () => {
             })}
           </div>
         </div>}
-        {!Number.isInteger(logsData) && <div>
+        {!Number.isInteger(logsData) && logsData !== null && <div>
           <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">Logs</div>
           <div className="h-[1px] w-full bg-warmscale-7/70 my-1.5"></div>
           {logsData.logid !== undefined && <a href={`/log/${logsData.logid}`} className="flex hover:bg-warmscale-5/30 rounded-sm p-2">
@@ -200,7 +201,7 @@ const SearchBox = () => {
           </a>}
           <div></div>
         </div>}
-        {Number.isInteger(logsData) && <div>
+        {Number.isInteger(logsData) && logsData !== null && <div>
           <a href={`/log/${logsData}`} className="flex hover:bg-warmscale-5/30 rounded-sm p-2">
             <div className="w-full">
               <div className="text-lightscale-2 text-sm font-semibold w-48 truncate"># {logsData}</div>
