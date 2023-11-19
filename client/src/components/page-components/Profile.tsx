@@ -464,6 +464,7 @@ const Profile = () => {
                         while (index < 15) {
                           return (
                             <a
+                              key={match.logid}
                               href={`/log/${match.logid}`}
                               className={`flex h-11 items-center  hover:bg-warmscale-85 cursor-pointer ${
                                 index !== 14 && "border-b"
@@ -611,6 +612,7 @@ const Profile = () => {
                               parseInt(classPlayed.l);
                             return (
                               <div
+                                key={classPlayed.class}
                                 className={`py-3 flex w-full justify-between items-center ${
                                   index <
                                     Math.min(
@@ -860,6 +862,7 @@ const Profile = () => {
                         if (currentMap.map !== null) {
                           return (
                             <div
+                              key={currentMap.map}
                               className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${
                                 showMoreMaps ||
                                 (playerCardData.length === 0 &&
@@ -996,7 +999,7 @@ const Profile = () => {
                             formatWins + formatLosses + formatTies;
                           if (currentFormat.format !== null) {
                             return (
-                              <div className="flex text-right w-full items-center">
+                              <div key={currentFormat.format} className="flex text-right w-full items-center">
                                 <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
                                   {currentFormat.format !== null &&
                                     (currentFormat.format === "other"
@@ -1103,7 +1106,7 @@ const Profile = () => {
                       </div>
                       {currentListOfWeeks.map((currentWeek) => {
                         return (
-                          <div className="flex-col flex-wrap ">
+                          <div key={currentWeek} className="flex-col flex-wrap ">
                             {activity[currentWeek] !== undefined &&
                               daysOfTheWeek.map((day, index) => {
                                 const today = Math.ceil(
@@ -1111,7 +1114,7 @@ const Profile = () => {
                                 );
                                 if ((currentWeek - 1) * 7 + index < today + 3) {
                                   return (
-                                    <div className="relative max-sm:h-3 max-sm:w-3 sm:h-4 sm:w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2">
+                                    <div key={day} className="relative max-sm:h-3 max-sm:w-3 sm:h-4 sm:w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2">
                                       <div className="absolute bg-lightscale-8 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-40 z-40">
                                         {activity[currentWeek][day]} games on{" "}
                                         {new Date(
@@ -1139,6 +1142,7 @@ const Profile = () => {
                               daysOfTheWeek.map((day, index) => {
                                 return (
                                   <div
+                                    key={day}
                                     className={`${
                                       ((currentWeek - 1) * 7 + index) *
                                         86400 *
@@ -1182,7 +1186,7 @@ const Profile = () => {
                           const teammateLoses = parseInt(teammate.l);
                           const teammateWins = parseInt(teammate.w);
                           return (
-                            <div
+                            <div key={teammate.peer_id64}
                               className={`flex py-2.5 items-center ${
                                 index < 4 && "border-b"
                               } border-warmscale-7 ml-1`}

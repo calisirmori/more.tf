@@ -444,7 +444,7 @@ app.get('/api/steam-info', async (req, res) => {
     await SteamAPICall(req,res);
 });
 
-async function SteamAPICall(req,res, maxRetries = 5, attemptNumber = 1){
+async function SteamAPICall(req,res, maxRetries = 100, attemptNumber = 1){
   
   const userIds = req.query.ids;
 

@@ -96,13 +96,12 @@ const SearchBox = () => {
         FetchResultTypes.JSON
         );
         if (!response || !response.rows || response.rows.length === 0) {
-          setLogsData(logID);
+          setLogsData( parseInt(logID) );
           return null;
         }
         setSearchInternalData(null);
         setSearchSteamData(null);
         setLogsData(response.rows[0]);
-  
     }
 
     try {
@@ -189,7 +188,7 @@ const SearchBox = () => {
             })}
           </div>
         </div>}
-        {logsData !== null && <div>
+        {!Number.isInteger(logsData) && <div>
           <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">Logs</div>
           <div className="h-[1px] w-full bg-warmscale-7/70 my-1.5"></div>
           {logsData.logid !== undefined && <a href={`/log/${logsData.logid}`} className="flex hover:bg-warmscale-5/30 rounded-sm p-2">
@@ -199,6 +198,14 @@ const SearchBox = () => {
               <TimeAgo date={logsData.date} />
             </div>
           </a>}
+          <div></div>
+        </div>}
+        {Number.isInteger(logsData) && <div>
+          <a href={`/log/${logsData}`} className="flex hover:bg-warmscale-5/30 rounded-sm p-2">
+            <div className="w-full">
+              <div className="text-lightscale-2 text-sm font-semibold w-48 truncate"># {logsData}</div>
+            </div>
+          </a>
           <div></div>
         </div>}
       </div>
