@@ -436,7 +436,13 @@ app.get('/api/match-history/:id&class-played=:classPlayed&map=:map&after=:after&
 });
 
 app.get('/api/steam-info', async (req, res) => {
-  const userIds = req.query.ids; // Get comma-separated IDs from query
+    await SteamAPICall(req,res);
+});
+
+async function SteamAPICall(req,res, maxRetries = 3, attemptNumber = 1){
+  
+  const userIds = req.query.ids;
+
   if (!userIds) {
     return res.status(400).send("No IDs provided");
   }
@@ -446,9 +452,56 @@ app.get('/api/steam-info', async (req, res) => {
     const logsApiResponse = await fetch(URL, FetchResultTypes.JSON);
     res.send(logsApiResponse);
   } catch (error) {
-    res.status(500).send("steam error");
+    if(attemptNumber >= maxRetries){
+      res.status(500).send("steam error");
+    } else {
+      const delayInSeconds = Math.pow(2, attemptNumber);
+      await new Promise((resolve) => setTimeout(resolve, delayInSeconds * 1000));
+      await SteamAPICall(req,res, maxRetries, attemptNumber++)
+    }
   }
-});
+}
+
+// app.get('/api/steam-info', async (req, res) => {
+//   const userIds = req.query.ids; // Get comma-separated IDs from query
+//   // if (!userIds) {
+//   //   return res.status(400).send("No IDs provided");
+//   // }
+//   // const URL = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAMKEY}&steamids=${userIds}`;
+
+//   // try {
+//   //   const logsApiResponse = await fetch(URL, FetchResultTypes.JSON);
+//   //   res.send(logsApiResponse);
+//   // } catch (error) {
+//   //   res.status(500).send("steam error");
+//   // }
+
+//   let response: any;
+//     const idsString = [currentPlayer];
+
+//     try {
+//       response = await fetch(`http://localhost:3000/api/steam-info?ids=${idsString}`, FetchResultTypes.JSON);
+//       if (response.response) {
+//         return response; // If the request is successful, return the response immediately.
+//       } else {
+//         throw new Error(`HTTP error: ${response.status}`);
+//       }
+//     } catch (error) {
+//       console.log(`Attempt ${attemptNumber} failed:`, error);
+  
+//       if (attemptNumber < maxRetries) {
+//         // Calculate exponential backoff delay (2^n seconds, where n is the current retry count)
+//         const delayInSeconds = Math.pow(2, attemptNumber);
+//         await new Promise((resolve) => setTimeout(resolve, delayInSeconds * 1000));
+//         return steamInfoCall(currentPlayer, maxRetries, attemptNumber + 1); // Recursive retry
+//       } else {
+//         // If all retries fail, you can handle it here, e.g., throw an error or return a specific value.
+//         console.log(`All ${maxRetries} attempts failed.`);
+//         throw new Error('Failed to fetch data after multiple retries');
+//       }
+//     }
+
+// });
 
 app.get('/api/rgl-profile/:id', async (req, res) => {
   const userId = req.params.id;
