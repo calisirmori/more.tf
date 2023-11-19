@@ -85,8 +85,11 @@ const Profile = () => {
       setPlayerCardData(response[0]);
     } catch (error) {}
   }
+  interface SteamResponse {
+    // ... properties of the response
+  }
 
-  async function steamInfoCall(currentPlayer: string, maxRetries: number = 3, attemptNumber: number = 1) {
+  async function steamInfoCall(currentPlayer: string, maxRetries: number = 3, attemptNumber: number = 1): Promise<SteamResponse | void> {
     let response: any;
     const idsString = [currentPlayer];
 
