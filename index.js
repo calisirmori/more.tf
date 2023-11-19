@@ -68,14 +68,19 @@ app.get('/api/auth/steam', passport.authenticate('steam', { failureRedirect: '/a
 });
 
 app.get('/api/auth/steam/return', passport.authenticate('steam', { failureRedirect: '/api/steam' }), function (req, res) {
-  res.cookie('userid', res.req.user.id, { 
-    maxAge: 31556952000, // 1 year
-    httpOnly: false,
-    secure: true, // set to true if serving over https
-    SameSite: 'None' // can be set to 'Lax' or 'Strict' as per requirement
-  });
-  console.log(res.req.user);
-  res.redirect(`/profile/${res.req.user.id}`)
+  try {
+    res.cookie('userid', res.req.user.id, { 
+      maxAge: 31556952000, // 1 year
+      httpOnly: false,
+      secure: true, // set to true if serving over https
+      SameSite: 'None' // can be set to 'Lax' or 'Strict' as per requirement
+    });
+    console.log(res.req.user);
+    res.redirect(`/profile/${res.req.user.id}`)
+  } catch (error) {
+    res.redirect(`/`)
+    console.log(error);
+  }
 });
 
 app.get('/api/myprofile', (req, res) => {
@@ -455,7 +460,7 @@ async function SteamAPICall(req,res, maxRetries = 5, attemptNumber = 1){
     if(attemptNumber >= maxRetries){
       res.status(500).send("steam error");
     } else {
-      const delayInSeconds = Math.pow(2, attemptNumber) * 0.1;
+      const delayInSeconds = Math.pow(2, attemptNumber) * 0.2;
       await new Promise((resolve) => setTimeout(resolve, delayInSeconds * 1000));
       await SteamAPICall(req,res, maxRetries, attemptNumber + 1)
     }

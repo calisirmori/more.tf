@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../shared-components/Navbar";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import Footer from '../shared-components/Footer';
+import SearchBox from "../shared-components/searchUsername";
 
 const Home = () => {
 
@@ -76,6 +77,9 @@ const Home = () => {
             </div>
               <img src="\moretf-white.png" alt="" className="-mt-4 select-none" />
               <div className="text-center -mt-4 text-xl font-roboto font-bold text-lightscale-2">Team Fortress 2 Analytics</div>
+              <div className="mt-6">
+                <SearchBox/>
+              </div>
           </div>
           <div className="absolute z-40 bottom-2 text-lightscale-6 font-semibold">
             what is more.tf?
