@@ -62,7 +62,7 @@ const Profile = () => {
     let response: any = {};
     try {
       response = await fetch(
-        `http://localhost:3000/api/steam-info?ids=${playerId}`,
+        `/api/steam-info?ids=${playerId}`,
         FetchResultTypes.JSON
       );
       setPlayerSteamInfo(response.response.players[0]);
@@ -79,7 +79,7 @@ const Profile = () => {
     let response: any = {};
     try {
       response = await fetch(
-        `http://localhost:3000/api/playercard-stats/${playerId}`,
+        `/api/playercard-stats/${playerId}`,
         FetchResultTypes.JSON
       );
       setPlayerCardData(response[0]);
@@ -105,7 +105,7 @@ const Profile = () => {
 
   async function matchesInfoCall() {
     const response: any = await fetch(
-      `http://localhost:3000/api/match-history/${playerId}&class-played=none&map=none&after=none&format=none&order=none&limit=15`,
+      `/api/match-history/${playerId}&class-played=none&map=none&after=none&format=none&order=none&limit=15`,
       FetchResultTypes.JSON
     );
     setMatchesPlayedInfo(response.rows);
@@ -113,7 +113,7 @@ const Profile = () => {
 
   async function rglInfoCall() {
     const response: any = await fetch(
-      `http://localhost:3000/api/rgl-profile/${playerId}`,
+      `/api/rgl-profile/${playerId}`,
       FetchResultTypes.JSON
     );
     setRglInfo(response);
@@ -121,7 +121,7 @@ const Profile = () => {
 
   async function peersCall() {
     const response: any = await fetch(
-      `http://localhost:3000/api/peers-search/${playerId}`,
+      `/api/peers-search/${playerId}`,
       FetchResultTypes.JSON
     );
     teamMateSteamCalls(response.rows);
@@ -133,7 +133,7 @@ const Profile = () => {
   async function calendar() {
 
     const response: any = await fetch(
-      `http://localhost:3000/api/activity/${playerId}`,
+      `/api/activity/${playerId}`,
       FetchResultTypes.JSON
     );
 
@@ -157,7 +157,7 @@ const Profile = () => {
 
   async function formatDisparity() {
     const response: any = await fetch(
-      `http://localhost:3000/api/per-format-stats/${playerId}`,
+      `/api/per-format-stats/${playerId}`,
       FetchResultTypes.JSON
     );
     setFormatData(response.rows);
@@ -165,7 +165,7 @@ const Profile = () => {
 
   async function mapDisparity() {
     const response: any = await fetch(
-      `http://localhost:3000/api/per-map-stats/${playerId}`,
+      `/api/per-map-stats/${playerId}`,
       FetchResultTypes.JSON
     );
 
@@ -202,7 +202,7 @@ const Profile = () => {
 
   async function perClassPlaytimeCall() {
     const response: any = await fetch(
-      `http://localhost:3000/api/per-class-stats/${playerId}`,
+      `/api/per-class-stats/${playerId}`,
       FetchResultTypes.JSON
     );
     setPerClassPlaytimeData(response.rows);

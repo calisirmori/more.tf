@@ -3,11 +3,6 @@ import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import searchByUsername from "./searchUsername";
 
-
-
-
-
-
 type SearchResult = {
   rows: Array<{ id64: string }>;
 };
