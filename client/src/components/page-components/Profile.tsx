@@ -86,18 +86,31 @@ const Profile = () => {
     } catch (error) {}
   }
 
-  async function steamInfoCall(currentPlayer: string) {
+  async function steamInfoCall(currentPlayer: string, maxRetries: number = 3, attemptNumber: number = 1) {
     let response: any;
     const idsString = [currentPlayer];
+
     try {
-      response = await fetch(
-        `/api/steam-info?ids=${idsString}`,
-        FetchResultTypes.JSON
-      );
+      response = await fetch(`/api/steam-info?ids=${idsString}`, FetchResultTypes.JSON);
+      if (response.response) {
+        return response; // If the request is successful, return the response immediately.
+      } else {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(`Attempt ${attemptNumber} failed:`, error);
+  
+      if (attemptNumber < maxRetries) {
+        // Calculate exponential backoff delay (2^n seconds, where n is the current retry count)
+        const delayInSeconds = Math.pow(2, attemptNumber);
+        await new Promise((resolve) => setTimeout(resolve, delayInSeconds * 1000));
+        return steamInfoCall(currentPlayer, maxRetries, attemptNumber + 1); // Recursive retry
+      } else {
+        // If all retries fail, you can handle it here, e.g., throw an error or return a specific value.
+        console.log(`All ${maxRetries} attempts failed.`);
+        throw new Error('Failed to fetch data after multiple retries');
+      }
     }
-    return response;
   }
 
   async function matchesInfoCall() {
@@ -123,7 +136,6 @@ const Profile = () => {
     );
     teamMateSteamCalls(response.rows);
     setTeamMatesList(response.rows);
-
   }
 
 
@@ -207,12 +219,26 @@ const Profile = () => {
 
   async function teamMateSteamCalls(playerList: any) {
     let currentList: any = [];
-    for (let index = 0; index < 5; index++) {
-      const response: any = await steamInfoCall(playerList[index].peer_id64);
-      currentList.push(response.response.players[0]);
+    let idArray: any = [];
 
+    for (let index = 0; index < playerList.length; index++) {
+      idArray.push(playerList[index].peer_id64);
     }
-    setTeamMatesSteamInfo(currentList);
+    const currentPlayerList = idArray.join(',');
+
+    const response: any = await steamInfoCall(currentPlayerList);
+
+    const playersArray = response.response.players;
+    for (let index = 0; index < playersArray.length; index++) {
+      currentList.push(playersArray[index]);
+    }
+
+    const playerObj = currentList.reduce((obj:any, player:any) => {
+      obj[player.steamid] = player;
+      return obj;
+    }, {});
+
+    setTeamMatesSteamInfo(playerObj);
   }
 
   const currentWeekIndex = Math.floor(Date.now() / 1000 / 604800);
@@ -1172,12 +1198,14 @@ const Profile = () => {
                     </div>
                     <div>
                       {teamMatesList.map((teammate: any, index: number) => {
+
                         if (
                           index < 5 &&
-                          teamMatesSteamInfo[index] !== undefined
+                          teamMatesSteamInfo[teammate.peer_id64] !== undefined
                         ) {
                           const teammateLoses = parseInt(teammate.l);
                           const teammateWins = parseInt(teammate.w);
+
                           return (
                             <div
                               className={`flex py-2.5 items-center ${
@@ -1185,7 +1213,7 @@ const Profile = () => {
                               } border-warmscale-7 ml-1`}
                             >
                               <img
-                                src={teamMatesSteamInfo[index].avatarfull}
+                                src={teamMatesSteamInfo[teammate.peer_id64].avatarfull}
                                 className="h-8 rounded-md"
                                 alt=""
                               />
@@ -1193,7 +1221,7 @@ const Profile = () => {
                                 href={`/profile/${teammate.peer_id64}`}
                                 className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
                               >
-                                {teamMatesSteamInfo[index].personaname}
+                                {teamMatesSteamInfo[teammate.peer_id64].personaname}
                               </a>
                               <div className="flex items-center ml-4">
                                 <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
