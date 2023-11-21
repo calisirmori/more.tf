@@ -385,27 +385,10 @@ app.get('/api/username-search/:username', (req, response) => {
     .catch((err) => console.error(err))
 });
 
-// app.get('/api/peers-search/:id', (req, response) => {
-//   let playerId = req.params.id;
-
-//   pool.query(`select id64,Count(id64) as count,
-//   COUNT(T1.match_result) filter (where T1.match_result='W') as W,
-//   COUNT(T1.match_result) filter (where T1.match_result='L') as L,
-//   COUNT(T1.match_result) filter (where T1.match_result='T') as T
-//   from (Select logid,match_result,team from players where id64=${playerId}) as T1
-//   inner join players on T1.logid=players.logid and T1.team=players.team
-//   where id64<>${playerId}
-//   group by id64
-//   order by count desc
-//   limit 5`)
-//     .then((res) => response.send(res))
-//     .catch((err) => console.error(err))
-// });
-
 app.get('/api/peers-search/:id', (req, response) => {
   let playerId = req.params.id;
 
-  pool.query(` select * from peer_table pt where main_id64=${playerId}`)
+  pool.query(` select * from peer_table pt where main_id64=${playerId} order by count desc`)
     .then((res) => response.send(res))
     .catch((err) => console.error(err))
 });
@@ -458,6 +441,7 @@ async function SteamAPICall(req,res, maxRetries = 10, attemptNumber = 1){
     res.send(logsApiResponse);
   } catch (error) {
     if(attemptNumber >= maxRetries){
+      console.log(error);
       res.status(500).send("steam error");
     } else {
       const delayInSeconds = Math.pow(1.2, attemptNumber);
