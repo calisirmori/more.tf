@@ -410,8 +410,8 @@ const Matches = () => {
                         </div>
                         <div className="border-l border-warmscale-7 ml-3 py-1 text-lightscale-1 font-cantarell h-full w-full flex items-center">
                           <div className="ml-2">
-                            {match.map.split("_")[1].charAt(0).toUpperCase() +
-                              match.map.split("_")[1].slice(1)}
+                            {match.map.split("_")[1] !== undefined ? match.map.split("_")[1].charAt(0).toUpperCase() +
+                              match.map.split("_")[1].slice(1) : match.map}
                           </div>
                           <div className="ml-1 text-sm text-lightscale-6 w-full truncate">
                             (

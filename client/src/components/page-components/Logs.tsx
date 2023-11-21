@@ -1948,7 +1948,7 @@ const Logs = () => {
                         </div>
                       </div>
                     </div>
-                    <div>
+                    {apiResponse.info.map.split("_")[1] !== undefined && <div>
                       <div className="text-white flex gap-6 ml-4 rounded-t-md px-2 pt-2 justify-center items-center bg-warmscale-82">
                         <div className="flex font-cantarell font-semibold gap-1">
                           <div className="flex ">
@@ -2261,7 +2261,8 @@ const Logs = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div>}
+                    {apiResponse.info.map.split("_")[1] === undefined && <div className=" text-warmscale-2 font-semibold flex justify-center items-center ml-4 text-xl font-robotomono" >THE MAP IS BEING REWORKED FOR COMBINED LOGS</div> }
                   </div>
                 )}
               </div>
