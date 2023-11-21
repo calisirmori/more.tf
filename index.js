@@ -78,8 +78,8 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', { failureRedire
     console.log(res.req.user);
     res.redirect(`/profile/${res.req.user.id}`)
   } catch (error) {
-    res.redirect(`/`)
     console.log(error);
+    res.redirect(`/`)
   }
 });
 
