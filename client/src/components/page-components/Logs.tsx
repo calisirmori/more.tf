@@ -2880,7 +2880,7 @@ const Logs = () => {
                     }
                   )}
                 </div>
-                <div className="bg-warmscale-82 rounded-md pb-2 px-4 w-96 h-fit ">
+                {apiResponse.killStreaks.source !== "internal" && <div className="bg-warmscale-82 rounded-md pb-2 px-4 w-96 h-fit ">
                   <div className="flex justify-center text-lightscale-2 font-semibold text-xl my-2">
                     KILLSTREAKS
                   </div>
@@ -2918,7 +2918,7 @@ const Logs = () => {
                       );
                     }
                   )}
-                </div>
+                </div>}
               </div>
             </div>
           </div>

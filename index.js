@@ -481,33 +481,100 @@ app.post('/api/rgl-profile-bulk', async (req, res) => {
   res.send(rglApiResponse);
 })
 
+// app.get("/api/log/:id", async (req, res) => {
+//   let matchId = req.params.id;
+//   matchId = parseInt(matchId);
+
+//   if (isNaN(parseInt(matchId, 10)) || matchId > Number.MAX_SAFE_INTEGER) {
+//     return res
+//       .status(400)
+//       .json({ errorCode: 400, message: "Bad logs ID", error: "Bad Request" });
+//   }
+
+//   try {
+//     const logsApiResponse = await fetch(
+//       `https://logs.tf/api/v1/log/${matchId}`,
+//       FetchResultTypes.JSON
+//     );
+//     const buffer = await fetch(
+//       `http://logs.tf/logs/log_${matchId}.log.zip`,
+//       FetchResultTypes.Buffer
+//     );
+
+//     const zip = new AdmZip(buffer);
+//     const zipEntries = zip.getEntries();
+//     const textFile = zipEntries[0].getData().toString();
+
+//     res.json(
+//       await parser.parse(textFile, matchId, logsApiResponse)
+//     );
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ errorCode: 500, message: "Internal Server Error" });
+//   }
+// });
+
 app.get("/api/log/:id", async (req, res) => {
   let matchId = req.params.id;
   matchId = parseInt(matchId);
 
-  if (isNaN(parseInt(matchId, 10)) || matchId > Number.MAX_SAFE_INTEGER) {
+  if (isNaN(matchId) || matchId > Number.MAX_SAFE_INTEGER) {
     return res
       .status(400)
       .json({ errorCode: 400, message: "Bad logs ID", error: "Bad Request" });
   }
 
+  // Check if the log information exists in the logs table
+  const logApiExistsQuery = 'SELECT logid, map, title FROM logs WHERE logid = $1';
+  const logApiExistsValues = [matchId];
+
   try {
-    const logsApiResponse = await fetch(
-      `https://logs.tf/api/v1/log/${matchId}`,
-      FetchResultTypes.JSON
-    );
+    // Attempt to get log metadata from your database
+    const logApiExistsResult = await pool.query(logApiExistsQuery, logApiExistsValues);
+    let logsApiResponse;
+
+    if (logApiExistsResult.rows.length > 0) {
+      // Metadata exists in the logs table, use it
+      logsApiResponse = logApiExistsResult.rows[0];
+    } else {
+      // Metadata does not exist in the logs table, fetch from logs.tf API
+      const externalApiResponse = await fetch(`https://logs.tf/api/v1/log/${matchId}`);
+      logsApiResponse = await externalApiResponse.json();
+    }
+
+    // Check if the raw log data exists in your logcache table
+    const rawLogExistsQuery = 'SELECT raw_log FROM logcache WHERE logid = $1';
+    const rawLogExistsResult = await pool.query(rawLogExistsQuery, logApiExistsValues);
+
+    if (rawLogExistsResult.rows.length > 0) {
+      // Raw log data exists, parse and respond
+      const rawLogData = rawLogExistsResult.rows[0].raw_log;
+      const zip = new AdmZip(rawLogData);
+      const zipEntries = zip.getEntries();
+      const textFile = zipEntries[0].getData().toString('utf8');
+      const parsedData = await parser.parse(textFile, matchId, logsApiResponse);
+      return res.json({ ...parsedData, source: 'database' });
+    }
+
+    // Raw log data does not exist, fetch the raw logs from logs.tf
     const buffer = await fetch(
       `http://logs.tf/logs/log_${matchId}.log.zip`,
       FetchResultTypes.Buffer
     );
-
     const zip = new AdmZip(buffer);
     const zipEntries = zip.getEntries();
-    const textFile = zipEntries[0].getData().toString();
+    const textFile = zipEntries[0].getData().toString('utf8');
 
-    res.json(
-      await parser.parse(textFile, matchId, logsApiResponse)
-    );
+    const insertDate = Date.now(); // Current timestamp in milliseconds
+    const insertQuery = 'INSERT INTO logcache(logid, insert_date, raw_log) VALUES($1, $2, $3)';
+    const values = [matchId, insertDate, buffer];
+    
+    await pool.query(insertQuery, values);
+
+    // Parse the fetched logs and respond
+    const parsedData = await parser.parse(textFile, matchId, logsApiResponse);
+    return res.json({ ...parsedData, source: 'logs.tf' });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ errorCode: 500, message: "Internal Server Error" });

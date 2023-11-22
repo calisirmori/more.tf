@@ -6,7 +6,7 @@ async function parse(LogFile, matchID, logsApiResponse){
     let lastDeathTime = {};
     unparsedArray = LogFile.split(/\r?\n/);
     const lastIndex = unparsedArray.length - 1;
-    // console.log(logsApiResponse)
+    console.log(logsApiResponse)
     let parsedJSON = {
         id: Math.floor(Math.random() * 90000000 + 10000000),
         info:{
@@ -22,9 +22,8 @@ async function parse(LogFile, matchID, logsApiResponse){
                 lastPause: 0,
                 pauseSum: 0,
             },
-            map: logsApiResponse.info.map,
-            logsTitle : logsApiResponse.info.title,
-
+            map: logsApiResponse.info !== undefined ? logsApiResponse.info.map : logsApiResponse.map,
+            logsTitle : logsApiResponse.info !== undefined ? logsApiResponse.info.title : logsApiResponse.title,
         },
         teams:{
             red:{
@@ -62,7 +61,7 @@ async function parse(LogFile, matchID, logsApiResponse){
         killSpread:{}, //done needs double checked
         assistSpread:{}, //done needs double checked
         chat:[], //done needs double checked
-        killStreaks: logsApiResponse.killstreaks
+        killStreaks: logsApiResponse.killstreaks !== undefined ? logsApiResponse.killstreaks : { source: "internal"}
     };
 
     let playerIDFinder = {};
