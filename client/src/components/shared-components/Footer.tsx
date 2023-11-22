@@ -32,9 +32,9 @@ const Footer = () => {
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2023{" "}
           <a href="https://discord.gg/dRVbHUy8ZT" className="hover:underline">
-            more.tf
+            more.tf 
           </a>
-          by mori and Treemonkey . All Rights Reserved. 
+          {" "} by Mori and Treemonkey . All Rights Reserved. 
         </span>
       </div>
     </footer>

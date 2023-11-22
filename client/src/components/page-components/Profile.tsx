@@ -597,6 +597,7 @@ const Profile = () => {
                         (classPlayed: any, index: number) => {
                           const currentMax =
                             perClassPlaytimeData[0].time === null ? 1 : 0;
+                            console.log(classPlayed)
                           const topMatchesWithAnyClass =
                             parseInt(perClassPlaytimeData[currentMax].w) +
                             parseInt(perClassPlaytimeData[currentMax].t) +
@@ -655,8 +656,8 @@ const Profile = () => {
                                     <div className="ml-2 h-2 md:w-48 max-md:w-full bg-warmscale-5 rounded-sm">
                                       <div
                                         className={`h-2 ${
-                                          parseInt(classPlayed.w) >
-                                          parseInt(classPlayed.l)
+                                          Math.round(
+                                            (classPlayed.w / totalGamesWithClass) * 1000) / 10 > 50
                                             ? "bg-green-500"
                                             : "bg-red-500"
                                         }`}
