@@ -597,7 +597,6 @@ const Profile = () => {
                         (classPlayed: any, index: number) => {
                           const currentMax =
                             perClassPlaytimeData[0].time === null ? 1 : 0;
-                            console.log(classPlayed)
                           const topMatchesWithAnyClass =
                             parseInt(perClassPlaytimeData[currentMax].w) +
                             parseInt(perClassPlaytimeData[currentMax].t) +
