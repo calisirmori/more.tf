@@ -9,6 +9,7 @@ import SeasonSummary from './components/page-components/SeasonSummary';
 import SeasonSummary15 from './components/page-components/SeasonSummary15';
 import SeasonSummary16 from './components/page-components/SeasonSummary16';
 import Calendar from './components/page-components/calendar';
+import Peers from './components/page-components/peers';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/profile/:id" element={<Profile />}/>
         <Route path="/profile/:id/matches" element={<Matches />}/>
+        <Route path="/peers/:id" element={<Peers />}/>
         <Route path="/calendar/:id" element={<Calendar />}/>
         <Route path="/log/:id" element={<Logs />}/>
         <Route path="/leaderboard" element={<Leaderboard />}/>

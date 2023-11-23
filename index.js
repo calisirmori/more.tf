@@ -280,6 +280,79 @@ app.get('/api/per-map-stats/:id', (req, response) => {
     .catch((err) => console.error(err))
 });
 
+app.get('/api/peers-page/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`with teamate_count as (SELECT
+      players.id64 AS peer_id64,
+      COUNT(players.id64) AS count,
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'W') AS W,
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'L') AS L,
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T,
+      MAX(T1.date) AS last_played_with
+    FROM (
+      SELECT players.id64, players.logid, players.match_result, players.team,players.class,logs."date" ,logs."map" ,logs.format
+      FROM players
+      INNER JOIN logs ON players.logid = logs.logid
+      WHERE players.id64 = ${playerId}
+      and players.class = 'soldier'
+      and logs.map like '%%'
+      and date > 0 
+      and date <3000000000000
+      and logs.format='HL'
+    ) AS T1
+    INNER JOIN players ON T1.logid = players.logid AND T1.team <> players.team
+    WHERE players.id64 <> T1.id64
+    GROUP BY players.id64
+    order by count desc
+    )
+    ,
+    enemy_count as (
+    SELECT
+      players.id64 AS peer_id64,
+      COUNT(players.id64) AS count,
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'W') AS W,
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'L') AS L,
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T,
+      MAX(T1.date) AS last_played_against
+    FROM (
+      SELECT players.id64, players.logid, players.match_result, players.team,players.class,logs."date" ,logs."map" ,logs.format
+      FROM players
+      INNER JOIN logs ON players.logid = logs.logid
+      WHERE players.id64 = ${playerId}
+      and players.class = 'soldier'
+      and logs.map like '%%'
+      and date > 0 
+      and date <3000000000000
+      and logs.format='HL'
+    ) AS T1
+    INNER JOIN players ON T1.logid = players.logid AND T1.team = players.team
+    WHERE players.id64 <> T1.id64
+    GROUP BY players.id64
+    order by count desc
+    )
+    SELECT
+      tc.peer_id64 AS peer_id64,
+      tc.count AS count_with,
+      ec.count AS count_against,
+      tc.W AS w_with,
+      ec.W AS w_against,
+      tc.L AS l_with,
+      ec.L AS l_against,
+      tc.T AS t_with,
+      ec.T AS t_against,
+      GREATEST(tc.last_played_with, ec.last_played_against) AS last_played
+    FROM
+      teamate_count tc
+    INNER JOIN
+      enemy_count ec
+    ON
+      tc.peer_id64 = ec.peer_id64
+    ORDER BY
+    tc.count DESC;`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
+
 app.get('/api/season-summary', (req, response) => {
   pool.query(`select *
   from
