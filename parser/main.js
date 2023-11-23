@@ -6,7 +6,6 @@ async function parse(LogFile, matchID, logsApiResponse){
     let lastDeathTime = {};
     unparsedArray = LogFile.split(/\r?\n/);
     const lastIndex = unparsedArray.length - 1;
-    console.log(logsApiResponse)
     let parsedJSON = {
         id: Math.floor(Math.random() * 90000000 + 10000000),
         info:{
@@ -24,6 +23,7 @@ async function parse(LogFile, matchID, logsApiResponse){
             },
             map: logsApiResponse.info !== undefined ? logsApiResponse.info.map : logsApiResponse.map,
             logsTitle : logsApiResponse.info !== undefined ? logsApiResponse.info.title : logsApiResponse.title,
+            passTime : 0,
         },
         teams:{
             red:{

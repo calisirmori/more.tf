@@ -34,11 +34,13 @@ function triggeredEvent(unparsedEvent, finalObject, playerIDFinder) {
         medicEvents(unparsedEvent, finalObject, playerIDFinder);
     } else if ((unparsedEvent.includes(' "pointcaptured" ')) && finalObject.info.gameIsActive) {
         pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder);
+    } else if ((unparsedEvent.includes(' "pass_')) && finalObject.info.gameIsActive) {
+        passTimeEvents(unparsedEvent, finalObject, playerIDFinder);
     } else if (finalObject.info.gameIsActive && !unparsedEvent.includes('object')
         && !unparsedEvent.includes('flagevent')
         && !unparsedEvent.includes('jarate_attack')
         && !unparsedEvent.includes('lost_uber_advantage')) {
-    }
+    } 
 }
 
 async function worldEvents(unparsedEvent, finalObject) {
@@ -184,38 +186,60 @@ async function worldEvents(unparsedEvent, finalObject) {
     }
 }
 
-// async function rglData(finalObject) {
+function passTimeEvents(unparsedEvent, finalObject, playerIDFinder){
 
-//     let currentPlayers = [];
+    const firstPlayer = finalObject.players[playerIDFinder[unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1)]];
+    const secondPlayer = finalObject.players[playerIDFinder[unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1)]];
+    
+    const blankPasstimeObeject = {
+        scores : 0,
+        assists : 0,
+        saves : 0,
+        steals : 0,
+        ballsStolen : 0,
+        failedPass : 0,
+        intercepts : 0,
+        handoffs : 0,
+        catapults : 0,
+        firstGrab : 0,
+    }
 
-//     Object.entries(finalObject.players).map(player => {
-//         currentPlayers.push(player[0])
-//     })
+    if(finalObject.info.passTime === 0){
+        const playerListArray = Object.entries(playerIDFinder)
 
-//     try {
-//         let URL = `https://api.rgl.gg/v0/profile/getmany`;
+        for (let index = 0; index < playerListArray.length; index++) {
+            finalObject.players[playerListArray[index][1]].passTime = blankPasstimeObeject;
+        }
+    }
 
-//         const rglApiResponse = await fetch(
-//             URL,
-//             {
-//                 method: FetchMethods.Post,
-//                 body: currentPlayers
-//             },
-//             FetchResultTypes.JSON
-//         );
-//         await setPlayerRGLinfo(rglApiResponse,finalObject);
-//         console.log(rglApiResponse)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+    finalObject.info.passTime = 1;
 
-// async function setPlayerRGLinfo(rglApiResponse,finalObject){
-//     rglApiResponse.map(player =>{
-//         finalObject.players[player.steamId].rgl.userName = player.name;
-//         finalObject.players[player.steamId].rgl.rank = player.currentTeams.highlander !== null ? player.currentTeams.highlander.divisionName : "unknown";
-//     });
-// }
+    if(unparsedEvent.includes('"pass_score"')){
+        firstPlayer.passTime.scores === undefined ? firstPlayer.passTime.scores = 1 : firstPlayer.passTime.scores++;
+    } else if (unparsedEvent.includes('"pass_score_assist"')){
+        firstPlayer.passTime.assists === undefined ? firstPlayer.passTime.assists = 1 : firstPlayer.passTime.assists++;
+    } else if (unparsedEvent.includes('"pass_pass_caught"')){
+        if (unparsedEvent.includes('(save "1")')){
+            firstPlayer.passTime.saves === undefined ? firstPlayer.passTime.saves = 1 : firstPlayer.passTime.saves++;
+        }
+        if (unparsedEvent.includes('(duration "0') && unparsedEvent.includes('(interception "1")')) {
+            firstPlayer.passTime.failedPass === undefined ? firstPlayer.passTime.failedPass = 1 : firstPlayer.passTime.failedPass++;
+        } else if (unparsedEvent.includes('(interception "1")')) {
+            firstPlayer.passTime.intercepts === undefined ? firstPlayer.passTime.intercepts = 1 : firstPlayer.passTime.intercepts++;
+        }
+        if (unparsedEvent.includes('(handoff "1")')) {
+            firstPlayer.passTime.handoffs === undefined ? firstPlayer.passTime.handoffs = 1 : firstPlayer.passTime.handoffs++;
+        }
+    } else if (unparsedEvent.includes('"pass_ball_stolen"')){
+        firstPlayer.passTime.steals === undefined ? firstPlayer.passTime.steals = 1 : firstPlayer.passTime.steals++;
+        secondPlayer.passTime.ballsStolen === undefined ? secondPlayer.passTime.ballsStolen = 1 : secondPlayer.passTime.ballsStolen++;
+    } else if (unparsedEvent.includes("pass_trigger_catapult")){
+        firstPlayer.passTime.catapults === undefined ? firstPlayer.passTime.catapults = 1 : firstPlayer.passTime.catapults++;
+    } else if (unparsedEvent.includes('(firstcontact "1")')){
+        firstPlayer.passTime.firstGrab === undefined ? firstPlayer.passTime.firstGrab = 1 : firstPlayer.passTime.firstGrab++;
+    }
+
+}
 
 function pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder) {
     eventDateToSeconds(unparsedEvent)
