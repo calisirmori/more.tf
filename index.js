@@ -393,6 +393,14 @@ app.get('/api/peers-search/:id', (req, response) => {
     .catch((err) => console.error(err))
 });
 
+app.get('/api/enemies-search/:id', (req, response) => {
+  let playerId = req.params.id;
+
+  pool.query(` select * from enemy_table pt where main_id64=${playerId} order by count desc`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
+
 app.get('/api/log-search/:id', (req, response) => {
   let logID = req.params.id;
 

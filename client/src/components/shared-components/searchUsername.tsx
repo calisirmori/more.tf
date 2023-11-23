@@ -96,7 +96,6 @@ const SearchBox = () => {
         FetchResultTypes.JSON
         );
         if (!response || !response.rows || response.rows.length === 0) {
-          console.log(logID)
           setLogsData( parseInt(logID) );
           return null;
         }

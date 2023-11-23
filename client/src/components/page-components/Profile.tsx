@@ -13,8 +13,11 @@ const Profile = () => {
   const [matchesPlayedInfo, setMatchesPlayedInfo] = useState<any>([]);
   const [rglInfo, setRglInfo] = useState<any>({});
   const [activity, setActivity] = useState<any>({});
+  const [displayTeammates, setDisplayTeammates] = useState<any>(true)
   const [teamMatesList, setTeamMatesList] = useState<any>([]);
+  const [enemiesList, setEnemiesList] = useState<any>([]);
   const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState<any>([]);
+  const [enemiesSteamInfo, setEnemiesSteamInfo] = useState<any>([]);
   const [perClassPlaytimeData, setPerClassPlaytimeData] = useState<any>([]);
   const [formatData, setFormatData] = useState<any>([]);
   const [mapDisparityData, setMapDisparityData] = useState<any>([]);
@@ -52,6 +55,7 @@ const Profile = () => {
     rglInfoCall();
     calendar();
     peersCall();
+    enemiesCall();
     perClassPlaytimeCall();
     formatDisparity();
     mapDisparity();
@@ -84,9 +88,6 @@ const Profile = () => {
       );
       setPlayerCardData(response[0]);
     } catch (error) {}
-  }
-  interface SteamResponse {
-    // ... properties of the response
   }
 
   async function steamInfoCall(currentPlayer: string) {
@@ -126,7 +127,15 @@ const Profile = () => {
     );
     teamMateSteamCalls(response.rows);
     setTeamMatesList(response.rows);
+  }
 
+  async function enemiesCall() {
+    const response: any = await fetch(
+      `/api/enemies-search/${playerId}`,
+      FetchResultTypes.JSON
+    );
+    enemiesSteamCalls(response.rows);
+    setEnemiesList(response.rows);
   }
 
 
@@ -216,6 +225,16 @@ const Profile = () => {
 
     }
     setTeamMatesSteamInfo(currentList);
+  }
+
+  async function enemiesSteamCalls(playerList: any) {
+    let currentList: any = [];
+    for (let index = 0; index < 5; index++) {
+      const response: any = await steamInfoCall(playerList[index].peer_id64);
+      currentList.push(response.response.players[0]);
+
+    }
+    setEnemiesSteamInfo(currentList);
   }
 
   const currentWeekIndex = Math.floor(Date.now() / 1000 / 604800);
@@ -1172,9 +1191,12 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md mt-4 font-cantarell">
-                    <div className="flex justify-between">
-                      <div className="text-lg text-lightscale-1 font-semibold">
+                    <div className="flex justify-between gap-4 mb-2 ">
+                      <div onClick={(e) => { setDisplayTeammates(!displayTeammates)}} className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${ !displayTeammates ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4" : "border-tf-orange"}`}>
                         Teammates
+                      </div>
+                      <div onClick={(e) => { setDisplayTeammates(!displayTeammates)}} className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${ displayTeammates ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4" : "border-tf-orange"}`}>
+                        Enemies
                       </div>
                     </div>
                     <div>
@@ -1184,58 +1206,63 @@ const Profile = () => {
                           teamMatesSteamInfo[index] !== undefined
                         ) {
                           const teammateLoses = parseInt(teammate.l);
-                          const teammateWins = parseInt(teammate.w);
+
+                          let highestValue = displayTeammates ? teamMatesList[0] : enemiesList[0];
+                          let displayedPlayer = displayTeammates ? teammate : enemiesList[index];
+                          let steamInfo = displayTeammates ? teamMatesSteamInfo[index] : enemiesSteamInfo[index];
+
+                          const teammateWins = parseInt(displayedPlayer.w);
                           return (
-                            <div key={teammate.peer_id64}
+                            <div key={displayedPlayer.peer_id64}
                               className={`flex py-2.5 items-center ${
                                 index < 4 && "border-b"
                               } border-warmscale-7 ml-1`}
                             >
                               <img
-                                src={teamMatesSteamInfo[index].avatarfull}
+                                src={steamInfo !== undefined && steamInfo.avatarfull}
                                 className="h-8 rounded-md"
                                 alt=""
                               />
                               <a
-                                href={`/profile/${teammate.peer_id64}`}
+                                href={`/profile/${displayedPlayer.peer_id64}`}
                                 className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
                               >
-                                {teamMatesSteamInfo[index].personaname}
+                                {steamInfo !== undefined && steamInfo.personaname}
                               </a>
                               <div className="flex items-center ml-4">
                                 <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
                                   {Math.round(
-                                    (teammateWins / teammate.count) * 100
+                                    (teammateWins / displayedPlayer.count) * 100
                                   )}
                                   %
                                 </div>
                                 <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
                                   <div
                                     className={`h-full ${
-                                      parseInt(teammate.l) >
-                                      parseInt(teammate.w)
+                                      parseInt(displayedPlayer.l) >
+                                      parseInt(displayedPlayer.w)
                                         ? "bg-red-500"
                                         : "bg-green-500"
                                     } rounded-sm`}
                                     style={{
                                       width: `${Math.round(
-                                        (teammateWins / teammate.count) * 100
+                                        (teammateWins / displayedPlayer.count) * 100
                                       )}%`,
                                     }}
                                   ></div>
                                 </div>
                               </div>
                               <div className="flex items-center ml-5">
-                                <div className="text-lightscale-1 font-semibold text-xs">
-                                  {teammate.count}
+                                <div className="text-lightscale-1 font-semibold text-xs min-w-[20px] text-end">
+                                  {displayedPlayer.count}
                                 </div>
                                 <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
                                   <div
                                     className={`h-full bg-tf-orange rounded-sm`}
                                     style={{
                                       width: `${Math.round(
-                                        (teammate.count /
-                                          teamMatesList[0].count) *
+                                        (displayedPlayer.count /
+                                        highestValue.count) *
                                           100
                                       )}%`,
                                     }}
