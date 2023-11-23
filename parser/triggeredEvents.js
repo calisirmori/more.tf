@@ -220,6 +220,9 @@ function passTimeEvents(unparsedEvent, finalObject, playerIDFinder) {
     // Process events and increment stats
     if (unparsedEvent.includes('"pass_score"')) {
         incrementStat(firstPlayer, 'scores');
+        if(unparsedEvent.includes('(panacea "1")')){
+            incrementStat(firstPlayer, 'panaceas');
+        }
     }
     if (unparsedEvent.includes('"pass_score_assist"')) {
         incrementStat(firstPlayer, 'assists');
@@ -260,6 +263,7 @@ const blankPassTimeObject = {
     handoffs: 0,
     catapults: 0,
     firstGrab: 0,
+    panaceas: 0,
 };
 
 function pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder) {

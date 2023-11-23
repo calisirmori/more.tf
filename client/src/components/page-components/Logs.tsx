@@ -1050,7 +1050,7 @@ const Logs = () => {
                         {ptstatTitle("saves", "SAVES", "Saves")}
                         {ptstatTitle("steals", "STEALS", "Steals")}
                         {ptstatTitle("ballsStolen", "BS", "Balls Stolen")}
-                        {ptstatTitle("failedPass", "FP", "Failed Passes")}
+                        {ptstatTitle("failedPass", "FP", "Failed Passes - Interceptions that occur within 1 second")}
                         {ptstatTitle("intercepts", "INT", "Intercepts")}
                         {ptstatTitle("handoffs", "HNDFF", "Hand Offs")}
                         {ptstatTitle("catapults", "CTPLT", "Catapults")}
@@ -1138,11 +1138,16 @@ const Logs = () => {
                         ) {
                           return (
                             <div
-                              className={`flex items-center ${
+                              className={`flex items-center relative group ${
                                 ptcurrentScoreboardSort === statInput &&
                                 "bg-lightscale-4 bg-opacity-5"
                               } justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6`}
                             >
+                              <div className="absolute group-hover:scale-100 scale-0 bg-warmscale-85 rounded-sm drop-shadow border-warmscale-4 border z-50 p-2 bottom-9">
+                                <div className="text-xs font-semibold font-cantarell text-lightscale-6 text-center  border-b border-b-warmscale-6 mb-1">PANACEAS</div>
+                                <div className="text-center font-semibold text-xs ">{player[1].passTime.panaceas === 0 ? 0 : player[1].passTime.panaceas.toFixed(decimalPlaces)}</div>
+                                <div className=" h-2 w-2 flex justify-center items-center bg-warmscale-85 border-b border-r border-b-warmscale-4 border-r-warmscale-4 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+                              </div>
                               {player[1].passTime[statInput] === 0 ? 0 : player[1].passTime[statInput].toFixed(decimalPlaces)}
                             </div>
                           );
