@@ -12,9 +12,11 @@ const Logs = () => {
   const [tab, setTab] = useState<any>("scoreboard");
   const [apiResponse, setResponse] = useState<any>({});
   const [scoreboard, setScoreboard] = useState<any>([]);
+  const [ptscoreboard, setptScoreboard] = useState<any>([]);
   const [killSpread, setKillSpread] = useState<any>([]);
   const [killSpreadSort, setKillSpreadSort] = useState<any>("kills");
   const [currentScoreboardSort, setScoreboardSort] = useState<any>("team");
+  const [ptcurrentScoreboardSort, ptsetScoreboardSort] = useState<any>("team");
   const [scoreboardCollapsed, setScoreboardCollapsed] = useState(true);
   const [sortType, setSortType] = useState<any>("hl");
   const [currentPerformanceFocus, setPerformanceFocus] = useState<any>("");
@@ -69,6 +71,7 @@ const Logs = () => {
       );
       setResponse(response);
       setScoreboard(Object.entries(response.players));
+      setptScoreboard(Object.entries(response.players));
       setKillSpread(Object.entries(response.killSpread));
     } catch (error) {
       // SEND TO ERROR PAGE
@@ -215,6 +218,117 @@ const Logs = () => {
       }
     }
     setScoreboard(sortedArray);
+  }
+  function ptscoreboardSorter(sortBy: string) {
+    let sortedArray: any = [];
+    let unsortedArray: any = ptscoreboard;
+
+    if (sortBy === ptcurrentScoreboardSort) {
+      if (sortType === "hl") {
+        setSortType("lh");
+        ptsetScoreboardSort(sortBy);
+        if (sortBy === "class") {
+          ptsetScoreboardSort(sortBy);
+          setSortType("lh");
+          for (
+            let classIndex = classOrder.length - 1;
+            classIndex > -1;
+            classIndex--
+          ) {
+            for (
+              let playerIndex = 0;
+              playerIndex < unsortedArray.length;
+              playerIndex++
+            ) {
+              if (
+                unsortedArray[playerIndex][1].class === classOrder[classIndex]
+              ) {
+                sortedArray.push(unsortedArray[playerIndex]);
+              }
+            }
+          }
+        } else {
+          while (unsortedArray.length > 0) {
+            let max = Number.MAX_SAFE_INTEGER;
+            let currentMax = 0;
+            for (
+              let searchIndex = 0;
+              searchIndex < unsortedArray.length;
+              searchIndex++
+            ) {
+              if (unsortedArray[searchIndex][1].passTime[sortBy] <= max) {
+                currentMax = searchIndex;
+                max = unsortedArray[searchIndex][1].passTime[sortBy];
+              }
+            }
+            sortedArray.push(unsortedArray[currentMax]);
+            unsortedArray.splice(currentMax, 1);
+          }
+        }
+      } else if (sortType === "lh") {
+        setSortType("team");
+        ptsetScoreboardSort("team");
+        for (
+          let playerIndex = 0;
+          playerIndex < unsortedArray.length;
+          playerIndex++
+        ) {
+          if (unsortedArray[playerIndex][1].team === "red") {
+            sortedArray.push(unsortedArray[playerIndex]);
+          } else {
+            sortedArray.unshift(unsortedArray[playerIndex]);
+          }
+        }
+      }
+    } else if (sortBy === "team") {
+      ptsetScoreboardSort(sortBy);
+      setSortType("hl");
+      for (
+        let playerIndex = 0;
+        playerIndex < unsortedArray.length;
+        playerIndex++
+      ) {
+        if (unsortedArray[playerIndex][1].team === "red") {
+          sortedArray.push(unsortedArray[playerIndex]);
+        } else {
+          sortedArray.unshift(unsortedArray[playerIndex]);
+        }
+      }
+    } else if (sortBy === "class") {
+      ptsetScoreboardSort(sortBy);
+      setSortType("hl");
+      for (let classIndex = 0; classIndex < classOrder.length; classIndex++) {
+        for (
+          let playerIndex = 0;
+          playerIndex < unsortedArray.length;
+          playerIndex++
+        ) {
+          if (unsortedArray[playerIndex][1].class === classOrder[classIndex]) {
+            sortedArray.push(unsortedArray[playerIndex]);
+          }
+        }
+      }
+    } else {
+      ptsetScoreboardSort(sortBy);
+      setSortType("hl");
+      while (unsortedArray.length > 0) {
+        let min = Number.MIN_SAFE_INTEGER;
+        let currentMax = 0;
+        for (
+          let searchIndex = 0;
+          searchIndex < unsortedArray.length;
+          searchIndex++
+        ) {
+          if (unsortedArray[searchIndex][1].passTime[sortBy] >= min) {
+            currentMax = searchIndex;
+            min = unsortedArray[searchIndex][1].passTime[sortBy];
+          }
+        }
+        sortedArray.push(unsortedArray[currentMax]);
+        unsortedArray.splice(currentMax, 1);
+      }
+    }
+    setptScoreboard(sortedArray);
   }
 
   async function demostfLinkIdFinder(){
@@ -920,6 +1034,122 @@ const Logs = () => {
                   </div>
                 </div>
               </div>
+              {apiResponse.info.passTime === 1 && <div className="w-full flex justify-center items-center">
+                <div className="bg-warmscale-82 p-3 w-fit rounded-md">
+                  <div className="text-lg text-lightscale-3 font-semibold font-cantarell text-center mb-3">PASS TIME</div>
+                    <div id="stat-titles">
+                      <div
+                        className={`grid h-8 bg-warmscale-9 grid-cols-[260px,repeat(11,70px)]`}
+                      >
+                        <div className="flex items-center ml-4 font-cantarell font-semibold text-lightscale-1 ">
+                          Player
+                        </div>
+                        {ptstatTitle("class", "C", "Class")}
+                        {ptstatTitle("scores", "SCORE", "Scores")}
+                        {ptstatTitle("assists", "ASSISTS", "Assists")}
+                        {ptstatTitle("saves", "SAVES", "Saves")}
+                        {ptstatTitle("steals", "STEALS", "Steals")}
+                        {ptstatTitle("ballsStolen", "BS", "Balls Stolen")}
+                        {ptstatTitle("failedPass", "FP", "Failed Passes")}
+                        {ptstatTitle("intercepts", "INT", "Intercepts")}
+                        {ptstatTitle("handoffs", "HNDFF", "Hand Offs")}
+                        {ptstatTitle("catapults", "CTPLT", "Catapults")}
+                        {ptstatTitle("firstGrab", "FG", "First Grabs")}
+                      </div>
+                    </div>
+                    {apiResponse !== undefined &&
+                      ptscoreboard.map((player: any, index: any) => {
+                        const playerObject: any = player[1];
+                        if(playerObject.damageTaken !== 0){
+                          return (
+                            <div id="player-stat-card" >
+                              <div
+                                className={`grid h-10 border-b border-warmscale-8 ${
+                                  currentScoreboardIndex++ % 2 === 1
+                                    ? "bg-warmscale-8"
+                                    : "bg-warmscale-85"
+                                } grid-cols-[260px,repeat(11,70px)]`}
+                              >
+                                <div
+                                  className={`block bg-gradient-to-r ${
+                                    playerObject.team === "blue"
+                                      ? "from-tf-blue-dark"
+                                      : "from-tf-red-dark"
+                                  }  mr-6 text-ellipsis `}
+                                >
+                                  <div className="pl-4 w-full h-full flex items-center justify-center ml-2">
+                                    <div className="group font-semibold font-cantarell text-lightscale-1 hover:underline cursor-pointer relative">
+                                      <a
+                                        href={`/profile/${player[0]}`}
+                                        className="truncate w-60"
+                                      >
+                                        {" "}
+                                        {playerObject.userName}
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex justify-center items-center border-l border-warmscale-6">
+                                  {Object.entries(playerObject.classStats).map(
+                                    (classPlayed: any, index: any) => {
+                                      if (
+                                        classPlayed[0] !== "changedClass" &&
+                                        (classPlayed[1].time /
+                                        playerObject.playtime) *
+                                          100 >
+                                          30
+                                      ) {
+                                        return (
+                                          <div className="group relative font-cantarell text-lightscale-2 " >
+                                            <img
+                                              src={`../../../class icons/Leaderboard_class_${classPlayed[0]}.png`}
+                                              className="h-6 "
+                                              alt=""
+                                              style={{
+                                                opacity: `${Math.floor(
+                                                  (classPlayed[1].time / playerObject.playtime) *
+                                                    200
+                                                )}%`,
+                                              }}
+                                            />
+                                          </div>
+                                        );
+                                      }
+                                    }
+                                  )}
+                                </div>
+                                {stat("scores")}
+                                {stat("assists")}
+                                {stat("saves")}
+                                {stat("steals")}
+                                {stat("ballsStolen")}
+                                {stat("failedPass")}
+                                {stat("intercepts")}
+                                {stat("handoffs")}
+                                {stat("catapults")}
+                                {stat("firstGrab")}
+                              </div>
+                            </div>
+                          );
+                        }
+                        function stat(
+                          statInput: string,
+                          decimalPlaces: number = 0
+                        ) {
+                          return (
+                            <div
+                              className={`flex items-center ${
+                                ptcurrentScoreboardSort === statInput &&
+                                "bg-lightscale-4 bg-opacity-5"
+                              } justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6`}
+                            >
+                              {player[1].passTime[statInput] === 0 ? 0 : player[1].passTime[statInput].toFixed(decimalPlaces)}
+                            </div>
+                          );
+                        }
+                      })}
+                  </div>
+              </div>}
               <div
                 id="team-sums"
                 className="flex justify-center items-center my-10"
@@ -2949,6 +3179,60 @@ const Logs = () => {
           scoreboardSorter(stat);
         }}
         className="flex group relative items-center cursor-pointer justify-center select-none font-cantarell font-semibold text-lightscale-1 border-l border-warmscale-6"
+      >
+        {currentScoreboardSort === stat ? (
+          sortType !== "lh" ? (
+            <div>
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                className="h-4 -ml-2"
+              >
+                <path
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                ></path>
+              </svg>
+            </div>
+          ) : (
+            <div>
+              <svg
+                fill="currentColor"
+                className="h-4 -ml-2"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
+                />
+              </svg>
+            </div>
+          )
+        ) : (
+          <div></div>
+        )}
+        {statAbriviation}
+        <div className="absolute scale-0 bottom-9 bg-warmscale-7 px-2 py-1 group-hover:scale-100 left-1/2 transform -translate-x-1/2">
+          {title}
+          <div className="h-2 w-2 flex justify-center items-center bg-warmscale-7 rotate-45 absolute -bottom-1 left-1/2 transform -translate-x-1/2"></div>
+        </div>
+      </div>
+    );
+  }
+  function ptstatTitle(stat: string, statAbriviation: string, title: string) {
+    return (
+      <div
+        id={stat + "-title"}
+        onClick={() => {
+          ptscoreboardSorter(stat);
+        }}
+        className="flex group relative items-center cursor-pointer justify-center select-none font-cantarell font-semibold text-lightscale-1 border-l border-warmscale-6 text-sm"
       >
         {currentScoreboardSort === stat ? (
           sortType !== "lh" ? (

@@ -186,60 +186,81 @@ async function worldEvents(unparsedEvent, finalObject) {
     }
 }
 
-function passTimeEvents(unparsedEvent, finalObject, playerIDFinder){
+function extractPlayerIDs(logString) {
+    // Regular expression to find the pattern [U:1:numbers] with an optional closing bracket, globally
+    const regex = /\[U:1:(\d+)]?/g;
+    const matches = [...logString.matchAll(regex)]; // Use matchAll to get all matches
+    return matches.map(match => match[1]); // Map to get an array of player IDs
+  }
+  
 
-    const firstPlayer = finalObject.players[playerIDFinder[unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1)]];
-    const secondPlayer = finalObject.players[playerIDFinder[unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1)]];
-    
-    const blankPasstimeObeject = {
-        scores : 0,
-        assists : 0,
-        saves : 0,
-        steals : 0,
-        ballsStolen : 0,
-        failedPass : 0,
-        intercepts : 0,
-        handoffs : 0,
-        catapults : 0,
-        firstGrab : 0,
+function passTimeEvents(unparsedEvent, finalObject, playerIDFinder) {
+
+    // Helper function to increment player stats
+    function incrementStat(player, stat) {
+        player.passTime[stat] = player.passTime[stat] === undefined ? 1 : player.passTime[stat] + 1;
     }
 
-    if(finalObject.info.passTime === 0){
-        const playerListArray = Object.entries(playerIDFinder)
+    const currentIds = extractPlayerIDs(unparsedEvent);
 
-        for (let index = 0; index < playerListArray.length; index++) {
-            finalObject.players[playerListArray[index][1]].passTime = blankPasstimeObeject;
-        }
+    // Find players based on IDs in the event string
+    let firstPlayerID = playerIDFinder["[U:1:" + currentIds[0] + "]"];
+    let secondPlayerID = playerIDFinder[currentIds.length === 1 ? "[U:1:" + currentIds[0] + "]": "[U:1:" + currentIds[1] + "]"];
+    let firstPlayer = finalObject.players[firstPlayerID];
+    let secondPlayer = finalObject.players[secondPlayerID];
+
+    // Initialize passTime stats if not already done
+    if (finalObject.info.passTime === 0) {
+        Object.values(finalObject.players).forEach(player => {
+            player.passTime = {...blankPassTimeObject};
+        });
+        finalObject.info.passTime = 1;
     }
 
-    finalObject.info.passTime = 1;
-
-    if(unparsedEvent.includes('"pass_score"')){
-        firstPlayer.passTime.scores === undefined ? firstPlayer.passTime.scores = 1 : firstPlayer.passTime.scores++;
-    } else if (unparsedEvent.includes('"pass_score_assist"')){
-        firstPlayer.passTime.assists === undefined ? firstPlayer.passTime.assists = 1 : firstPlayer.passTime.assists++;
-    } else if (unparsedEvent.includes('"pass_pass_caught"')){
-        if (unparsedEvent.includes('(save "1")')){
-            firstPlayer.passTime.saves === undefined ? firstPlayer.passTime.saves = 1 : firstPlayer.passTime.saves++;
+    // Process events and increment stats
+    if (unparsedEvent.includes('"pass_score"')) {
+        incrementStat(firstPlayer, 'scores');
+    }
+    if (unparsedEvent.includes('"pass_score_assist"')) {
+        incrementStat(firstPlayer, 'assists');
+    }
+    if (unparsedEvent.includes('"pass_pass_caught"')) {
+        if (unparsedEvent.includes('(save "1")')) {
+            incrementStat(firstPlayer, 'saves');
         }
         if (unparsedEvent.includes('(duration "0') && unparsedEvent.includes('(interception "1")')) {
-            firstPlayer.passTime.failedPass === undefined ? firstPlayer.passTime.failedPass = 1 : firstPlayer.passTime.failedPass++;
+            incrementStat(firstPlayer, 'failedPass');
         } else if (unparsedEvent.includes('(interception "1")')) {
-            firstPlayer.passTime.intercepts === undefined ? firstPlayer.passTime.intercepts = 1 : firstPlayer.passTime.intercepts++;
+            incrementStat(firstPlayer, 'intercepts');
         }
         if (unparsedEvent.includes('(handoff "1")')) {
-            firstPlayer.passTime.handoffs === undefined ? firstPlayer.passTime.handoffs = 1 : firstPlayer.passTime.handoffs++;
+            incrementStat(firstPlayer, 'handoffs');
         }
-    } else if (unparsedEvent.includes('"pass_ball_stolen"')){
-        firstPlayer.passTime.steals === undefined ? firstPlayer.passTime.steals = 1 : firstPlayer.passTime.steals++;
-        secondPlayer.passTime.ballsStolen === undefined ? secondPlayer.passTime.ballsStolen = 1 : secondPlayer.passTime.ballsStolen++;
-    } else if (unparsedEvent.includes("pass_trigger_catapult")){
-        firstPlayer.passTime.catapults === undefined ? firstPlayer.passTime.catapults = 1 : firstPlayer.passTime.catapults++;
-    } else if (unparsedEvent.includes('(firstcontact "1")')){
-        firstPlayer.passTime.firstGrab === undefined ? firstPlayer.passTime.firstGrab = 1 : firstPlayer.passTime.firstGrab++;
     }
-
+    if (unparsedEvent.includes('"pass_ball_stolen"')) {
+        incrementStat(firstPlayer, 'steals');
+        incrementStat(secondPlayer, 'ballsStolen');
+    }
+    if (unparsedEvent.includes("pass_trigger_catapult")) {
+        incrementStat(firstPlayer, 'catapults');
+    }
+    if (unparsedEvent.includes('(firstcontact "1")')) {
+        incrementStat(firstPlayer, 'firstGrab');
+    }
 }
+
+const blankPassTimeObject = {
+    scores: 0,
+    assists: 0,
+    saves: 0,
+    steals: 0,
+    ballsStolen: 0,
+    failedPass: 0,
+    intercepts: 0,
+    handoffs: 0,
+    catapults: 0,
+    firstGrab: 0,
+};
 
 function pointsCappedEvent(unparsedEvent, finalObject, playerIDFinder) {
     eventDateToSeconds(unparsedEvent)
