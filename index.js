@@ -508,7 +508,7 @@ app.get('/api/steam-info', async (req, res) => {
     await SteamAPICall(req,res);
 });
 
-async function SteamAPICall(req,res, maxRetries = 10, attemptNumber = 1){
+async function SteamAPICall(req,res, maxRetries = 5, attemptNumber = 1){
   
   const userIds = req.query.ids;
 
@@ -526,7 +526,7 @@ async function SteamAPICall(req,res, maxRetries = 10, attemptNumber = 1){
       res.status(500).send("steam error");
     } else {
       const delayInSeconds = Math.pow(1.2, attemptNumber);
-      const variance = 0.2; // 20% variance (10% in either direction)
+      const variance = 0.3; // 20% variance (10% in either direction)
       const randomFactor = 1 - variance / 2 + Math.random() * variance; // This will generate a number between 0.9 and 1.1
       const randomizedDelayInSeconds = delayInSeconds * randomFactor;
       await new Promise((resolve) => setTimeout(resolve, randomizedDelayInSeconds * 1000));

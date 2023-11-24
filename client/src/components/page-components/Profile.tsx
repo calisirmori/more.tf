@@ -55,7 +55,6 @@ const Profile = () => {
     rglInfoCall();
     calendar();
     peersCall();
-    enemiesCall();
     perClassPlaytimeCall();
     formatDisparity();
     mapDisparity();
@@ -90,9 +89,9 @@ const Profile = () => {
     } catch (error) {}
   }
 
-  async function steamInfoCall(currentPlayer: string) {
+  async function steamInfoCall(currentPlayer: any) {
     let response: any;
-    const idsString = [currentPlayer];
+    const idsString = currentPlayer.join(',');
     try {
       response = await fetch(
         `/api/steam-info?ids=${idsString}`,
@@ -121,23 +120,19 @@ const Profile = () => {
   }
 
   async function peersCall() {
-    const response: any = await fetch(
+    const responsePeers: any = await fetch(
       `/api/peers-search/${playerId}`,
       FetchResultTypes.JSON
     );
-    teamMateSteamCalls(response.rows);
-    setTeamMatesList(response.rows);
-  }
-
-  async function enemiesCall() {
-    const response: any = await fetch(
+    const responseEnemies: any = await fetch(
       `/api/enemies-search/${playerId}`,
       FetchResultTypes.JSON
     );
-    enemiesSteamCalls(response.rows);
-    setEnemiesList(response.rows);
+    const combinedArray = responsePeers.rows.concat(responseEnemies.rows);
+    teamMateSteamCalls(combinedArray);
+    setTeamMatesList(responsePeers.rows);
+    setEnemiesList(responseEnemies.rows);
   }
-
 
   async function calendar() {
 
@@ -218,23 +213,13 @@ const Profile = () => {
   }
 
   async function teamMateSteamCalls(playerList: any) {
-    let currentList: any = [];
-    for (let index = 0; index < 5; index++) {
-      const response: any = await steamInfoCall(playerList[index].peer_id64);
-      currentList.push(response.response.players[0]);
-
-    }
-    setTeamMatesSteamInfo(currentList);
-  }
-
-  async function enemiesSteamCalls(playerList: any) {
-    let currentList: any = [];
-    for (let index = 0; index < 5; index++) {
-      const response: any = await steamInfoCall(playerList[index].peer_id64);
-      currentList.push(response.response.players[0]);
-
-    }
-    setEnemiesSteamInfo(currentList);
+    const peer_id64_list = playerList.map((obj:any) => obj.peer_id64);
+    const response: any = await steamInfoCall(peer_id64_list);
+    const steamObjects = response.response.players.reduce((obj:any, item:any) => {
+      obj[item.steamid] = item;
+      return obj;
+    }, {});
+    setTeamMatesSteamInfo(steamObjects);
   }
 
   const currentWeekIndex = Math.floor(Date.now() / 1000 / 604800);
@@ -285,6 +270,7 @@ const Profile = () => {
     });
     setActivity(activityObject);
   }
+
 
   return (
     <div className=" bg-warmscale-7 min-h-screen ">
@@ -1202,15 +1188,10 @@ const Profile = () => {
                     <div>
                       {teamMatesList.map((teammate: any, index: number) => {
                         if (
-                          index < 5 &&
-                          teamMatesSteamInfo[index] !== undefined
+                          index < 5 && teamMatesSteamInfo[teammate.peer_id64]!== undefined
                         ) {
-                          const teammateLoses = parseInt(teammate.l);
-
                           let highestValue = displayTeammates ? teamMatesList[0] : enemiesList[0];
                           let displayedPlayer = displayTeammates ? teammate : enemiesList[index];
-                          let steamInfo = displayTeammates ? teamMatesSteamInfo[index] : enemiesSteamInfo[index];
-
                           const teammateWins = parseInt(displayedPlayer.w);
                           return (
                             <div key={displayedPlayer.peer_id64}
@@ -1219,7 +1200,7 @@ const Profile = () => {
                               } border-warmscale-7 ml-1`}
                             >
                               <img
-                                src={steamInfo !== undefined && steamInfo.avatarfull}
+                                src={teamMatesSteamInfo[displayedPlayer.peer_id64].avatarfull}
                                 className="h-8 rounded-md"
                                 alt=""
                               />
@@ -1227,7 +1208,7 @@ const Profile = () => {
                                 href={`/profile/${displayedPlayer.peer_id64}`}
                                 className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
                               >
-                                {steamInfo !== undefined && steamInfo.personaname}
+                                {teamMatesSteamInfo[displayedPlayer.peer_id64].personaname}
                               </a>
                               <div className="flex items-center ml-4">
                                 <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
