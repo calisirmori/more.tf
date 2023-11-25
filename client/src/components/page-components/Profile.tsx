@@ -324,13 +324,6 @@ const Profile = () => {
               >
                 <a
                   target="_blank"
-                  href={`https://steamcommunity.com/profiles/${playerId}`}
-                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
-                >
-                  Steam
-                </a>
-                <a
-                  target="_blank"
                   href={`https://demos.tf/profiles/${playerId}`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
                 >
@@ -338,13 +331,24 @@ const Profile = () => {
                 </a>
                 <a
                   target="_blank"
-                  href={`https://etf2l.org/search/${playerId}/`}
-                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow text-lightscale-2 font-bold font-cantarell"
+                  href={`https://steamcommunity.com/profiles/${playerId}`}
+                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
                 >
                   <img
-                    src="../../../site icons/etf2l.webp"
+                    src="\steam-icon.png"
                     alt=""
-                    className="h-8"
+                    className="h-7"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href={`https://etf2l.org/search/${playerId}/`}
+                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
+                >
+                  <img
+                    src="\etf2l-icon.jpg"
+                    alt=""
+                    className="h-7"
                   />
                 </a>
                 <a
@@ -354,6 +358,28 @@ const Profile = () => {
                 >
                   <img
                     src="../../../site icons/rgl.png"
+                    alt=""
+                    className="h-7"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href={`https://ozfortress.com/users?utf8=✓&q=${playerId}&button=`}
+                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
+                >
+                  <img
+                    src="\oz-icon.svg"
+                    alt=""
+                    className="h-7"
+                  />
+                </a>
+                <a
+                  target="_blank"
+                  href={`https://fbtf.tf/users?utf8=✓&q=${playerId}&button=`}
+                  className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
+                >
+                  <img
+                    src="\FB-icon.png"
                     alt=""
                     className="h-7"
                   />
