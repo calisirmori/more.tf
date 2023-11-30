@@ -16,7 +16,6 @@ const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [timer, setTimer] = useState<any>(null);
   const [searchInternalData, setSearchInternalData] = useState<any>([]);
-  const [searchSteamData, setSearchSteamData] = useState<any>(null);
   const [logsData, setLogsData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -77,13 +76,12 @@ const SearchBox = () => {
     return <div className="text-lightscale-4 text-xs">date: {timeAgo}</div>;
   }
 
-  const searchByUsername = async (input: string): Promise<Record<string, unknown> | string | null> => {
+  const searchByUsername = async (input: string) => {
 
     input = input.toLocaleLowerCase();
 
     if (input.length <= 2) {
       setSearchInternalData(null);
-      setSearchSteamData(null);
       return "Search term is too short";
     }
     setIsLoading(true); // Set loading to true when the search starts
@@ -100,7 +98,6 @@ const SearchBox = () => {
           return null;
         }
         setSearchInternalData(null);
-        setSearchSteamData(null);
         setLogsData(response.rows[0]);
     }
 
@@ -109,29 +106,13 @@ const SearchBox = () => {
         `/api/username-search/${input}`,
         FetchResultTypes.JSON
       );
-
       if (!response || !response.rows || response.rows.length === 0) {
         setSearchInternalData(null);
-        setSearchSteamData(null);
         return null;
       }
 
       setSearchInternalData(response.rows);
       setLogsData(null);
-
-      const steamIds = response.rows.map((row:any) => row.id64);
-      const steamInfo: SteamInfo = await fetch(
-        `/api/steam-info?ids=${steamIds.join(',')}`,
-        FetchResultTypes.JSON
-      );
-
-      const finalObject = steamInfo.response.players.reduce((obj:any, player:any) => {
-        obj[player.steamid] = player;
-        return obj;
-      }, {});
-
-      setSearchSteamData(finalObject);
-      return finalObject;
 
     } catch (error) {
       console.error('Search failed:', error);
@@ -141,7 +122,6 @@ const SearchBox = () => {
       setIsLoading(false); // Set loading to false when the search is complete
     }
   };
-
 
   return (
     <div className="">
@@ -168,23 +148,21 @@ const SearchBox = () => {
         <div>/</div>
       </div>
     </div>
-    {(logsData !== null || searchSteamData !== null) && <div className="relative font-cantarell">
+    {(logsData !== null || searchInternalData.length !== 0) && <div className="relative font-cantarell">
       <div className="absolute z-50 left-1 mt-1 max-h-96 w-72 backdrop-blur-md bg-warmscale-82/80 border border-warmscale-8/80 rounded-sm drop-shadow-lg p-2">
-        {searchSteamData !== null && <div>
+        {searchInternalData !== null && <div>
           <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">Players</div>
           <div className="h-[1px] w-full bg-warmscale-7/70 my-1.5"></div>
           <div>
-            {searchSteamData !== null && searchInternalData.map((player: any, index: any) => {
-              if (searchSteamData[player.id64] !== undefined) {
+            {searchInternalData.map((player: any, index: any) => {
                 return (<div className="p-2 hover:bg-warmscale-5/30 rounded-sm" key={index}>
                   <a href={`/profile/${player.id64}`}>
                     <div className="flex items-center">
-                      <img src={searchSteamData[player.id64].avatarfull} alt="" className=" h-8 rounded-sm" />
-                      <div className="text-lightscale-2 font-semibold ml-3 w-52 truncate">{searchSteamData[player.id64].personaname}</div>
+                      <img src={`https://avatars.cloudflare.steamstatic.com/${player.avatar}_medium.jpg`} alt="" className=" h-8 rounded-sm" />
+                      <div className="text-lightscale-2 font-semibold ml-3 w-52 truncate">{player.name}</div>
                     </div>
                   </a>
                 </div>);
-              }
             })}
           </div>
         </div>}

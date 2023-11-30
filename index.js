@@ -449,9 +449,9 @@ app.get('/api/username-search/:username', (req, response) => {
     FROM name_search
     WHERE name LIKE '%${playerUserName}%' 
   )
-  SELECT id64, name, count
+  SELECT si.id64,si.avatar,ranked_names.name,si.name, count
   FROM ranked_names
-  WHERE rn = 1
+  inner join steam_info si on si.id64=ranked_names.id64 WHERE rn = 1
   order by count desc
   LIMIT 5`)
     .then((res) => response.send(res))
