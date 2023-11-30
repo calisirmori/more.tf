@@ -281,77 +281,93 @@ app.get('/api/per-map-stats/:id', (req, response) => {
 });
 
 app.get('/api/peers-page/:id', (req, response) => {
+  // Extract parameters from the request
   let playerId = req.params.id;
-  pool.query(`with teamate_count as (SELECT
+  let playerClass = req.query.class === "none" ? "class" : "'" + req.query.class + "'"; // Parameter for class
+  let map = req.query.map === "none" ? "" : req.query.map;         // Parameter for map
+  let startDate = req.query.startDate; // Parameter for start date
+  let endDate = req.query.endDate === 0 ? "class" : '3000000000';   // Parameter for end date
+  let format = req.query.format === "none" ? "format" : "'" + req.query.format + "'";     // Parameter for format
+
+  // The SQL query with placeholders for parameters
+  let query = `with enemy_count as (
+    SELECT
       players.id64 AS peer_id64,
       COUNT(players.id64) AS count,
       COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'W') AS W,
       COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'L') AS L,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T,
-      MAX(T1.date) AS last_played_with
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T
     FROM (
-      SELECT players.id64, players.logid, players.match_result, players.team,players.class,logs."date" ,logs."map" ,logs.format
+      SELECT players.id64, players.logid, players.match_result, players.team, players.class, logs."date", logs."map", logs.format
       FROM players
       INNER JOIN logs ON players.logid = logs.logid
       WHERE players.id64 = ${playerId}
-      and players.class = 'soldier'
-      and logs.map like '%%'
-      and date > 0 
-      and date <3000000000000
-      and logs.format='HL'
+      AND players.class = ${playerClass}
+      AND logs.map LIKE '%${map}%'
+      AND logs."date" > ${startDate}
+      AND logs."date" < ${endDate}
+      AND logs.format = ${format}
     ) AS T1
     INNER JOIN players ON T1.logid = players.logid AND T1.team <> players.team
     WHERE players.id64 <> T1.id64
     GROUP BY players.id64
-    order by count desc
-    )
-    ,
-    enemy_count as (
+    ORDER BY count DESC
+  ),
+  teamate_count as (
     SELECT
       players.id64 AS peer_id64,
       COUNT(players.id64) AS count,
       COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'W') AS W,
       COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'L') AS L,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T,
-      MAX(T1.date) AS last_played_against
+      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T
     FROM (
-      SELECT players.id64, players.logid, players.match_result, players.team,players.class,logs."date" ,logs."map" ,logs.format
+      SELECT players.id64, players.logid, players.match_result, players.team, players.class, logs."date", logs."map", logs.format
       FROM players
       INNER JOIN logs ON players.logid = logs.logid
       WHERE players.id64 = ${playerId}
-      and players.class = 'soldier'
-      and logs.map like '%%'
-      and date > 0 
-      and date <3000000000000
-      and logs.format='HL'
+      AND players.class = ${playerClass}
+      AND logs.map LIKE '%${map}%'
+      AND logs."date" > ${startDate}
+      AND logs."date" < ${endDate}
+      AND logs.format = ${format}
     ) AS T1
     INNER JOIN players ON T1.logid = players.logid AND T1.team = players.team
     WHERE players.id64 <> T1.id64
     GROUP BY players.id64
-    order by count desc
-    )
-    SELECT
-      tc.peer_id64 AS peer_id64,
-      tc.count AS count_with,
-      ec.count AS count_against,
-      tc.W AS w_with,
-      ec.W AS w_against,
-      tc.L AS l_with,
-      ec.L AS l_against,
-      tc.T AS t_with,
-      ec.T AS t_against,
-      GREATEST(tc.last_played_with, ec.last_played_against) AS last_played
-    FROM
-      teamate_count tc
-    INNER JOIN
-      enemy_count ec
-    ON
-      tc.peer_id64 = ec.peer_id64
+    ORDER BY count DESC
+  )
+  SELECT
+    si.name,
+    si.avatar,
+    teamate_count.peer_id64,
+    teamate_count.count as teamate_count,
+    teamate_count.peer_id64,
+    enemy_count.peer_id64,
+    teamate_count.W as teamate_wins,
+    teamate_count.L as teamate_lose,
+    teamate_count.T as teamate_tie,
+    enemy_count.count as enemy_count,
+    enemy_count.W as enemy_wins,
+    enemy_count.L as enemy_lose,
+    enemy_count.T as enemy_tie
+    FROM enemy_count
+    full outer JOIN teamate_count ON enemy_count.peer_id64 = teamate_count.peer_id64
+    inner  JOIN steam_info si ON si.id64 = teamate_count.peer_id64 or si.id64 = enemy_count.peer_id64
+    WHERE
+    COALESCE(teamate_count.count, 0) + COALESCE(enemy_count.count, 0) > 8
     ORDER BY
-    tc.count DESC;`)
+    teamate_count.count DESC
+    `;
+      console.log(query);
+  // Execute the query with parameters
+  pool.query(query)
     .then((res) => response.send(res))
-    .catch((err) => console.error(err))
+    .catch((err) => {
+      console.error(err);
+      response.status(500).send('Error executing the query');
+    });
 });
+
 
 app.get('/api/season-summary', (req, response) => {
   pool.query(`select *
