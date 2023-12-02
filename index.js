@@ -354,7 +354,7 @@ app.get('/api/peers-page/:id', (req, response) => {
     full outer JOIN teamate_count ON enemy_count.peer_id64 = teamate_count.peer_id64
     inner  JOIN steam_info si ON si.id64 = teamate_count.peer_id64 or si.id64 = enemy_count.peer_id64
     WHERE
-    COALESCE(teamate_count.count, 0) + COALESCE(enemy_count.count, 0) > 8
+    COALESCE(teamate_count.count, 0) + COALESCE(enemy_count.count, 0) > 5
     ORDER BY
     teamate_count.count DESC
     `;

@@ -1203,13 +1203,31 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md mt-4 font-cantarell">
-                    <div className="flex justify-between gap-4 mb-2 ">
+                    <div className="flex justify-between items-center gap-4 mb-2 ">
                       <div onClick={(e) => { setDisplayTeammates(!displayTeammates)}} className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${ !displayTeammates ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4" : "border-tf-orange"}`}>
                         Teammates
                       </div>
                       <div onClick={(e) => { setDisplayTeammates(!displayTeammates)}} className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${ displayTeammates ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4" : "border-tf-orange"}`}>
                         Enemies
                       </div>
+                      <a
+                        href={`/peers/${playerId}`}
+                        className="text-lg text-lightscale-1 font-semibold "
+                      >
+                        <svg
+                          strokeWidth={5.5}
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                          className=" stroke-warmscale-2 cursor-pointer h-6  mt-1 py-1 px-2 rounded-md hover:stroke-warmscale-1 hover:bg-warmscale-7"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                          />
+                        </svg>
+                      </a>
                     </div>
                     <div>
                       {teamMatesList.map((teammate: any, index: number) => {
