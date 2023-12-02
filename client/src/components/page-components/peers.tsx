@@ -78,8 +78,8 @@ const Peers = () => {
             : setSortOrder(true);
           setShouldSort(true);
         }}
-        className="px-6 py-3 h-12 border-b min-w-[130px] border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider hover:text-lightscale-2 hover:cursor-pointer duration-200 group"
-        style={{ width: "15%" }}
+        className="px-6 py-3 h-12 border-b  border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider hover:text-lightscale-2 hover:cursor-pointer duration-200 group"
+        style={{ width: "16%" }}
       >
         <div className="flex items-center">
           <div>{name}</div>
@@ -90,7 +90,7 @@ const Peers = () => {
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
-              className="h-4 mt-0.5 ml-0.5 stroke-warmscale-2 group-hover:stroke-lightscale-6 duration-200"
+              className="h-4 mt-0.5 ml-0.5 stroke-warmscale-2 group-hover:stroke-lightscale-6 duration-200 w-4"
             >
               <path
                 strokeLinecap="round"
@@ -102,11 +102,11 @@ const Peers = () => {
           {sortField === sortVariable && sortOrder && (
             <svg
               fill="none"
-              strokeWidth={4}
+              strokeWidth={3}
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
-              className="h-4 mt-0.5 ml-0.5 stroke-tf-orange"
+              className="h-4 mt-0.5 ml-0.5 stroke-tf-orange w-4"
             >
               <path
                 strokeLinecap="round"
@@ -118,11 +118,11 @@ const Peers = () => {
           {sortField === sortVariable && !sortOrder && (
             <svg
               fill="none"
-              strokeWidth={4}
+              strokeWidth={3}
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
-              className="h-4 mt-0.5 ml-0.5 stroke-tf-orange"
+              className="h-4 mt-0.5 ml-0.5 stroke-tf-orange w-4"
             >
               <path
                 strokeLinecap="round"
@@ -647,7 +647,7 @@ const Peers = () => {
                   <thead>
                     <tr className="font-cantarell">
                       <th
-                        className="px-6 py-3 border-b border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider"
+                        className="px-6 py-3 lg:min-w-[245px]  border-b border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider"
                         style={{ width: "15%" }}
                       >
                         Player
