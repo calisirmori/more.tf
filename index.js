@@ -394,7 +394,7 @@ app.get('/api/season-summary', (req, response) => {
       sum(crossbows_hit) as crossbow,
       sum(playtime) as time
       from season_combined sc 
-      where seasonid=17
+      where seasonid=147
       group by id64,classid,division
       order by classid,division) as weekinfo
   on
@@ -428,7 +428,7 @@ app.get('/api/lastweek-season-summary', (req, response) => {
       sum(crossbows_hit) as crossbow,
       sum(playtime) as time
       from season_combined sc 
-      where seasonid=17
+      where seasonid=147
       and week_num!= (select max(week_num) from season_combined sc)
       group by id64,classid,division
       order by classid,division) as weekinfo
