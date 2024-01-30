@@ -101,7 +101,7 @@ const Navbar = () => {
                 </div>
                 <div className="">
                   <div className=" text-lightscale-5 text-lg font-semibold  hover:text-lightscale-1 mt-10 duration-200 flex justify-center">
-                    <a href="/season-16-summary" className="">SEASON SUMMARY</a>
+                    <a href="/season-summary" className="">SEASON SUMMARY</a>
                   </div>
                   <div className=" text-lightscale-5  text-lg  font-semibold  hover:text-lightscale-1 mt-6 duration-200 flex justify-center">
                     <a href="https://discord.gg/Zb5BEUy9Fb" target="_blank" className="">CONTACT</a>
