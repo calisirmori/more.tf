@@ -26,7 +26,7 @@ function App() {
         <Route path="/season-14-summary" element={<SeasonSummary/>}/>
         <Route path="/season-15-summary" element={<SeasonSummary15/>}/>
         <Route path="/season-16-summary" element={<SeasonSummary16/>}/>
-        <Route path="/season-summary" element={<SeasonSummary16/>}/>
+        <Route path="/season-summary/:id" element={<SeasonSummary16/>}/>
       </Routes>
     </Router>
   )

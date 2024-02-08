@@ -369,7 +369,8 @@ app.get('/api/peers-page/:id', (req, response) => {
 });
 
 
-app.get('/api/season-summary', (req, response) => {
+app.get('/api/season-summary/:id', (req, response) => {
+  let seasonID = req.params.id;
   pool.query(`select *
   from
       (select id64,teamname,teamid,name
@@ -394,7 +395,7 @@ app.get('/api/season-summary', (req, response) => {
       sum(crossbows_hit) as crossbow,
       sum(playtime) as time
       from season_combined sc 
-      where seasonid=147
+      where seasonid=${seasonID}
       group by id64,classid,division
       order by classid,division) as weekinfo
   on
@@ -403,7 +404,8 @@ app.get('/api/season-summary', (req, response) => {
     .catch((err) => console.error(err))
 });
 
-app.get('/api/lastweek-season-summary', (req, response) => {
+app.get('/api/lastweek-season-summary/:id', (req, response) => {
+  let seasonID = req.params.id;
   pool.query(`select *
   from
       (select id64,teamname,teamid,name
@@ -428,12 +430,19 @@ app.get('/api/lastweek-season-summary', (req, response) => {
       sum(crossbows_hit) as crossbow,
       sum(playtime) as time
       from season_combined sc 
-      where seasonid=147
-      and week_num!= (select max(week_num) from season_combined sc)
+      where seasonid=${seasonID}
+      and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
       group by id64,classid,division
       order by classid,division) as weekinfo
       on
       playerinfo.id64=weekinfo.id64`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
+
+app.get('/api/current-week/:id', (req, response) => {
+  let seasonID = req.params.id;
+  pool.query(`select max(week_num) from season_combined sc where seasonid=${seasonID}`)
     .then((res) => response.send(res))
     .catch((err) => console.error(err))
 });

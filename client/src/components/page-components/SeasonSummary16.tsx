@@ -5,10 +5,14 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { time } from "console";
 
 const SeasonSummary = () => {
+  const id = window.location.href;
+  const idArray = id.split("/");
+  const currentSeason = idArray[4];
   const [currentDivision, setCurrentDivision] = useState<string>("invite");
   const [currentClass, setCurrentClass] = useState<string>("scout");
   const [displayArray, setDisplayArray] = useState<any[]>([]);
   const [currentSort, setCurrentSort] = useState("kills");
+  const [currentWeek, setCurrentWeek] = useState(0);
   const [summaryLastData, setLastSummaryData] = useState<any>({});
   let rowCount = 0;
 
@@ -19,13 +23,14 @@ const SeasonSummary = () => {
   useEffect(() => {
     getLastSummaryData();
     getSummaryData();
+    getWeekData();
   }, []);
 
   async function getLastSummaryData() {
     let response: any;
     try {
       response = await fetch(
-        `/api/lastweek-season-summary`,
+        `/api/lastweek-season-summary/${currentSeason}`,
         FetchResultTypes.JSON
       );
 
@@ -47,10 +52,23 @@ const SeasonSummary = () => {
     let response: any;
     try {
       response = await fetch(
-        `/api/season-summary`,
+        `/api/season-summary/${currentSeason}`,
         FetchResultTypes.JSON
       );
       sortTable(response.rows);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getWeekData() {
+    let response: any;
+    try {
+      response = await fetch(
+        `/api/current-week/${currentSeason}`,
+        FetchResultTypes.JSON
+      );
+      setCurrentWeek(response.rows[0].max);
     } catch (error) {
       console.error(error);
     }
@@ -113,6 +131,24 @@ const SeasonSummary = () => {
     const finalArray = tempArray.map((item) => item.data);
     setDisplayArray(finalArray);
   }
+
+  const seasonSpecifics: any = {
+    144: {
+      leauge: "RGL",
+      format: "HL",
+      season: 16
+    },
+    148: {
+      leauge: "RGL",
+      format: "6S",
+      season: 14
+    },
+    147: {
+      leauge: "RGL",
+      format: "HL",
+      season: 17
+    }
+  };
 
   const classSpecialties: any = {
     scout: {
@@ -178,7 +214,7 @@ const SeasonSummary = () => {
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
           <div className="bg-warmscale-8 rounded-md">
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
-              RGL HL S17 SUMMARY | WEEK 1
+              {seasonSpecifics[currentSeason].leauge} {seasonSpecifics[currentSeason].format} {seasonSpecifics[currentSeason].season} SUMMARY | WEEK {currentWeek}
             </div>
             <div className="flex text-lightscale-1 font-semibold text-xl">
               {divisionHeader(
@@ -657,9 +693,13 @@ const SeasonSummary = () => {
                 }
               })}
             </div>
-            <div className=" text-stone-600 font-semibold text-center py-2">
+            <div className="relative text-stone-600 font-semibold text-center py-2">
               UP AND DOWN ARROWS SHOW HOW YOUR SCORE CHANGED FROM LAST WEEKS
               STATS
+              {seasonSpecifics[currentSeason].format === "HL" && <div className="absolute top-2 right-3">
+                {<a href="/season-summary/144" className="text-tf-orange opacity-30 hover:opacity-50">S16</a>}
+                {<a href="/season-summary/147" className="text-tf-orange opacity-30 hover:opacity-50 ml-2">S17</a>}
+              </div>}
             </div>
           </div>
         </div>
