@@ -4,6 +4,7 @@ export const mapCordinates: any = {
     "sultry":{ scale: 0.06, x:300, y:300},
     "snakewater":{ scale: 0.04, x:300, y:260}, //done
     "product":{ scale: 0.06, x:385, y:240}, // done
+    "proplant":{ scale: 0.06, x:385, y:240}, // done
     "process":{ scale: 0.055, x:300, y:238}, // done
     "sunshine":{ scale: 0.042, x:535, y:460}, //done
     "metalworks":{ scale: 0.06, x:300, y:300},
@@ -14,4 +15,6 @@ export const mapCordinates: any = {
     "upward":{ scale: 0.07, x:285, y:160}, //done
     "ashville":{ scale: 0.06, x:290, y:230}, //done
     "steel":{ scale: 0.06, x:300, y:230},
+    "arena2":{ scale: 0.1, x:300, y:280},
+    "default": { scale: 0.06, x:300, y:230},
 }

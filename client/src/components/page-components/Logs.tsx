@@ -703,7 +703,7 @@ const Logs = () => {
                         className={`grid h-8 bg-warmscale-9 ${
                           scoreboardCollapsed
                             ? "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px]"
-                            : "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px,_repeat(5,40px)]"
+                            : "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px,_repeat(6,40px)]"
                         } `}
                       >
                         <div className="flex items-center ml-4 font-cantarell font-semibold text-lightscale-1">
@@ -739,6 +739,8 @@ const Logs = () => {
                           statTitle("airshots", "AS", "Airshots")}
                         {scoreboardCollapsed === false &&
                           statTitle("pointCaps", "PC", "Points Capped")}
+                        {scoreboardCollapsed === false &&
+                          statTitle("buildingKills", "BK", "Building Kills")}
                       </div>
                     </div>
                     {apiResponse !== undefined &&
@@ -755,7 +757,7 @@ const Logs = () => {
                                 } ${
                                   scoreboardCollapsed
                                     ? "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px]"
-                                    : "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px,_repeat(5,40px)]"
+                                    : "grid-cols-[260px,_60px,_100px,_repeat(3,60px),_100px,_repeat(3,60px),_100px,_60px,_60px,_repeat(6,40px)]"
                                 }`}
                               >
                                 <div
@@ -1011,6 +1013,8 @@ const Logs = () => {
                                     {playerObject.pointCaps}
                                   </div>
                                 )}
+                                {scoreboardCollapsed === false &&
+                                  stat("buildingKills")}
                               </div>
                             </div>
                           );
@@ -2339,9 +2343,16 @@ const Logs = () => {
                             >
                               {apiResponse.events.map((killEvent: any, index: any) => {
                                 const mapName = apiResponse.info.map.split("_")[1];
-                                let currentScale = mapCordinates[mapName].scale;
-                                let calibrationX = mapCordinates[mapName].x;
-                                let calibrationY = mapCordinates[mapName].y;
+                                console.log(mapCordinates[mapName])
+                                let currentMap = mapCordinates[mapName];
+
+                                if(currentMap === undefined){
+                                  currentMap = "default";
+                                }
+
+                                let currentScale = currentMap.scale;
+                                let calibrationX = currentMap.x;
+                                let calibrationY = currentMap.y;
                                 if (
                                   killEvent[
                                     killMapShowDeaths ? "victimId" : "killerId"

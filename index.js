@@ -393,7 +393,9 @@ app.get('/api/season-summary/:id', (req, response) => {
       sum(ubers) as ubers,
       sum(ubers_dropped) as drops,
       sum(crossbows_hit) as crossbow,
-      sum(playtime) as time
+      sum(playtime) as time,
+      sum(avg_uber_build) as avg_uber_build,
+      ROUND(avg(acc), 1) as acc
       from season_combined sc 
       where seasonid=${seasonID}
       group by id64,classid,division
@@ -428,7 +430,9 @@ app.get('/api/lastweek-season-summary/:id', (req, response) => {
       sum(ubers) as ubers,
       sum(ubers_dropped) as drops,
       sum(crossbows_hit) as crossbow,
-      sum(playtime) as time
+      sum(playtime) as time,
+      sum(avg_uber_build) as avg_uber_build,
+      ROUND(avg(acc), 1) as acc
       from season_combined sc 
       where seasonid=${seasonID}
       and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
