@@ -15,10 +15,10 @@ const { makeSummary, rglAPIcalls } = require("./seasonSummaryMaker.js");
 const Pool = require('pg').Pool
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3000;
+const bodyParser = require("body-parser");
 
-//makeSummary();
-//rglAPIcalls()
 require('dotenv').config();
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 app.use(session({
@@ -591,38 +591,24 @@ app.post('/api/rgl-profile-bulk', async (req, res) => {
   res.send(rglApiResponse);
 })
 
-// app.get("/api/log/:id", async (req, res) => {
-//   let matchId = req.params.id;
-//   matchId = parseInt(matchId);
+app.post('/api/upload', (req, res) => {
+  // Assuming the request body will have title, map, key, uploader, and optionally updatelog
+  const { title, map, key, uploader, updatelog } = req.body;
 
-//   if (isNaN(parseInt(matchId, 10)) || matchId > Number.MAX_SAFE_INTEGER) {
-//     return res
-//       .status(400)
-//       .json({ errorCode: 400, message: "Bad logs ID", error: "Bad Request" });
-//   }
+  // Print the received info to the console
+  console.log("Received upload info:");
+  console.log("Title:", title);
+  console.log("Map:", map);
+  console.log("Key:", key);
+  console.log("Uploader:", uploader);
+  if (updatelog) console.log("Update Log:", updatelog);
 
-//   try {
-//     const logsApiResponse = await fetch(
-//       `https://logs.tf/api/v1/log/${matchId}`,
-//       FetchResultTypes.JSON
-//     );
-//     const buffer = await fetch(
-//       `http://logs.tf/logs/log_${matchId}.log.zip`,
-//       FetchResultTypes.Buffer
-//     );
-
-//     const zip = new AdmZip(buffer);
-//     const zipEntries = zip.getEntries();
-//     const textFile = zipEntries[0].getData().toString();
-
-//     res.json(
-//       await parser.parse(textFile, matchId, logsApiResponse)
-//     );
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ errorCode: 500, message: "Internal Server Error" });
-//   }
-// });
+  // Respond to the client
+  res.json({
+    message: "Information received",
+    data: req.body
+  });
+});
 
 app.get("/api/log/:id", async (req, res) => {
   let matchId = req.params.id;
