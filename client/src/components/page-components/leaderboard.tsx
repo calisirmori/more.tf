@@ -183,7 +183,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
                               </div>
                               <div className="flex font-extrabold text-2xl text-lightscale-2 font-robotomono w-48">
                                 <div className=" truncate">
-                                  <a href={`/profile/${playerStats.id64}`}>{playerStats.name}</a>
+                                  <a href={`/profile/${playerStats.id64}`}>{playerStats.rglname}</a>
                                 </div>
                               </div>
                             </td>

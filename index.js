@@ -223,13 +223,21 @@ app.get('/api/per-format-stats/:id', (req, response) => {
 app.get('/api/leaderboard-stats', async (req, response) => {
   try {
     const queryText = `
-      select * 
-      from (SELECT *, 
-              (cbt + eff + eva + imp + spt + srv) / 6.0 AS avg_score
-            FROM player_card_info
-            WHERE seasonid = 16 AND format = 'HL'
-            ORDER BY avg_score DESC) as T1
-      inner join player_rgl_info pri on T1.id64=pri.id64`;
+    select *
+    FROM
+    (SELECT *, 
+            (cbt + eff + eva + imp + spt + srv) / 6.0 AS avg_score
+        FROM player_card_info
+        WHERE seasonid = 16 AND format = 'HL'
+        ORDER BY avg_score DESC) as T1
+  INNER JOIN
+    (SELECT tf2gamers.steamid, teams.teamname, teams.teamid, tf2gamers.rglname
+        FROM playerteams
+        INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
+        INNER JOIN teams ON playerteams.teamid = teams.teamid
+        WHERE date_left=-1
+        AND playerteams.seasonid=147) as playerinfo
+  ON T1.id64 = playerinfo.steamid`;
 
     const result = await pool.query(queryText);
 
