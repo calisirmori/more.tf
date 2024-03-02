@@ -419,7 +419,7 @@ const SeasonSummary = () => {
                   lastWeeksStats !== undefined && lastWeeksStats.time / 60;
                 const playtimeInMinutes = currentPlayer.time / 60;
                 const userID = currentPlayer.steamid;
-                const userName = currentPlayer.name;
+                const userName = currentPlayer.rglname;
                 const teamID =
                   currentPlayer.teamid === null ? "0000" : currentPlayer.teamid;
                 const teamName =

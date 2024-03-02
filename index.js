@@ -373,8 +373,12 @@ app.get('/api/season-summary/:id', (req, response) => {
   let seasonID = req.params.id;
   pool.query(`select *
   from
-      (select id64,teamname,teamid,name
-      from player_rgl_info ) as playerinfo
+      (SELECT tf2gamers.steamid, teams.teamname, teams.teamid, tf2gamers.rglname
+FROM playerteams
+INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
+INNER JOIN teams ON playerteams.teamid = teams.teamid
+ where date_left=-1
+ and playerteams.seasonid=${seasonID}) as playerinfo
   inner join    
       (select id64,division,classid,
       sum(kills) as kills,
@@ -401,17 +405,22 @@ app.get('/api/season-summary/:id', (req, response) => {
       group by id64,classid,division
       order by classid,division) as weekinfo
   on
-      playerinfo.id64=weekinfo.id64`)
+      playerinfo.steamid::BIGINT=weekinfo.id64`)
     .then((res) => response.send(res))
     .catch((err) => console.error(err))
 });
 
 app.get('/api/lastweek-season-summary/:id', (req, response) => {
   let seasonID = req.params.id;
-  pool.query(`select *
+  pool.query(`
+      select *
   from
-      (select id64,teamname,teamid,name
-      from player_rgl_info ) as playerinfo
+      (SELECT tf2gamers.steamid, teams.teamname, teams.teamid, tf2gamers.rglname
+FROM playerteams
+INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
+INNER JOIN teams ON playerteams.teamid = teams.teamid
+ where date_left=-1
+ and playerteams.seasonid=${seasonID}) as playerinfo
   inner join    
       (select id64,division,classid,
       sum(kills) as kills,
@@ -438,8 +447,8 @@ app.get('/api/lastweek-season-summary/:id', (req, response) => {
       and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
       group by id64,classid,division
       order by classid,division) as weekinfo
-      on
-      playerinfo.id64=weekinfo.id64`)
+  on
+      playerinfo.steamid::BIGINT=weekinfo.id64`)
     .then((res) => response.send(res))
     .catch((err) => console.error(err))
 });
