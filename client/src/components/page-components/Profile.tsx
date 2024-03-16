@@ -13,7 +13,7 @@ const Profile = () => {
   const [matchesPlayedInfo, setMatchesPlayedInfo] = useState<any>([]);
   const [rglInfo, setRglInfo] = useState<any>({});
   const [activity, setActivity] = useState<any>({});
-  const [displayTeammates, setDisplayTeammates] = useState<any>(true)
+  const [displayTeammates, setDisplayTeammates] = useState<any>(true);
   const [teamMatesList, setTeamMatesList] = useState<any>([]);
   const [enemiesList, setEnemiesList] = useState<any>([]);
   const [teamMatesSteamInfo, setTeamMatesSteamInfo] = useState<any>([]);
@@ -61,6 +61,125 @@ const Profile = () => {
     playerCardCall();
   }, []);
 
+  const canvasRef = useRef(null);
+  const [images, setImages] = useState<any>({});
+
+  // Load images only once or when playerCardData changes
+  useEffect(() => {
+    const imageSources:any = {
+      background: "/player cards/background3.png",
+      classPortrait: `/player cards/class-portraits/${playerCardData.class}.png`,
+      border: `/player cards/borders/${playerCardData.division}.png`,
+      gradient: "/player cards/gradients.png",
+      classIcon: `/player cards/class-icons/${playerCardData.class}.png`,
+      logo: `/player cards/logo.png`,
+      medal: `/player cards/division-medals/${playerCardData.division}.png`,
+    };
+
+    let loadedImages:any = 0;
+    let tempImages:any = {};
+    for (let src in imageSources) {
+      tempImages[src] = new Image();
+      tempImages[src].src = imageSources[src];
+      tempImages[src].onload = () => {
+        loadedImages++;
+        if (loadedImages === Object.keys(imageSources).length) {
+          setImages(tempImages);
+        }
+      };
+    }
+  }, [playerCardData]); // Depend on playerCardData to reload images when it changes
+
+  useEffect(() => {
+    if (Object.keys(images).length > 0) {
+      drawCanvas();
+    }
+  }, [images, rglInfo]); // Redraw when images or rglInfo change
+
+  function drawCanvas() {
+    const canvas:any = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before redrawing
+
+
+    // Draw the background
+    ctx.drawImage(images.background, 0, 0);
+    
+    // Draw other images
+    ctx.drawImage(images.border, 0, 0);
+    ctx.drawImage(images.classPortrait, 0, 0);
+    ctx.drawImage(images.gradient, 0, 0);
+    ctx.drawImage(images.classIcon, (canvas.width/2)-20,(canvas.height)-90, 40, 40);
+    ctx.drawImage(images.logo, 0, 0);
+    ctx.drawImage(images.medal, 90, 250, images.medal.width * 0.6 , images.medal.height * 0.6);
+
+    // Reset scale for text
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset the transform matrix
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+
+    ctx.font = "bold 60px 'Roboto'";
+    ctx.fillText(rglInfo.name, (canvas.width/2) , 440 );
+
+    ctx.font = "bold 46px 'Roboto Mono'";
+    ctx.fillText('CBT', 206 , 512 );
+    ctx.fillText('SPT', 206 , 562 );
+    ctx.fillText('SRV', 206 , 612 );
+    ctx.fillText('EFF', 406 , 512 );
+    ctx.fillText('DMG', 406 , 562 );
+    ctx.fillText('EVA', 406 , 612 );
+
+    ctx.fillText(playerCardData.cbt, 130 , 512 );
+    ctx.fillText(playerCardData.spt, 130 , 562 );
+    ctx.fillText(playerCardData.srv, 130 , 612 );
+    ctx.fillText(playerCardData.eff, 330 , 512 );
+    ctx.fillText(playerCardData.imp, 330 , 562 );
+    ctx.fillText(playerCardData.eva, 330 , 612 );
+
+    ctx.font = "bold 20px 'Roboto Mono'";
+    ctx.fillText('OVERALL', 144 , 165 );
+
+    ctx.font = "bold 68px 'Roboto Mono'";
+    ctx.fillText(Math.round(
+      (playerCardData.cbt +
+        playerCardData.spt +
+        playerCardData.srv +
+        playerCardData.eff +
+        playerCardData.imp +
+        playerCardData.eva) /
+        6
+    ), 144 , 225 );
+
+    ctx.beginPath();
+    ctx.moveTo(80, 456);
+    ctx.lineTo(470, 456);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2; 
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo((canvas.width/2), 466);
+    ctx.lineTo((canvas.width/2), 630);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(200, 640);
+    ctx.lineTo(350, 640);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(105, 250);
+    ctx.lineTo(185, 250);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
   async function steamInfoCallProfile() {
     let response: any = {};
     try {
@@ -91,7 +210,7 @@ const Profile = () => {
 
   async function steamInfoCall(currentPlayer: any) {
     let response: any;
-    const idsString = currentPlayer.join(',');
+    const idsString = currentPlayer.join(",");
     try {
       response = await fetch(
         `/api/steam-info?ids=${idsString}`,
@@ -135,7 +254,6 @@ const Profile = () => {
   }
 
   async function calendar() {
-
     const response: any = await fetch(
       `/api/activity/${playerId}`,
       FetchResultTypes.JSON
@@ -143,7 +261,6 @@ const Profile = () => {
 
     activityMaker(response.rows);
   }
-
 
   let totalMatches = 0;
   let totalMatchLosses = 0;
@@ -213,12 +330,15 @@ const Profile = () => {
   }
 
   async function teamMateSteamCalls(playerList: any) {
-    const peer_id64_list = playerList.map((obj:any) => obj.peer_id64);
+    const peer_id64_list = playerList.map((obj: any) => obj.peer_id64);
     const response: any = await steamInfoCall(peer_id64_list);
-    const steamObjects = response.response.players.reduce((obj:any, item:any) => {
-      obj[item.steamid] = item;
-      return obj;
-    }, {});
+    const steamObjects = response.response.players.reduce(
+      (obj: any, item: any) => {
+        obj[item.steamid] = item;
+        return obj;
+      },
+      {}
+    );
     setTeamMatesSteamInfo(steamObjects);
   }
 
@@ -270,7 +390,6 @@ const Profile = () => {
     });
     setActivity(activityObject);
   }
-
 
   return (
     <div className=" bg-warmscale-7 min-h-screen ">
@@ -334,22 +453,14 @@ const Profile = () => {
                   href={`https://steamcommunity.com/profiles/${playerId}`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
                 >
-                  <img
-                    src="\steam-icon.png"
-                    alt=""
-                    className="h-7"
-                  />
+                  <img src="\steam-icon.png" alt="" className="h-7" />
                 </a>
                 <a
                   target="_blank"
                   href={`https://etf2l.org/search/${playerId}/`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
                 >
-                  <img
-                    src="\etf2l-icon.jpg"
-                    alt=""
-                    className="h-7"
-                  />
+                  <img src="\etf2l-icon.jpg" alt="" className="h-7" />
                 </a>
                 <a
                   target="_blank"
@@ -367,22 +478,14 @@ const Profile = () => {
                   href={`https://ozfortress.com/users?utf8=✓&q=${playerId}&button=`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
                 >
-                  <img
-                    src="\oz-icon.svg"
-                    alt=""
-                    className="h-7"
-                  />
+                  <img src="\oz-icon.svg" alt="" className="h-7" />
                 </a>
                 <a
                   target="_blank"
                   href={`https://fbtf.tf/users?utf8=✓&q=${playerId}&button=`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
                 >
-                  <img
-                    src="\FB-icon.png"
-                    alt=""
-                    className="h-7"
-                  />
+                  <img src="\FB-icon.png" alt="" className="h-7" />
                 </a>
               </div>
             </div>
@@ -522,11 +625,13 @@ const Profile = () => {
                                 </div>
                                 <div className="border-l  border-warmscale-7 ml-3 py-1 text-lightscale-1 font-cantarell h-full min-w-0 max-sm:w-[30vw] lg:w-80 truncate flex items-center">
                                   <div className="ml-2 ">
-                                    {match.map.split("_")[1] !== undefined ? match.map
-                                      .split("_")[1]
-                                      .charAt(0)
-                                      .toUpperCase() +
-                                      match.map.split("_")[1].slice(1) : match.map}
+                                    {match.map.split("_")[1] !== undefined
+                                      ? match.map
+                                          .split("_")[1]
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                        match.map.split("_")[1].slice(1)
+                                      : match.map}
                                   </div>
                                   <div className="ml-1 text-sm text-lightscale-6 truncate">
                                     (
@@ -687,7 +792,12 @@ const Profile = () => {
                                       <div
                                         className={`h-2 ${
                                           Math.round(
-                                            (classPlayed.w / totalGamesWithClass) * 1000) / 10 > 50
+                                            (classPlayed.w /
+                                              totalGamesWithClass) *
+                                              1000
+                                          ) /
+                                            10 >
+                                          50
                                             ? "bg-green-500"
                                             : "bg-red-500"
                                         }`}
@@ -720,10 +830,10 @@ const Profile = () => {
                     <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
                       <div className="flex justify-between">
                         <div className="text-lg text-lightscale-1 mb-1 font-semibold">
-                          Player Card | HL S16
+                          Player Card | HL S17
                         </div>
                       </div>
-                      <div className="w-full justify-center flex">
+                      <div className="w-full justify-center flex h-[440px]">
                         <div className=" flex items-center justify-center min-w-[20rem] w-[20rem] px-3.5">
                           <animated.div
                             ref={cardRef}
@@ -736,7 +846,7 @@ const Profile = () => {
                             onMouseMove={handleMouseMove}
                             onMouseLeave={handleMouseLeave}
                           >
-                            <div className="h-96 select-none flex justify-center items-center relative opacity-95">
+                            {/* <div className="h-96 select-none flex justify-center items-center relative opacity-95">
                               <img
                                 src="\player cards\background.png"
                                 className="h-96 "
@@ -829,9 +939,8 @@ const Profile = () => {
                               <div className="absolute text-2xl left-[160px] top-[290px] text-white font-robotomono font-extrabold">
                                 {playerCardData.eva}
                               </div>
-
-                              <div></div>
-                            </div>
+                            </div> */}
+                            <canvas className="-ml-1.5 mt-3" ref={canvasRef} width="550" height="750" style={{transform: `scale(${0.55})`,transformOrigin: 'top left'}}></canvas>
                           </animated.div>
                         </div>
                       </div>
@@ -1030,7 +1139,10 @@ const Profile = () => {
                             formatWins + formatLosses + formatTies;
                           if (currentFormat.format !== null) {
                             return (
-                              <div key={currentFormat.format} className="flex text-right w-full items-center">
+                              <div
+                                key={currentFormat.format}
+                                className="flex text-right w-full items-center"
+                              >
                                 <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
                                   {currentFormat.format !== null &&
                                     (currentFormat.format === "other"
@@ -1137,7 +1249,10 @@ const Profile = () => {
                       </div>
                       {currentListOfWeeks.map((currentWeek) => {
                         return (
-                          <div key={currentWeek} className="flex-col flex-wrap ">
+                          <div
+                            key={currentWeek}
+                            className="flex-col flex-wrap "
+                          >
                             {activity[currentWeek] !== undefined &&
                               daysOfTheWeek.map((day, index) => {
                                 const today = Math.ceil(
@@ -1145,7 +1260,10 @@ const Profile = () => {
                                 );
                                 if ((currentWeek - 1) * 7 + index < today + 3) {
                                   return (
-                                    <div key={day} className="relative max-sm:h-3 max-sm:w-3 sm:h-4 sm:w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2">
+                                    <div
+                                      key={day}
+                                      className="relative max-sm:h-3 max-sm:w-3 sm:h-4 sm:w-4 group rounded-sm bg-warmscale-4 mb-1 mr-1 text-lightscale-2"
+                                    >
                                       <div className="absolute bg-lightscale-8 rounded-sm text-xs px-2 py-0.5 bottom-6 left-1/2 transform -translate-x-1/2 scale-0 group-hover:scale-100 text-center w-40 z-40">
                                         {activity[currentWeek][day]} games on{" "}
                                         {new Date(
@@ -1204,10 +1322,28 @@ const Profile = () => {
                   </div>
                   <div className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md mt-4 font-cantarell">
                     <div className="flex justify-between items-center gap-4 mb-2 ">
-                      <div onClick={(e) => { setDisplayTeammates(!displayTeammates)}} className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${ !displayTeammates ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4" : "border-tf-orange"}`}>
+                      <div
+                        onClick={(e) => {
+                          setDisplayTeammates(!displayTeammates);
+                        }}
+                        className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${
+                          !displayTeammates
+                            ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4"
+                            : "border-tf-orange"
+                        }`}
+                      >
                         Teammates
                       </div>
-                      <div onClick={(e) => { setDisplayTeammates(!displayTeammates)}} className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${ displayTeammates ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4" : "border-tf-orange"}`}>
+                      <div
+                        onClick={(e) => {
+                          setDisplayTeammates(!displayTeammates);
+                        }}
+                        className={`text-lg text-lightscale-1 font-semibold border-b-2 w-full text-center py-1 rounded-sm hover:cursor-pointer  hover:opacity-80 duration-200 ${
+                          displayTeammates
+                            ? "bg-warmscale-85 bg-opacity-50 border-warmscale-7 text-warmscale-4"
+                            : "border-tf-orange"
+                        }`}
+                      >
                         Enemies
                       </div>
                       <a
@@ -1232,19 +1368,28 @@ const Profile = () => {
                     <div>
                       {teamMatesList.map((teammate: any, index: number) => {
                         if (
-                          index < 5 && teamMatesSteamInfo[teammate.peer_id64]!== undefined
+                          index < 5 &&
+                          teamMatesSteamInfo[teammate.peer_id64] !== undefined
                         ) {
-                          let highestValue = displayTeammates ? teamMatesList[0] : enemiesList[0];
-                          let displayedPlayer = displayTeammates ? teammate : enemiesList[index];
+                          let highestValue = displayTeammates
+                            ? teamMatesList[0]
+                            : enemiesList[0];
+                          let displayedPlayer = displayTeammates
+                            ? teammate
+                            : enemiesList[index];
                           const teammateWins = parseInt(displayedPlayer.w);
                           return (
-                            <div key={displayedPlayer.peer_id64}
+                            <div
+                              key={displayedPlayer.peer_id64}
                               className={`flex py-2.5 items-center ${
                                 index < 4 && "border-b"
                               } border-warmscale-7 ml-1`}
                             >
                               <img
-                                src={teamMatesSteamInfo[displayedPlayer.peer_id64].avatarfull}
+                                src={
+                                  teamMatesSteamInfo[displayedPlayer.peer_id64]
+                                    .avatarfull
+                                }
                                 className="h-8 rounded-md"
                                 alt=""
                               />
@@ -1252,7 +1397,10 @@ const Profile = () => {
                                 href={`/profile/${displayedPlayer.peer_id64}`}
                                 className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
                               >
-                                {teamMatesSteamInfo[displayedPlayer.peer_id64].personaname}
+                                {
+                                  teamMatesSteamInfo[displayedPlayer.peer_id64]
+                                    .personaname
+                                }
                               </a>
                               <div className="flex items-center ml-4">
                                 <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
@@ -1271,7 +1419,8 @@ const Profile = () => {
                                     } rounded-sm`}
                                     style={{
                                       width: `${Math.round(
-                                        (teammateWins / displayedPlayer.count) * 100
+                                        (teammateWins / displayedPlayer.count) *
+                                          100
                                       )}%`,
                                     }}
                                   ></div>
@@ -1287,7 +1436,7 @@ const Profile = () => {
                                     style={{
                                       width: `${Math.round(
                                         (displayedPlayer.count /
-                                        highestValue.count) *
+                                          highestValue.count) *
                                           100
                                       )}%`,
                                     }}
@@ -1306,9 +1455,9 @@ const Profile = () => {
           </div>
         </div>
         <div className="mt-6">
-          <Footer/>
+          <Footer />
         </div>
-      </div>     
+      </div>
     </div>
   );
 };
