@@ -65,7 +65,7 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-warmscale-82 min-h-screen">
+    <div className="bg-warmscale-82 min-h-screen "  data-testid="home-container">
       <div className="h-fit">
         <img className="absolute top-0 max-h-screen object-cover w-screen h-screen opacity-[0.15]" src="https://external-preview.redd.it/7Jrx530CBou3DFt_zXb-iLIG3s4XtR1lpMkEYbvO7xU.jpg?auto=webp&s=5c115bc4032529447bc8987b178a1bbe14d8af84" alt="" />
         <div className="absolute top-0 flex max-h-screen h-full w-full justify-center items-center">

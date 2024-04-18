@@ -418,7 +418,7 @@ const Logs = () => {
   if (apiResponse.players !== undefined) {
     demostfLinkIdFinder();
     return (
-      <div className=" bg-warmscale-7 min-h-screen">
+      <div className=" bg-warmscale-7 min-h-screen"  data-testid="logs-container">
         <Navbar />
         <div className="flex items-center justify-center">
           <div

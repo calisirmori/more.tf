@@ -392,7 +392,7 @@ const Profile = () => {
   }
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen ">
+    <div className=" bg-warmscale-7 min-h-screen "  data-testid="profile-container">
       <Navbar />
       <div className="">
         <div className="relative w-full h-fit">

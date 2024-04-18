@@ -76,7 +76,7 @@ const calendar = () => {
   let yearlyCount = 0;
 
   return (
-    <div className="bg-warmscale-7 min-h-screen w ">
+    <div className="bg-warmscale-7 min-h-screen w "  data-testid="calendar-container">
       <div className=" absolute z-10 w-full top-0  ">
         <Navbar />
         <div className="flex justify-center max-w-full items-center mt-10 bg-warmscale-8 py-8">

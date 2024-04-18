@@ -32,7 +32,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
   let currentRow = 0;
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen">
+    <div className=" bg-warmscale-7 min-h-screen"  data-testid="leaderboard-container">
       <Navbar />
       <div className="w-full h-full font-ubuntu">
         <div className="flex w-full items-center justify-center mt-6">

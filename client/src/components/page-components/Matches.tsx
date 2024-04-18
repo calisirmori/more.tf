@@ -103,7 +103,7 @@ const Matches = () => {
   }
 
   return (
-    <div className="bg-warmscale-7 min-h-screen">
+    <div className="bg-warmscale-7 min-h-screen"  data-testid="matches-container">
       <Navbar />
       <div className="flex justify-center w-full items-center mt-10 bg-warmscale-8 py-8">
         <div className="w-[76rem] flex justify-between">

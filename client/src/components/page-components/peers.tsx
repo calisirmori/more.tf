@@ -297,7 +297,7 @@ const Peers = () => {
   useEffect(() => {}, [searchedPlayer]);
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen ">
+    <div className=" bg-warmscale-7 min-h-screen"  data-testid="peers-container">
       <Navbar />
       <div className="flex flex-col">
         <div className="relative w-full h-fit flex-grow">

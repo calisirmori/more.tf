@@ -694,6 +694,71 @@ app.get("/api/log/:id", async (req, res) => {
   }
 });
 
+//badge
+
+app.post('/api/badges', (req, res) => {
+  const { id64, badge_id } = req.body;
+  // Ensure id64 and badge_id are not undefined or null
+  if (!id64 || !badge_id) {
+    return res.status(400).send("Steam ID and Badge ID are required");
+  }
+
+  const query = 'INSERT INTO Badges (id64, badge_id) VALUES ($1, $2)';
+  const values = [id64, badge_id];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error adding badge');
+    }
+    res.status(201).send('Badge added successfully');
+  });
+});
+
+app.put('/api/badges', (req, res) => {
+  const { id64, badge_id, new_badge_id } = req.body;
+  // Correct the placeholder syntax for PostgreSQL
+  const query = 'UPDATE Badges SET badge_id = $1 WHERE id64 = $2 AND badge_id = $3';
+  const values = [new_badge_id, id64, badge_id];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error updating badge');
+    }
+    res.send('Badge updated successfully');
+  });
+});
+
+app.delete('/api/badges', (req, res) => {
+  const { id64, badge_id } = req.body;
+  // Correct the placeholder syntax for PostgreSQL
+  const query = 'DELETE FROM Badges WHERE id64 = $1 AND badge_id = $2';
+  const values = [id64, badge_id];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error removing badge');
+    }
+    res.send('Badge removed successfully');
+  });
+});
+
+app.get('/api/badges/user', (req, res) => {
+  const { id64 } = req.query;  // Retrieve the Steam ID from the query parameters
+  const query = 'SELECT * FROM Badges WHERE id64 = $1';
+  const values = [id64];
+
+  pool.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Error retrieving badges');
+    }
+    res.send(result.rows);
+  });
+});
+
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (_, res) => {
