@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { S14summary, S15summary } from "../summary";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { time } from "console";
+import Footer from "../shared-components/Footer";
 
 const SeasonSummary = () => {
   const id = window.location.href;
@@ -829,6 +830,9 @@ const SeasonSummary = () => {
               )}
             </div>
           </div>
+        </div>
+        <div className="mt-10">
+            {<Footer />}
         </div>
       </div>
     </div>

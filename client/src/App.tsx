@@ -11,6 +11,7 @@ import SeasonSummary16 from './components/page-components/SeasonSummary16';
 import Calendar from './components/page-components/calendar';
 import Peers from './components/page-components/peers';
 import AdminBadge from './components/page-components/AdminBadge';
+import MatchList from './components/page-components/MatchList';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/season-16-summary" element={<SeasonSummary16/>}/>
         <Route path="/season-summary/:id" element={<SeasonSummary16/>}/>
         <Route path="/admin-badge" element={<AdminBadge/>}/>
+        <Route path="/officials" element={<MatchList/>}/>
       </Routes>
     </Router>
   )

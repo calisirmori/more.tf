@@ -181,6 +181,16 @@ app.get('/api/findcookie/:id', (req, response) => {
     .catch((err) => console.error(err))
 });
 
+app.get('/api/officials', (req, response) => {
+  pool.query(`select matchid,matches.seasonid,team1.region,team1.league,matches.division,team1,team1.teamname as team1_name,team1.teamtag as team1_tag ,team2,team2.teamname as team2_name,team2.teamtag as team2_tag,day_played,isforfeit,team1.format,match_name,map2,map3,map1
+    from matches
+    JOIN teams AS team1 ON matches.team1 = team1.teamid
+    JOIN teams AS team2 ON matches.team2 = team2.teamid
+    ORDER BY day_played`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
+
 app.get('/api/per-class-stats/:id', (req, response) => {
   let playerId = req.params.id;
   pool.query(`SELECT class,
@@ -385,8 +395,7 @@ app.get('/api/season-summary/:id', (req, response) => {
 FROM playerteams
 INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
 INNER JOIN teams ON playerteams.teamid = teams.teamid
- where date_left=-1
- and playerteams.seasonid=${seasonID}) as playerinfo
+ where playerteams.seasonid=${seasonID}) as playerinfo
   inner join    
       (select id64,division,classid,
       sum(kills) as kills,
@@ -427,8 +436,7 @@ app.get('/api/lastweek-season-summary/:id', (req, response) => {
 FROM playerteams
 INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
 INNER JOIN teams ON playerteams.teamid = teams.teamid
- where date_left=-1
- and playerteams.seasonid=${seasonID}) as playerinfo
+ where playerteams.seasonid=${seasonID}) as playerinfo
   inner join    
       (select id64,division,classid,
       sum(kills) as kills,
