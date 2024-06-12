@@ -395,7 +395,8 @@ app.get('/api/season-summary/:id', (req, response) => {
 FROM playerteams
 INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
 INNER JOIN teams ON playerteams.teamid = teams.teamid
- where playerteams.seasonid=${seasonID}) as playerinfo
+ where date_left=-1
+ and playerteams.seasonid=${seasonID}) as playerinfo
   inner join    
       (select id64,division,classid,
       sum(kills) as kills,
@@ -436,7 +437,8 @@ app.get('/api/lastweek-season-summary/:id', (req, response) => {
 FROM playerteams
 INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
 INNER JOIN teams ON playerteams.teamid = teams.teamid
- where playerteams.seasonid=${seasonID}) as playerinfo
+ where date_left=-1
+ and playerteams.seasonid=${seasonID}) as playerinfo
   inner join    
       (select id64,division,classid,
       sum(kills) as kills,
