@@ -995,14 +995,13 @@ const Profile = () => {
                       const mapLosses = parseInt(currentMap.l);
                       const mapTies = parseInt(currentMap.t);
                       const currentmapSum = mapWins + mapLosses + mapTies;
-
                       const dispalyCount =
                         showMoreMaps || playerCardData.length === 0 ? 7 : 1;
                       if (index < dispalyCount) {
                         if (currentMap.map !== null) {
                           return (
                             <div
-                              key={currentMap.map}
+                              key={currentMap}
                               className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${
                                 showMoreMaps ||
                                 (playerCardData.length === 0 &&
@@ -1011,12 +1010,12 @@ const Profile = () => {
                               }`}
                             >
                               <div className="">
-                                {currentMap.map.length > 0 &&
+                                {currentMap.map.length > 0 && currentMap.map.split("_")[1] ?
                                   currentMap.map
                                     .split("_")[1]
                                     .charAt(0)
                                     .toUpperCase() +
-                                    currentMap.map.split("_")[1].slice(1)}{" "}
+                                    currentMap.map.split("_")[1].slice(1) : currentMap.map}{" "}
                                 <span className="text-lightscale-6 text-sm">
                                   ({currentmapSum})
                                 </span>{" "}
