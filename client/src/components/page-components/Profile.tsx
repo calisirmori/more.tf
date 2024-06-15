@@ -390,7 +390,7 @@ const Profile = () => {
     });
     setActivity(activityObject);
   }
-
+  
   return (
     <div className=" bg-warmscale-7 min-h-screen "  data-testid="profile-container">
       <Navbar />
@@ -1092,7 +1092,7 @@ const Profile = () => {
                         <div>Formats</div>
                         <div className="flex gap-2 items-center text-xs text-lightscale-6">
                           <div>
-                            HL:{" "}
+                            {formatData[0] !== undefined && formatData[0].format.toUpperCase().slice(0, 3)}:{" "}
                             {formatData[0] !== undefined &&
                               Math.round(
                                 ((parseInt(formatData[0].w) +
@@ -1104,7 +1104,7 @@ const Profile = () => {
                             %
                           </div>
                           <div>
-                            6S:{" "}
+                          {formatData[1] !== undefined && formatData[1].format.toUpperCase().slice(0, 3)}:{" "}
                             {formatData[1] !== undefined &&
                               Math.round(
                                 ((parseInt(formatData[1].w) +
@@ -1116,7 +1116,7 @@ const Profile = () => {
                             %
                           </div>
                           <div>
-                            OTH:{" "}
+                            {formatData[2] !== undefined && formatData[2].format.toUpperCase().slice(0, 3)}:{" "}
                             {formatData[2] !== undefined &&
                               Math.round(
                                 ((parseInt(formatData[2].w) +
