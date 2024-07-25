@@ -12,6 +12,7 @@ interface DayInfo {
 
 const MatchList = () => {
   const [officialsList, setOfficialsList] = useState<any[]>([]);
+  const [officialsListEtf2l, setOfficialsListEtf2l] = useState<any[]>([]);
   const [activeDate, setActiveDate] = useState<any>(3);
   const [activeDiv, setActiveDiv] = useState<any>(0);
   const [dayInfoList, setDayInfoList] = useState<DayInfo[]>([]);
@@ -59,9 +60,14 @@ const MatchList = () => {
   async function getOfficials() {
     let response: any;
     try {
-      response = await fetch(`/api/officials`, FetchResultTypes.JSON);
-      console.log(response.rows);
+      response = await fetch(`/api/officials-rgl`, FetchResultTypes.JSON);
       setOfficialsList(response.rows);
+    } catch (error) {
+      console.error(error);
+    }
+    try {
+      response = await fetch(`/api/officials-etf2l`, FetchResultTypes.JSON);
+      setOfficialsListEtf2l(response.rows);
     } catch (error) {
       console.error(error);
     }
@@ -97,13 +103,32 @@ const MatchList = () => {
   };
 
   const divisions = [
+    "Invite / Premiership",
+    "Advanced / Division 1",
+    "Main / Division 2A",
+    "Intermediate / Division 2B",
+    "Amateur / Mid",
+    "Newcomer / Low",
+    "Open"
+  ];
+
+  const divisionsPerLeauge = { rgl: [
     "Invite",
     "Advanced",
     "Main",
     "Intermediate",
     "Amateur",
     "Newcomer",
-  ];
+    ""
+  ], etf2l: [
+    "Premiership",
+    "Division 1",
+    "Division 2A",
+    "Division 2B",
+    "Mid",
+    "Low",
+    "Open"
+  ]};
 
   let matchIndex = 0;
   return (
@@ -116,7 +141,7 @@ const MatchList = () => {
               {dayInfoList.map((dayInfo, index) => (
                 <div
                   key={index}
-                  className={`w-40 py-0.5 cursor-pointer bg-warmscale-85 rounded-md duration-100 font-quicksand font-semibold ${
+                  className={` py-0.5 cursor-pointer bg-warmscale-85 rounded-md duration-100 font-quicksand font-semibold ${
                     index === activeDate
                       ? "border border-tf2orange text-lightscale-2"
                       : "border border-warmscale-85 hover:scale-95 hover:border-warmscale-2 text-lightscale-8 opacity-70 hover:opacity-90"
@@ -128,11 +153,11 @@ const MatchList = () => {
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-6 gap-2 mt-2">
+            <div className="grid grid-cols-7 gap-2 mt-2">
               {divisions.map((divInfo, index) => (
                 <div
                   key={index}
-                  className={`py-0.5 flex justify-center items-center cursor-pointer bg-warmscale-85 rounded-md duration-100 font-quicksand font-semibold ${
+                  className={`py-0.5 px-3 flex justify-center items-center cursor-pointer bg-warmscale-85 rounded-md duration-100 font-quicksand font-semibold text-sm ${
                     index === activeDiv
                       ? "border border-tf2orange text-lightscale-2"
                       : "border border-warmscale-85 hover:scale-95 hover:border-warmscale-2 text-lightscale-8 opacity-70 hover:opacity-90"
@@ -162,9 +187,10 @@ const MatchList = () => {
                     Number(dayInfoList[activeDate].epochTimeStart) <
                       matchTime &&
                     Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
-                    match.division === divisions[activeDiv] &&
+                    match.division === divisionsPerLeauge.rgl[activeDiv] &&
                     match.format === "6s"
                   ) {
+                    console.log(match)
                     matchIndex++;
                     return (
                       <a
@@ -213,9 +239,108 @@ const MatchList = () => {
                     Number(dayInfoList[activeDate].epochTimeStart) <
                       matchTime &&
                     Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
-                    match.format === "HL" &&
-                    match.division === divisions[activeDiv]
+                    match.division === divisionsPerLeauge.rgl[activeDiv] &&
+                    match.format === "HL" 
                   ) {
+                    matchIndex++;
+                    return (
+                      <a
+                        href={`https://rgl.gg/Public/Match?m=${match.matchid}&r=24`}
+                        target="_blank"
+                      >
+                        <div
+                          className={` cursor-pointer hover:bg-tf2orange hover:bg-opacity-10 flex justify-center items-center h-12 ${
+                            matchIndex % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                          }`}
+                        >
+                          <div className="grid items-center grid-cols-[200px,1fr,20px,1fr,200px] w-full p-4 text-lightscale-4 font-quicksand font-semibold">
+                            <div>{formatDate(matchTime)}</div>
+                            <div className=" text-right">
+                              {match.team1_name}
+                            </div>
+                            <div className=" text-center">-</div>
+                            <div>{match.team2_name}</div>
+                            <div className="text-right text-sm">
+                              <div className="">{match.format}</div>
+                              <div>{match.division}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  }
+                })}
+              </div>
+              <div className="border-2 rounded-md border-warmscale-85 mt-5">
+                <div className="flex bg-warmscale-85">
+                  <img
+                    src="https://etf2l.org/wp-content/uploads/2018/07/2018_etf2l_short_nobackground_light.png"
+                    alt=""
+                    className="h-7 my-3 ml-3 "
+                  />
+                  <div className=" text-lightscale-3 font-bold font-quicksand text-lg px-2 py-3">
+                    Sixes ETF2L
+                  </div>
+                </div>
+                {officialsListEtf2l.map((match: any, index: number) => {
+                  let matchTime = match.day_played - 14400;
+                  if (
+                    Number(dayInfoList[activeDate].epochTimeStart) <
+                      matchTime &&
+                    Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
+                    match.division === divisionsPerLeauge.etf2l[activeDiv] &&
+                    match.format === "6s" 
+                  ) {
+                    matchIndex++;
+                    return (
+                      <a
+                        href={`https://rgl.gg/Public/Match?m=${match.matchid}&r=24`}
+                        target="_blank"
+                      >
+                        <div
+                          className={` cursor-pointer hover:bg-tf2orange hover:bg-opacity-10 flex justify-center items-center h-12 ${
+                            matchIndex % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                          }`}
+                        >
+                          <div className="grid items-center grid-cols-[200px,1fr,20px,1fr,200px] w-full p-4 text-lightscale-4 font-quicksand font-semibold">
+                            <div>{formatDate(matchTime)}</div>
+                            <div className=" text-right">
+                              {match.team1_name}
+                            </div>
+                            <div className=" text-center">-</div>
+                            <div>{match.team2_name}</div>
+                            <div className="text-right text-sm">
+                              <div className="">{match.format}</div>
+                              <div>{match.division}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  }
+                })}
+              </div>
+              <div className="border-2 rounded-md border-warmscale-85 mt-5">
+                <div className="flex bg-warmscale-85">
+                  <img
+                    src="https://etf2l.org/wp-content/uploads/2018/07/2018_etf2l_short_nobackground_light.png"
+                    alt=""
+                    className="h-7 my-3 ml-3 "
+                  />
+                  <div className=" text-lightscale-3 font-bold font-quicksand text-lg px-2 py-3">
+                    Highlander ETF2L
+                  </div>
+                </div>
+                {officialsListEtf2l.map((match: any, index: number) => {
+                  let matchTime = match.day_played - 14400;
+                  if (
+                    Number(dayInfoList[activeDate].epochTimeStart) <
+                      matchTime &&
+                    Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
+                    match.division === divisionsPerLeauge.etf2l[activeDiv] &&
+                    match.format === "HL"
+                  ) {
+                   
                     matchIndex++;
                     return (
                       <a

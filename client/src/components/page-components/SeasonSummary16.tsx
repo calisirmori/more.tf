@@ -15,6 +15,7 @@ const SeasonSummary = () => {
   const [currentSort, setCurrentSort] = useState("kills");
   const [currentWeek, setCurrentWeek] = useState(0);
   const [summaryLastData, setLastSummaryData] = useState<any>({});
+  const [timelimit, setTimelimit] = useState<boolean>(true)
   let rowCount = 0;
 
   useEffect(() => {
@@ -281,7 +282,13 @@ const SeasonSummary = () => {
       <Navbar />
       <div className="w-full h-full font-ubuntu max-sm:scale-50 max-sm:-mt-52 max-lg:scale-50 max-xl:scale-75 max-lg:-mt-36 max-xl:-mt-20 max-md:scale-50">
         <div className="flex justify-center mt-10 max-[450px]:scale-50 max-sm:scale-75 max-lg:scale-110">
-          <div className="bg-warmscale-8 rounded-md">
+          <div className="bg-warmscale-8 rounded-md relative">
+            <div className="absolute right-2 top-1.5">
+              <div className="flex justify-center gap-1">
+                <div className=" text-sm text-warmscale-3 font-bold">time filter: </div>
+                <div onClick={()=> {setTimelimit(!timelimit)}} className={ ` text-center w-7 text-sm select-none text-warmscale-3 font-semibold cursor-pointer text-opacity-50 hover:text-opacity-80 ${timelimit === true ? 'text-green-400' : 'text-red-400'}`}>{timelimit === true ? 'ON' : 'OFF'}</div>
+              </div>
+            </div>
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
               {seasonSpecifics[currentSeason].leauge} {seasonSpecifics[currentSeason].format} S{seasonSpecifics[currentSeason].season} SUMMARY | WEEK {currentWeek}
             </div>
@@ -438,7 +445,7 @@ const SeasonSummary = () => {
                     ? "Free Agent"
                     : currentPlayer.teamname;
                 if (
-                  playtimeInMinutes > currentWeek*8 &&
+                  (timelimit === true ? playtimeInMinutes > currentWeek*8 : playtimeInMinutes > currentWeek*0.5) &&
                   currentPlayer.classid === currentClass &&
                   currentPlayer.division === currentDivision
                 ) {
