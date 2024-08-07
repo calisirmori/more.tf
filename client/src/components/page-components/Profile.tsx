@@ -23,6 +23,8 @@ const Profile = () => {
   const [mapDisparityData, setMapDisparityData] = useState<any>([]);
   const [showMoreMaps, setShowMoreMaps] = useState<any>(false);
   const [playerCardData, setPlayerCardData] = useState<any>([]);
+  const [multiDiv, setMultiDiv] = useState<any>(true);
+  const [highlander, setIsHighlander] = useState<boolean>(true);
 
   const cardRef: any = useRef(null);
   const [animatedProps, setAnimatedProps] = useSpring(() => ({
@@ -58,8 +60,11 @@ const Profile = () => {
     perClassPlaytimeCall();
     formatDisparity();
     mapDisparity();
-    playerCardCall();
   }, []);
+
+  useEffect(() => {
+    playerCardCall();
+  }, [highlander]);
 
   const canvasRef = useRef(null);
   const [images, setImages] = useState<any>({});
@@ -67,7 +72,7 @@ const Profile = () => {
   // Load images only once or when playerCardData changes
   useEffect(() => {
     const imageSources:any = {
-      background: "/player cards/background3.png",
+      background: "/player cards/background-red.png",
       classPortrait: `/player cards/class-portraits/${playerCardData.class}.png`,
       border: `/player cards/borders/${playerCardData.division}.png`,
       gradient: "/player cards/gradients.png",
@@ -88,7 +93,7 @@ const Profile = () => {
         }
       };
     }
-  }, [playerCardData]); // Depend on playerCardData to reload images when it changes
+  }, [playerCardData, highlander]); // Depend on playerCardData to reload images when it changes
 
   useEffect(() => {
     if (Object.keys(images).length > 0) {
@@ -138,17 +143,20 @@ const Profile = () => {
     ctx.fillText(playerCardData.eva, 330 , 612 );
 
     ctx.font = "bold 20px 'Roboto Mono'";
-    ctx.fillText('OVERALL', 144 , 165 );
+    ctx.fillText('OVERALL', 144 , 150 );
+
+    ctx.font = "bold 13px 'Roboto Mono'";
+    ctx.fillText(`${ playerCardData.format === "HL" ? 'HIGHLANDER' : 'SIXES'}`, 144 , 165 );
 
     ctx.font = "bold 68px 'Roboto Mono'";
     ctx.fillText(Math.round(
-      (playerCardData.cbt +
+      (playerCardData.cbt * 2 +
         playerCardData.spt +
         playerCardData.srv +
-        playerCardData.eff +
-        playerCardData.imp +
-        playerCardData.eva) /
-        6
+        playerCardData.eff * 0.5 +
+        playerCardData.imp * 2 +
+        playerCardData.eva * 0.5) /
+        7
     ), 144 , 225 );
 
     ctx.beginPath();
@@ -204,7 +212,20 @@ const Profile = () => {
         `/api/playercard-stats/${playerId}`,
         FetchResultTypes.JSON
       );
-      setPlayerCardData(response[0]);
+      if (response.length === 2){
+        setMultiDiv(true);
+        if (highlander) {
+          if (response[0].format === "HL") setPlayerCardData(response[0])
+          else setPlayerCardData(response[1])
+        } else {
+          if (response[0].format === "HL") setPlayerCardData(response[1])
+          else setPlayerCardData(response[0])
+        }
+      } else if (response.length === 1){
+        setMultiDiv(false);
+        setPlayerCardData(response[0]);
+      }
+      
     } catch (error) {}
   }
 
@@ -830,8 +851,14 @@ const Profile = () => {
                     <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
                       <div className="flex justify-between">
                         <div className="text-lg text-lightscale-1 mb-1 font-semibold">
-                          Player Card | HL S17
+                         { `Player Card | ${playerCardData.format}` }
                         </div>
+                        {multiDiv && (
+                          <div className="flex -mr-1 justify-center items-center mx-4 gap-2 text-lg font-cantarell font-semibold text-lightscale-8">
+                            <div onClick={() => { setIsHighlander(true) }} className={` ${highlander ? ' text-tf-orange' : 'text-lg opacity-50 cursor-pointer hover:opacity-100'}  `} > HL </div>
+                            <div onClick={() => { setIsHighlander(false) }} className={` ${!highlander ? ' text-tf-orange' : 'text-lg opacity-50 cursor-pointer hover:opacity-100'} `}> 6S </div>
+                          </div>)
+                        }
                       </div>
                       <div className="w-full justify-center flex h-[440px]">
                         <div className=" flex items-center justify-center min-w-[20rem] w-[20rem] px-3.5">

@@ -230,15 +230,17 @@ app.get('/api/per-format-stats/:id', (req, response) => {
 
 
 
-app.get('/api/leaderboard-stats', async (req, response) => {
+app.get('/api/leaderboard-stats/:format', async (req, response) => {
+  const format = req.params.format;
+  const seasonid = format === 'HL' ? 151 : 153;
   try {
     const queryText = `
     select *
     FROM
     (SELECT *, 
-            (cbt + eff + eva + imp + spt + srv) / 6.0 AS avg_score
+            ((cbt*2) + (eff*0.5) + (eva*0.5) + (imp*2) + spt + srv) / 7.0 AS avg_score
         FROM player_card_info
-        WHERE seasonid = 147 AND format = 'HL'
+        WHERE (seasonid = ${seasonid} AND format = '${format}')
         ORDER BY avg_score DESC) as T1
   INNER JOIN
     (SELECT tf2gamers.steamid, teams.teamname, teams.teamid, tf2gamers.rglname
@@ -246,7 +248,7 @@ app.get('/api/leaderboard-stats', async (req, response) => {
         INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
         INNER JOIN teams ON playerteams.teamid = teams.teamid
         WHERE date_left=-1
-        AND playerteams.seasonid=147) as playerinfo
+        AND playerteams.seasonid=${seasonid}) as playerinfo
   ON T1.id64 = playerinfo.steamid`;
 
     const result = await pool.query(queryText);
@@ -265,7 +267,7 @@ app.get('/api/leaderboard-stats', async (req, response) => {
 app.get('/api/playercard-stats/:id', async (req, response) => {
   try {
     const playerId = req.params.id;
-    const queryText = 'SELECT * FROM player_card_info WHERE id64 = $1 AND seasonid = 147';
+    const queryText = 'SELECT * FROM player_card_info WHERE id64 = $1 AND (seasonid = 151 OR seasonid = 153)';
 
     // Use a parameterized query to prevent SQL injection
     const result = await pool.query(queryText, [playerId]);

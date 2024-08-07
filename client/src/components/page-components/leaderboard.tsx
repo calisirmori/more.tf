@@ -7,10 +7,12 @@ import { time } from "console";
 
 const Leaderboard = () => {
   const [leaderboardStats, setLeaderboardStats] = useState<any>([]);
-const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
+  const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
+  const [highlander, setIsHighlander] = useState<boolean>(true);
+
   useEffect(() => {
     playerCardCall();
-  }, []);
+  }, [highlander]);
 
   useEffect(() => {}, [leaderboardStats]);
 
@@ -18,7 +20,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
     let response: any = {};
     try {
       response = await fetch(
-        `/api/leaderboard-stats`,
+        `/api/leaderboard-stats/${highlander ? 'HL' : '6s'}`,
         FetchResultTypes.JSON
       );
       setLeaderboardStats(response);
@@ -38,15 +40,23 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
         <div className="flex w-full items-center justify-center mt-6">
           <div>
             <div>
-              <div className="text-5xl max-sm:text-3xl font-extrabold text-lightscale-3 text-center">
+              <div className="text-5xl max-sm:text-3xl font-extrabold text-lightscale-3 -mt-1 text-center">
                 LEADERBOARD
               </div>
               <div className="text-1xl max-sm:text-md font-extrabold text-lightscale-6 text-center">
-                SEASON 16 | OCT 2 - NOV 13
+                {highlander ? 'SEASON 19 | JUN 3 - JULY 15' : 'SEASON 15 | MAY 20 - JULY 22'}
+              </div>
+              <div className="flex justify-center items-center mx-4 gap-3 text-lg font-cantarell font-semibold text-lightscale-8">
+                  <div onClick={() => { setIsHighlander(true) }} className={` ${highlander ? ' text-tf-orange' : 'text-lg opacity-50 cursor-pointer hover:opacity-100'}  `} > HIGHLANDER </div>
+                  <div onClick={() => { setIsHighlander(false) }} className={` ${!highlander ? ' text-tf-orange' : 'text-lg opacity-50 cursor-pointer hover:opacity-100'} `}> SIXES </div>
               </div>
             </div>
+            
             <div className="lg:flex justify-between h-5 mt-4 max-lg:mb-10">
+              
                 <div className="flex items-center justify-center text-lg font-cantarell font-semibold text-lightscale-4">
+                    
+                    
                     FILTER:
                     <div className="flex font-cantarell font-semibold w-60 ml-2 mt-1 gap-2">
                         <select
@@ -194,7 +204,7 @@ const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
                             <td className="text-center border-l border-warmscale-8 border-opacity-50">{playerStats.imp}</td>
                             <td className="text-center border-l border-warmscale-8 border-opacity-50">{playerStats.eva}</td>
                             <td className="text-center font-extrabold text-2xl text-lightscale-2 border-l sticky right-0 border-warmscale-8 border-opacity-50 max-xl:bg-warmscale-8" >
-                              {Math.round(playerStats.avg_score)}
+                              <div>{Math.round(playerStats.avg_score)}</div>
                             </td>
                           </tr>
                         );
