@@ -853,6 +853,11 @@ const Profile = () => {
                         <div className="text-lg text-lightscale-1 mb-1 font-semibold">
                          { `Player Card | ${playerCardData.format}` }
                         </div>
+                        { playerId === '76561198068070211' && ( 
+                          <div className="group absolute z-50 border w-2 h-2 hover:w-96  hover:h-96 right-2 border-warmscale-8">
+                            <img className="scale-0 group-hover:scale-90" src="/player cards/class-portraits/chocc.png" alt="" />
+                          </div> 
+                          )}
                         {multiDiv && (
                           <div className="flex -mr-1 justify-center items-center mx-4 gap-2 text-lg font-cantarell font-semibold text-lightscale-8">
                             <div onClick={() => { setIsHighlander(true) }} className={` ${highlander ? ' text-tf-orange' : 'text-lg opacity-50 cursor-pointer hover:opacity-100'}  `} > HL </div>
