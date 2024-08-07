@@ -855,7 +855,7 @@ const Profile = () => {
                         </div>
                         { playerId === '76561198068070211' && ( 
                           <div className="group absolute z-50 border w-2 h-2 hover:w-96  hover:h-96 right-2 border-warmscale-8">
-                            <img className="scale-0 group-hover:scale-90" src="/player cards/class-portraits/chocc.png" alt="" />
+                            <img className="scale-0 group-hover:scale-90" src="/player cards/class-portraits/chocc1.png" alt="" />
                           </div> 
                           )}
                         {multiDiv && (
