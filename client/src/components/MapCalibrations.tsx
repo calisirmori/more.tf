@@ -16,5 +16,6 @@ export const mapCordinates: any = {
     "ashville":{ scale: 0.06, x:290, y:230}, //done
     "steel":{ scale: 0.06, x:300, y:230},
     "arena2":{ scale: 0.1, x:300, y:280},
+    "stonework":{ scale: 0.1, x:300, y:280},
     "default": { scale: 0.06, x:300, y:230},
 }

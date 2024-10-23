@@ -9,7 +9,7 @@ const SeasonSummaryOzf = () => {
   const id = window.location.href;
   const idArray = id.split("/");
   const currentSeason = idArray[4];
-  const [currentDivision, setCurrentDivision] = useState<string>("invite");
+  const [currentDivision, setCurrentDivision] = useState<string>("premier");
   const [currentClass, setCurrentClass] = useState<string>("scout");
   const [displayArray, setDisplayArray] = useState<any[]>([]);
   const [currentSort, setCurrentSort] = useState("kills");
