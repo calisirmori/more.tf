@@ -441,6 +441,78 @@ ON playerinfo.steamid::BIGINT = week_info.id64`)
     .catch((err) => console.error(err))
 });
 
+app.get('/api/season-summary-ozf/:id', (req, response) => {
+  let seasonID = req.params.id;
+  pool.query(`select id64,
+        max(teamname) as teamname,
+        max(teamid) as teamid,
+        max(name) as ozfname,
+        division,
+        classid,
+      sum(kills) as kills,
+      sum(assist) as assist,
+      sum(deaths) as deaths,
+      sum(damage) as dmg,
+      sum(damage_taken) as dt,
+      sum(headshots) as hs,
+      sum(backstabs) as bs,
+      sum(airshots) as airshots,
+      sum(spy_kills) as spykills,
+      sum(heals_received) as hr,
+      sum(bleed_dmg) as bleed,
+      sum(sentry_dmg) as sentry_dmg,
+      sum(heals) as heals,
+      sum(ubers) as ubers,
+      sum(ubers_dropped) as drops,
+      sum(crossbows_hit) as crossbow,
+      sum(playtime) as time,
+      sum(avg_uber_build) as avg_uber_build,
+      ROUND(avg(acc), 1) as acc
+      from season_combined sc 
+      where seasonid=${seasonID}
+      --and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
+      group by id64,classid,division
+      order by classid,division`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
+
+app.get('/api/lastweek-season-summary-ozf/:id', (req, response) => {
+  let seasonID = req.params.id;
+  pool.query(`select id64,
+        max(teamname) as teamname,
+        max(teamid) as teamid,
+        max(name) as ozfname,
+        division,
+        classid,
+      sum(kills) as kills,
+      sum(assist) as assist,
+      sum(deaths) as deaths,
+      sum(damage) as dmg,
+      sum(damage_taken) as dt,
+      sum(headshots) as hs,
+      sum(backstabs) as bs,
+      sum(airshots) as airshots,
+      sum(spy_kills) as spykills,
+      sum(heals_received) as hr,
+      sum(bleed_dmg) as bleed,
+      sum(sentry_dmg) as sentry_dmg,
+      sum(heals) as heals,
+      sum(ubers) as ubers,
+      sum(ubers_dropped) as drops,
+      sum(crossbows_hit) as crossbow,
+      sum(playtime) as time,
+      sum(avg_uber_build) as avg_uber_build,
+      ROUND(avg(acc), 1) as acc
+      from season_combined sc 
+      where seasonid=${seasonID}
+      and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
+      group by id64,classid,division
+      order by classid,division`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
+
 app.get('/api/lastweek-season-summary/:id', (req, response) => {
   let seasonID = req.params.id;
   pool.query(`

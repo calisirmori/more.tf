@@ -12,7 +12,7 @@ import Calendar from './components/page-components/calendar';
 import Peers from './components/page-components/peers';
 import AdminBadge from './components/page-components/AdminBadge';
 import MatchList from './components/page-components/MatchList';
-
+import SeasonSummaryOzf from './components/page-components/SeasonSummaryOzf';
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
         <Route path="/season-15-summary" element={<SeasonSummary15/>}/>
         <Route path="/season-16-summary" element={<SeasonSummary16/>}/>
         <Route path="/season-summary/:id" element={<SeasonSummary16/>}/>
+        <Route path="/season-summary-ozf/:id" element={<SeasonSummaryOzf/>}/>
         <Route path="/admin-badge" element={<AdminBadge/>}/>
         <Route path="/officials" element={<MatchList/>}/>
       </Routes>
