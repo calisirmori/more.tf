@@ -13,11 +13,10 @@ import Peers from './components/page-components/peers';
 import AdminBadge from './components/page-components/AdminBadge';
 import MatchList from './components/page-components/MatchList';
 import SeasonSummaryOzf from './components/page-components/SeasonSummaryOzf';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import { useEffect } from 'react';
 
-// Get the Google Analytics tracking ID from environment variables
-const trackingId = process.env.REACT_APP_GA_TRACKING_ID;
+const trackingId = import.meta.env.VITE_GA_TRACKING_ID;
 
 // Initialize Google Analytics if the tracking ID is available
 if (trackingId) {
@@ -29,7 +28,7 @@ const TrackPageView = () => {
 
   useEffect(() => {
     if (trackingId) {
-      ReactGA.pageview(location.pathname + location.search);
+      ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
     }
   }, [location]);
 
