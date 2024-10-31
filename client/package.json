@@ -16,6 +16,7 @@
     "@testing-library/react": "^15.0.2",
     "@use-gesture/react": "^10.3.0",
     "dayjs": "^1.11.10",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-ga": "^3.3.1",

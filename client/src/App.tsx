@@ -16,14 +16,21 @@ import SeasonSummaryOzf from './components/page-components/SeasonSummaryOzf';
 import ReactGA from 'react-ga';
 import { useEffect } from 'react';
 
-// Initialize Google Analytics with your tracking ID
-ReactGA.initialize('G-BVM1Y8ZYMD');
+// Get the Google Analytics tracking ID from environment variables
+const trackingId = process.env.REACT_APP_GA_TRACKING_ID;
+
+// Initialize Google Analytics if the tracking ID is available
+if (trackingId) {
+  ReactGA.initialize(trackingId);
+}
 
 const TrackPageView = () => {
   const location = useLocation();
 
   useEffect(() => {
-    ReactGA.pageview(location.pathname + location.search);
+    if (trackingId) {
+      ReactGA.pageview(location.pathname + location.search);
+    }
   }, [location]);
 
   return null;
