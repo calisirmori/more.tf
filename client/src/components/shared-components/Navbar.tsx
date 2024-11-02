@@ -110,9 +110,6 @@ const Navbar = () => {
                     <a href="/season-summary-ozf/70" className="">OZFORTRESS</a>
                   </div>
                   <div className=" text-lightscale-5  text-lg  font-semibold  hover:text-lightscale-1 mt-6 duration-200 flex justify-center">
-                    <a href="https://discord.gg/Zb5BEUy9Fb" target="_blank" className="">CONTACT</a>
-                  </div>
-                  <div className=" text-lightscale-5  text-lg  font-semibold  hover:text-lightscale-1 mt-6 duration-200 flex justify-center">
                     <a href="/leaderboard" className="">LEADERBOARD</a>
                   </div>
                 </div>
@@ -139,10 +136,6 @@ const Navbar = () => {
           <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
             <a href="/season-summary-ozf/70" className="">OZFORTRESS</a>
           </div>
-          <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
-            <a href="https://discord.gg/Zb5BEUy9Fb" target="_blank" className="">CONTACT</a>
-          </div>
-
           <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
             <a href="/leaderboard" className="">LEADERBOARD</a>
           </div>
