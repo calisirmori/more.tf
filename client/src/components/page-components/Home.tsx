@@ -217,7 +217,7 @@ const Home = () => {
         <div className="min-h-screen flex justify-center items-center relative py-10">
           <div className="lg:flex justify-center items-center w-[80%] gap-10 h-fit">
             <div className="font-ubuntu lg:w-1/2 max-lg:w-full">
-              <h1 className=" text-4xl text-lightscale-1 font-bold">Get more from your logs!</h1>
+              <h1 className=" text-4xl text-lightscale-1 font-bold">Watch how the season unfolds!</h1>
               <p className="my-4 text-lightscale-3 text-sm">In Team Fortress 2, every season unfolds new stories and opportunities for growth. That's why at more.tf, we bring you the "Season Summary," a feature that refreshes weekly to encapsulate your journey. It's a snapshot of your gameplay's influence on your seasonal averages, offering a clear view of your evolving tactics and skills. <br /><br />
                 As you navigate through the season, our summary doesn't just track your progress—it also places it in the context of the broader TF2 arena. Compare your performance with that of your peers to see how you stack up, providing a competitive edge and a motivational boost.<br /><br />
                 But it's not all about competition; it's about personal development. The "Season Summary" helps you identify the areas you excel in and the aspects you could polish. It's an insightful guide pointing you toward the areas that, once improved, can turn a good season into a great one.<br /><br />
