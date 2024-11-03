@@ -21,8 +21,14 @@ export const mapCordinates: any = {
     "steel":{ scale: 8, x:-6740, y:3196}, //done
     //4V4PT
     "arena2":{ scale: 4.25, x:-3868, y:2176}, //done
-    "stonework":{ scale: 0.1, x:300, y:280},
-    "aquarium": { scale: 0.1, x:0, y:0},
+    "stonework":{ scale: 4, x:-3640, y:2048}, //done
+    "mann_damm":{ scale: 4.1, x:-3731, y:2099}, //done
+    "stadium":{ scale: 3.75, x:-3413, y:1920}, //done
+    "colosseum2":{ scale: 4, x:-3640, y:2048}, //done
+    "greenhouse":{ scale: 4, x:-3640, y:2048}, //done
+    "maple":{ scale: 5, x:-4551, y:2560}, //done
+    "ufo":{ scale: 4.5, x:-4096, y:2304},
+    "aquarium": { scale: 4.75, x:-4323, y:2432},
     //Default
     "default": { scale: 1, x:-910, y:512},
 } //Every time you move around in cl_leveloverview, it gives you a scale and a set of coordinates.
