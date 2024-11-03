@@ -136,6 +136,11 @@ const SeasonSummaryOzf = () => {
   }
 
   const seasonSpecifics: any = {
+    67: {
+      leauge: "OZF",
+      format: "6S",
+      season: 40,
+    },
     70: {
       leauge: "OZF",
       format: "6S",
@@ -813,18 +818,10 @@ const SeasonSummaryOzf = () => {
                 <div className="absolute top-2 right-3">
                   {
                     <a
-                      href="/season-summary/144"
+                      href="/season-summary-ozf/67"
                       className="text-tf-orange opacity-30 hover:opacity-50"
                     >
-                      S16
-                    </a>
-                  }
-                  {
-                    <a
-                      href="/season-summary/147"
-                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
-                    >
-                      S17
+                      S40
                     </a>
                   }
                 </div>
