@@ -20,7 +20,7 @@
 - **Player Profiles**: Search for a player to see their stats, achievements, and performance trends.
 
 ## Contributing
-Contributions are welcome! If you want to help make more.tf even better, feel free to open issues or submit pull requests. Please follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+Contributions are welcome! If you want to help make more.tf even better, feel free to open issues or submit pull requests.
 
 ### Steps to Contribute
 1. Fork the repository.
