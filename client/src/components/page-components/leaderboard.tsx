@@ -8,7 +8,7 @@ import { time } from "console";
 const Leaderboard = () => {
   const [leaderboardStats, setLeaderboardStats] = useState<any>([]);
   const [currentClassFilter, setCurrentClassFilter] = useState<any>("all");
-  const [highlander, setIsHighlander] = useState<boolean>(true);
+  const [highlander, setIsHighlander] = useState<boolean>(false);
 
   useEffect(() => {
     playerCardCall();
