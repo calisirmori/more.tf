@@ -72,7 +72,7 @@ const Profile = () => {
   // Load images only once or when playerCardData changes
   useEffect(() => {
     const imageSources:any = {
-      background: "/player cards/background-red.png",
+      background: "/player cards/background-black.png",
       classPortrait: `/player cards/class-portraits/${playerCardData.class}.png`,
       border: `/player cards/borders/${playerCardData.division}.png`,
       gradient: "/player cards/gradients.png",
