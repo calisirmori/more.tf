@@ -44,7 +44,7 @@ const Leaderboard = () => {
                 LEADERBOARD
               </div>
               <div className="text-1xl max-sm:text-md font-extrabold text-lightscale-6 text-center">
-                {highlander ? 'SEASON 19 | JUN 3 - JULY 15' : 'SEASON 15 | MAY 20 - JULY 22'}
+                {highlander ? 'SEASON 19 | SEP 30 - DEC 11' : 'SEASON 16 | SEP 16 - DEC 15'}
               </div>
               <div className="flex justify-center items-center mx-4 gap-3 text-lg font-cantarell font-semibold text-lightscale-8">
                   <div onClick={() => { setIsHighlander(true) }} className={` ${highlander ? ' text-tf-orange' : 'text-lg opacity-50 cursor-pointer hover:opacity-100'}  `} > HIGHLANDER </div>
