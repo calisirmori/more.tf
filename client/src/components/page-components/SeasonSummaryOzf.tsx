@@ -136,6 +136,11 @@ const SeasonSummaryOzf = () => {
   }
 
   const seasonSpecifics: any = {
+    69: {
+      leauge: "OZF",
+      format: "HL",
+      season: 8,
+    },
     70: {
       leauge: "OZF",
       format: "6S",
