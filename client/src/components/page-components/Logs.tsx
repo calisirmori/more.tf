@@ -1619,10 +1619,10 @@ const Logs = () => {
                   })}
                 </div>
               </div>
-              <div className="flex h-[36rem]">
+              <div className="flex h-full">
                 {currentPerformanceFocus !== "" && (
-                  <div className="flex ml-10 ">
-                    <div className=" mt-4 bg-warmscale-82 p-3 rounded-md mb-16">
+                  <div className="flex ml-10 mr-10 mb-10">
+                    <div className="w-2/3 mt-4 bg-warmscale-82 p-3 rounded-md h-auto">
                       <div
                         className={`flex mb-2 justify-center items-center h-9  ${
                           apiResponse.players[currentPerformanceFocus].team ===
@@ -1639,10 +1639,10 @@ const Logs = () => {
                         {apiResponse.players[currentPerformanceFocus].userName}
                       </div>
                       <div className="flex">
-                        <div id="class-image" className=" ml-3 ">
+                        <div id="class-image" className="ml-3">
                           <img
                             src={`../../../class images/${apiResponse.players[currentPerformanceFocus].class}_${apiResponse.players[currentPerformanceFocus].team}.png`}
-                            className="object-cover h-[26rem] w-40"
+                            className="object-cover h-[26rem]"
                             alt=""
                           />
                         </div>
@@ -2187,8 +2187,8 @@ const Logs = () => {
                         </div>
                       </div>
                     </div>
-                    {apiResponse.info.map.split("_")[1] !== undefined && <div>
-                      <div className="text-white flex gap-6 ml-4 rounded-t-md px-2 pt-2 justify-center items-center bg-warmscale-82">
+                    {apiResponse.info.map.split("_")[1] !== undefined && <div id="performance-killmap-container" className="ml-4 w-1/3">
+                      <div className="text-white flex gap-6 mt-4 rounded-t-md px-2 pt-2 justify-center items-center bg-warmscale-82">
                         <div className="flex font-cantarell font-semibold gap-1">
                           <div className="flex ">
                             <div
@@ -2255,13 +2255,13 @@ const Logs = () => {
                           killMapActive === false && setKillMapActive(true);
                         }}
                         ref={refTwo}
-                        className={`ease-in-out bg-warmscale-82 p-2 rounded-b-md w-[38rem] h-[30.5rem] ml-4 ${
+                        className={`bg-warmscale-82 p-2 rounded-b-md ${
                           killMapActive
-                            ? "scale-150 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                            ? "aspect-square absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[85vh]"
                             : "cursor-pointer scale-100"
                         }`}
                       >
-                        <div className="h-[29.5rem] w-full bg-black flex justify-center items-center p-2 relative">
+                        <div className="bg-black items-center relative flex">
                           <div
                             onClick={() => {
                               killMapActive && setKillMapActive(false);
@@ -2286,188 +2286,148 @@ const Logs = () => {
                               />
                             </svg>
                           </div>
-                          <div className="w-full h-full justify-center items-center">
-                            <img
-                              src={`../../../map images/${apiResponse.info.map.split("_")[1]}.png`}
-                              alt=""
-                              className="h-full w-full object-contain"
-                            />
-                          </div>
-                          <div className="absolute top-0 left-0 h-full w-full">
-                            {focusedKillEvent.killerId !== undefined && (
-                              <div className="absolute right-12 top-3.5 text-lightscale-1 w-fit h-fit bg-lightscale-1 rounded-md bg-opacity-80 text-xs px-2 py-1 font-cantarell">
-                                <div className="flex gap-1.5 justify-center items-center">
-                                  <div
-                                    className={`${
-                                      apiResponse.players[
-                                        focusedKillEvent.killerId
-                                      ].team === "red"
-                                        ? "text-tf-red"
-                                        : "text-tf-blue"
-                                    } font-semibold`}
-                                  >
-                                    {
-                                      apiResponse.players[
-                                        focusedKillEvent.killerId
-                                      ].userName
-                                    }
-                                  </div>
-                                  <div className="text-warmscale-3 font-bold">
-                                    killed
-                                  </div>
-                                  <div
-                                    className={`${
-                                      apiResponse.players[
-                                        focusedKillEvent.victimId
-                                      ].team === "red"
-                                        ? "text-tf-red"
-                                        : "text-tf-blue"
-                                    } font-semibold`}
-                                  >
-                                    {
-                                      apiResponse.players[
-                                        focusedKillEvent.victimId
-                                      ].userName
-                                    }{" "}
+                          
+                          <img
+                            src={`../../../map images/${apiResponse.info.map.split("_")[1]}.png`}
+                            alt=""
+                            className="h-full w-full object-contain"
+                          />
+                          <div className="h-full aspect-square absolute">
+                            <div className="absolute aspect-square h-full">
+                              {focusedKillEvent.killerId !== undefined && (
+                                <div className="absolute right-12 top-3.5 text-lightscale-1 apsect-square h-fit bg-lightscale-1 rounded-md bg-opacity-80 text-xs px-2 py-1 font-cantarell">
+                                  <div className="flex gap-1.5 justify-center items-center">
+                                    <div
+                                      className={`${
+                                        apiResponse.players[
+                                          focusedKillEvent.killerId
+                                        ].team === "red"
+                                          ? "text-tf-red"
+                                          : "text-tf-blue"
+                                      } font-semibold`}
+                                    >
+                                      {
+                                        apiResponse.players[
+                                          focusedKillEvent.killerId
+                                        ].userName
+                                      }
+                                    </div>
+                                    <div className="text-warmscale-3 font-bold">
+                                      killed
+                                    </div>
+                                    <div
+                                      className={`${
+                                        apiResponse.players[
+                                          focusedKillEvent.victimId
+                                        ].team === "red"
+                                          ? "text-tf-red"
+                                          : "text-tf-blue"
+                                      } font-semibold`}
+                                    >
+                                      {
+                                        apiResponse.players[
+                                          focusedKillEvent.victimId
+                                        ].userName
+                                      }{" "}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
 
-                            <svg
-                              fill="none"
-                              stroke="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-hidden="true"
-                              className="absolute top-0 left-0 w-full h-full"
-                            >
-                              {apiResponse.events.map((killEvent: any, index: any) => {
-                                const mapName = apiResponse.info.map.split("_")[1];
-                                console.log(mapCordinates[mapName])
-                                let currentMap = mapCordinates[mapName];
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                                className="h-full aspect-square"
+                              >
+                                {apiResponse.events.map((killEvent: any, index: any) => {
+                                  const mapName = apiResponse.info.map.split("_")[1];
+                                  console.log(mapCordinates[mapName])
+                                  let currentMap = mapCordinates[mapName];
 
-                                if(currentMap === undefined){
-                                  currentMap = "default";
-                                }
+                                  if(currentMap === undefined){
+                                    currentMap = "default";
+                                  }
 
-                                let currentScale = currentMap.scale;
-                                let calibrationX = currentMap.x;
-                                let calibrationY = currentMap.y;
-                                if (
-                                  killEvent[
-                                    killMapShowDeaths ? "victimId" : "killerId"
-                                  ] === currentPerformanceFocus &&
-                                  (currentKillMapFilter === "none" ||
+                                  let currentScale = currentMap.scale;
+                                  let calibrationX = currentMap.x;
+                                  let calibrationY = currentMap.y;
+                                  if (
                                     killEvent[
-                                      killMapShowDeaths
-                                        ? "killerId"
-                                        : "victimId"
-                                    ] === currentKillMapFilter)
-                                ) {
-                                  return (
-                                    <svg
-                                      
-                                      onMouseEnter={() => {
-                                        setFocusedKillEvent(killEvent);
-                                      }}
-                                      onMouseLeave={() => {
-                                        setFocusedKillEvent({});
-                                      }}
-                                      className="group"
-                                    >
-                                      <path
+                                      killMapShowDeaths ? "victimId" : "killerId"
+                                    ] === currentPerformanceFocus &&
+                                    (currentKillMapFilter === "none" ||
+                                      killEvent[
+                                        killMapShowDeaths
+                                          ? "killerId"
+                                          : "victimId"
+                                      ] === currentKillMapFilter)
+                                  ) {
+                                    return (
+                                      <svg
                                         
-                                        className="group-hover:stroke-white absolute stroke-yellow-500 cursor-pointer  group-hover:z-50 -z-50"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d={`M${
-                                          killEvent.killer.position.x *
-                                            currentScale +
-                                          calibrationX
-                                        },${
-                                          killEvent.killer.position.y *
-                                            currentScale *
-                                            -1 +
-                                          calibrationY
-                                        } L${
-                                          killEvent.victim.position.x *
-                                            currentScale +
-                                          calibrationX +
-                                          3
-                                        },${
-                                          killEvent.victim.position.y *
-                                            currentScale *
-                                            -1 +
-                                          calibrationY +
-                                          3
-                                        }`}
-                                      />
-                                      <circle
-                                        
-                                        id="killer-position"
-                                        cx={
-                                          killEvent.killer.position.x *
-                                            currentScale +
-                                          calibrationX
-                                        }
-                                        cy={
-                                          killEvent.killer.position.y *
-                                            currentScale *
-                                            -1 +
-                                          calibrationY
-                                        }
-                                        r="3"
-                                        strokeWidth="1"
-                                        className={`${
-                                          apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].team === "red"
-                                            ? killMapShowDeaths
-                                              ? "fill-tf-blue"
-                                              : "fill-tf-red"
-                                            : killMapShowDeaths
-                                            ? "fill-tf-red"
-                                            : "fill-tf-blue"
-                                        } stroke-white group-hover:stroke-2 cursor-pointer  group-hover:z-50 -z-50`}
-                                      />
-                                      <rect
-                                        
-                                        x={
-                                          killEvent.victim.position.x *
-                                            currentScale +
-                                          calibrationX
-                                        }
-                                        y={
-                                          killEvent.victim.position.y *
-                                            currentScale *
-                                            -1 +
-                                          calibrationY
-                                        }
-                                        width="6"
-                                        height="6"
-                                        strokeWidth="1"
-                                        className={`${
-                                          apiResponse.players[
-                                            currentPerformanceFocus
-                                          ].team === "red"
-                                            ? killMapShowDeaths
+                                        onMouseEnter={() => {
+                                          setFocusedKillEvent(killEvent);
+                                        }}
+                                        onMouseLeave={() => {
+                                          setFocusedKillEvent({});
+                                        }}
+                                        className="group"
+                                      >
+                                        <line x1={`${(killEvent.killer.position.x - (calibrationX + 910 * currentScale)) / currentScale * 0.097656 +50}%`} y1={`${(killEvent.killer.position.y - (calibrationY - 512 * currentScale)) / currentScale * -0.097656 +50}%`} x2={`${(killEvent.victim.position.x - (calibrationX + 910 * currentScale)) / currentScale * 0.097656 + 50}%`} y2={`${(killEvent.victim.position.y - (calibrationY - 512 * currentScale)) / currentScale * -0.097656 + 50}%`} className="group-hover:stroke-white absolute stroke-yellow-500 cursor-pointer  group-hover:z-50 -z-50"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                        <circle
+                                          
+                                          id="killer-position"
+                                          cx={`${(killEvent.killer.position.x - (calibrationX + 910 * currentScale)) / currentScale * 0.097656 +50}%`}
+                                          cy={`${(killEvent.killer.position.y - (calibrationY - 512 * currentScale)) / currentScale * -0.097656 +50}%`}
+                                          r="3"
+                                          strokeWidth="1"
+                                          className={`${
+                                            apiResponse.players[
+                                              currentPerformanceFocus
+                                            ].team === "red"
+                                              ? killMapShowDeaths
+                                                ? "fill-tf-blue"
+                                                : "fill-tf-red"
+                                              : killMapShowDeaths
                                               ? "fill-tf-red"
                                               : "fill-tf-blue"
-                                            : killMapShowDeaths
-                                            ? "fill-tf-blue"
-                                            : "fill-tf-red"
-                                        } stroke-white group-hover:stroke-2 cursor-pointer group-hover:z-50 -z-50`}
-                                      />
-                                    </svg>
-                                  );
-                                }
-                              })}
-                            </svg>
+                                          } stroke-white group-hover:stroke-2 cursor-pointer  group-hover:z-50 -z-50`}
+                                        />
+                                        <rect
+                                          
+                                          x={`${(killEvent.victim.position.x - (calibrationX + 910 * currentScale)) / currentScale * 0.097656 + 49.25}%`}
+                                          y={`${(killEvent.victim.position.y - (calibrationY - 512 * currentScale)) / currentScale * -0.097656 + 49.25}%`}
+                                          width="6"
+                                          height="6"
+                                          strokeWidth="1"
+                                          className={`${
+                                            apiResponse.players[
+                                              currentPerformanceFocus
+                                            ].team === "red"
+                                              ? killMapShowDeaths
+                                                ? "fill-tf-red"
+                                                : "fill-tf-blue"
+                                              : killMapShowDeaths
+                                              ? "fill-tf-blue"
+                                              : "fill-tf-red"
+                                          } stroke-white group-hover:stroke-2 cursor-pointer group-hover:z-50 -z-50`}
+                                        />
+                                      </svg>
+                                    );
+                                  }
+                                })}
+                              </svg>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center justify-center gap-6 mt-1 text-lightscale-2 font-semibold font-cantarell">
+                      <div className="flex p-2 items-center justify-center gap-6 mt-2 text-lightscale-2 font-semibold font-cantarell">
                         <div className="flex justify-center items-center">
                           <div
                             className={`${
