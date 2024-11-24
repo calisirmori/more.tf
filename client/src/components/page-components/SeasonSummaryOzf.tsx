@@ -315,19 +315,25 @@ const SeasonSummaryOzf = () => {
                 "premier",
                 "PREMIER"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format === "HL" && divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "main",
+                "MAIN"
+              )}
+              {seasonSpecifics[currentSeason].format === "6S" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "high",
                 "HIGH"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format === "6S" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "intermediate",
                 "INTERMEDIATE"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format === "6S" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "open",
@@ -970,7 +976,7 @@ function divisionHeader(
         currentDivision === divisionName
           ? "text-lightscale-1 border-b-2 border-tf-orange"
           : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
-      } select-none w-72 text-center py-2`}
+      } select-none min-w-[288px] w-full text-center py-2`}
     >
       {title}
     </div>
@@ -1030,7 +1036,7 @@ function classHeader(
         currentClass === className
           ? "text-lightscale-1 border-b-2 border-tf-orange"
           : "text-lightscale-8 border-b-2 bg-warmscale-85 border-warmscale-9 cursor-pointer hover:bg-warmscale-9"
-      } select-none text-center py-2`}
+      } select-none text-center min-w-[150px] py-2`}
     >
       <img
         src={`../../../class icons/Leaderboard_class_${className}.png`}
