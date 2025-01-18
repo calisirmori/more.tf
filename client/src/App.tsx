@@ -13,7 +13,8 @@ import Peers from './components/page-components/peers';
 import AdminBadge from './components/page-components/AdminBadge';
 import MatchList from './components/page-components/MatchList';
 import SeasonSummaryOzf from './components/page-components/SeasonSummaryOzf';
-import Error from './components/page-components/LogError';
+import LogError from './components/page-components/LogError';
+import Error from './components/page-components/Error';
 import ReactGA from 'react-ga4';
 import { useEffect } from 'react';
 
@@ -55,7 +56,8 @@ function App() {
         <Route path="/season-summary-ozf/:id" element={<SeasonSummaryOzf />} />
         <Route path="/admin-badge" element={<AdminBadge />} />
         <Route path="/officials" element={<MatchList />} />
-        <Route path="/log/error" element={<Error />} />
+        <Route path="/log/error" element={<LogError />} />
+        <Route path="/error" element={<Error />} />
       </Routes>
     </Router>
   );
