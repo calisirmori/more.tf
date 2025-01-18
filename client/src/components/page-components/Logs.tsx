@@ -75,6 +75,7 @@ const Logs = () => {
       setKillSpread(Object.entries(response.killSpread));
     } catch (error) {
       // SEND TO ERROR PAGE
+      window.location.replace("/log/error")
     }
   }
 
