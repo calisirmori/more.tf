@@ -19,9 +19,18 @@ const Footer = () => {
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
               <a
-                href="https://discord.gg/dRVbHUy8ZT"
+                href="https://github.com/calisirmori/more.tf"
                 className="hover:underline mr-4"
                 target="_blank"
+                title="Source Code"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://discord.gg/HAmNGBScPz"
+                className="hover:underline mr-4"
+                target="_blank"
+                title="Discord Server"
               >
                 Contact
               </a>

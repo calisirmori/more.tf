@@ -843,6 +843,14 @@ const SeasonSummary = () => {
                       S17
                     </a>
                   }
+                  {
+                    <a
+                      href="/season-summary/151"
+                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
+                    >
+                      S18
+                    </a>
+                  }
                 </div>
               )}
             </div>
