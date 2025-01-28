@@ -429,8 +429,16 @@ const Profile = () => {
               </div>
               <div
                 id="links"
-                className="flex gap-2 items-center max-md:justify-center max-md:mt-3 "
+                className="flex gap-2 items-center max-md:justify-center max-md:mt-3"
               >
+                <a className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                  target="_blank"
+                  href={`https://wrapped.tf/recap/${playerId}`}>
+                    wrapped.tf
+                    <span className="absolute bg-tf-orange rounded-full w-3 h-3 top-[-7px] left-[-7px] animate-ping">
+                    </span>
+                    <span className="absolute bg-tf-orange rounded-full w-3 h-3 top-[-7px] left-[-7px]"></span>
+                </a>
                 <a
                   target="_blank"
                   href={`https://demos.tf/profiles/${playerId}`}
@@ -489,7 +497,7 @@ const Profile = () => {
                       id=""
                       className="grid md:grid-cols-2 max-md:grid-rows-2 md:h-20 justify-center gap-4 max-md:px-10"
                     >
-                      <div className="h-full bg-warmscale-8 rounded-md px-4 py-3 max-md:w-[90vw] drop-shadow-sm">
+                      <div id="winrate" className="h-full bg-warmscale-8 rounded-md px-4 py-3 max-md:w-[90vw] drop-shadow-sm">
                         <div className="flex justify-between items-baseline">
                           <div className="flex">
                             <div className="text-tf-orange text-xl font-semibold font-cantarell">
@@ -502,7 +510,7 @@ const Profile = () => {
                         </div>
                         <div className="bg-tf-orange h-2 mt-3 rounded-sm"></div>
                       </div>
-                      <div className="h-full bg-warmscale-8 rounded-md px-4 py-3 drop-shadow-sm ">
+                      <div id="winrate" className="h-full bg-warmscale-8 rounded-md px-4 py-3 drop-shadow-sm">
                         <div className="flex justify-between items-center">
                           <div className="flex">
                             <div
@@ -555,7 +563,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <div className="bg-warmscale-8 mt-4 py-3 px-4 rounded-md font-cantarell drop-shadow-sm max-md:w-[90vw]">
+                  <div id="matches" className="bg-warmscale-8 mt-4 py-3 px-4 rounded-md font-cantarell drop-shadow-sm max-md:w-[90vw]">
                     <div className="flex justify-between">
                       <a
                         href={`/profile/${playerId}/matches`}
@@ -712,7 +720,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <div className=" bg-warmscale-8 mt-4 rounded-md px-4 py-2 drop-shadow-sm xl:w-full max-xl:w-[90vw]  ">
+                  <div id="playedclasses" className="bg-warmscale-8 mt-4 rounded-md px-4 py-2 drop-shadow-sm xl:w-full max-xl:w-[90vw]">
                     <div className="flex justify-between">
                       <div className="text-lg text-lightscale-1 font-semibold ">
                         Most Played Classes
@@ -985,7 +993,7 @@ const Profile = () => {
                       </div>
                     </div>
                   )}
-                  <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
+                  <div id="maps" className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
                     <div className="flex justify-between">
                       <div className="text-lg text-lightscale-1 mb-1 font-semibold">
                         Maps
@@ -1086,7 +1094,7 @@ const Profile = () => {
                       )}
                     </div>
                   </div>
-                  <div className="w-full flex items-center py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
+                  <div id="formats" className="w-full flex items-center py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
                     <div className="w-full">
                       <div className="text-lg text-lightscale-1 flex justify-between mb-1 font-semibold">
                         <div>Formats</div>
@@ -1191,7 +1199,7 @@ const Profile = () => {
                     id="activity"
                     className="max-md:w-[90vw] md:w-full bg-warmscale-8 py-2 px-3.5 rounded-md font-cantarell"
                   >
-                    <div className="text-lg text-lightscale-1 mb-1 font-semibold flex justify-between">
+                    <div id="activity" className="text-lg text-lightscale-1 mb-1 font-semibold flex justify-between">
                       Activity
                       <a
                         href={`/calendar/${playerId}`}
@@ -1295,7 +1303,7 @@ const Profile = () => {
                       })}
                     </div>
                   </div>
-                  <div className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md mt-4 font-cantarell">
+                  <div id="peers" className="w-full bg-warmscale-8 py-2 px-3.5 rounded-md mt-4 font-cantarell">
                     <div className="flex justify-between items-center gap-4 mb-2 ">
                       <div
                         onClick={(e) => {
@@ -1358,7 +1366,7 @@ const Profile = () => {
                               key={displayedPlayer.peer_id64}
                               className={`flex py-2.5 items-center ${
                                 index < 4 && "border-b"
-                              } border-warmscale-7 ml-1`}
+                              } border-warmscale-7 ml-1 mr-1`}
                             >
                               <img
                                 src={
@@ -1370,21 +1378,21 @@ const Profile = () => {
                               />
                               <a
                                 href={`/profile/${displayedPlayer.peer_id64}`}
-                                className="ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
+                                className="flex-2 ml-2 text-lightscale-2 font-semibold text-lg w-32 truncate"
                               >
                                 {
                                   teamMatesSteamInfo[displayedPlayer.peer_id64]
                                     .personaname
                                 }
                               </a>
-                              <div className="flex items-center ml-4">
+                              <div className="flex flex-1 items-center ml-4">
                                 <div className="text-lightscale-1 font-semibold text-right text-xs w-8">
                                   {Math.round(
                                     (teammateWins / displayedPlayer.count) * 100
                                   )}
                                   %
                                 </div>
-                                <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
+                                <div className="w-full h-2 ml-1.5 rounded-sm bg-warmscale-5">
                                   <div
                                     className={`h-full ${
                                       parseInt(displayedPlayer.l) >
@@ -1401,11 +1409,11 @@ const Profile = () => {
                                   ></div>
                                 </div>
                               </div>
-                              <div className="flex items-center ml-5">
+                              <div className="flex flex-1 items-center ml-5">
                                 <div className="text-lightscale-1 font-semibold text-xs min-w-[20px] text-end">
                                   {displayedPlayer.count}
                                 </div>
-                                <div className="w-14 h-2 ml-1.5 rounded-sm bg-warmscale-5">
+                                <div className="w-full h-2 ml-1.5 rounded-sm bg-warmscale-5">
                                   <div
                                     className={`h-full bg-tf-orange rounded-sm`}
                                     style={{
