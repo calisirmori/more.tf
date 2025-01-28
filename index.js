@@ -102,9 +102,6 @@ const pool = new Pool({
   },
 })
 
-// makeSummary();
-// rglAPIcalls();
-
 app.get('/api/activity/:id', (req, response) => {
   let playerId = req.params.id;
   pool.query(`select date from logs
@@ -212,23 +209,19 @@ app.get('/api/per-class-stats/:id', (req, response) => {
     .catch((err) => console.error(err))
 });
 
-app.get('/api/per-format-stats/:id', (req, response) => {
+app.get('/api/per-class-stats-new/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`select format,
-  sum(match_length) as time,
-  COUNT(match_result) filter (where match_result='W') as W,
-  COUNT(match_result) filter (where match_result='L') as L,
-  COUNT(match_result) filter (where match_result='T') as T
-  From ((Select logid,match_result,class FROM players where id64=${playerId}) AS T1
-  left JOIN (SELECT match_length,logid,date,format FROM logs where date >0) AS T2
-  On t1.logid=t2.logid)
-  group by format
-  order by time desc`)
+  pool.query(`select * from class_stats where id64=${playerId}`)
     .then((res) => response.send(res))
     .catch((err) => console.error(err))
 });
 
-
+app.get('/api/per-format-stats/:id', (req, response) => {
+  let playerId = req.params.id;
+  pool.query(`select * from format_stats where id64=${playerId} ORDER BY format_played DESC`)
+    .then((res) => response.send(res))
+    .catch((err) => console.error(err))
+});
 
 app.get('/api/leaderboard-stats/:format', async (req, response) => {
   const format = req.params.format;
@@ -286,16 +279,7 @@ app.get('/api/playercard-stats/:id', async (req, response) => {
 
 app.get('/api/per-map-stats/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`select map,
-  sum(match_length) as time,
-  COUNT(match_result) filter (where match_result='W') as W,
-  COUNT(match_result) filter (where match_result='L') as L,
-  COUNT(match_result) filter (where match_result='T') as T
-  From ((Select logid,match_result FROM players where id64=${playerId}) AS T1
-  left JOIN (SELECT match_length,logid,date,map FROM logs where date >0) AS T2
-  On t1.logid=t2.logid)
-  group by map
-  order by time desc`)
+  pool.query(`select * from map_stats where id64=${playerId} order by map_count desc`)
     .then((res) => response.send(res))
     .catch((err) => console.error(err))
 });
@@ -387,7 +371,6 @@ app.get('/api/peers-page/:id', (req, response) => {
       response.status(500).send('Error executing the query');
     });
 });
-
 
 app.get('/api/season-summary/:id', (req, response) => {
   let seasonID = req.params.id;

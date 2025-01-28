@@ -170,6 +170,16 @@ const SeasonSummary = () => {
       format: "HL",
       season: 19,
     },
+    158: {
+      leauge: "RGL",
+      format: "HL",
+      season: 20,
+    },
+    159: {
+      leauge: "RGL",
+      format: "6S",
+      season: 17,
+    },
   };
 
   const classSpecialties: any = {
@@ -841,6 +851,22 @@ const SeasonSummary = () => {
                       className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
                     >
                       S17
+                    </a>
+                  }
+                  {
+                    <a
+                      href="/season-summary/151"
+                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
+                    >
+                      S18
+                    </a>
+                  }
+                  {
+                    <a
+                      href="/season-summary/156"
+                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
+                    >
+                      S19
                     </a>
                   }
                 </div>

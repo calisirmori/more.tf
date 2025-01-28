@@ -198,7 +198,6 @@ const Profile = () => {
       setPlayerSteamInfo(response.response.players[0]);
     } catch (error) {
       console.log(error);
-      console.log(response);
       response.personaname = "Steam Error";
       response.avatarfull = "Steam Error";
       setPlayerSteamInfo(response);
@@ -283,18 +282,16 @@ const Profile = () => {
     activityMaker(response.rows);
   }
 
-  let totalMatches = 0;
-  let totalMatchLosses = 0;
-  let totalMatchWins = 0;
-  let totalMatchTies = 0;
+  let totalMatchLosses: any = 0;
+  let totalMatchWins: any = 0;
+  let totalMatchTies: any = 0;
+  let totalMatches: any = 0;
 
-  for (let index = 0; index < formatData.length; index++) {
-    totalMatches += parseInt(formatData[index].w);
-    totalMatchWins += parseInt(formatData[index].w);
-    totalMatches += parseInt(formatData[index].l);
-    totalMatchLosses += parseInt(formatData[index].l);
-    totalMatches += parseInt(formatData[index].t);
-    totalMatchTies += parseInt(formatData[index].t);
+  if(formatData[0] != undefined){
+    totalMatchLosses = formatData[0].format_losses + formatData[1].format_losses + formatData[2].format_losses + formatData[3].format_losses;
+    totalMatchWins = formatData[0].format_wins + formatData[1].format_wins + formatData[2].format_wins + formatData[3].format_wins;
+    totalMatchTies = formatData[0].format_ties + formatData[1].format_ties + formatData[2].format_ties + formatData[3].format_ties;
+    totalMatches = totalMatchLosses + totalMatchWins + totalMatchTies;
   }
 
   async function formatDisparity() {
@@ -311,35 +308,7 @@ const Profile = () => {
       FetchResultTypes.JSON
     );
 
-    let unsortedArray = response.rows;
-    let currentMapObject: any = {};
-
-    for (let i = 0; i < unsortedArray.length; i++) {
-      try {
-        let mapName = unsortedArray[i].map.split("_")[1];
-        if (currentMapObject[mapName] === undefined) {
-          currentMapObject = {
-            ...currentMapObject,
-            [mapName]: unsortedArray[i],
-          };
-        } else {
-          currentMapObject[mapName].w =
-            parseInt(unsortedArray[i].w) +
-            parseInt(currentMapObject[mapName].w);
-          currentMapObject[mapName].l =
-            parseInt(unsortedArray[i].l) +
-            parseInt(currentMapObject[mapName].l);
-          currentMapObject[mapName].t =
-            parseInt(unsortedArray[i].t) +
-            parseInt(currentMapObject[mapName].t);
-          currentMapObject[mapName].time =
-            parseInt(unsortedArray[i].time) +
-            parseInt(currentMapObject[mapName].time);
-        }
-      } catch (error) {}
-    }
-
-    setMapDisparityData(Object.values(currentMapObject));
+    setMapDisparityData(response.rows);
   }
 
   async function perClassPlaytimeCall() {
@@ -1023,17 +992,17 @@ const Profile = () => {
                       </div>
                     </div>
                     {mapDisparityData.map((currentMap: any, index: number) => {
-                      const mapWins = parseInt(currentMap.w);
-                      const mapLosses = parseInt(currentMap.l);
-                      const mapTies = parseInt(currentMap.t);
-                      const currentmapSum = mapWins + mapLosses + mapTies;
+                      const mapWins = currentMap.wins;
+                      const mapLosses = currentMap.losses;
+                      const mapTies = currentMap.ties;
+                      const currentmapSum = currentMap.map_count;
                       const dispalyCount =
                         showMoreMaps || playerCardData.length === 0 ? 7 : 1;
                       if (index < dispalyCount) {
-                        if (currentMap.map !== null) {
+                        if (currentMap.map_name !== null) {
                           return (
                             <div
-                              key={currentMap}
+                              key={currentMap.map_name}
                               className={`flex relative justify-between items-center font-cantarell text-lightscale-1 h-14 ${
                                 showMoreMaps ||
                                 (playerCardData.length === 0 &&
@@ -1042,12 +1011,11 @@ const Profile = () => {
                               }`}
                             >
                               <div className="">
-                                {currentMap.map.length > 0 && currentMap.map.split("_")[1] ?
-                                  currentMap.map
-                                    .split("_")[1]
+                                {currentMap.map_name.length > 0 &&
+                                  currentMap.map_name
                                     .charAt(0)
                                     .toUpperCase() +
-                                    currentMap.map.split("_")[1].slice(1) : currentMap.map}{" "}
+                                    currentMap.map_name.slice(1)}{" "}
                                 <span className="text-lightscale-6 text-sm">
                                   ({currentmapSum})
                                 </span>{" "}
@@ -1124,50 +1092,28 @@ const Profile = () => {
                         <div>Formats</div>
                         <div className="flex gap-2 items-center text-xs text-lightscale-6">
                           <div>
-                            {formatData[0] !== undefined && formatData[0].format.toUpperCase().slice(0, 3)}:{" "}
-                            {formatData[0] !== undefined &&
-                              Math.round(
-                                ((parseInt(formatData[0].w) +
-                                  parseInt(formatData[0].l) +
-                                  parseInt(formatData[0].t)) /
-                                  totalMatches) *
-                                  1000
-                              ) / 10}
-                            %
+                            {formatData[0] !== undefined && formatData[0].format.toUpperCase()}:{" "}
+                            {formatData[0] !== undefined && (formatData[0].format_played * 100 / totalMatches).toFixed(1)}%
                           </div>
                           <div>
-                          {formatData[1] !== undefined && formatData[1].format.toUpperCase().slice(0, 3)}:{" "}
-                            {formatData[1] !== undefined &&
-                              Math.round(
-                                ((parseInt(formatData[1].w) +
-                                  parseInt(formatData[1].l) +
-                                  parseInt(formatData[1].t)) /
-                                  totalMatches) *
-                                  1000
-                              ) / 10}
-                            %
+                            {formatData[1] !== undefined && formatData[1].format.toUpperCase()}:{" "}
+                            {formatData[1] !== undefined && (formatData[1].format_played * 100 / totalMatches).toFixed(1)}%
                           </div>
                           <div>
-                            {formatData[2] !== undefined && formatData[2].format.toUpperCase().slice(0, 3)}:{" "}
-                            {formatData[2] !== undefined &&
-                              Math.round(
-                                ((parseInt(formatData[2].w) +
-                                  parseInt(formatData[2].l) +
-                                  parseInt(formatData[2].t)) /
-                                  totalMatches) *
-                                  1000
-                              ) / 10}
-                            %
+                            {formatData[2] !== undefined && formatData[2].format.toUpperCase()}:{" "}
+                            {formatData[2] !== undefined && (formatData[2].format_played * 100 / totalMatches).toFixed(1)}%
+                          </div>
+                          <div>
+                            {formatData[3] !== undefined && formatData[3].format.toUpperCase()}:{" "}
+                            {formatData[3] !== undefined && (formatData[3].format_played * 100 / totalMatches).toFixed(1)}%
                           </div>
                         </div>
                       </div>
                       <div>
-                        {formatData.map((currentFormat: any) => {
-                          const formatWins = parseInt(currentFormat.w);
-                          const formatLosses = parseInt(currentFormat.l);
-                          const formatTies = parseInt(currentFormat.t);
-                          const currentFormatSum =
-                            formatWins + formatLosses + formatTies;
+                        {formatData !== undefined && formatData.map((currentFormat: any) => {
+                          const formatWins = currentFormat.format_wins;
+                          const formatLosses = currentFormat.format_losses;
+                          const formatTies = currentFormat.format_ties;
                           if (currentFormat.format !== null) {
                             return (
                               <div
@@ -1176,9 +1122,7 @@ const Profile = () => {
                               >
                                 <div className="text-lightscale-2 w-10 mr-2 font-cantarell font-semibold text-sm">
                                   {currentFormat.format !== null &&
-                                    (currentFormat.format === "other"
-                                      ? "OTH"
-                                      : currentFormat.format.toUpperCase())}
+                                    (currentFormat.format === "other"? "OTH": currentFormat.format === "fours"? "4S": currentFormat.format.toUpperCase())}
                                 </div>
                                 <div className="h-2 group bg-warmscale-7 rounded-sm w-full flex hover:h-6 my-2 hover:my-0 duration-75">
                                   <div
