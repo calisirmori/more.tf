@@ -287,12 +287,12 @@ const Profile = () => {
   let totalMatchTies: any = 0;
   let totalMatches: any = 0;
 
-  if(formatData[0] != undefined){
-    totalMatchLosses = formatData[0].format_losses + formatData[1].format_losses + formatData[2].format_losses + formatData[3].format_losses;
-    totalMatchWins = formatData[0].format_wins + formatData[1].format_wins + formatData[2].format_wins + formatData[3].format_wins;
-    totalMatchTies = formatData[0].format_ties + formatData[1].format_ties + formatData[2].format_ties + formatData[3].format_ties;
-    totalMatches = totalMatchLosses + totalMatchWins + totalMatchTies;
-  }
+  [0, 1, 2, 3].forEach((i) => {
+    totalMatchLosses += formatData[i]?.format_losses || 0;
+    totalMatchWins   += formatData[i]?.format_wins   || 0;
+    totalMatchTies   += formatData[i]?.format_ties   || 0;
+  });
+  
 
   async function formatDisparity() {
     const response: any = await fetch(
