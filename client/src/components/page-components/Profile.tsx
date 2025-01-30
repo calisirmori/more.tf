@@ -293,12 +293,14 @@ const Profile = () => {
     totalMatchTies   += formatData[i]?.format_ties   || 0;
   });
   
+  totalMatches = totalMatchLosses + totalMatchWins + totalMatchTies;
 
   async function formatDisparity() {
     const response: any = await fetch(
       `/api/per-format-stats/${playerId}`,
       FetchResultTypes.JSON
     );
+    console.log(response.rows);
     setFormatData(response.rows);
   }
 
