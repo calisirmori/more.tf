@@ -2402,8 +2402,8 @@ const Logs = () => {
                                         />
                                         <rect
                                           
-                                          x={`${(killEvent.victim.position.x - (calibrationX + 910 * currentScale)) / currentScale * 0.097656 + 49.25}%`}
-                                          y={`${(killEvent.victim.position.y - (calibrationY - 512 * currentScale)) / currentScale * -0.097656 + 49.25}%`}
+                                          x={`${(killEvent.victim.position.x - (calibrationX + 910 * currentScale)) / currentScale * 0.097656 + 49.25 + 0.25}%`}
+                                          y={`${(killEvent.victim.position.y - (calibrationY - 512 * currentScale)) / currentScale * -0.097656 + 49.25 + 0.25}%`}
                                           width="6"
                                           height="6"
                                           strokeWidth="1"
