@@ -225,7 +225,7 @@ app.get('/api/per-format-stats/:id', (req, response) => {
 
 app.get('/api/leaderboard-stats/:format', async (req, response) => {
   const format = req.params.format;
-  const seasonid = format === 'HL' ? 156 : 155;
+  const seasonid = format === 'HL' ? 158 : 159;
   try {
     const queryText = `
     select *
@@ -260,7 +260,7 @@ app.get('/api/leaderboard-stats/:format', async (req, response) => {
 app.get('/api/playercard-stats/:id', async (req, response) => {
   try {
     const playerId = req.params.id;
-    const queryText = 'SELECT * FROM player_card_info WHERE id64 = $1 AND (seasonid = 156 OR seasonid = 155)';
+    const queryText = 'SELECT * FROM player_card_info WHERE id64 = $1 AND (seasonid = 158 OR seasonid = 159)';
 
     // Use a parameterized query to prevent SQL injection
     const result = await pool.query(queryText, [playerId]);
