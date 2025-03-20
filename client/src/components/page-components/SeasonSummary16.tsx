@@ -837,38 +837,32 @@ const SeasonSummary = () => {
               STATS
               {seasonSpecifics[currentSeason].format === "HL" && (
                 <div className="absolute top-2 right-3">
-                  {
-                    <a
-                      href="/season-summary/144"
-                      className="text-tf-orange opacity-30 hover:opacity-50"
-                    >
-                      S16
-                    </a>
-                  }
-                  {
-                    <a
-                      href="/season-summary/147"
-                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
-                    >
-                      S17
-                    </a>
-                  }
-                  {
-                    <a
-                      href="/season-summary/151"
-                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
-                    >
-                      S18
-                    </a>
-                  }
-                  {
-                    <a
-                      href="/season-summary/156"
-                      className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
-                    >
-                      S19
-                    </a>
-                  }
+                  {Object.entries(seasonSpecifics)
+                    .filter(([_, details]: [string, any]) => details.format === "HL")
+                    .map(([id, details]: [string, any]) => (
+                      <a
+                        key={id}
+                        href={`/season-summary/${id}`}
+                        className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
+                      >
+                        S{details.season}
+                      </a>
+                    ))}
+                </div>
+              )}
+              {seasonSpecifics[currentSeason].format === "6S" && (
+                <div className="absolute top-2 right-3">
+                  {Object.entries(seasonSpecifics)
+                    .filter(([_, details]: [string, any]) => details.format === "6S")
+                    .map(([id, details]: [string, any]) => (
+                      <a
+                        key={id}
+                        href={`/season-summary/${id}`}
+                        className="text-tf-orange opacity-30 hover:opacity-50 ml-2"
+                      >
+                        S{details.season}
+                      </a>
+                    ))}
                 </div>
               )}
             </div>
