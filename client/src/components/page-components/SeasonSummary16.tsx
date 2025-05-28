@@ -180,6 +180,16 @@ const SeasonSummary = () => {
       format: "6S",
       season: 17,
     },
+    163: {
+      leauge: "RGL",
+      format: "HL",
+      season: 21,
+    },
+    164: {
+      leauge: "RGL",
+      format: "6S",
+      season: 18,
+    },
   };
 
   const classSpecialties: any = {
