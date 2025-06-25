@@ -161,6 +161,16 @@ const SeasonSummaryOzf = () => {
       format: "6S",
       season: 42,
     },
+    80: {
+      leauge: "OZF",
+      format: "HL",
+      season: 10,
+    },
+    81: {
+      leauge: "OZF",
+      format: "6S",
+      season: 43,
+    },
     144: {
       leauge: "RGL",
       format: "HL",
@@ -332,19 +342,13 @@ const SeasonSummaryOzf = () => {
                 "high",
                 "HIGH"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format === "6S" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "intermediate",
                 "INTERMEDIATE"
               )}
-              {seasonSpecifics[currentSeason].format === "HL" && divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "open",
-                "OPEN"
-              )}
-              {seasonSpecifics[currentSeason].format === "6S" && divisionHeader(
+              {divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "main",
