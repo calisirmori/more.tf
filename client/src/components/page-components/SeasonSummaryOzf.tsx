@@ -161,35 +161,71 @@ const SeasonSummaryOzf = () => {
       format: "6S",
       season: 42,
     },
-    144: {
-      leauge: "RGL",
-      format: "HL",
-      season: 16,
-    },
-    148: {
-      leauge: "RGL",
-      format: "6S",
-      season: 14,
-    },
-    147: {
-      leauge: "RGL",
-      format: "HL",
-      season: 17,
-    },
-    151: {
-      leauge: "RGL",
-      format: "HL",
-      season: 18,
-    },
-    153: {
-      leauge: "RGL",
-      format: "6S",
-      season: 15,
+    79: {
+      leauge: "OZF",
+      format: "LAN",
+      season: "2025",
     },
   };
 
   const classSpecialties: any = {
     "6S": {
+      scout: {
+        id: "acc",
+        name: "Accuracy",
+        title: "ACC",
+        perMinute: false,
+      },
+      soldier: {
+        id: "airshots",
+        name: "Total Airshots",
+        title: "Airshots",
+        perMinute: false,
+      },
+      pyro: {
+        id: "spykills",
+        name: "Spy Kills Per Minute",
+        title: "Spy Kills/m",
+        perMinute: true,
+      },
+      demoman: {
+        id: "airshots",
+        name: "Total Airshots",
+        title: "Airshots",
+        perMinute: false,
+      },
+      heavyweapons: {
+        id: "hr",
+        name: "Heals Received",
+        title: "HR/m",
+        perMinute: true,
+      },
+      engineer: {
+        id: "sentry_dmg",
+        name: "Sentry Damage",
+        title: "Sentry DMG",
+        perMinute: true,
+      },
+      medic: {
+        id: "heals",
+        name: "Heals Per Minute",
+        title: "Heals/m",
+        perMinute: true,
+      },
+      sniper: {
+        id: "hs",
+        name: "Headshots Per Minute",
+        title: "HS/m",
+        perMinute: true,
+      },
+      spy: {
+        id: "bs",
+        name: "Backstabs Per Minute",
+        title: "BS/m",
+        perMinute: true,
+      },
+    },
+    "LAN": {
       scout: {
         id: "acc",
         name: "Accuracy",
@@ -316,10 +352,10 @@ const SeasonSummaryOzf = () => {
               </div>
             </div>
             <div className="text-center text-lightscale-1 font-bold text-5xl  py-8">
-              {seasonSpecifics[currentSeason].leauge} {seasonSpecifics[currentSeason].format} S{seasonSpecifics[currentSeason].season} SUMMARY | WEEK {currentWeek}
+              {seasonSpecifics[currentSeason].leauge} {seasonSpecifics[currentSeason].format} {seasonSpecifics[currentSeason].format !== "LAN" && "S"}{seasonSpecifics[currentSeason].season} SUMMARY{seasonSpecifics[currentSeason].format !== "LAN" && " | WEEK"} {currentWeek}
             </div>
             <div className="flex text-lightscale-1 font-semibold text-xl">
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format !== "LAN" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "premier",
@@ -332,7 +368,7 @@ const SeasonSummaryOzf = () => {
                 "high",
                 "HIGH"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format !== "LAN" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "intermediate",
@@ -355,6 +391,12 @@ const SeasonSummaryOzf = () => {
                 currentDivision,
                 "open",
                 "OPEN"
+              )}
+              {seasonSpecifics[currentSeason].format === "LAN" && divisionHeader(
+                setCurrentDivision,
+                currentDivision,
+                "LAN",
+                "LAN"
               )}
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">
