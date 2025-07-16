@@ -378,13 +378,13 @@ const SeasonSummaryOzf = () => {
                 "high",
                 "HIGH"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format !== "LAN" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "intermediate",
                 "INTERMEDIATE"
               )}
-              {divisionHeader(
+              {seasonSpecifics[currentSeason].format !== "LAN" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
                 "main",

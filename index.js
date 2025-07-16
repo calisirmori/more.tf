@@ -233,7 +233,7 @@ app.get('/api/leaderboard-stats/:format', async (req, response) => {
     (SELECT *, 
             ((cbt*2) + (eff*0.5) + (eva*0.5) + (imp*2) + spt + srv) / 7.0 AS avg_score
         FROM player_card_info
-        WHERE (seasonid = ${seasonid} AND format = ${format})
+        WHERE (seasonid = ${seasonid} AND format = '${format}')
         ORDER BY avg_score DESC) as T1
   inner JOIN
     tf2gamers on tf2gamers.steamid=T1.id64 `;
