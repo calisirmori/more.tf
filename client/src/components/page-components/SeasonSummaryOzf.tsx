@@ -9,7 +9,7 @@ const SeasonSummaryOzf = () => {
   const id = window.location.href;
   const idArray = id.split("/");
   const currentSeason = idArray[4];
-  const [currentDivision, setCurrentDivision] = useState<string>("premier");
+  const [currentDivision, setCurrentDivision] = useState<string>(currentSeason == "79" ? "LDU 2025" : "premier");
   const [currentClass, setCurrentClass] = useState<string>("scout");
   const [displayArray, setDisplayArray] = useState<any[]>([]);
   const [currentSort, setCurrentSort] = useState("kills");
@@ -399,8 +399,8 @@ const SeasonSummaryOzf = () => {
               {seasonSpecifics[currentSeason].format === "LAN" && divisionHeader(
                 setCurrentDivision,
                 currentDivision,
-                "LAN",
-                "LAN"
+                "LDU 2025",
+                "LDU 2025"
               )}
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">
