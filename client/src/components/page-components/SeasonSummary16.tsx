@@ -1,9 +1,10 @@
 import Navbar from "../shared-components/Navbar";
-import React, { useEffect, useState, useRef } from "react";
-import { S14summary, S15summary } from "../summary";
+import React, { useEffect, useState } from "react";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import { time } from "console";
 import Footer from "../shared-components/Footer";
+import { RGL_SEASONS, getSeasonsByFormat } from "../../data/seasons";
+import { CLASS_SPECIALTIES } from "../../data/classSpecialties";
+import { getDivisionsForSeason } from "../../data/divisions";
 
 const SeasonSummary = () => {
   const id = window.location.href;
@@ -57,6 +58,8 @@ const SeasonSummary = () => {
         `/api/season-summary/${currentSeason}`,
         FetchResultTypes.JSON
       );
+      const uniqueDivisions = [...new Set(response.rows.map((row: any) => row.division))];
+      console.log("Divisions in API:", uniqueDivisions);
       sortTable(response.rows);
     } catch (error) {
       console.error(error);
@@ -134,188 +137,13 @@ const SeasonSummary = () => {
     setDisplayArray(finalArray);
   }
 
-  const seasonSpecifics: any = {
-    144: {
-      leauge: "RGL",
-      format: "HL",
-      season: 16,
-    },
-    148: {
-      leauge: "RGL",
-      format: "6S",
-      season: 14,
-    },
-    147: {
-      leauge: "RGL",
-      format: "HL",
-      season: 17,
-    },
-    151: {
-      leauge: "RGL",
-      format: "HL",
-      season: 18,
-    },
-    153: {
-      leauge: "RGL",
-      format: "6S",
-      season: 15,
-    },
-    155: {
-      leauge: "RGL",
-      format: "6S",
-      season: 16,
-    },
-    156: {
-      leauge: "RGL",
-      format: "HL",
-      season: 19,
-    },
-    158: {
-      leauge: "RGL",
-      format: "HL",
-      season: 20,
-    },
-    159: {
-      leauge: "RGL",
-      format: "6S",
-      season: 17,
-    },
-    163: {
-      leauge: "RGL",
-      format: "HL",
-      season: 21,
-    },
-    164: {
-      leauge: "RGL",
-      format: "6S",
-      season: 18,
-    },
-    166: {
-      leauge: "RGL",
-      format: "HL",
-      season: 22,
-    },
-    165: {
-      leauge: "RGL",
-      format: "6S",
-      season: 19,
-    },
-  };
-
-  const classSpecialties: any = {
-    "6S": {
-      scout: {
-        id: "acc",
-        name: "Accuracy",
-        title: "ACC",
-        perMinute: false,
-      },
-      soldier: {
-        id: "airshots",
-        name: "Total Airshots",
-        title: "Airshots",
-        perMinute: false,
-      },
-      pyro: {
-        id: "spykills",
-        name: "Spy Kills Per Minute",
-        title: "Spy Kills/m",
-        perMinute: true,
-      },
-      demoman: {
-        id: "airshots",
-        name: "Total Airshots",
-        title: "Airshots",
-        perMinute: false,
-      },
-      heavyweapons: {
-        id: "hr",
-        name: "Heals Received",
-        title: "HR/m",
-        perMinute: true,
-      },
-      engineer: {
-        id: "sentry_dmg",
-        name: "Sentry Damage",
-        title: "Sentry DMG",
-        perMinute: true,
-      },
-      medic: {
-        id: "heals",
-        name: "Heals Per Minute",
-        title: "Heals/m",
-        perMinute: true,
-      },
-      sniper: {
-        id: "hs",
-        name: "Headshots Per Minute",
-        title: "HS/m",
-        perMinute: true,
-      },
-      spy: {
-        id: "bs",
-        name: "Backstabs Per Minute",
-        title: "BS/m",
-        perMinute: true,
-      },
-    },
-    HL: {
-      scout: {
-        id: "bleed",
-        name: "Bleed Damage Per Minute",
-        title: "Bleed/m",
-        perMinute: true,
-      },
-      soldier: {
-        id: "airshots",
-        name: "Total Airshots",
-        title: "Airshots",
-        perMinute: false,
-      },
-      pyro: {
-        id: "spykills",
-        name: "Spy Kills Per Minute",
-        title: "Spy Kills/m",
-        perMinute: true,
-      },
-      demoman: {
-        id: "airshots",
-        name: "Total Airshots",
-        title: "Airshots",
-        perMinute: false,
-      },
-      heavyweapons: {
-        id: "hr",
-        name: "Heals Received",
-        title: "HR/m",
-        perMinute: true,
-      },
-      engineer: {
-        id: "sentry_dmg",
-        name: "Sentry Damage",
-        title: "Sentry DMG",
-        perMinute: true,
-      },
-      medic: {
-        id: "heals",
-        name: "Heals Per Minute",
-        title: "Heals/m",
-        perMinute: true,
-      },
-      sniper: {
-        id: "hs",
-        name: "Headshots Per Minute",
-        title: "HS/m",
-        perMinute: true,
-      },
-      spy: {
-        id: "bs",
-        name: "Backstabs Per Minute",
-        title: "BS/m",
-        perMinute: true,
-      },
-    },
-  };
+  const seasonSpecifics = RGL_SEASONS;
+  const classSpecialties = CLASS_SPECIALTIES;
+  const divisions = getDivisionsForSeason(
+    currentSeason,
+    seasonSpecifics[currentSeason].format,
+    seasonSpecifics[currentSeason].leauge
+  );
 
   return (
     <div className=" bg-warmscale-7 min-h-screen">
@@ -333,41 +161,13 @@ const SeasonSummary = () => {
               {seasonSpecifics[currentSeason].leauge} {seasonSpecifics[currentSeason].format} S{seasonSpecifics[currentSeason].season} SUMMARY | WEEK {currentWeek}
             </div>
             <div className="flex text-lightscale-1 font-semibold text-xl">
-              {divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "invite",
-                "INVITE"
-              )}
-              {divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "advanced",
-                "ADVANCED"
-              )}
-              {divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "main",
-                "MAIN"
-              )}
-              {divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "intermediate",
-                "INTERMEDIATE"
-              )}
-              {divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "amateur",
-                "AMATEUR"
-              )}
-              {divisionHeader(
-                setCurrentDivision,
-                currentDivision,
-                "newcomer",
-                "NEWCOMER"
+              {divisions.map((division) =>
+                divisionHeader(
+                  setCurrentDivision,
+                  currentDivision,
+                  division.id,
+                  division.label
+                )
               )}
             </div>
             <div className="grid grid-cols-9 text-lightscale-1 font-semibold text-xl">
@@ -857,9 +657,8 @@ const SeasonSummary = () => {
               STATS
               {seasonSpecifics[currentSeason].format === "HL" && (
                 <div className="absolute top-2 right-3">
-                  {Object.entries(seasonSpecifics)
-                    .filter(([_, details]: [string, any]) => details.format === "HL")
-                    .map(([id, details]: [string, any]) => (
+                  {getSeasonsByFormat("HL", "RGL")
+                    .map(([id, details]) => (
                       <a
                         key={id}
                         href={`/season-summary/${id}`}
@@ -872,9 +671,8 @@ const SeasonSummary = () => {
               )}
               {seasonSpecifics[currentSeason].format === "6S" && (
                 <div className="absolute top-2 right-3">
-                  {Object.entries(seasonSpecifics)
-                    .filter(([_, details]: [string, any]) => details.format === "6S")
-                    .map(([id, details]: [string, any]) => (
+                  {getSeasonsByFormat("6S", "RGL")
+                    .map(([id, details]) => (
                       <a
                         key={id}
                         href={`/season-summary/${id}`}

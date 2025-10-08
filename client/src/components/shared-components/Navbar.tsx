@@ -1,6 +1,7 @@
 import moretfWhiteLogo from "../../assets/moretf-white-medium.png";
 import { useState, useEffect} from 'react';
 import SearchBox from "./searchUsername";
+import { getCurrentRGLHL, getCurrentRGL6S, getCurrentOZFHL, getCurrentOZF6S } from "../../data/seasons";
 
 const Navbar = () => {
   
@@ -101,16 +102,16 @@ const Navbar = () => {
                 </div>
                 <div className="">
                   <div className=" text-lightscale-5 text-lg font-semibold  hover:text-lightscale-1 mt-10 duration-200 flex justify-center">
-                    <a href="/season-summary/166" className="">HL SUMMARY</a>
+                    <a href={`/season-summary/${getCurrentRGLHL()}`} className="">HL SUMMARY</a>
                   </div>
                   <div className=" text-lightscale-5 text-lg font-semibold  hover:text-lightscale-1 mt-10 duration-200 flex justify-center">
-                    <a href="/season-summary/165" className="">6S SUMMARY</a>
+                    <a href={`/season-summary/${getCurrentRGL6S()}`} className="">6S SUMMARY</a>
                   </div>
                   <div className=" text-lightscale-5 text-lg font-semibold  hover:text-lightscale-1 mt-10 duration-200 flex justify-center">
-                    <a href="/season-summary-ozf/80" className="">OZFORTRESS HL</a>
+                    <a href={`/season-summary-ozf/${getCurrentOZFHL()}`} className="">OZFORTRESS HL</a>
                   </div>
                   <div className=" text-lightscale-5 text-lg font-semibold  hover:text-lightscale-1 mt-10 duration-200 flex justify-center">
-                    <a href="/season-summary-ozf/81" className="">OZFORTRESS 6S</a>
+                    <a href={`/season-summary-ozf/${getCurrentOZF6S()}`} className="">OZFORTRESS 6S</a>
                   </div>
                   <div className=" text-lightscale-5  text-lg  font-semibold  hover:text-lightscale-1 mt-6 duration-200 flex justify-center">
                     <a href="/leaderboard" className="">LEADERBOARD</a>
@@ -131,16 +132,16 @@ const Navbar = () => {
             />
           </a>
           <div className=" text-lightscale-5 text-sm font-semibold md:ml-20 max-md:ml-10 max-sm:ml-0 max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
-            <a href="/season-summary/166" className="">HL SUMMARY</a>
+            <a href={`/season-summary/${getCurrentRGLHL()}`} className="">HL SUMMARY</a>
           </div>
           <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
-            <a href="/season-summary/165" className="">6S SUMMARY</a>
+            <a href={`/season-summary/${getCurrentRGL6S()}`} className="">6S SUMMARY</a>
           </div>
           <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
-            <a href="/season-summary-ozf/80" className="">OZ HL</a>
+            <a href={`/season-summary-ozf/${getCurrentOZFHL()}`} className="">OZ HL</a>
           </div>
           <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
-            <a href="/season-summary-ozf/81" className="">OZ 6S</a>
+            <a href={`/season-summary-ozf/${getCurrentOZF6S()}`} className="">OZ 6S</a>
           </div>
           <div className=" text-lightscale-5  text-sm  font-semibold md:ml-10 max-md:ml-5 max-sm:ml-0  max-sm:scale-0 max-sm:w-0 hover:text-lightscale-1 duration-200">
             <a href="/leaderboard" className="">LEADERBOARD</a>
