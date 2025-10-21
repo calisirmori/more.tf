@@ -122,6 +122,16 @@ export const OZF_SEASONS: SeasonMap = {
     format: "LAN",
     season: "2025",
   },
+  84: {
+    leauge: "OZF",
+    format: "6S",
+    season: 44,
+  },
+  83: {
+    leauge: "OZF",
+    format: "HL",
+    season: 11,
+  },
 };
 
 // Combined season map
