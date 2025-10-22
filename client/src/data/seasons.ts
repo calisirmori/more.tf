@@ -143,8 +143,8 @@ export const ALL_SEASONS: SeasonMap = {
 // Helper functions
 export const getCurrentRGLHL = () => "166";
 export const getCurrentRGL6S = () => "165";
-export const getCurrentOZFHL = () => "80";
-export const getCurrentOZF6S = () => "81";
+export const getCurrentOZFHL = () => "83";
+export const getCurrentOZF6S = () => "84";
 
 // Get seasons by format
 export const getSeasonsByFormat = (format: "HL" | "6S" | "LAN", league?: "RGL" | "OZF"): [string, SeasonInfo][] => {
