@@ -3,7 +3,7 @@
 # DB Subnet Group (required for RDS)
 resource "aws_db_subnet_group" "main" {
   name       = "${var.app_name}-db-subnet-group"
-  subnet_ids = aws_subnet.private[*].id
+  subnet_ids = concat(aws_subnet.public[*].id, aws_subnet.private[*].id) # All subnets for migration
 
   tags = {
     Name = "${var.app_name}-db-subnet-group"
@@ -32,7 +32,7 @@ resource "aws_db_instance" "postgres" {
   # Network & Security
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
-  publicly_accessible    = false
+  publicly_accessible    = true # Temporarily public for migration (switch to false later)
 
   # Backup & Maintenance
   backup_retention_period   = var.db_backup_retention_period
@@ -45,9 +45,8 @@ resource "aws_db_instance" "postgres" {
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
 
   # Deletion Protection
-  deletion_protection = true # Prevent accidental deletion
-  skip_final_snapshot = false
-  final_snapshot_identifier = "${var.app_name}-final-snapshot-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
+  deletion_protection = false # Temporarily disabled for recreation
+  skip_final_snapshot = true # Skip snapshot for recreation
 
   # CA certificate
   ca_cert_identifier = "rds-ca-rsa2048-g1"

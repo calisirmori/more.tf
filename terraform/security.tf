@@ -68,6 +68,15 @@ resource "aws_security_group" "rds" {
     security_groups = [aws_security_group.ecs_task.id, aws_security_group.ecs_instance.id]
   }
 
+  # Temporary public access for migration - remove this after a few days
+  ingress {
+    description = "Temporary public access for database migration and setup"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     description = "Allow all outbound"
     from_port   = 0

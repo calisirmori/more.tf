@@ -59,6 +59,7 @@ resource "aws_launch_template" "ecs" {
   name_prefix   = "${var.app_name}-ecs-"
   image_id      = data.aws_ami.ecs_optimized.id
   instance_type = var.ecs_instance_type # t2.micro
+  key_name      = "more-tf-key"
 
   iam_instance_profile {
     arn = aws_iam_instance_profile.ecs_instance_profile.arn
@@ -117,7 +118,7 @@ resource "aws_autoscaling_group" "ecs" {
 # Task Definition
 resource "aws_ecs_task_definition" "app" {
   family                   = var.app_name
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   requires_compatibilities = ["EC2"]
   cpu                      = "256" # 0.25 vCPU
   memory                   = "512" # 512 MB
@@ -133,7 +134,7 @@ resource "aws_ecs_task_definition" "app" {
       portMappings = [
         {
           containerPort = var.app_port
-          hostPort      = var.app_port
+          hostPort      = 80
           protocol      = "tcp"
         }
       ]
@@ -218,11 +219,6 @@ resource "aws_ecs_service" "app" {
     capacity_provider = aws_ecs_capacity_provider.main.name
     weight            = 1
     base              = 1
-  }
-
-  network_configuration {
-    subnets         = aws_subnet.public[*].id
-    security_groups = [aws_security_group.ecs_task.id]
   }
 
   depends_on = [

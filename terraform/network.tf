@@ -66,5 +66,26 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
+# Temporary: Route table for private subnets to allow RDS public access
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
+  }
+
+  tags = {
+    Name = "${var.app_name}-private-rt-temp"
+  }
+}
+
+# Associate Private Subnets with route table
+resource "aws_route_table_association" "private" {
+  count          = 2
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+}
+
 # NOTE: No NAT Gateway to stay in free tier
 # If you need private subnet internet access later, enable var.enable_nat_gateway
