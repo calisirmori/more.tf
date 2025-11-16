@@ -54,3 +54,7 @@ logs/
 .claude/
 coverage/
 .cache/
+terraform/
+db-backups/
+scripts/
+.aws-config/

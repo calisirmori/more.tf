@@ -25,14 +25,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 
-# Copy backend source files
-COPY index.js ./
-COPY seasonSummaryMaker.js ./
-COPY summary.js ./
-COPY ca-certificate.crt ./
-COPY parser/ ./parser/
-COPY src/ ./src/
-COPY acs/ ./acs/
+# Copy backend source files (excluding items in .dockerignore)
+COPY . ./
 
 # Copy built frontend from stage 1
 COPY --from=frontend-build /app/client/dist ./client/dist
