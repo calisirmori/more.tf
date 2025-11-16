@@ -1,0 +1,56 @@
+# Node modules
+node_modules/
+client/node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+client/.env
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+!README.md
+DOCUMENTATION_INDEX.md
+QUICK_REFERENCE.md
+CODEBASE_ANALYSIS.md
+AWS_MIGRATION_CHECKLIST.md
+EXPLORATION_SUMMARY.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build output (we build inside Docker)
+client/dist/
+dist/
+
+# Test files
+**/__tests__/
+**/__mocks__/
+*.test.js
+*.spec.js
+jest.config.*
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Logs
+logs/
+*.log
+
+# Misc
+.claude/
+coverage/
+.cache/

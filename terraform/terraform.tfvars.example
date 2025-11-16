@@ -1,0 +1,24 @@
+# Copy this file to terraform.tfvars and fill in your values
+# DO NOT commit terraform.tfvars to git (it's in .gitignore)
+
+aws_region  = "us-east-2"
+environment = "production"
+app_name    = "more-tf"
+
+# Database Configuration
+db_name     = "moretf"
+db_username = "moretfadmin"
+
+# Your Steam API Key (get from https://steamcommunity.com/dev/apikey)
+steam_api_key = "YOUR_STEAM_API_KEY_HERE"
+
+# Domain (for reference)
+domain_name = "more.tf"
+
+# Free Tier Settings (keep these for cost optimization)
+db_instance_class        = "db.t3.micro"
+db_allocated_storage     = 20
+db_backup_retention_period = 7
+ecs_instance_type        = "t2.micro"
+desired_count            = 1
+enable_nat_gateway       = false

@@ -415,6 +415,12 @@ function pauseEvents(unparsedEvent, finalObject) {
 function shotEvents(unparsedEvent, finalObject, playerIDFinder) {
     let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
     let weaponUsed = unparsedEvent.slice(unparsedEvent.indexOf('" (weapon "') + 11, unparsedEvent.lastIndexOf('")'));
+
+    // Check if player exists before accessing
+    if (!finalObject.players[playerIDFinder[userId3]]) {
+        return;
+    }
+
     let currentClass = finalObject.players[playerIDFinder[userId3]].class;
 
     //weapon classification is made here
@@ -449,6 +455,11 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder) {
         damageRecieverId3 = "[U:1:" + steamAccount + "]";
     }
     let damageDealt = parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(damage "') + 9, unparsedEvent.lastIndexOf('") (weapon')));
+
+    // Check if both players exist before accessing
+    if (!finalObject.players[playerIDFinder[damageDealerId3]] || !finalObject.players[playerIDFinder[damageRecieverId3]]) {
+        return;
+    }
 
     damageDealt === 0 && finalObject.players[playerIDFinder[damageDealerId3]].uberHits++;
 
