@@ -10,6 +10,10 @@ const searchRoutes = require('./search');
 const externalRoutes = require('./external');
 const badgeRoutes = require('./badges');
 const miscRoutes = require('./misc');
+const adminRoutes = require('./admin');
+const seasonCardRoutes = require('./season-cards');
+const generateCardsRoutes = require('./generate-cards');
+const playerCardsRoutes = require('./player-cards');
 
 // Mount route modules
 router.use('/', authRoutes);
@@ -20,5 +24,9 @@ router.use('/', searchRoutes);
 router.use('/', externalRoutes);
 router.use('/', badgeRoutes);
 router.use('/', miscRoutes);
+router.use('/', adminRoutes);
+router.use('/season-cards', seasonCardRoutes);
+router.use('/generate', generateCardsRoutes);
+router.use('/player-cards', playerCardsRoutes);
 
 module.exports = router;

@@ -41,7 +41,7 @@ const Navbar = () => {
   }, [profileID])
 
   return (
-    <div className="relative h-28">
+    <div className="relative h-14">
       <div className="bg-warmscale-9 px-3 top-0 font-cantarell w-full absolute z-50 drop-shadow-sm border-b border-warmscale-7/70">
       <div className="h-14 flex justify-between ">
         <div className="flex justify-center  items-center w-fit">

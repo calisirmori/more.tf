@@ -15,6 +15,10 @@ import MatchList from './components/page-components/MatchList';
 import SeasonSummaryOzf from './components/page-components/SeasonSummaryOzf';
 import LogError from './components/page-components/LogError';
 import Error from './components/page-components/Error';
+import AdminLogin from './components/page-components/AdminLogin';
+import AdminDashboard from './components/page-components/AdminDashboard';
+import SeasonCardManager from './components/page-components/SeasonCardManager';
+import CardCollection from './components/page-components/CardCollection';
 import ReactGA from 'react-ga4';
 import { useEffect } from 'react';
 
@@ -58,6 +62,10 @@ function App() {
         <Route path="/officials" element={<MatchList />} />
         <Route path="/log/error" element={<LogError />} />
         <Route path="/error" element={<Error />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/season-cards" element={<SeasonCardManager />} />
+        <Route path="/cards/:steamid" element={<CardCollection />} />
       </Routes>
     </Router>
   );

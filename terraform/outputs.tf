@@ -50,6 +50,16 @@ output "cloudwatch_log_group" {
   value       = aws_cloudwatch_log_group.ecs.name
 }
 
+output "s3_bucket_name" {
+  description = "Name of the S3 bucket for season cards"
+  value       = aws_s3_bucket.season_cards.bucket
+}
+
+output "s3_bucket_url" {
+  description = "Public URL of the S3 bucket for season cards"
+  value       = "https://${aws_s3_bucket.season_cards.bucket}.s3.amazonaws.com"
+}
+
 # Instructions for next steps
 output "next_steps" {
   description = "Next steps to complete the deployment"

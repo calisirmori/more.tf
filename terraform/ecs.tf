@@ -139,7 +139,12 @@ resource "aws_ecs_task_definition" "app" {
         }
       ]
 
-      environment = []
+      environment = [
+        {
+          name  = "AWS_REGION"
+          value = var.aws_region
+        }
+      ]
 
       secrets = [
         # Database credentials
@@ -214,6 +219,11 @@ resource "aws_ecs_service" "app" {
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.app.arn
   desired_count   = var.desired_count
+
+  # Deployment configuration for single-instance cluster
+  # Allows old task to stop before new task starts (brief downtime)
+  deployment_minimum_healthy_percent = 0
+  deployment_maximum_percent        = 100
 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.main.name

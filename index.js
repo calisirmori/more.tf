@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 app.use(session({
-  secret: 'Whatever_You_Want',
+  secret: process.env.SESSION_SECRET || 'Whatever_You_Want',
   saveUninitialized: true,
   resave: false,
   cookie: {

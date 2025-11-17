@@ -68,6 +68,40 @@ resource "aws_iam_role" "ecs_task_role" {
   })
 }
 
+# S3 policy for season cards upload
+resource "aws_iam_policy" "s3_season_cards_policy" {
+  name        = "${var.app_name}-s3-season-cards-policy"
+  description = "Policy for ECS tasks to upload season cards to S3"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ]
+        Resource = "${aws_s3_bucket.season_cards.arn}/*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = aws_s3_bucket.season_cards.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_s3_policy_attachment" {
+  role       = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.s3_season_cards_policy.arn
+}
+
 # EC2 Instance Role for ECS
 resource "aws_iam_role" "ecs_instance_role" {
   name = "${var.app_name}-ecs-instance-role"
