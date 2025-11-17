@@ -51,3 +51,10 @@ resource "random_password" "session_secret" {
   length  = 64
   special = false
 }
+
+# Random password for admin portal
+resource "random_password" "admin_password" {
+  length           = 32
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}

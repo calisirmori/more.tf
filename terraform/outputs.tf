@@ -60,6 +60,11 @@ output "s3_bucket_url" {
   value       = "https://${aws_s3_bucket.season_cards.bucket}.s3.amazonaws.com"
 }
 
+output "admin_password_retrieval" {
+  description = "Command to retrieve the admin portal password"
+  value       = "aws secretsmanager get-secret-value --secret-id ${aws_secretsmanager_secret.app_secrets.arn} --query SecretString --output text --region ${var.aws_region} | jq -r .ADMIN_PASSWORD"
+}
+
 # Instructions for next steps
 output "next_steps" {
   description = "Next steps to complete the deployment"

@@ -180,6 +180,10 @@ resource "aws_ecs_task_definition" "app" {
         {
           name      = "PORT"
           valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:PORT::"
+        },
+        {
+          name      = "ADMIN_PASSWORD"
+          valueFrom = "${aws_secretsmanager_secret.app_secrets.arn}:ADMIN_PASSWORD::"
         }
       ]
 

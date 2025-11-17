@@ -32,6 +32,7 @@ resource "aws_secretsmanager_secret_version" "app_secrets" {
   secret_string = jsonencode({
     STEAMKEY       = var.steam_api_key
     SESSION_SECRET = random_password.session_secret.result
+    ADMIN_PASSWORD = random_password.admin_password.result
     PORT           = tostring(var.app_port)
   })
 }
