@@ -35,26 +35,27 @@ Promise.all([
 ]).then(([logsTf, ourData]) => {
   console.log(`\n🔍 Comparing player kills for log ${logId}\n`);
 
-  // Build a comparison by steam ID
+  // Build a comparison by steam ID (using ID3 format for consistency)
   const redKillsLogsTf = {};
   const blueKillsLogsTf = {};
 
-  for (const [steamId, playerData] of Object.entries(logsTf.players)) {
+  for (const [steamId3, playerData] of Object.entries(logsTf.players)) {
     if (playerData.team === 'Red') {
-      redKillsLogsTf[steamId] = playerData.kills;
+      redKillsLogsTf[steamId3] = playerData.kills;
     } else if (playerData.team === 'Blue') {
-      blueKillsLogsTf[steamId] = playerData.kills;
+      blueKillsLogsTf[steamId3] = playerData.kills;
     }
   }
 
   const redKillsOurs = {};
   const blueKillsOurs = {};
 
-  for (const [steamId, playerData] of Object.entries(ourData.players)) {
+  for (const [steamId64, playerData] of Object.entries(ourData.players)) {
+    const steamId3 = playerData.steamId.id3;
     if (playerData.team === 'red') {
-      redKillsOurs[steamId] = playerData.kills;
+      redKillsOurs[steamId3] = playerData.kills;
     } else if (playerData.team === 'blue') {
-      blueKillsOurs[steamId] = playerData.kills;
+      blueKillsOurs[steamId3] = playerData.kills;
     }
   }
 
@@ -62,12 +63,19 @@ Promise.all([
   console.log('Red team kill differences:');
   let redDiff = 0;
   let foundRedDiff = false;
-  for (const steamId in redKillsLogsTf) {
-    const theirs = redKillsLogsTf[steamId];
-    const ours = redKillsOurs[steamId] || 0;
+  for (const steamId3 in redKillsLogsTf) {
+    const theirs = redKillsLogsTf[steamId3];
+    const ours = redKillsOurs[steamId3] || 0;
     if (theirs !== ours) {
-      const playerName = ourData.players[steamId]?.userName || 'Unknown';
-      console.log(`  ${playerName} (${steamId}): logs.tf=${theirs} ours=${ours} (diff: ${ours - theirs})`);
+      // Find player name from ourData
+      let playerName = 'Unknown';
+      for (const [steamId64, playerData] of Object.entries(ourData.players)) {
+        if (playerData.steamId.id3 === steamId3) {
+          playerName = playerData.userName;
+          break;
+        }
+      }
+      console.log(`  ${playerName} (${steamId3}): logs.tf=${theirs} ours=${ours} (diff: ${ours - theirs})`);
       redDiff += (ours - theirs);
       foundRedDiff = true;
     }
@@ -81,12 +89,19 @@ Promise.all([
   console.log('Blue team kill differences:');
   let blueDiff = 0;
   let foundBlueDiff = false;
-  for (const steamId in blueKillsLogsTf) {
-    const theirs = blueKillsLogsTf[steamId];
-    const ours = blueKillsOurs[steamId] || 0;
+  for (const steamId3 in blueKillsLogsTf) {
+    const theirs = blueKillsLogsTf[steamId3];
+    const ours = blueKillsOurs[steamId3] || 0;
     if (theirs !== ours) {
-      const playerName = ourData.players[steamId]?.userName || 'Unknown';
-      console.log(`  ${playerName} (${steamId}): logs.tf=${theirs} ours=${ours} (diff: ${ours - theirs})`);
+      // Find player name from ourData
+      let playerName = 'Unknown';
+      for (const [steamId64, playerData] of Object.entries(ourData.players)) {
+        if (playerData.steamId.id3 === steamId3) {
+          playerName = playerData.userName;
+          break;
+        }
+      }
+      console.log(`  ${playerName} (${steamId3}): logs.tf=${theirs} ours=${ours} (diff: ${ours - theirs})`);
       blueDiff += (ours - theirs);
       foundBlueDiff = true;
     }

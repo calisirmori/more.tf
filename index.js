@@ -101,6 +101,8 @@ app.use(
       httpOnly: true, // Prevent XSS attacks
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       sameSite: isProduction ? 'none' : 'lax', // CSRF protection
+      domain: isProduction ? '.more.tf' : undefined, // Allow cookie across subdomains in production
+      path: '/', // Cookie available for all paths
     },
   })
 );
