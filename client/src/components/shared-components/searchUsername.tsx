@@ -1,5 +1,6 @@
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { trackSearch, trackEvent } from '../../utils/analytics';
 
 interface Player {
   id64: string;
@@ -109,9 +110,13 @@ const SearchBox: React.FC = () => {
       if (response?.rows?.length > 0) {
         setPlayers(response.rows);
         setLogData(null);
+        // Track successful search
+        trackSearch(trimmedInput, response.rows.length);
       } else {
         setPlayers([]);
         setLogData(null);
+        // Track search with no results
+        trackSearch(trimmedInput, 0);
       }
     } catch (error) {
       console.error('Search failed:', error);
@@ -229,7 +234,17 @@ const SearchBox: React.FC = () => {
                     className="p-2 hover:bg-warmscale-5/30 rounded-sm"
                     key={`${player.id64}-${index}`}
                   >
-                    <a href={`/profile/${player.id64}`}>
+                    <a
+                      href={`/profile/${player.id64}`}
+                      onClick={() => trackEvent('search_result_click', {
+                        result_type: 'player',
+                        player_id: player.id64,
+                        player_name: player.name,
+                        search_term: searchTerm,
+                        result_position: index + 1,
+                        event_category: 'engagement'
+                      })}
+                    >
                       <div className="flex items-center">
                         <img
                           src={`https://avatars.cloudflare.steamstatic.com/${player.avatar}_medium.jpg`}
@@ -259,6 +274,12 @@ const SearchBox: React.FC = () => {
                 <a
                   href={`/log/${logData.logid}`}
                   className="flex hover:bg-warmscale-5/30 rounded-sm p-2"
+                  onClick={() => trackEvent('search_result_click', {
+                    result_type: 'log',
+                    log_id: logData.logid,
+                    search_term: searchTerm,
+                    event_category: 'engagement'
+                  })}
                 >
                   <div className="w-full">
                     <div className="text-lightscale-2 text-sm font-semibold w-48 truncate">

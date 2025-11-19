@@ -10,6 +10,8 @@ import MatchHistory from './MatchHistory';
 import ClassStats from './ClassStats';
 import FormatStats from './FormatStats';
 import ActivityCalendar from './ActivityCalendar';
+import AdSense from '../shared-components/AdSense';
+import { trackProfileView } from '../../utils/analytics';
 
 const Profile = () => {
   const id = window.location.href;
@@ -42,6 +44,8 @@ const Profile = () => {
     fetchAllProfileData();
     fetchInventoryCount();
     checkIfOwnProfile();
+    // Track profile view
+    trackProfileView(playerId);
   }, []);
 
   async function fetchInventoryCount() {
@@ -373,9 +377,22 @@ const Profile = () => {
           isOwnProfile={isOwnProfile}
         />
 
-        {/* Main Content Section */}
-        <div className="mx-auto max-w-[1200px] px-6 md:px-12 lg:px-16 py-6">
-          <div className="w-full xl:flex xl:gap-4">
+        {/* Main Content Section with Sidebar Ads */}
+        <div className="flex justify-center gap-4 py-6">
+          {/* Left Sidebar Ad - Desktop only */}
+          <div className="hidden 2xl:block w-[160px] flex-shrink-0">
+            <div className="sticky top-20">
+              <AdSense
+                adSlot="REPLACE_WITH_PROFILE_LEFT_SIDEBAR_SLOT_ID"
+                adFormat="vertical"
+                className="mb-4"
+              />
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="mx-auto max-w-[1200px] px-6 md:px-12 lg:px-16">
+            <div className="w-full xl:flex xl:gap-4">
             <div id="summary" className="xl:w-2/3 w-full">
               {/* Card Showcase Section */}
               <div className="flex justify-center">
@@ -724,6 +741,18 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          </div>
+
+          {/* Right Sidebar Ad - Desktop only */}
+          <div className="hidden 2xl:block w-[160px] flex-shrink-0">
+            <div className="sticky top-20">
+              <AdSense
+                adSlot="REPLACE_WITH_PROFILE_RIGHT_SIDEBAR_SLOT_ID"
+                adFormat="vertical"
+                className="mb-4"
+              />
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import PageContainer from '../shared-components/PageContainer';
 import Footer from '../shared-components/Footer';
 import React, { useEffect, useState } from 'react';
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
+import { trackLeaderboardView, trackEvent } from '../../utils/analytics';
 
 interface LeaderboardPlayer {
   id64: string;
@@ -33,6 +34,8 @@ const Leaderboard = () => {
 
   useEffect(() => {
     fetchLeaderboard();
+    // Track leaderboard view
+    trackLeaderboardView(highlander ? 'Highlander' : 'Sixes');
   }, [highlander]);
 
   async function fetchLeaderboard() {
@@ -79,6 +82,11 @@ const Leaderboard = () => {
 
   function classFilter(value: string) {
     setCurrentClassFilter(value);
+    trackEvent('leaderboard_class_filter', {
+      class: value,
+      format: highlander ? 'Highlander' : 'Sixes',
+      event_category: 'engagement'
+    });
   }
 
   function findColor(division: string) {
@@ -122,7 +130,13 @@ const Leaderboard = () => {
               {/* Format Toggle */}
               <div className="flex justify-center items-center gap-4 text-base sm:text-lg font-cantarell font-semibold">
                 <button
-                  onClick={() => setIsHighlander(true)}
+                  onClick={() => {
+                    setIsHighlander(true);
+                    trackEvent('leaderboard_format_change', {
+                      format: 'Highlander',
+                      event_category: 'engagement'
+                    });
+                  }}
                   className={`px-4 py-2 rounded transition-all ${
                     highlander
                       ? 'text-tf-orange bg-tf-orange/20'
@@ -132,7 +146,13 @@ const Leaderboard = () => {
                   HIGHLANDER
                 </button>
                 <button
-                  onClick={() => setIsHighlander(false)}
+                  onClick={() => {
+                    setIsHighlander(false);
+                    trackEvent('leaderboard_format_change', {
+                      format: 'Sixes',
+                      event_category: 'engagement'
+                    });
+                  }}
                   className={`px-4 py-2 rounded transition-all ${
                     !highlander
                       ? 'text-tf-orange bg-tf-orange/20'
@@ -286,6 +306,15 @@ const Leaderboard = () => {
                                 <a
                                   href={`/profile/${player.id64}`}
                                   className="font-extrabold text-xs sm:text-sm md:text-lg text-lightscale-2 font-robotomono truncate hover:text-tf-orange transition-colors"
+                                  onClick={() => trackEvent('leaderboard_player_click', {
+                                    player_id: player.id64,
+                                    player_name: player.rglname,
+                                    rank: rowNumber,
+                                    class: player.class,
+                                    division: player.division,
+                                    format: highlander ? 'Highlander' : 'Sixes',
+                                    event_category: 'engagement'
+                                  })}
                                 >
                                   {player.rglname}
                                 </a>

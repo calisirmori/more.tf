@@ -15,13 +15,14 @@ router.get('/username-search/:username', (req, response) => {
       count,
       ROW_NUMBER() OVER (PARTITION BY id64 ORDER BY count DESC) AS rn
     FROM name_search
-    WHERE name LIKE '%${playerUserName}%'
+    WHERE LOWER(name) LIKE LOWER($1)
   )
   SELECT si.id64,si.avatar,ranked_names.name,si.name, count
   FROM ranked_names
   inner join steam_info si on si.id64=ranked_names.id64 WHERE rn = 1
   order by count desc
-  LIMIT 5`
+  LIMIT 5`,
+      [`%${playerUserName}%`]
     )
     .then((res) => response.send(res))
     .catch((err) => {

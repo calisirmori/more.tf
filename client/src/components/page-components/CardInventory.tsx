@@ -4,6 +4,7 @@ import Navbar from '../shared-components/Navbar';
 import Footer from '../shared-components/Footer';
 import PlayerCard from '../shared-components/PlayerCard';
 import Toast from '../shared-components/Toast';
+import { trackCollectionView, trackCardClick, trackEvent } from '../../utils/analytics';
 
 interface InventoryCard {
   id: number;
@@ -157,6 +158,8 @@ const CardInventory = () => {
       fetchInventory();
       fetchStats();
       checkIfOwnInventory();
+      // Track collection view
+      trackCollectionView(steamid);
     }
 
     // Cleanup function to abort ongoing requests
@@ -647,7 +650,21 @@ const CardInventory = () => {
                     {/* Card container with colored border and background */}
                     <div
                       className={`relative ${rarityBackgroundColors[card.rarity]} rounded-lg p-2 border-2 ${rarityBorderColors[card.rarity]} transition-all duration-200 transform group-hover:scale-105 cursor-pointer`}
-                      onClick={() => setSelectedCard(card)}
+                      onClick={() => {
+                        setSelectedCard(card);
+                        trackCardClick(card.id.toString(), card.card_steamid);
+                        trackEvent('card_view_detail', {
+                          card_id: card.id,
+                          player_id: card.card_steamid,
+                          season: card.seasonname,
+                          rarity: card.rarity,
+                          division: card.division,
+                          class: card.class,
+                          format: card.format,
+                          is_holo: card.holo,
+                          event_category: 'engagement'
+                        });
+                      }}
                     >
                       {/* Favorite indicator - top left */}
                       {card.is_favorited && card.favorite_slot && (
