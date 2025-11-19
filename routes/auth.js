@@ -50,12 +50,8 @@ router.get('/myprofile', (req, res) => {
   if (req.isAuthenticated() && req.user && req.user.id) {
     res.redirect(`/profile/${req.user.id}`);
   } else {
-    // Fallback: check old userid cookie for backwards compatibility
-    if (req.cookies.userid !== undefined) {
-      res.redirect(`/profile/${req.cookies.userid}`);
-    } else {
-      res.redirect(`/api/auth/steam`);
-    }
+    // Redirect to login - no fallback to old cookies
+    res.redirect(`/api/auth/steam`);
   }
 });
 

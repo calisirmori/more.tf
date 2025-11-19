@@ -108,6 +108,18 @@ app.use(function (req, res, next) {
 // Request logging middleware
 app.use(requestLogger);
 
+// Clear old userid cookies (force re-login after auth migration)
+app.use((req, res, next) => {
+  if (req.cookies.userid && !req.isAuthenticated()) {
+    res.clearCookie('userid', {
+      httpOnly: false,
+      secure: isProduction,
+      sameSite: isProduction ? 'None' : 'Lax',
+    });
+  }
+  next();
+});
+
 // Passport configuration
 passport.serializeUser((user, done) => {
   done(null, user);

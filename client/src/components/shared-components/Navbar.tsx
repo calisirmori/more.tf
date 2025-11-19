@@ -90,56 +90,6 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const getCookies = () => {
-    const cookies = document.cookie
-      .split(';')
-      .reduce((cookieObject: any, cookieString) => {
-        const [cookieName, cookieValue] = cookieString.trim().split('=');
-        cookieObject[cookieName] = cookieValue;
-        return cookieObject;
-      }, {});
-    setProfileID(cookies);
-    return cookies;
-  };
-
-  const fetchUserProfileFallback = useCallback(async (userid: string) => {
-    const cachedProfile = localStorage.getItem(`userProfile_${userid}`);
-    if (cachedProfile) {
-      try {
-        const parsed = JSON.parse(cachedProfile);
-        const cacheAge = Date.now() - parsed.timestamp;
-        if (cacheAge < 24 * 60 * 60 * 1000) {
-          setUserProfile(parsed.data);
-          return;
-        }
-      } catch (e) {
-        // Invalid cache
-      }
-    }
-
-    try {
-      const response = await fetch(`/api/steam-info?ids=${userid}`);
-      const data = await response.json();
-      if (data.response?.players?.[0]) {
-        const profile = {
-          userid,
-          personaname: data.response.players[0].personaname,
-          avatarfull: data.response.players[0].avatarfull,
-        };
-        setUserProfile(profile);
-        localStorage.setItem(
-          `userProfile_${userid}`,
-          JSON.stringify({
-            data: profile,
-            timestamp: Date.now(),
-          })
-        );
-      }
-    } catch (error) {
-      console.error('Failed to fetch user profile:', error);
-    }
-  }, []);
-
   const fetchCurrentUser = useCallback(async () => {
     try {
       const response = await fetch('/api/me');
@@ -152,21 +102,13 @@ const Navbar = () => {
           personaname: data.user.displayName,
           avatarfull: data.user.avatar,
         });
-      } else {
-        const cookies = getCookies();
-        if (cookies.userid) {
-          setProfileID({ userid: cookies.userid });
-          fetchUserProfileFallback(cookies.userid);
-        }
       }
+      // Removed fallback to old cookies - users must re-login
     } catch (error) {
       console.error('Failed to fetch current user:', error);
-      const cookies = getCookies();
-      if (cookies.userid) {
-        fetchUserProfileFallback(cookies.userid);
-      }
+      // Removed fallback to old cookies - users must re-login
     }
-  }, [fetchUserProfileFallback]);
+  }, []);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -298,7 +240,7 @@ const Navbar = () => {
                       <span className="font-semibold text-sm">Profile</span>
                     </a>
                     <a
-                      href={`${backendUrl}/api/logout`}
+                      href="/api/logout"
                       className="flex items-center gap-3 px-4 py-3 text-lightscale-2 hover:bg-red-500/20 hover:text-red-400 transition-colors duration-200"
                     >
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
