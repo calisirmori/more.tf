@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../shared-components/Navbar";
 import Footer from "../shared-components/Footer";
-import HoloEffect from "../shared-components/HoloEffect";
+import PlayerCard from "../shared-components/PlayerCard";
 
-interface PlayerCard {
+interface PlayerCardData {
   seasonid: number;
   seasonName: string;
   league: string;
@@ -12,19 +12,23 @@ interface PlayerCard {
   displayName: string;
   cardUrl: string;
   thumbnailUrl: string;
+  holo?: boolean;
+  rarity?: string;
+  division?: string;
+  class?: string;
 }
 
 interface CardCollectionData {
   steamid: string;
   totalCards: number;
-  cards: PlayerCard[];
+  cards: PlayerCardData[];
 }
 
 const CardCollection = () => {
   const { steamid } = useParams<{ steamid: string }>();
   const [cardData, setCardData] = useState<CardCollectionData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedCard, setSelectedCard] = useState<PlayerCard | null>(null);
+  const [selectedCard, setSelectedCard] = useState<PlayerCardData | null>(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -161,13 +165,16 @@ const CardCollection = () => {
                   }
                 }}
               >
-                <HoloEffect isActive={isSelected}>
-                  <img
-                    src={card.cardUrl}
-                    alt={card.displayName}
-                    className="w-full h-auto block"
-                  />
-                </HoloEffect>
+                <PlayerCard
+                  cardUrl={card.cardUrl}
+                  seasonid={card.seasonid}
+                  seasonName={card.seasonName}
+                  division={card.division}
+                  playerClass={card.class}
+                  holo={isSelected && (card.holo || false)}
+                  enable3DTilt={false}
+                  imageClassName="w-full h-auto block"
+                />
               </div>
             );
           })}

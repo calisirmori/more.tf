@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../shared-components/Navbar";
+import PageContainer from "../shared-components/PageContainer";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import { useSpring, animated } from "react-spring";
 import Footer from "../shared-components/Footer";
+import PlayerCard from "../shared-components/PlayerCard";
+import ProfileCardShowcase from "../shared-components/ProfileCardShowcase";
 
 const Profile = () => {
   const id = window.location.href;
@@ -23,8 +26,12 @@ const Profile = () => {
   const [mapDisparityData, setMapDisparityData] = useState<any>([]);
   const [showMoreMaps, setShowMoreMaps] = useState<any>(false);
   const [playerCardData, setPlayerCardData] = useState<any>([]);
+  const [allPlayerCardData, setAllPlayerCardData] = useState<any>([]); // Store full response
   const [multiDiv, setMultiDiv] = useState<any>(true);
   const [highlander, setIsHighlander] = useState<boolean>(true);
+  const [s3CardUrl, setS3CardUrl] = useState<string | null>(null);
+  const [useS3Card, setUseS3Card] = useState<boolean>(false);
+  const [cardHolo, setCardHolo] = useState<boolean>(false);
 
   const cardRef: any = useRef(null);
   const [animatedProps, setAnimatedProps] = useSpring(() => ({
@@ -52,25 +59,32 @@ const Profile = () => {
   );
 
   useEffect(() => {
-    steamInfoCallProfile();
-    matchesInfoCall();
-    rglInfoCall();
-    calendar();
-    peersCall();
-    perClassPlaytimeCall();
-    formatDisparity();
-    mapDisparity();
+    fetchAllProfileData();
   }, []);
 
   useEffect(() => {
-    playerCardCall();
+    // When highlander state changes, re-select the appropriate card from cached data
+    if (allPlayerCardData && allPlayerCardData.length > 0) {
+      handlePlayerCardData(allPlayerCardData);
+    }
   }, [highlander]);
+
+  useEffect(() => {
+    if (playerCardData && playerCardData.seasonid) {
+      fetchS3Card();
+    }
+  }, [playerCardData]);
 
   const canvasRef = useRef(null);
   const [images, setImages] = useState<any>({});
 
   // Load images only once or when playerCardData changes
   useEffect(() => {
+    // Only load images if we have valid playerCardData and not using S3 card
+    if (!playerCardData || !playerCardData.class || !playerCardData.division || useS3Card) {
+      return;
+    }
+
     const imageSources:any = {
       background: "/player cards/background-orange.png",
       classPortrait: `/player cards/class-portraits/${playerCardData.class}.png`,
@@ -93,16 +107,20 @@ const Profile = () => {
         }
       };
     }
-  }, [playerCardData, highlander]); // Depend on playerCardData to reload images when it changes
+  }, [playerCardData, highlander, useS3Card]); // Depend on playerCardData to reload images when it changes
 
   useEffect(() => {
-    if (Object.keys(images).length > 0) {
+    if (Object.keys(images).length > 0 && !useS3Card && canvasRef.current) {
       drawCanvas();
     }
-  }, [images, rglInfo]); // Redraw when images or rglInfo change
+  }, [images, rglInfo, useS3Card]); // Redraw when images or rglInfo change, but not if using S3 card
 
   function drawCanvas() {
     const canvas:any = canvasRef.current;
+    if (!canvas) {
+      console.log('Canvas ref not available');
+      return;
+    }
     const ctx = canvas.getContext("2d");
 
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before redrawing
@@ -188,46 +206,109 @@ const Profile = () => {
     ctx.stroke();
   }
 
-  async function steamInfoCallProfile() {
-    let response: any = {};
+  async function fetchAllProfileData() {
     try {
-      response = await fetch(
-        `/api/steam-info?ids=${playerId}`,
+      const response: any = await fetch(
+        `/api/profile-data/${playerId}`,
         FetchResultTypes.JSON
       );
-      setPlayerSteamInfo(response.response.players[0]);
+
+      // Set all state from the consolidated response
+      if (response.playerSteamInfo) {
+        setPlayerSteamInfo(response.playerSteamInfo);
+      } else {
+        const fallbackInfo = {
+          personaname: "Steam Error",
+          avatarfull: "Steam Error"
+        };
+        setPlayerSteamInfo(fallbackInfo);
+      }
+
+      setMatchesPlayedInfo(response.matchHistory || []);
+      setRglInfo(response.rglInfo || {});
+      setTeamMatesList(response.peers || []);
+      setEnemiesList(response.enemies || []);
+      setTeamMatesSteamInfo(response.teamMatesSteamInfo || {});
+      setPerClassPlaytimeData(response.perClassStats || []);
+      setFormatData(response.perFormatStats || []);
+      setMapDisparityData(response.perMapStats || []);
+
+      // Process activity data
+      if (response.activity) {
+        activityMaker(response.activity);
+      }
+
+      // Handle player card data
+      if (response.playerCard && response.playerCard.length > 0) {
+        setAllPlayerCardData(response.playerCard); // Store full response
+        handlePlayerCardData(response.playerCard);
+      } else {
+        // No player card data available
+        setAllPlayerCardData([]);
+        setPlayerCardData([]);
+      }
     } catch (error) {
-      console.log(error);
-      response.personaname = "Steam Error";
-      response.avatarfull = "Steam Error";
-      setPlayerSteamInfo(response);
+      console.error('Failed to fetch profile data:', error);
+      // Set fallback values for critical UI elements
+      setPlayerSteamInfo({
+        personaname: "Error Loading Profile",
+        avatarfull: ""
+      });
     }
   }
 
-  async function playerCardCall() {
-    let response: any = {};
-    try {
-      response = await fetch(
-        `/api/playercard-stats/${playerId}`,
-        FetchResultTypes.JSON
-      );
-      if (response.length === 2){
-        setMultiDiv(true);
-        if (highlander) {
-          if (response[0].format === "HL") setPlayerCardData(response[0])
-          else setPlayerCardData(response[1])
-        } else {
-          if (response[0].format === "HL") setPlayerCardData(response[1])
-          else setPlayerCardData(response[0])
-        }
-      } else if (response.length === 1){
-        setMultiDiv(false);
-        setPlayerCardData(response[0]);
+  function handlePlayerCardData(cardData: any) {
+    if (cardData.length === 2) {
+      setMultiDiv(true);
+      if (highlander) {
+        if (cardData[0].format === "HL") setPlayerCardData(cardData[0]);
+        else setPlayerCardData(cardData[1]);
+      } else {
+        if (cardData[0].format === "HL") setPlayerCardData(cardData[1]);
+        else setPlayerCardData(cardData[0]);
       }
-      
-    } catch (error) {}
+    } else if (cardData.length === 1) {
+      setMultiDiv(false);
+      setPlayerCardData(cardData[0]);
+    }
   }
 
+  // No longer needed - player card data is fetched in fetchAllProfileData
+  // and re-selected when switching formats using the useEffect hook
+
+  async function fetchS3Card() {
+    try {
+      const seasonId = playerCardData.seasonid;
+      if (!seasonId) {
+        setUseS3Card(false);
+        return;
+      }
+
+      const response: any = await fetch(
+        `/api/profile-s3-card/${playerId}/${seasonId}`,
+        FetchResultTypes.JSON
+      );
+
+      if (response && response.exists && response.cardUrl) {
+        setS3CardUrl(response.cardUrl);
+        setUseS3Card(true);
+        setCardHolo(response.holo || false);
+      } else {
+        setS3CardUrl(null);
+        setUseS3Card(false);
+        setCardHolo(false);
+      }
+    } catch (error) {
+      console.log('S3 card not available, using canvas rendering', error);
+      setS3CardUrl(null);
+      setUseS3Card(false);
+      setCardHolo(false);
+    }
+  }
+
+  // These functions are no longer needed as data is fetched in fetchAllProfileData
+  // Keeping them commented out for reference during migration
+  /*
   async function steamInfoCall(currentPlayer: any) {
     let response: any;
     const idsString = currentPlayer.join(",");
@@ -281,6 +362,7 @@ const Profile = () => {
 
     activityMaker(response.rows);
   }
+  */
 
   let totalMatchLosses: any = 0;
   let totalMatchWins: any = 0;
@@ -294,7 +376,8 @@ const Profile = () => {
   });
   
   totalMatches = totalMatchLosses + totalMatchWins + totalMatchTies;
-  
+  // These functions are also no longer needed
+  /*
   async function formatDisparity() {
     const response: any = await fetch(
       `/api/per-format-stats/${playerId}`,
@@ -332,6 +415,7 @@ const Profile = () => {
     );
     setTeamMatesSteamInfo(steamObjects);
   }
+  */
 
   const currentWeekIndex = Math.floor(Date.now() / 1000 / 604800);
   const daysOfTheWeek = [
@@ -383,12 +467,13 @@ const Profile = () => {
   }
   
   return (
-    <div className=" bg-warmscale-7 min-h-screen "  data-testid="profile-container">
+    <div className="bg-warmscale-7 min-h-screen" data-testid="profile-container">
       <Navbar />
-      <div className="">
-        <div className="relative w-full h-fit">
-          <div className="flex justify-center w-full items-center bg-warmscale-8 py-8">
-            <div className="w-[76rem] justify-between px-2 md:flex">
+      <div className="pt-16">
+        {/* Header Section - Full Width Background */}
+        <div className="w-full bg-warmscale-8 py-8">
+          <div className="mx-auto max-w-[1200px] px-6 md:px-12 lg:px-16">
+            <div className="w-full justify-between md:flex">
               <div className="flex items-center max-md:justify-center ">
                 <img
                   src={playerSteamInfo.avatarfull}
@@ -489,9 +574,19 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="w-full flex justify-center">
-            <div className="xl:w-[76rem] w-full xl:flex justify-between mt-4">
+        </div>
+
+        {/* Main Content Section */}
+        <div className="mx-auto max-w-[1200px] px-6 md:px-12 lg:px-16 py-6">
+          <div className="w-full xl:flex justify-between">
               <div id="summary" className="">
+                {/* Card Showcase Section */}
+                <div className="flex justify-center">
+                  <div className="xl:w-full max-xl:w-[90vw]">
+                    <ProfileCardShowcase steamid={playerId} />
+                  </div>
+                </div>
+
                 <div className="flex justify-center">
                   <div className="xl:w-full w-72 max-xl:w-[90vw]">
                     <div
@@ -845,113 +940,18 @@ const Profile = () => {
                       </div>
                       <div className="w-full justify-center flex h-[440px]">
                         <div className=" flex items-center justify-center min-w-[20rem] w-[20rem] px-3.5">
-                          <animated.div
-                            ref={cardRef}
-                            style={{
-                              transform,
-                              background: "none", // Ensure the background is transparent
-                              width: "100%", // Set desired width
-                              height: "100%", // Set desired height
+                          <PlayerCard
+                            cardUrl={useS3Card ? s3CardUrl || undefined : undefined}
+                            holo={cardHolo}
+                            useCanvas={!useS3Card}
+                            canvasRef={!useS3Card ? canvasRef : undefined}
+                            enable3DTilt={true}
+                            imageClassName={useS3Card ? "" : "-ml-1.5 mt-3"}
+                            onError={() => {
+                              console.log('Failed to load S3 card, falling back to canvas');
+                              setUseS3Card(false);
                             }}
-                            onMouseMove={handleMouseMove}
-                            onMouseLeave={handleMouseLeave}
-                          >
-                            {/* <div className="h-96 select-none flex justify-center items-center relative opacity-95">
-                              <img
-                                src="\player cards\background.png"
-                                className="h-96 "
-                                alt=""
-                              />
-                              <img
-                                src={`/player cards/class-portraits/${playerCardData.class}.webp`}
-                                className="h-[16rem] top-16 right-14 absolute"
-                                alt=""
-                              />
-                              <img
-                                src={`/player cards/borders/${playerCardData.division}.png`}
-                                className="h-96 absolute"
-                                alt=""
-                              />
-                              <img
-                                src="\player cards\gradients.png"
-                                className="h-96 absolute"
-                                alt=""
-                              />
-                              <img
-                                src={`/player cards/class-icons/${playerCardData.class}.png`}
-                                className="h-5 absolute bottom-6"
-                                alt=""
-                              />
-                              <img
-                                src="\player cards\logo.png"
-                                className="h-96 absolute"
-                                alt=""
-                              />
-                              <div className="absolute text-[10px] left-[58px] top-[72px] text-white font-robotomono font-bold">
-                                OVERALL
-                              </div>
-                              <div className="absolute text-4xl left-[58px] top-[82px] text-white font-robotomono font-bold">
-                                {Math.round(
-                                  (playerCardData.cbt +
-                                    playerCardData.spt +
-                                    playerCardData.srv +
-                                    playerCardData.eff +
-                                    playerCardData.imp +
-                                    playerCardData.eva) /
-                                    6
-                                )}
-                              </div>
-                              <div className="absolute text-2xl left-[60px] top-[130px] rounded-full h-[1px] w-10 bg-white font-robotomono font-bold"></div>
-                              <img
-                                src={`/player cards/division-medals/${playerCardData.division}.png`}
-                                className="absolute left-[52px] top-[134px] h-14"
-                                alt=""
-                              />
-                              <div className="absolute text-3xl top-[200px] text-white font-roboto font-bold">
-                                {rglInfo.name}
-                              </div>
-                              <div className="absolute text-2xl top-[236px] rounded-full h-[1px] w-48 bg-white font-bold"></div>
-                              <div className="absolute text-2xl top-[244px] rounded-full h-20 w-[1px] bg-white font-bold"></div>
-                              <div className="absolute text-2xl top-[330px] rounded-full h-[1px] w-16 bg-white font-bold"></div>
-                              <div className="absolute text-2xl left-[90px] top-[240px] text-white font-robotomono font-bold">
-                                CBT
-                              </div>
-                              <div className="absolute text-2xl left-[90px] top-[265px] text-white font-robotomono font-bold">
-                                SPT
-                              </div>
-                              <div className="absolute text-2xl left-[90px] top-[290px] text-white font-robotomono font-bold">
-                                SRV
-                              </div>
-                              <div className="absolute text-2xl left-[195px] top-[240px] text-white font-robotomono font-bold">
-                                EFF
-                              </div>
-                              <div className="absolute text-2xl left-[195px] top-[265px] text-white font-robotomono font-bold">
-                                DMG
-                              </div>
-                              <div className="absolute text-2xl left-[195px] top-[290px] text-white font-robotomono font-bold">
-                                EVA
-                              </div>
-                              <div className="absolute text-2xl left-[55px] top-[240px] text-white font-robotomono font-extrabold">
-                                {playerCardData.cbt}
-                              </div>
-                              <div className="absolute text-2xl left-[55px] top-[265px] text-white font-robotomono font-extrabold">
-                                {playerCardData.spt}
-                              </div>
-                              <div className="absolute text-2xl left-[55px] top-[290px] text-white font-robotomono font-extrabold">
-                                {playerCardData.srv}
-                              </div>
-                              <div className="absolute text-2xl left-[160px] top-[240px] text-white font-robotomono font-extrabold">
-                                {playerCardData.eff}
-                              </div>
-                              <div className="absolute text-2xl left-[160px] top-[265px] text-white font-robotomono font-extrabold">
-                                {playerCardData.imp}
-                              </div>
-                              <div className="absolute text-2xl left-[160px] top-[290px] text-white font-robotomono font-extrabold">
-                                {playerCardData.eva}
-                              </div>
-                            </div> */}
-                            <canvas className="-ml-1.5 mt-3" ref={canvasRef} width="550" height="750" style={{transform: `scale(${0.55})`,transformOrigin: 'top left'}}></canvas>
-                          </animated.div>
+                          />
                         </div>
                       </div>
                       <div className="text-xs flex justify-center text-warmscale-3 font-semibold mt-2">

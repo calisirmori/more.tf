@@ -4,16 +4,19 @@ interface HoloEffectProps {
   isActive: boolean;
   maskUrl?: string;
   children: React.ReactNode;
+  disableTilt?: boolean;
 }
 
 const HoloEffect: React.FC<HoloEffectProps> = ({
   isActive,
   maskUrl = "/player cards/8rqqgH01 (2).svg",
-  children
+  children,
+  disableTilt = false
 }) => {
   const [mousePosition, setMousePosition] = useState({ x: 120, y: 168 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isActive) return;
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -22,6 +25,7 @@ const HoloEffect: React.FC<HoloEffectProps> = ({
   };
 
   const handleMouseLeave = () => {
+    if (!isActive) return;
     setMousePosition({ x: 120, y: 168 }); // Reset to center
   };
 
@@ -31,12 +35,12 @@ const HoloEffect: React.FC<HoloEffectProps> = ({
   const bgY = (mousePosition.y / rect.height) * 100;
   const backgroundPosition = `${bgX}% ${bgY}%`;
 
-  // Calculate 3D tilt
+  // Calculate 3D tilt (only if not disabled)
   const centerX = rect.width / 2;
   const centerY = rect.height / 2;
-  const rotateX = ((mousePosition.y - centerY) / centerY) * -10; // Max 10deg tilt
+  const rotateX = ((mousePosition.y - centerY) / centerY) * -10;
   const rotateY = ((mousePosition.x - centerX) / centerX) * 10;
-  const cardTransform = isActive
+  const cardTransform = (isActive && !disableTilt)
     ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
     : 'none';
 
@@ -46,9 +50,9 @@ const HoloEffect: React.FC<HoloEffectProps> = ({
       onMouseMove={isActive ? handleMouseMove : undefined}
       onMouseLeave={isActive ? handleMouseLeave : undefined}
       style={{
-        transformStyle: isActive ? 'preserve-3d' : undefined,
+        transformStyle: (isActive && !disableTilt) ? 'preserve-3d' : undefined,
         transform: cardTransform,
-        transition: 'transform 0.1s ease-out',
+        transition: disableTilt ? undefined : 'transform 0.1s ease-out',
       }}
     >
       {children}

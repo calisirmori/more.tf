@@ -110,6 +110,22 @@ const AdminDashboard = () => {
             </button>
           </div>
 
+          {/* Season Management Tool */}
+          <div className="bg-warmscale-6 p-6 rounded-lg shadow-lg border border-warmscale-5">
+            <h2 className="text-white text-2xl font-bold mb-3">
+              Season Management
+            </h2>
+            <p className="text-warmscale-2 mb-4">
+              Add, edit, and manage seasons for RGL and OZF leagues. Mark seasons as active or inactive.
+            </p>
+            <button
+              onClick={() => navigate("/admin/season-management")}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-semibold transition-colors"
+            >
+              Manage Seasons
+            </button>
+          </div>
+
           {/* Add more admin tools here as they are developed */}
         </div>
       </div>

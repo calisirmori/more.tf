@@ -1,5 +1,6 @@
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const path = require('path');
+const { normalizeDivisionForAssets } = require('./rarityMapping');
 
 // Path to assets
 const ASSETS_PATH = path.join(__dirname, '../client/public/player cards');
@@ -41,9 +42,13 @@ async function generatePlayerCard(player, colors) {
   );
 
   try {
+    // Normalize division name for asset loading
+    const normalizedDivision = normalizeDivisionForAssets(player.division);
+
     console.log('Loading images for card generation...', {
       player: player.rglname || player.id64,
       division: player.division,
+      normalizedDivision: normalizedDivision,
       class: player.class
     });
 
@@ -57,9 +62,9 @@ async function generatePlayerCard(player, colors) {
         console.error('Failed to load mask:', err.message);
         throw new Error(`Mask not found: ${MASK_PATH}`);
       }),
-      loadImage(path.join(ASSETS_PATH, `borders/${player.division}.png`)).catch(err => {
+      loadImage(path.join(ASSETS_PATH, `borders/${normalizedDivision}.png`)).catch(err => {
         console.error('Failed to load border:', err.message);
-        throw new Error(`Border not found for division: ${player.division}`);
+        throw new Error(`Border not found for division: ${player.division} (normalized: ${normalizedDivision})`);
       }),
       loadImage(path.join(ASSETS_PATH, `class-portraits/${player.class}.png`)).catch(err => {
         console.error('Failed to load class portrait:', err.message);
@@ -77,17 +82,17 @@ async function generatePlayerCard(player, colors) {
         console.error('Failed to load logo:', err.message);
         throw new Error('Logo image not found');
       }),
-      loadImage(path.join(ASSETS_PATH, `division-medals/${player.division}.png`)).catch(err => {
+      loadImage(path.join(ASSETS_PATH, `division-medals/${normalizedDivision}.png`)).catch(err => {
         console.error('Failed to load division medal:', err.message);
-        throw new Error(`Division medal not found for division: ${player.division}`);
+        throw new Error(`Division medal not found for division: ${player.division} (normalized: ${normalizedDivision})`);
       })
     ]);
 
     console.log('All images loaded successfully');
 
-    // Load crystals for invite division
+    // Load crystals for invite/premier divisions (legendary tier)
     let crystals = null;
-    if (player.division === 'invite') {
+    if (normalizedDivision === 'invite' || normalizedDivision === 'premier') {
       crystals = await loadImage(path.join(ASSETS_PATH, 'crystals.png'));
     }
 
@@ -201,8 +206,8 @@ async function generatePlayerCard(player, colors) {
     // Step 8: Draw logo
     ctx.drawImage(logo, 0, 0, 900, 1227);
 
-    // Step 9: Draw crystals for invite (with primary color tint)
-    if (crystals && player.division === 'invite') {
+    // Step 9: Draw crystals for invite/premier divisions (with primary color tint)
+    if (crystals) {
       // Create a separate canvas for tinting the crystals
       const crystalCanvas = createCanvas(900, 1227);
       const crystalCtx = crystalCanvas.getContext('2d');

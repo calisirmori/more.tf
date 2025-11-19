@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../shared-components/Navbar";
+import PageContainer from "../shared-components/PageContainer";
 import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import Footer from '../shared-components/Footer';
 import SearchBox from "../shared-components/searchUsername";

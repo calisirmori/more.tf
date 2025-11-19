@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { S3Client, ListObjectsV2Command, HeadObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, ListObjectsV2Command, HeadObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 
@@ -37,17 +37,19 @@ router.get('/player/:steamid', async (req, res) => {
     const seasons = seasonsResult.rows;
     const seasonIds = seasons.map(s => s.seasonid);
 
-    // Check S3 in batch using ListObjectsV2 with prefix for each season
-    // We'll make parallel requests for efficiency
+    // Check S3 in batch and get metadata
     const cardChecks = await Promise.all(
       seasonIds.map(async (seasonid) => {
         const key = `${seasonid}/${steamid}.png`;
         try {
-          await s3Client.send(new HeadObjectCommand({
+          const headResponse = await s3Client.send(new HeadObjectCommand({
             Bucket: BUCKET_NAME,
             Key: key
           }));
-          return seasonid; // Card exists
+          return {
+            seasonid,
+            metadata: headResponse.Metadata || {}
+          };
         } catch (err) {
           return null; // Card doesn't exist
         }
@@ -55,20 +57,27 @@ router.get('/player/:steamid', async (req, res) => {
     );
 
     // Filter out nulls (seasons without cards)
-    const seasonIdsWithCards = cardChecks.filter(id => id !== null);
+    const cardsWithMetadata = cardChecks.filter(card => card !== null);
 
-    // Build cards array only for seasons with cards in S3
+    // Build cards array with metadata
     const cards = seasons
-      .filter(season => seasonIdsWithCards.includes(season.seasonid))
-      .map(season => ({
-        seasonid: season.seasonid,
-        seasonName: season.seasonname,
-        league: season.league,
-        format: season.format,
-        displayName: `${season.league} ${season.format} S${season.seasonid}`,
-        cardUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${season.seasonid}/${steamid}.png`,
-        thumbnailUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${season.seasonid}/${steamid}.png`
-      }));
+      .filter(season => cardsWithMetadata.some(c => c.seasonid === season.seasonid))
+      .map(season => {
+        const cardMeta = cardsWithMetadata.find(c => c.seasonid === season.seasonid);
+        return {
+          seasonid: season.seasonid,
+          seasonName: season.seasonname,
+          league: season.league,
+          format: season.format,
+          displayName: `${season.league} ${season.format} S${season.seasonid}`,
+          cardUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${season.seasonid}/${steamid}.png`,
+          thumbnailUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${season.seasonid}/${steamid}.png`,
+          holo: cardMeta?.metadata?.holo === 'true',
+          rarity: cardMeta?.metadata?.rarity || 'common',
+          division: cardMeta?.metadata?.division || 'unknown',
+          class: cardMeta?.metadata?.class || 'unknown'
+        };
+      });
 
     res.json({
       steamid,
@@ -103,11 +112,13 @@ router.get('/player/:steamid/season/:seasonid', async (req, res) => {
     const key = `${seasonid}/${steamid}.png`;
 
     try {
-      // Check if the card exists in S3
-      await s3Client.send(new HeadObjectCommand({
+      // Check if the card exists in S3 and get metadata
+      const headResponse = await s3Client.send(new HeadObjectCommand({
         Bucket: BUCKET_NAME,
         Key: key
       }));
+
+      const metadata = headResponse.Metadata || {};
 
       res.json({
         seasonid: season.seasonid,
@@ -116,7 +127,11 @@ router.get('/player/:steamid/season/:seasonid', async (req, res) => {
         format: season.format,
         displayName: `${season.league} ${season.format} S${season.seasonid}`,
         cardUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`,
-        exists: true
+        exists: true,
+        holo: metadata.holo === 'true',
+        rarity: metadata.rarity || 'common',
+        division: metadata.division || 'unknown',
+        class: metadata.class || 'unknown'
       });
     } catch (headErr) {
       res.status(404).json({

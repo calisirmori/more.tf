@@ -3,6 +3,7 @@ const router = express.Router();
 const { S3Client, ListObjectsV2Command, DeleteObjectsCommand } = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
+const { getDivisionSortOrder } = require('../utils/rarityMapping');
 
 // Initialize S3 client
 const s3Client = new S3Client({
@@ -136,7 +137,7 @@ router.post('/design', async (req, res) => {
   }
 });
 
-// Get player card data for a specific season (simpler version using just seasonid)
+// Get player card data for a specific season with S3 status check
 router.get('/player-data/:seasonid', async (req, res) => {
   try {
     const seasonid = parseInt(req.params.seasonid);
@@ -146,21 +147,64 @@ router.get('/player-data/:seasonid', async (req, res) => {
        FROM player_card_info pci
        LEFT JOIN tf2gamers tg ON pci.id64 = tg.steamid
        WHERE pci.seasonid = $1
-       ORDER BY
-         CASE pci.division
-           WHEN 'invite' THEN 1
-           WHEN 'advanced' THEN 2
-           WHEN 'main' THEN 3
-           WHEN 'intermediate' THEN 4
-           WHEN 'amateur' THEN 5
-           WHEN 'newcomer' THEN 6
-           ELSE 7
-         END,
+       ORDER BY pci.division,
          ((pci.cbt*2) + (pci.eff*0.5) + (pci.eva*0.5) + (pci.imp*2) + pci.spt + pci.srv) / 7.0 DESC`,
       [seasonid]
     );
 
-    res.json(result.rows);
+    // Check S3 for existing cards
+    try {
+      const listCommand = new ListObjectsV2Command({
+        Bucket: BUCKET_NAME,
+        Prefix: `${seasonid}/`
+      });
+
+      const listResponse = await s3Client.send(listCommand);
+      const existingCards = new Set();
+
+      if (listResponse.Contents) {
+        listResponse.Contents.forEach(obj => {
+          // Extract player ID from key (format: seasonid/playerid.png)
+          const match = obj.Key.match(/\/(\d+)\.png$/);
+          if (match) {
+            existingCards.add(match[1]);
+          }
+        });
+      }
+
+      // Add generated status and URL to players, then sort properly
+      const playersWithStatus = result.rows.map(player => ({
+        ...player,
+        generated: existingCards.has(player.id64),
+        generatedUrl: existingCards.has(player.id64)
+          ? `https://${BUCKET_NAME}.s3.amazonaws.com/${seasonid}/${player.id64}.png`
+          : null
+      }));
+
+      // Sort using dynamic division sorting from rarityMapping
+      playersWithStatus.sort((a, b) => {
+        const orderA = getDivisionSortOrder(a.division);
+        const orderB = getDivisionSortOrder(b.division);
+
+        if (orderA !== orderB) {
+          return orderA - orderB; // Sort by division tier first
+        }
+
+        // Within same division, sort by player rating
+        const ratingA = ((a.cbt*2) + (a.eff*0.5) + (a.eva*0.5) + (a.imp*2) + a.spt + a.srv) / 7.0;
+        const ratingB = ((b.cbt*2) + (b.eff*0.5) + (b.eva*0.5) + (b.imp*2) + b.spt + b.srv) / 7.0;
+        return ratingB - ratingA; // Higher rating first
+      });
+
+      res.json(playersWithStatus);
+    } catch (s3Error) {
+      logger.warn('S3 check failed, returning players without generated status', {
+        error: s3Error.message,
+        seasonid
+      });
+      // If S3 check fails, return players without generated status
+      res.json(result.rows.map(player => ({ ...player, generated: false, generatedUrl: null })));
+    }
   } catch (err) {
     logger.error('Get player data error', { error: err.message, seasonid: req.params.seasonid });
     res.status(500).json({ error: 'An internal server error occurred' });

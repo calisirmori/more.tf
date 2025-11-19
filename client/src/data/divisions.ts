@@ -62,6 +62,15 @@ export const CUSTOM_DIVISIONS: Record<string, DivisionConfig> = {
     { id: "amateur", label: "AMATEUR" },
     { id: "newcomer", label: "NEWCOMER" },
   ],
+  // RGL HL S20 (ID 158) - Check actual division structure
+  "158": [
+    { id: "invite", label: "INVITE" },
+    { id: "advanced-1", label: "ADVANCED-1" },
+    { id: "advanced-2", label: "ADVANCED-2" },
+    { id: "main", label: "MAIN" },
+    { id: "amateur", label: "AMATEUR" },
+    { id: "newcomer", label: "NEWCOMER" },
+  ],
 };
 
 // Helper function to get divisions for a season

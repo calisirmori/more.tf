@@ -60,6 +60,11 @@ output "s3_bucket_url" {
   value       = "https://${aws_s3_bucket.season_cards.bucket}.s3.amazonaws.com"
 }
 
+output "redis_endpoint" {
+  description = "Redis cluster endpoint for session storage"
+  value       = "${aws_elasticache_cluster.redis.cache_nodes[0].address}:${aws_elasticache_cluster.redis.cache_nodes[0].port}"
+}
+
 output "admin_password_retrieval" {
   description = "Command to retrieve the admin portal password"
   value       = "aws secretsmanager get-secret-value --secret-id ${aws_secretsmanager_secret.app_secrets.arn} --query SecretString --output text --region ${var.aws_region} | jq -r .ADMIN_PASSWORD"

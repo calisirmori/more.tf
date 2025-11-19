@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/database');
 const logger = require('../utils/logger');
+const seasonCache = require('../utils/seasonCache');
 
 // Database query routes for player stats
 router.get('/activity/:id', (req, response) => {
@@ -154,7 +155,31 @@ router.get('/leaderboard-stats/:format', async (req, response) => {
 router.get('/playercard-stats/:id', async (req, response) => {
   try {
     const playerId = req.params.id;
-    const queryText = 'SELECT * FROM player_card_info WHERE id64 = $1 AND (seasonid = 163 OR seasonid = 164)';
+
+    // Get display card seasons from cache
+    const displayCardSeasons = await seasonCache.getDisplayCardSeasons();
+
+    // Extract season IDs for RGL (primary league)
+    const hlSeasonId = displayCardSeasons.RGL?.HL?.seasonid || displayCardSeasons.RGL?.Highlander?.seasonid;
+    const sixesSeasonId = displayCardSeasons.RGL?.['6s']?.seasonid || displayCardSeasons.RGL?.['6S']?.seasonid || displayCardSeasons.RGL?.Sixes?.seasonid;
+
+    // Build season filter - use display card seasons if available, otherwise fall back to hardcoded
+    let seasonFilter = '';
+    const seasonIds = [];
+
+    if (hlSeasonId) seasonIds.push(hlSeasonId);
+    if (sixesSeasonId) seasonIds.push(sixesSeasonId);
+
+    // Fallback to hardcoded seasons if no display card seasons are set
+    if (seasonIds.length === 0) {
+      seasonFilter = '(seasonid = 163 OR seasonid = 164 OR seasonid = 165 OR seasonid = 166)';
+    } else if (seasonIds.length === 1) {
+      seasonFilter = `seasonid = ${seasonIds[0]}`;
+    } else {
+      seasonFilter = `seasonid IN (${seasonIds.join(', ')})`;
+    }
+
+    const queryText = `SELECT * FROM player_card_info WHERE id64 = $1 AND ${seasonFilter}`;
 
     // Use a parameterized query to prevent SQL injection
     const result = await pool.query(queryText, [playerId]);

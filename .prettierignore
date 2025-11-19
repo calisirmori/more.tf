@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+.git
+.env
+*.lock
+package-lock.json
+yarn.lock
+coverage
+.cache
+public
+terraform
+*.md

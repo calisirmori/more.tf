@@ -4,6 +4,7 @@ const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 const { generatePlayerCard } = require('../utils/cardGenerator');
+const { getRarityFromDivision, isHoloDivision, getDivisionSortOrder } = require('../utils/rarityMapping');
 
 // Initialize S3 client
 const s3Client = new S3Client({
@@ -85,21 +86,25 @@ router.post('/generate-season-cards', async (req, res) => {
        FROM player_card_info pci
        LEFT JOIN tf2gamers tg ON pci.id64 = tg.steamid
        WHERE pci.seasonid = $1
-       ORDER BY
-         CASE pci.division
-           WHEN 'invite' THEN 1
-           WHEN 'advanced' THEN 2
-           WHEN 'main' THEN 3
-           WHEN 'intermediate' THEN 4
-           WHEN 'amateur' THEN 5
-           WHEN 'newcomer' THEN 6
-           ELSE 7
-         END,
+       ORDER BY pci.division,
          ((pci.cbt*2) + (pci.eff*0.5) + (pci.eva*0.5) + (pci.imp*2) + pci.spt + pci.srv) / 7.0 DESC`,
       [seasonid]
     );
 
-    const players = playerResult.rows;
+    // Sort players using the dynamic division sorting from rarityMapping
+    const players = playerResult.rows.sort((a, b) => {
+      const orderA = getDivisionSortOrder(a.division);
+      const orderB = getDivisionSortOrder(b.division);
+
+      if (orderA !== orderB) {
+        return orderA - orderB; // Sort by division tier first
+      }
+
+      // Within same division, sort by player rating
+      const ratingA = ((a.cbt*2) + (a.eff*0.5) + (a.eva*0.5) + (a.imp*2) + a.spt + a.srv) / 7.0;
+      const ratingB = ((b.cbt*2) + (b.eff*0.5) + (b.eva*0.5) + (b.imp*2) + b.spt + b.srv) / 7.0;
+      return ratingB - ratingA; // Higher rating first
+    });
 
     if (players.length === 0) {
       return res.status(404).json({ error: 'No players found for this season' });
@@ -166,13 +171,25 @@ router.post('/generate-season-cards', async (req, res) => {
         });
         logger.info('Card generated', { size: pngBuffer.length });
 
-        // Upload to S3
+        // Determine holo status and rarity based on division using centralized mapping
+        const isHolo = isHoloDivision(player.division);
+        const rarity = getRarityFromDivision(player.division);
+
+        // Upload to S3 with metadata
         const key = `${seasonid}/${player.id64}.png`;
         await s3Client.send(new PutObjectCommand({
           Bucket: BUCKET_NAME,
           Key: key,
           Body: pngBuffer,
-          ContentType: 'image/png'
+          ContentType: 'image/png',
+          Metadata: {
+            holo: isHolo.toString(),
+            rarity: rarity,
+            division: player.division || 'unknown',
+            class: player.class || 'unknown',
+            format: format,
+            league: league
+          }
         }));
 
         successCount++;

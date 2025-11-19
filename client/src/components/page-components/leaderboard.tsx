@@ -1,4 +1,5 @@
 import Navbar from "../shared-components/Navbar";
+import PageContainer from "../shared-components/PageContainer";
 import Footer from "../shared-components/Footer";
 import React, { useEffect, useState, useRef } from "react";
 import { S14summary, S15summary } from "../summary";
@@ -34,10 +35,10 @@ const Leaderboard = () => {
   let currentRow = 0;
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen"  data-testid="leaderboard-container">
+    <div className="bg-warmscale-7 min-h-screen" data-testid="leaderboard-container">
       <Navbar />
-      <div className="w-full h-full font-ubuntu">
-        <div className="flex w-full items-center justify-center mt-6">
+      <PageContainer className="font-ubuntu">
+        <div className="flex w-full items-center justify-center">
           <div>
             <div>
               <div className="text-5xl max-sm:text-3xl font-extrabold text-lightscale-3 -mt-1 text-center">
@@ -234,10 +235,9 @@ const Leaderboard = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-20">
-        <Footer/>
-
+      </PageContainer>
+      <div className="mt-10">
+        <Footer />
       </div>
     </div>
   );

@@ -14,6 +14,10 @@ const adminRoutes = require('./admin');
 const seasonCardRoutes = require('./season-cards');
 const generateCardsRoutes = require('./generate-cards');
 const playerCardsRoutes = require('./player-cards');
+const seasonManagementRoutes = require('./season-management');
+const activeSeasonsRoutes = require('./active-seasons');
+const cardInventoryRoutes = require('./card-inventory');
+const profileRoutes = require('./profile');
 
 // Mount route modules
 router.use('/', authRoutes);
@@ -28,5 +32,9 @@ router.use('/', adminRoutes);
 router.use('/season-cards', seasonCardRoutes);
 router.use('/generate', generateCardsRoutes);
 router.use('/player-cards', playerCardsRoutes);
+router.use('/season-management', seasonManagementRoutes);
+router.use('/card-inventory', cardInventoryRoutes);
+router.use('/', activeSeasonsRoutes);
+router.use('/', profileRoutes);
 
 module.exports = router;

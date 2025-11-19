@@ -1,0 +1,9 @@
+node_modules
+dist
+build
+.git
+*.config.js
+*.config.ts
+coverage
+public
+terraform

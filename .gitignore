@@ -37,6 +37,8 @@ terraform/override.tf
 terraform/override.tf.json
 terraform/*_override.tf
 terraform/*_override.tf.json
+terraform/tfplan
+terraform/*.tfplan
 
 # AWS
 *.pem
@@ -48,6 +50,13 @@ db-backups/
 
 # Outputs
 outputs.txt
+
+# One-time scripts
+scripts/add-displaycard-column.js
+scripts/create-card-inventory-system.js
+scripts/create-player-card-metadata-table.js
+scripts/create-season-metadata-table.js
+scripts/find-all-divisions.js
 
 # AWS safety
 .aws-config/

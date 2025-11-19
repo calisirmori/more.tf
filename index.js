@@ -4,6 +4,8 @@ const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
+const { RedisStore } = require('connect-redis');
+const redis = require('redis');
 const passportSteam = require('passport-steam');
 const SteamStrategy = passportSteam.Strategy;
 const cookieParser = require('cookie-parser');
@@ -17,23 +19,65 @@ const logger = require('./utils/logger');
 const pool = require('./config/database');
 const requestLogger = require('./middleware/requestLogger');
 const { errorHandler } = require('./middleware/errorHandler');
+const RedisCache = require('./utils/redisCache');
+const seasonCache = require('./utils/seasonCache');
 
 // Import routes
 const apiRoutes = require('./routes/api');
 
 // Server configuration
 const port = process.env.PORT || 3000;
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Redis client configuration
+let redisClient;
+let sessionStore;
+
+if (process.env.REDIS_HOST) {
+  // Initialize Redis client
+  redisClient = redis.createClient({
+    socket: {
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT || 6379,
+    },
+    password: process.env.REDIS_PASSWORD || undefined,
+  });
+
+  redisClient.on('error', (err) => logger.error('Redis Client Error', { error: err.message }));
+  redisClient.on('connect', () => logger.info('Redis Client Connected'));
+
+  // Connect to Redis
+  redisClient.connect().catch((err) => {
+    logger.error('Failed to connect to Redis', { error: err.message });
+  });
+
+  // Initialize Redis session store
+  sessionStore = new RedisStore({ client: redisClient });
+  logger.info('Using Redis session store');
+
+  // Initialize Redis cache for season data
+  const redisCacheInstance = new RedisCache(redisClient);
+  seasonCache.setRedisCache(redisCacheInstance);
+  logger.info('Season cache initialized with Redis (24-hour TTL)');
+} else {
+  logger.warn('No Redis configuration found, using memory store (not recommended for production)');
+  sessionStore = undefined; // Will use default memory store
+}
 
 // Middleware setup
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 app.use(session({
+  store: sessionStore,
   secret: process.env.SESSION_SECRET || 'Whatever_You_Want',
-  saveUninitialized: true,
-  resave: false,
+  saveUninitialized: false, // Don't save empty sessions
+  resave: false, // Don't save session if unmodified
   cookie: {
-    maxAge: 31556952000
+    secure: isProduction, // Only use secure cookies in production (HTTPS)
+    httpOnly: true, // Prevent XSS attacks
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    sameSite: isProduction ? 'none' : 'lax', // CSRF protection
   }
 }));
 app.use(passport.initialize());
@@ -59,9 +103,12 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
+// Use localhost for development, production URL otherwise
+const baseURL = isProduction ? 'https://more.tf' : 'http://localhost:3000';
+
 passport.use(new SteamStrategy({
-  returnURL: 'https://more.tf/api/auth/steam/return',
-  realm: 'https://more.tf',
+  returnURL: `${baseURL}/api/auth/steam/return`,
+  realm: baseURL,
   apiKey: `${process.env.STEAMKEY}`
 }, function (identifier, profile, done) {
   process.nextTick(function () {

@@ -34,5 +34,7 @@ resource "aws_secretsmanager_secret_version" "app_secrets" {
     SESSION_SECRET = random_password.session_secret.result
     ADMIN_PASSWORD = random_password.admin_password.result
     PORT           = tostring(var.app_port)
+    REDIS_HOST     = aws_elasticache_cluster.redis.cache_nodes[0].address
+    REDIS_PORT     = tostring(aws_elasticache_cluster.redis.cache_nodes[0].port)
   })
 }
