@@ -18,8 +18,9 @@ const seasonManagementRoutes = require('./season-management');
 const activeSeasonsRoutes = require('./active-seasons');
 const cardInventoryRoutes = require('./card-inventory');
 const profileRoutes = require('./profile');
-const v2ViewerRoutes = require('./v2/viewer');
-const { router: v2LogRoutes } = require('./v2/log');
+// V2 routes commented out - work in progress
+// const v2ViewerRoutes = require('./v2/viewer');
+// const { router: v2LogRoutes } = require('./v2/log');
 
 // Mount route modules
 router.use('/', authRoutes);
@@ -38,7 +39,8 @@ router.use('/season-management', seasonManagementRoutes);
 router.use('/card-inventory', cardInventoryRoutes);
 router.use('/', activeSeasonsRoutes);
 router.use('/', profileRoutes);
-router.use('/v2', v2ViewerRoutes);
-router.use('/v2', v2LogRoutes);
+// V2 routes commented out - work in progress
+// router.use('/v2', v2ViewerRoutes);
+// router.use('/v2', v2LogRoutes);
 
 module.exports = router;
