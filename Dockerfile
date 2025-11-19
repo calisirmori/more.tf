@@ -39,9 +39,14 @@ RUN apk add --no-cache \
 
 # Copy package files first for better layer caching
 COPY package*.json ./
+COPY tsconfig.json ./
 
 # Install ALL dependencies (including devDependencies needed for native builds)
 RUN npm ci
+
+# Copy parser-v2 source and build it
+COPY parser-v2/ ./parser-v2/
+RUN npx tsc -p parser-v2/tsconfig.json
 
 # Stage 3: Final production image
 FROM node:19-alpine
@@ -60,6 +65,9 @@ COPY package*.json ./
 
 # Copy node_modules from dependencies stage (already built with native modules)
 COPY --from=dependencies /app/node_modules ./node_modules
+
+# Copy built parser-v2 from dependencies stage
+COPY --from=dependencies /app/parser-v2/dist ./parser-v2/dist
 
 # Copy backend source files (excluding items in .dockerignore)
 COPY . ./

@@ -33,7 +33,7 @@ EXPLORATION_SUMMARY.txt
 
 # Build output (we build inside Docker)
 client/dist/
-dist/
+# Note: parser-v2/dist/ is pre-built and must be included
 
 # Test files
 **/__tests__/

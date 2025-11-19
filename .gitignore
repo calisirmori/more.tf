@@ -65,9 +65,9 @@ scripts/create-player-card-metadata-table.js
 scripts/create-season-metadata-table.js
 scripts/find-all-divisions.js
 
-# Parser V2 (work in progress)
-parser-v2/
-routes/v2/
+# Parser V2 build output (source is tracked)
+parser-v2/dist/
+parser-v2/node_modules/
 
 # AWS safety
 .aws-config/
