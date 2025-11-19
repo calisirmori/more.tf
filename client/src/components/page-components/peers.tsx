@@ -1,43 +1,43 @@
-import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from "react";
-import Navbar from "../shared-components/Navbar";
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import Footer from "../shared-components/Footer";
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Fragment } from "react";
-import { classList } from "../ClassNames";
+import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import Navbar from '../shared-components/Navbar';
+import { fetch, FetchResultTypes } from '@sapphire/fetch';
+import Footer from '../shared-components/Footer';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { Fragment } from 'react';
+import { classList } from '../ClassNames';
 
 type SortField =
-  | "teamate_count"
-  | "enemy_count"
-  | "winrate_with"
-  | "winrate_against";
+  | 'teamate_count'
+  | 'enemy_count'
+  | 'winrate_with'
+  | 'winrate_against';
 
 const Peers = () => {
   const id = window.location.href;
-  const idArray = id.split("/");
+  const idArray = id.split('/');
   const playerId = idArray[4];
 
-  const [mapInput, setMapInput] = useState<any>("none");
-  const [mapSearched, setMapSearched] = useState<any>("none");
-  const [formatSearched, setFormatSearched] = useState<any>("none");
-  const [classSearched, setClassSearched] = useState<any>("none");
+  const [mapInput, setMapInput] = useState<any>('none');
+  const [mapSearched, setMapSearched] = useState<any>('none');
+  const [formatSearched, setFormatSearched] = useState<any>('none');
+  const [classSearched, setClassSearched] = useState<any>('none');
   const [playerSteamInfo, setPlayerSteamInfo] = useState<any>({});
   const [peers, setPeers] = useState<any>([]);
-  const [sortField, setSortField] = useState<SortField>("teamate_count");
+  const [sortField, setSortField] = useState<SortField>('teamate_count');
   const [sortOrder, setSortOrder] = useState<any>(true);
   const [maxMatchesWith, setMaxMatchesWith] = useState<number>(0);
   const [maxMatchesAgainst, setMaxMatchesAgainst] = useState<number>(0);
-  const [dates, setDates] = useState({ startDate: "", endDate: "" });
+  const [dates, setDates] = useState({ startDate: '', endDate: '' });
   const [shouldSort, setShouldSort] = useState(false);
   const [displayCount, setDisplayCount] = useState(100);
   const [searchedPlayer, setSearchedPlayer] = useState<any>([]);
   const [seachOpen, setSearchOpen] = useState(true);
 
   const formatNames: any = {
-    none: "Any",
-    HL: "Highlander",
-    "6s": "Sixes",
+    none: 'Any',
+    HL: 'Highlander',
+    '6s': 'Sixes',
   };
 
   useEffect(() => {
@@ -73,13 +73,15 @@ const Peers = () => {
       <th
         onClick={() => {
           setSortField(sortVariable);
-          sortField === sortVariable
-            ? setSortOrder(!sortOrder)
-            : setSortOrder(true);
+          if (sortField === sortVariable) {
+            setSortOrder(!sortOrder);
+          } else {
+            setSortOrder(true);
+          }
           setShouldSort(true);
         }}
         className="px-6 py-3 h-12 border-b  border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider hover:text-lightscale-2 hover:cursor-pointer duration-200 group"
-        style={{ width: "16%" }}
+        style={{ width: '16%' }}
       >
         <div className="flex items-center">
           <div>{name}</div>
@@ -147,8 +149,8 @@ const Peers = () => {
     } catch (error) {
       console.log(error);
       console.log(response);
-      response.personaname = "Steam Error";
-      response.avatarfull = "Steam Error";
+      response.personaname = 'Steam Error';
+      response.avatarfull = 'Steam Error';
       setPlayerSteamInfo(response);
     }
   }
@@ -196,7 +198,7 @@ const Peers = () => {
       setPeers(peersData);
       setShouldSort(true);
     } catch (error) {
-      console.error("Error fetching peers:", error);
+      console.error('Error fetching peers:', error);
     }
   }
 
@@ -221,7 +223,7 @@ const Peers = () => {
     setDates(newDates);
   };
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [timer, setTimer] = useState<any>(null);
   const [searchInternalData, setSearchInternalData] = useState<any>([]);
   const [logsData, setLogsData] = useState<any>(null);
@@ -243,7 +245,7 @@ const Peers = () => {
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       clearTimeout(timer);
       handleSearch(searchTerm);
     }
@@ -254,7 +256,7 @@ const Peers = () => {
 
     if (input.length <= 2) {
       setSearchInternalData(null);
-      return "Search term is too short";
+      return 'Search term is too short';
     }
     setIsLoading(true); // Set loading to true when the search starts
 
@@ -271,7 +273,7 @@ const Peers = () => {
       setSearchInternalData(response.rows);
       setLogsData(null);
     } catch (error) {
-      console.error("Search failed:", error);
+      console.error('Search failed:', error);
       return null;
     } finally {
       setSearchOpen(true);
@@ -288,16 +290,16 @@ const Peers = () => {
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [popoutRef]);
 
   useEffect(() => {}, [searchedPlayer]);
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen"  data-testid="peers-container">
+    <div className=" bg-warmscale-7 min-h-screen" data-testid="peers-container">
       <Navbar />
       <div className="flex flex-col">
         <div className="relative w-full h-fit flex-grow">
@@ -314,7 +316,7 @@ const Peers = () => {
                     href={`/profile/${playerId}`}
                     className="text-lightscale-2 font-bold sm:text-5xl max-sm:text-3xl hover:underline"
                   >
-                    {playerSteamInfo.personaname}{" "}
+                    {playerSteamInfo.personaname}{' '}
                   </a>
                 </div>
               </div>
@@ -326,6 +328,7 @@ const Peers = () => {
                   target="_blank"
                   href={`https://steamcommunity.com/profiles/${playerId}`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                  rel="noreferrer"
                 >
                   Steam
                 </a>
@@ -333,6 +336,7 @@ const Peers = () => {
                   target="_blank"
                   href={`https://demos.tf/profiles/${playerId}`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                  rel="noreferrer"
                 >
                   demos.tf
                 </a>
@@ -340,6 +344,7 @@ const Peers = () => {
                   target="_blank"
                   href={`https://etf2l.org/search/${playerId}/`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow text-lightscale-2 font-bold font-cantarell"
+                  rel="noreferrer"
                 >
                   <img
                     src="../../../site icons/etf2l.webp"
@@ -351,6 +356,7 @@ const Peers = () => {
                   target="_blank"
                   href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${playerId}&r=24`}
                   className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
+                  rel="noreferrer"
                 >
                   <img
                     src="../../../site icons/rgl.png"
@@ -426,11 +432,11 @@ const Peers = () => {
                         <div className="py-1">
                           {selectOptions(
                             setFormatSearched,
-                            "Any (Default)",
-                            "none"
+                            'Any (Default)',
+                            'none'
                           )}
-                          {selectOptions(setFormatSearched, "Highlander", "HL")}
-                          {selectOptions(setFormatSearched, "Sixes", "6s")}
+                          {selectOptions(setFormatSearched, 'Highlander', 'HL')}
+                          {selectOptions(setFormatSearched, 'Sixes', '6s')}
                         </div>
                       </Menu.Items>
                     </Transition>
@@ -447,9 +453,9 @@ const Peers = () => {
                   >
                     <div>
                       <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-warmscale-85 px-3 py-2 text-sm font-semibold text-lightscale-2 shadow-sm ring-1 ring-inset ring-warmscale-82 hover:bg-warmscale-82">
-                        {classSearched !== "none"
+                        {classSearched !== 'none'
                           ? classList[classSearched].name
-                          : "Any"}
+                          : 'Any'}
                         <ChevronDownIcon
                           className="-mr-1 h-5 w-5 text-gray-400"
                           aria-hidden="true"
@@ -470,34 +476,34 @@ const Peers = () => {
                         <div className="py-1">
                           {selectOptions(
                             setClassSearched,
-                            "Any Class (Default)",
-                            "none"
+                            'Any Class (Default)',
+                            'none'
                           )}
-                          {selectOptions(setClassSearched, "Scout", "scout")}
+                          {selectOptions(setClassSearched, 'Scout', 'scout')}
                           {selectOptions(
                             setClassSearched,
-                            "Soldier",
-                            "soldier"
+                            'Soldier',
+                            'soldier'
                           )}
-                          {selectOptions(setClassSearched, "Pyro", "pyro")}
+                          {selectOptions(setClassSearched, 'Pyro', 'pyro')}
                           {selectOptions(
                             setClassSearched,
-                            "Demoman",
-                            "demoman"
-                          )}
-                          {selectOptions(
-                            setClassSearched,
-                            "Heavy",
-                            "heavyweapons"
+                            'Demoman',
+                            'demoman'
                           )}
                           {selectOptions(
                             setClassSearched,
-                            "Engineer",
-                            "engineer"
+                            'Heavy',
+                            'heavyweapons'
                           )}
-                          {selectOptions(setClassSearched, "Medic", "medic")}
-                          {selectOptions(setClassSearched, "Sniper", "sniper")}
-                          {selectOptions(setClassSearched, "Spy", "spy")}
+                          {selectOptions(
+                            setClassSearched,
+                            'Engineer',
+                            'engineer'
+                          )}
+                          {selectOptions(setClassSearched, 'Medic', 'medic')}
+                          {selectOptions(setClassSearched, 'Sniper', 'sniper')}
+                          {selectOptions(setClassSearched, 'Spy', 'spy')}
                         </div>
                       </Menu.Items>
                     </Transition>
@@ -508,10 +514,10 @@ const Peers = () => {
                     Map
                   </div>
                   <input
-                    value={mapInput === "none" ? "" : mapInput}
+                    value={mapInput === 'none' ? '' : mapInput}
                     onChange={(e) => {
                       setMapInput(
-                        e.target.value.length === 0 ? "none" : e.target.value
+                        e.target.value.length === 0 ? 'none' : e.target.value
                       );
                     }}
                     type="text"
@@ -648,31 +654,31 @@ const Peers = () => {
                     <tr className="font-cantarell">
                       <th
                         className="px-6 py-3 lg:min-w-[245px]  border-b border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider"
-                        style={{ width: "15%" }}
+                        style={{ width: '15%' }}
                       >
                         Player
                       </th>
                       {header(
                         setSortField,
                         sortField,
-                        "teamate_count",
-                        "Matches With"
+                        'teamate_count',
+                        'Matches With'
                       )}
                       <th
                         className="px-6 py-3 h-12 min-w-[130px] border-b border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider"
-                        style={{ width: "15%" }}
+                        style={{ width: '15%' }}
                       >
                         Win Rate
                       </th>
                       {header(
                         setSortField,
                         sortField,
-                        "enemy_count",
-                        "Matches Against"
+                        'enemy_count',
+                        'Matches Against'
                       )}
                       <th
                         className="px-6 py-3 h-12 border-b min-w-[130px] border-warmscale-6/40 text-left leading-4 text-lightscale-5 tracking-wider"
-                        style={{ width: "15%" }}
+                        style={{ width: '15%' }}
                       >
                         Win Rate
                       </th>
@@ -743,7 +749,7 @@ const Peers = () => {
                                       }%`,
                                     }}
                                   >
-                                    {" "}
+                                    {' '}
                                   </div>
                                 </div>
                               </div>
@@ -757,16 +763,16 @@ const Peers = () => {
                                   <div
                                     className={`h-2 rounded-sm ${
                                       teamMateWinRate >= 50
-                                        ? "bg-green-500"
+                                        ? 'bg-green-500'
                                         : teamMateWinRate === 0
-                                        ? "bg-warmscale-5"
-                                        : "bg-red-500"
+                                          ? 'bg-warmscale-5'
+                                          : 'bg-red-500'
                                     }`}
                                     style={{
                                       width: `${teamMateWinRate}%`,
                                     }}
                                   >
-                                    {" "}
+                                    {' '}
                                   </div>
                                 </div>
                               </div>
@@ -785,7 +791,7 @@ const Peers = () => {
                                       }%`,
                                     }}
                                   >
-                                    {" "}
+                                    {' '}
                                   </div>
                                 </div>
                               </div>
@@ -799,14 +805,14 @@ const Peers = () => {
                                   <div
                                     className={` h-2 rounded-sm ${
                                       enemyWinRate >= 50
-                                        ? "bg-green-500"
-                                        : "bg-red-500"
+                                        ? 'bg-green-500'
+                                        : 'bg-red-500'
                                     }`}
                                     style={{
                                       width: `${enemyWinRate}%`,
                                     }}
                                   >
-                                    {" "}
+                                    {' '}
                                   </div>
                                 </div>
                               </div>
@@ -828,7 +834,7 @@ const Peers = () => {
                 }
                 className={`w-full relative bg-warmscale-8 rounded-b-md flex justify-center items-center py-1 ${
                   displayCount !== peers.length &&
-                  "hover:bg-warmscale-6 hover:cursor-pointer group"
+                  'hover:bg-warmscale-6 hover:cursor-pointer group'
                 }  `}
               >
                 <svg
@@ -872,8 +878,8 @@ function selectOptions(
         <div
           onClick={() => setClassSearched(currentOptionId)}
           className={classNames(
-            active ? "bg-warmscale-8 text-lightscale-1" : "text-lightscale-1",
-            "block px-4 py-2 text-sm cursor-pointer"
+            active ? 'bg-warmscale-8 text-lightscale-1' : 'text-lightscale-1',
+            'block px-4 py-2 text-sm cursor-pointer'
           )}
         >
           {currentOption}
@@ -884,6 +890,6 @@ function selectOptions(
 }
 
 function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 export default Peers;

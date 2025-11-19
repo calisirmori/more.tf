@@ -26,7 +26,7 @@ router.get('/active-seasons/:league/:format', async (req, res) => {
       return res.status(404).json({
         error: 'No active season found for this league/format',
         league,
-        format
+        format,
       });
     }
 
@@ -35,7 +35,7 @@ router.get('/active-seasons/:league/:format', async (req, res) => {
     logger.error('Get active season error', {
       error: err.message,
       league: req.params.league,
-      format: req.params.format
+      format: req.params.format,
     });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
@@ -64,7 +64,7 @@ router.get('/display-card-seasons/:league/:format', async (req, res) => {
       return res.status(404).json({
         error: 'No display card season found for this league/format',
         league,
-        format
+        format,
       });
     }
 
@@ -73,7 +73,7 @@ router.get('/display-card-seasons/:league/:format', async (req, res) => {
     logger.error('Get display card season error', {
       error: err.message,
       league: req.params.league,
-      format: req.params.format
+      format: req.params.format,
     });
     res.status(500).json({ error: 'An internal server error occurred' });
   }

@@ -1,415 +1,625 @@
-const { fetch, FetchResultTypes, FetchMethods } = require("@sapphire/fetch");
+const { fetch, FetchResultTypes, FetchMethods } = require('@sapphire/fetch');
 
-function nonTriggeredEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
-    if(unparsedEvent.includes('" killed "') && !unparsedEvent.includes("feign_death") && finalObject.info.gameIsActive){
-        killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
-    } else if (unparsedEvent.includes('say')){
-        chatMessage(unparsedEvent, finalObject, playerIDFinder);
-    } else if (unparsedEvent.includes('changed role to') || unparsedEvent.includes('connected, address') || unparsedEvent.includes('entered')){
-        playerConnected(unparsedEvent, finalObject, playerIDFinder);
-    } else if (unparsedEvent.includes('picked up item') && finalObject.info.gameIsActive){
-        resupEvents(unparsedEvent, finalObject, playerIDFinder)
-    } else if (unparsedEvent.includes('spawned as')){
-        deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
-    } else if (unparsedEvent.includes('committed suicide with')) {
-        suicideEvent(unparsedEvent, finalObject, playerIDFinder);
-    } else if (unparsedEvent.includes('score')) {
-        scoreUpdate(unparsedEvent, finalObject)
-    } else if (unparsedEvent.includes('disconnected')) {
-        disconnectEvent(unparsedEvent, finalObject, playerIDFinder)
-    } else if (unparsedEvent.includes('joined team')) {
-        let playerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-        finalObject.players[playerIDFinder[playerId3]]!== undefined && (finalObject.players[playerIDFinder[playerId3]].team = unparsedEvent.includes('joined team "Red"') ? "red" : unparsedEvent.includes('joined team "Spectator"') ? "spectator" : "blue");
-    } else if (!unparsedEvent.includes('feign_death') 
-    && !unparsedEvent.includes('position_report')
-    && !unparsedEvent.includes('entered') && finalObject.info.gameIsActive) {
-    }
+function nonTriggeredEvent(
+  unparsedEvent,
+  finalObject,
+  playerIDFinder,
+  lastDeathTime
+) {
+  if (
+    unparsedEvent.includes('" killed "') &&
+    !unparsedEvent.includes('feign_death') &&
+    finalObject.info.gameIsActive
+  ) {
+    killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
+  } else if (unparsedEvent.includes('say')) {
+    chatMessage(unparsedEvent, finalObject, playerIDFinder);
+  } else if (
+    unparsedEvent.includes('changed role to') ||
+    unparsedEvent.includes('connected, address') ||
+    unparsedEvent.includes('entered')
+  ) {
+    playerConnected(unparsedEvent, finalObject, playerIDFinder);
+  } else if (
+    unparsedEvent.includes('picked up item') &&
+    finalObject.info.gameIsActive
+  ) {
+    resupEvents(unparsedEvent, finalObject, playerIDFinder);
+  } else if (unparsedEvent.includes('spawned as')) {
+    deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime);
+  } else if (unparsedEvent.includes('committed suicide with')) {
+    suicideEvent(unparsedEvent, finalObject, playerIDFinder);
+  } else if (unparsedEvent.includes('score')) {
+    scoreUpdate(unparsedEvent, finalObject);
+  } else if (unparsedEvent.includes('disconnected')) {
+    disconnectEvent(unparsedEvent, finalObject, playerIDFinder);
+  } else if (unparsedEvent.includes('joined team')) {
+    let playerId3 = unparsedEvent.slice(
+      unparsedEvent.indexOf('[U:1:'),
+      unparsedEvent.indexOf(']>') + 1
+    );
+    finalObject.players[playerIDFinder[playerId3]] !== undefined &&
+      (finalObject.players[playerIDFinder[playerId3]].team =
+        unparsedEvent.includes('joined team "Red"')
+          ? 'red'
+          : unparsedEvent.includes('joined team "Spectator"')
+            ? 'spectator'
+            : 'blue');
+  } else if (
+    !unparsedEvent.includes('feign_death') &&
+    !unparsedEvent.includes('position_report') &&
+    !unparsedEvent.includes('entered') &&
+    finalObject.info.gameIsActive
+  ) {
+  }
 }
 
-function disconnectEvent(unparsedEvent, finalObject, playerIDFinder){
-    let playerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    finalObject.players[playerIDFinder[playerId3]] !== undefined && (finalObject.players[playerIDFinder[playerId3]].leftGame = eventDateToSeconds(unparsedEvent));
+function disconnectEvent(unparsedEvent, finalObject, playerIDFinder) {
+  let playerId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  finalObject.players[playerIDFinder[playerId3]] !== undefined &&
+    (finalObject.players[playerIDFinder[playerId3]].leftGame =
+      eventDateToSeconds(unparsedEvent));
 }
 
-function scoreUpdate(unparsedEvent, finalObject){
-    if(unparsedEvent.includes('current score')){
-        unparsedEvent.includes('Red') && (finalObject.rounds[finalObject.rounds.length - 1].teamScores.red.score =  unparsedEvent.slice(unparsedEvent.indexOf('current score "') + 15, unparsedEvent.indexOf('" with')));
-        unparsedEvent.includes('Blue') && (finalObject.rounds[finalObject.rounds.length - 1].teamScores.blue.score = unparsedEvent.slice(unparsedEvent.indexOf('current score "') + 15, unparsedEvent.indexOf('" with')));
-    } else if (unparsedEvent.includes('final score')){
-        unparsedEvent.includes('Red') && (finalObject.teams.red.score =  unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
-        unparsedEvent.includes('Blue') && (finalObject.teams.blue.score = finalObject.info.map.includes("pl_") ? 1 : unparsedEvent.slice(unparsedEvent.indexOf('final score "') + 13, unparsedEvent.indexOf('" with')));
-    }
+function scoreUpdate(unparsedEvent, finalObject) {
+  if (unparsedEvent.includes('current score')) {
+    unparsedEvent.includes('Red') &&
+      (finalObject.rounds[finalObject.rounds.length - 1].teamScores.red.score =
+        unparsedEvent.slice(
+          unparsedEvent.indexOf('current score "') + 15,
+          unparsedEvent.indexOf('" with')
+        ));
+    unparsedEvent.includes('Blue') &&
+      (finalObject.rounds[finalObject.rounds.length - 1].teamScores.blue.score =
+        unparsedEvent.slice(
+          unparsedEvent.indexOf('current score "') + 15,
+          unparsedEvent.indexOf('" with')
+        ));
+  } else if (unparsedEvent.includes('final score')) {
+    unparsedEvent.includes('Red') &&
+      (finalObject.teams.red.score = unparsedEvent.slice(
+        unparsedEvent.indexOf('final score "') + 13,
+        unparsedEvent.indexOf('" with')
+      ));
+    unparsedEvent.includes('Blue') &&
+      (finalObject.teams.blue.score = finalObject.info.map.includes('pl_')
+        ? 1
+        : unparsedEvent.slice(
+            unparsedEvent.indexOf('final score "') + 13,
+            unparsedEvent.indexOf('" with')
+          ));
+  }
 }
 
-function chatMessage(unparsedEvent, finalObject, playerIDFinder){
-    if (unparsedEvent.includes('" say "')){
-        let chatterId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-        let chatObject = {
-            userId : playerIDFinder[chatterId3],
-            time: eventDateToSeconds(unparsedEvent),
-            message: unparsedEvent.slice(unparsedEvent.indexOf('" say "') + 7, unparsedEvent.lastIndexOf('"'))
-        };
-       finalObject.chat.push(chatObject);
-    }
-}
-
-function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
-    let killerId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    let victimId3 = unparsedEvent.slice(unparsedEvent.lastIndexOf('[U:1:'), unparsedEvent.lastIndexOf(']>') + 1);
-    let killerCordinates = (unparsedEvent.slice(unparsedEvent.indexOf('attacker_position') + 19, unparsedEvent.lastIndexOf(') (victim_position') - 1)).split(" ");
-    let victimCordinates = (unparsedEvent.slice(unparsedEvent.indexOf('victim_position') + 17, unparsedEvent.lastIndexOf('")'))).split(" ");
-    let killerWeapon = unparsedEvent.slice(unparsedEvent.indexOf('with "') + 6, unparsedEvent.lastIndexOf('" ('));
-    
-    let killerObject = finalObject.players[playerIDFinder[killerId3]];
-    let victimObject = finalObject.players[playerIDFinder[victimId3]];
-    
-    //Record kill to player stat
-    killerObject.kills++;
-    victimObject.deaths++;
-    //killer gun stat
-    
-    //kill to round
-    finalObject.rounds[finalObject.rounds.length - 1].teamScores[killerObject.team].kills++;
-    
-    //team object kill stat
-    finalObject.teams[killerObject.team].kills ++;
-    
-    //Last death time recorded
-    lastDeathTime[playerIDFinder[victimId3]] = eventDateToSeconds(unparsedEvent);
-    
-    //kill class specific stats
-    let currentKillerClass = killerObject.class;
-    let currentvictimClass = victimObject.class;
-
-
-    if(killerObject.classStats[currentKillerClass].weapons[killerWeapon] === undefined){
-        killerObject.classStats[currentKillerClass].weapons[killerWeapon] = {
-            kills: 0
-        }
-    }
-
-    killerObject.classStats[currentKillerClass].weapons[killerWeapon].kills++;
-    killerObject.classStats[currentKillerClass].kills++;
-    victimObject.classStats[currentvictimClass].deaths++;
-    
-    // Kill event is made here
-    let eventObject = {
-        type: "kill",
-        killerId: playerIDFinder[killerId3],
-        victimId: playerIDFinder[victimId3],
-        time: eventDateToSeconds(unparsedEvent),
-        elapsedTime: eventDateToSeconds(unparsedEvent) - finalObject.info.date,
-        killer:{
-            class: currentKillerClass,
-            position:{
-                x: killerCordinates[0],
-                y: killerCordinates[1],
-                z: killerCordinates[2],
-            },
-        },
-        victim:{
-            class: currentvictimClass,
-            position:{
-                x: victimCordinates[0],
-                y: victimCordinates[1],
-                z: victimCordinates[2],
-            },
-        },
-        weapon: killerWeapon,
-        customkill: unparsedEvent.includes("custom") ? unparsedEvent.slice(unparsedEvent.indexOf('customkill "') + 12, unparsedEvent.lastIndexOf(') (attacker_position') - 1) : false,
-        distance: Math.round(Math.hypot(parseInt(killerCordinates[0])+parseInt(victimCordinates[0]), parseInt(killerCordinates[1])+parseInt(victimCordinates[1]), parseInt(killerCordinates[2])+parseInt(victimCordinates[2])))
+function chatMessage(unparsedEvent, finalObject, playerIDFinder) {
+  if (unparsedEvent.includes('" say "')) {
+    let chatterId3 = unparsedEvent.slice(
+      unparsedEvent.indexOf('[U:1:'),
+      unparsedEvent.indexOf(']>') + 1
+    );
+    let chatObject = {
+      userId: playerIDFinder[chatterId3],
+      time: eventDateToSeconds(unparsedEvent),
+      message: unparsedEvent.slice(
+        unparsedEvent.indexOf('" say "') + 7,
+        unparsedEvent.lastIndexOf('"')
+      ),
     };
-
-    //Custom kill stats
-    if(unparsedEvent.includes("custom")) {
-        let customKillType = unparsedEvent.slice(unparsedEvent.indexOf('customkill "') + 12, unparsedEvent.lastIndexOf(') (attacker_position') - 1)
-        switch (customKillType) {
-            case "headshot":
-                finalObject.players[playerIDFinder[killerId3]].headshotKills++;
-                break;
-            case "backstab":
-                finalObject.players[playerIDFinder[killerId3]].backstabs++;
-                break;
-        }
-    } 
-
-    //Kill Spread object is made here
-    if (finalObject.killSpread[playerIDFinder[killerId3]] === undefined){
-        finalObject.killSpread[playerIDFinder[killerId3]] = {};
-        finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] = 1;
-    } else {
-        finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] === undefined ? (finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]] = 1) : (finalObject.killSpread[playerIDFinder[killerId3]][playerIDFinder[victimId3]]++);
-    }
-
-    finalObject.events.push(eventObject);
+    finalObject.chat.push(chatObject);
+  }
 }
 
-function resupEvents(unparsedEvent, finalObject, playerIDFinder){
-    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    if(userId3 === ""){
-        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
-        
-        const y = parseInt(currentId1.split(":")[1])
-        const z = parseInt(currentId1.split(":")[2])
-        let steamAccount = z * 2 + y;
-        userId3 = "[U:1:" + steamAccount + "]";
-    }
+function killEvent(unparsedEvent, finalObject, playerIDFinder, lastDeathTime) {
+  let killerId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  let victimId3 = unparsedEvent.slice(
+    unparsedEvent.lastIndexOf('[U:1:'),
+    unparsedEvent.lastIndexOf(']>') + 1
+  );
+  let killerCordinates = unparsedEvent
+    .slice(
+      unparsedEvent.indexOf('attacker_position') + 19,
+      unparsedEvent.lastIndexOf(') (victim_position') - 1
+    )
+    .split(' ');
+  let victimCordinates = unparsedEvent
+    .slice(
+      unparsedEvent.indexOf('victim_position') + 17,
+      unparsedEvent.lastIndexOf('")')
+    )
+    .split(' ');
+  let killerWeapon = unparsedEvent.slice(
+    unparsedEvent.indexOf('with "') + 6,
+    unparsedEvent.lastIndexOf('" (')
+  );
 
-    if(unparsedEvent.includes('tf_ammo_pack')){
-        finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
-    } else if (unparsedEvent.includes('ammopack_medium')){
-        finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
-    } else if (unparsedEvent.includes('ammopack_small')){
-        finalObject.players[playerIDFinder[userId3]].resup.ammo += 1;
-    } else if (unparsedEvent.includes('ammopack_large')){
-        finalObject.players[playerIDFinder[userId3]].resup.ammo += 4;
-    } else if (unparsedEvent.includes('medkit_medium')){
-        finalObject.players[playerIDFinder[userId3]].resup.medkit += 2;
-        finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone += parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('"')));
-    } else if (unparsedEvent.includes('medkit_small')){
-        finalObject.players[playerIDFinder[userId3]].resup.medkit += 1;
-        finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone += parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('"')));
-    } else if (unparsedEvent.includes('medkit_large')){
-        finalObject.players[playerIDFinder[userId3]].resup.medkit += 4;
-        finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone += parseInt(unparsedEvent.slice(unparsedEvent.indexOf('(healing "') + 10, unparsedEvent.lastIndexOf('"')));
+  let killerObject = finalObject.players[playerIDFinder[killerId3]];
+  let victimObject = finalObject.players[playerIDFinder[victimId3]];
+
+  //Record kill to player stat
+  killerObject.kills++;
+  victimObject.deaths++;
+  //killer gun stat
+
+  //kill to round
+  finalObject.rounds[finalObject.rounds.length - 1].teamScores[
+    killerObject.team
+  ].kills++;
+
+  //team object kill stat
+  finalObject.teams[killerObject.team].kills++;
+
+  //Last death time recorded
+  lastDeathTime[playerIDFinder[victimId3]] = eventDateToSeconds(unparsedEvent);
+
+  //kill class specific stats
+  let currentKillerClass = killerObject.class;
+  let currentvictimClass = victimObject.class;
+
+  if (
+    killerObject.classStats[currentKillerClass].weapons[killerWeapon] ===
+    undefined
+  ) {
+    killerObject.classStats[currentKillerClass].weapons[killerWeapon] = {
+      kills: 0,
+    };
+  }
+
+  killerObject.classStats[currentKillerClass].weapons[killerWeapon].kills++;
+  killerObject.classStats[currentKillerClass].kills++;
+  victimObject.classStats[currentvictimClass].deaths++;
+
+  // Kill event is made here
+  let eventObject = {
+    type: 'kill',
+    killerId: playerIDFinder[killerId3],
+    victimId: playerIDFinder[victimId3],
+    time: eventDateToSeconds(unparsedEvent),
+    elapsedTime: eventDateToSeconds(unparsedEvent) - finalObject.info.date,
+    killer: {
+      class: currentKillerClass,
+      position: {
+        x: killerCordinates[0],
+        y: killerCordinates[1],
+        z: killerCordinates[2],
+      },
+    },
+    victim: {
+      class: currentvictimClass,
+      position: {
+        x: victimCordinates[0],
+        y: victimCordinates[1],
+        z: victimCordinates[2],
+      },
+    },
+    weapon: killerWeapon,
+    customkill: unparsedEvent.includes('custom')
+      ? unparsedEvent.slice(
+          unparsedEvent.indexOf('customkill "') + 12,
+          unparsedEvent.lastIndexOf(') (attacker_position') - 1
+        )
+      : false,
+    distance: Math.round(
+      Math.hypot(
+        parseInt(killerCordinates[0]) + parseInt(victimCordinates[0]),
+        parseInt(killerCordinates[1]) + parseInt(victimCordinates[1]),
+        parseInt(killerCordinates[2]) + parseInt(victimCordinates[2])
+      )
+    ),
+  };
+
+  //Custom kill stats
+  if (unparsedEvent.includes('custom')) {
+    let customKillType = unparsedEvent.slice(
+      unparsedEvent.indexOf('customkill "') + 12,
+      unparsedEvent.lastIndexOf(') (attacker_position') - 1
+    );
+    switch (customKillType) {
+      case 'headshot':
+        finalObject.players[playerIDFinder[killerId3]].headshotKills++;
+        break;
+      case 'backstab':
+        finalObject.players[playerIDFinder[killerId3]].backstabs++;
+        break;
     }
+  }
+
+  //Kill Spread object is made here
+  if (finalObject.killSpread[playerIDFinder[killerId3]] === undefined) {
+    finalObject.killSpread[playerIDFinder[killerId3]] = {};
+    finalObject.killSpread[playerIDFinder[killerId3]][
+      playerIDFinder[victimId3]
+    ] = 1;
+  } else {
+    finalObject.killSpread[playerIDFinder[killerId3]][
+      playerIDFinder[victimId3]
+    ] === undefined
+      ? (finalObject.killSpread[playerIDFinder[killerId3]][
+          playerIDFinder[victimId3]
+        ] = 1)
+      : finalObject.killSpread[playerIDFinder[killerId3]][
+          playerIDFinder[victimId3]
+        ]++;
+  }
+
+  finalObject.events.push(eventObject);
 }
 
-function playerConnected(unparsedEvent, finalObject, playerIDFinder){
-    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    if(userId3 === ""){
-        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
-        
-        const y = parseInt(currentId1.split(":")[1])
-        const z = parseInt(currentId1.split(":")[2])
-        let steamAccount = z * 2 + y;
-        userId3 = "[U:1:" + steamAccount + "]";
-     }
+function resupEvents(unparsedEvent, finalObject, playerIDFinder) {
+  let userId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  if (userId3 === '') {
+    let currentId1 = unparsedEvent.slice(
+      unparsedEvent.indexOf('<STEAM_') + 7,
+      unparsedEvent.lastIndexOf('><')
+    );
 
-    playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
-    //Player Objects are initialized here
-    if( !unparsedEvent.includes('connected, address') && !unparsedEvent.includes('entered') && !unparsedEvent.includes(' changed role to "undefined"')){
-        finalObject.players[playerIDFinder[userId3]] === undefined ? (finalObject.players[playerIDFinder[userId3]] = {
-            userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
-            steamID3: userId3,
-            joinedGame: eventDateToSeconds(unparsedEvent),
-            playTime: 0,
-            leftGame: false,
-            rgl:{
-                userName: "unknown",
-                rank:"unknown",
-            },
-            team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
-            class: unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"')),
-            classStats: {
-                changedClass: eventDateToSeconds(unparsedEvent),
-                [unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"'))]: {
-                    kills: 0,
-                    assists: 0,
-                    deaths: 0,
-                    damage: 0,
-                    weapons: {},
-                    time: 0,
-                }
-            },
-            combatScore: 0,
-            kills: 0,
-            deaths: 0,
-            assists: 0,
-            suicides: 0,
-            killAssistPerDeath: 0,
-            killsPerDeath: 0,
-            medicPicks: 0,
-            medicDrops: 0,
-            damageDivision: {
-                damageTo:{},
-                damageFrom:{},
-            },
-            damage : 0,
-            damageReal : 0,
-            damagePerMinute: 0,
-            damageTaken : 0,
-            damageTakenReal: 0,
-            damageTakenPerMinute: 0,
-            deathScreenTime: 0,
-            crossbowHealing: 0,
-            medicStats: {
-                uberTypes:{},
-                ubers: 0,
-                drops: 0,
-                uberLength: 0,
-                nearFullDeaths: 0,
-                healAfterSpawn: 0,
-            },
-            uberHits: 0,
-            resup: {
-                medkit: 0,
-                medkitsHealingDone: 0,
-                ammo: 0,
-            },
-            pointCaps: 0,
-            capturesBlocked: 0,
-            extinguished: 0,
-            dominated: 0,
-            revenged: 0,
-            buildingKills: 0,
-            buildings: 0,
-            heals: 0,
-            healsPerMinute: 0,
-            airshots: 0,
-            headshots: 0,
-            headshotKills: 0,
-            backstabs: 0,
-        }) : classSwaps(unparsedEvent, finalObject, playerIDFinder);
-    }
-    
+    const y = parseInt(currentId1.split(':')[1]);
+    const z = parseInt(currentId1.split(':')[2]);
+    let steamAccount = z * 2 + y;
+    userId3 = '[U:1:' + steamAccount + ']';
+  }
+
+  if (unparsedEvent.includes('tf_ammo_pack')) {
+    finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
+  } else if (unparsedEvent.includes('ammopack_medium')) {
+    finalObject.players[playerIDFinder[userId3]].resup.ammo += 2;
+  } else if (unparsedEvent.includes('ammopack_small')) {
+    finalObject.players[playerIDFinder[userId3]].resup.ammo += 1;
+  } else if (unparsedEvent.includes('ammopack_large')) {
+    finalObject.players[playerIDFinder[userId3]].resup.ammo += 4;
+  } else if (unparsedEvent.includes('medkit_medium')) {
+    finalObject.players[playerIDFinder[userId3]].resup.medkit += 2;
+    finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone +=
+      parseInt(
+        unparsedEvent.slice(
+          unparsedEvent.indexOf('(healing "') + 10,
+          unparsedEvent.lastIndexOf('"')
+        )
+      );
+  } else if (unparsedEvent.includes('medkit_small')) {
+    finalObject.players[playerIDFinder[userId3]].resup.medkit += 1;
+    finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone +=
+      parseInt(
+        unparsedEvent.slice(
+          unparsedEvent.indexOf('(healing "') + 10,
+          unparsedEvent.lastIndexOf('"')
+        )
+      );
+  } else if (unparsedEvent.includes('medkit_large')) {
+    finalObject.players[playerIDFinder[userId3]].resup.medkit += 4;
+    finalObject.players[playerIDFinder[userId3]].resup.medkitsHealingDone +=
+      parseInt(
+        unparsedEvent.slice(
+          unparsedEvent.indexOf('(healing "') + 10,
+          unparsedEvent.lastIndexOf('"')
+        )
+      );
+  }
 }
 
-function classSwaps(unparsedEvent, finalObject, playerIDFinder){
-    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    if(userId3 === ""){
-        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
-        
-        const y = parseInt(currentId1.split(":")[1])
-        const z = parseInt(currentId1.split(":")[2])
-        let steamAccount = z * 2 + y;
-        userId3 = "[U:1:" + steamAccount + "]";
-     }
-    let playerObject = finalObject.players[playerIDFinder[userId3]];
-    let eventTime = eventDateToSeconds(unparsedEvent);
+function playerConnected(unparsedEvent, finalObject, playerIDFinder) {
+  let userId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  if (userId3 === '') {
+    let currentId1 = unparsedEvent.slice(
+      unparsedEvent.indexOf('<STEAM_') + 7,
+      unparsedEvent.lastIndexOf('><')
+    );
 
-    playerObject.classStats[playerObject.class].time += (eventTime - playerObject.classStats.changedClass);
-    playerObject.class = unparsedEvent.slice(unparsedEvent.indexOf('changed role to "') + 17, unparsedEvent.lastIndexOf('"'));
-    playerObject.classStats.changedClass = eventTime;
-    playerObject.classStats[playerObject.class] === undefined && (finalObject.players[playerIDFinder[userId3]].classStats[playerObject.class] = {
-        kills: 0,
-        assists: 0,                                                                                                                                                  
-        deaths: 0,
-        damage: 0,
-        weapons: {},
-        time: 0,
+    const y = parseInt(currentId1.split(':')[1]);
+    const z = parseInt(currentId1.split(':')[2]);
+    let steamAccount = z * 2 + y;
+    userId3 = '[U:1:' + steamAccount + ']';
+  }
+
+  playerIDFinder[userId3] !== undefined
+    ? playerIDFinder[userId3]
+    : ID3toID64Converter(playerIDFinder, userId3);
+  //Player Objects are initialized here
+  if (
+    !unparsedEvent.includes('connected, address') &&
+    !unparsedEvent.includes('entered') &&
+    !unparsedEvent.includes(' changed role to "undefined"')
+  ) {
+    finalObject.players[playerIDFinder[userId3]] === undefined
+      ? (finalObject.players[playerIDFinder[userId3]] = {
+          userName: unparsedEvent.slice(
+            unparsedEvent.indexOf('"') + 1,
+            unparsedEvent.indexOf('<')
+          ), //this needs to be better, if there is "<" in the name it wont read right
+          steamID3: userId3,
+          joinedGame: eventDateToSeconds(unparsedEvent),
+          playTime: 0,
+          leftGame: false,
+          rgl: {
+            userName: 'unknown',
+            rank: 'unknown',
+          },
+          team: unparsedEvent.includes('><Red>"') ? 'red' : 'blue',
+          class: unparsedEvent.slice(
+            unparsedEvent.indexOf('changed role to "') + 17,
+            unparsedEvent.lastIndexOf('"')
+          ),
+          classStats: {
+            changedClass: eventDateToSeconds(unparsedEvent),
+            [unparsedEvent.slice(
+              unparsedEvent.indexOf('changed role to "') + 17,
+              unparsedEvent.lastIndexOf('"')
+            )]: {
+              kills: 0,
+              assists: 0,
+              deaths: 0,
+              damage: 0,
+              weapons: {},
+              time: 0,
+            },
+          },
+          combatScore: 0,
+          kills: 0,
+          deaths: 0,
+          assists: 0,
+          suicides: 0,
+          killAssistPerDeath: 0,
+          killsPerDeath: 0,
+          medicPicks: 0,
+          medicDrops: 0,
+          damageDivision: {
+            damageTo: {},
+            damageFrom: {},
+          },
+          damage: 0,
+          damageReal: 0,
+          damagePerMinute: 0,
+          damageTaken: 0,
+          damageTakenReal: 0,
+          damageTakenPerMinute: 0,
+          deathScreenTime: 0,
+          crossbowHealing: 0,
+          medicStats: {
+            uberTypes: {},
+            ubers: 0,
+            drops: 0,
+            uberLength: 0,
+            nearFullDeaths: 0,
+            healAfterSpawn: 0,
+          },
+          uberHits: 0,
+          resup: {
+            medkit: 0,
+            medkitsHealingDone: 0,
+            ammo: 0,
+          },
+          pointCaps: 0,
+          capturesBlocked: 0,
+          extinguished: 0,
+          dominated: 0,
+          revenged: 0,
+          buildingKills: 0,
+          buildings: 0,
+          heals: 0,
+          healsPerMinute: 0,
+          airshots: 0,
+          headshots: 0,
+          headshotKills: 0,
+          backstabs: 0,
+        })
+      : classSwaps(unparsedEvent, finalObject, playerIDFinder);
+  }
+}
+
+function classSwaps(unparsedEvent, finalObject, playerIDFinder) {
+  let userId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  if (userId3 === '') {
+    let currentId1 = unparsedEvent.slice(
+      unparsedEvent.indexOf('<STEAM_') + 7,
+      unparsedEvent.lastIndexOf('><')
+    );
+
+    const y = parseInt(currentId1.split(':')[1]);
+    const z = parseInt(currentId1.split(':')[2]);
+    let steamAccount = z * 2 + y;
+    userId3 = '[U:1:' + steamAccount + ']';
+  }
+  let playerObject = finalObject.players[playerIDFinder[userId3]];
+  let eventTime = eventDateToSeconds(unparsedEvent);
+
+  playerObject.classStats[playerObject.class].time +=
+    eventTime - playerObject.classStats.changedClass;
+  playerObject.class = unparsedEvent.slice(
+    unparsedEvent.indexOf('changed role to "') + 17,
+    unparsedEvent.lastIndexOf('"')
+  );
+  playerObject.classStats.changedClass = eventTime;
+  playerObject.classStats[playerObject.class] === undefined &&
+    (finalObject.players[playerIDFinder[userId3]].classStats[
+      playerObject.class
+    ] = {
+      kills: 0,
+      assists: 0,
+      deaths: 0,
+      damage: 0,
+      weapons: {},
+      time: 0,
     });
 }
 
-function suicideEvent(unparsedEvent, finalObject, playerIDFinder){
-    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    if(userId3 === ""){
-        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
-        
-        const y = parseInt(currentId1.split(":")[1])
-        const z = parseInt(currentId1.split(":")[2])
-        let steamAccount = z * 2 + y;
-        userId3 = "[U:1:" + steamAccount + "]";
-     }
-    finalObject.players[playerIDFinder[userId3]].suicides++;
+function suicideEvent(unparsedEvent, finalObject, playerIDFinder) {
+  let userId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  if (userId3 === '') {
+    let currentId1 = unparsedEvent.slice(
+      unparsedEvent.indexOf('<STEAM_') + 7,
+      unparsedEvent.lastIndexOf('><')
+    );
+
+    const y = parseInt(currentId1.split(':')[1]);
+    const z = parseInt(currentId1.split(':')[2]);
+    let steamAccount = z * 2 + y;
+    userId3 = '[U:1:' + steamAccount + ']';
+  }
+  finalObject.players[playerIDFinder[userId3]].suicides++;
 }
 
-function deathScreenTime(unparsedEvent, finalObject, playerIDFinder, lastDeathTime){
+function deathScreenTime(
+  unparsedEvent,
+  finalObject,
+  playerIDFinder,
+  lastDeathTime
+) {
+  let userId3 = unparsedEvent.slice(
+    unparsedEvent.indexOf('[U:1:'),
+    unparsedEvent.indexOf(']>') + 1
+  );
+  playerIDFinder[userId3] !== undefined
+    ? playerIDFinder[userId3]
+    : ID3toID64Converter(playerIDFinder, userId3);
+  if (finalObject.players[playerIDFinder[userId3]] === undefined) {
+    finalObject.players[playerIDFinder[userId3]] === undefined
+      ? (finalObject.players[playerIDFinder[userId3]] = {
+          userName: unparsedEvent.slice(
+            unparsedEvent.indexOf('"') + 1,
+            unparsedEvent.indexOf('<')
+          ), //this needs to be better, if there is "<" in the name it wont read right
+          steamID3: userId3,
+          joinedGame: eventDateToSeconds(unparsedEvent),
+          playTime: 0,
+          leftGame: false,
+          rgl: {
+            userName: 'unknown',
+            rank: 'unknown',
+          },
+          team: unparsedEvent.includes('><Red>"') ? 'red' : 'blue',
+          class: unparsedEvent.slice(
+            unparsedEvent.indexOf('spawned as "') + 12,
+            unparsedEvent.lastIndexOf('"')
+          ),
+          classStats: {
+            changedClass: eventDateToSeconds(unparsedEvent),
+            [unparsedEvent.slice(
+              unparsedEvent.indexOf('spawned as "') + 12,
+              unparsedEvent.lastIndexOf('"')
+            )]: {
+              kills: 0,
+              assists: 0,
+              deaths: 0,
+              damage: 0,
+              weapons: {},
+              time: 0,
+            },
+          },
+          combatScore: 0,
+          kills: 0,
+          deaths: 0,
+          assists: 0,
+          suicides: 0,
+          killAssistPerDeath: 0,
+          killsPerDeath: 0,
+          medicPicks: 0,
+          medicDrops: 0,
+          damageDivision: {
+            damageTo: {},
+            damageFrom: {},
+          },
+          damage: 0,
+          damageReal: 0,
+          damagePerMinute: 0,
+          damageTaken: 0,
+          damageTakenReal: 0,
+          damageTakenPerMinute: 0,
+          deathScreenTime: 0,
+          crossbowHealing: 0,
+          medicStats: {
+            uberTypes: {},
+            ubers: 0,
+            drops: 0,
+            uberLength: 0,
+            nearFullDeaths: 0,
+            healAfterSpawn: 0,
+          },
+          uberHits: 0,
+          resup: {
+            medkit: 0,
+            medkitsHealingDone: 0,
+            ammo: 0,
+          },
+          pointCaps: 0,
+          capturesBlocked: 0,
+          extinguished: 0,
+          dominated: 0,
+          revenged: 0,
+          buildingKills: 0,
+          buildings: 0,
+          heals: 0,
+          healsPerMinute: 0,
+          airshots: 0,
+          headshots: 0,
+          headshotKills: 0,
+          backstabs: 0,
+        })
+      : classSwaps(unparsedEvent, finalObject, playerIDFinder);
+  }
 
-    let userId3 = unparsedEvent.slice(unparsedEvent.indexOf('[U:1:'), unparsedEvent.indexOf(']>') + 1);
-    playerIDFinder[userId3] !== undefined ? playerIDFinder[userId3] : ID3toID64Converter(playerIDFinder, userId3);
-    if(finalObject.players[playerIDFinder[userId3]] === undefined){
+  if (userId3 === '') {
+    let currentId1 = unparsedEvent.slice(
+      unparsedEvent.indexOf('<STEAM_') + 7,
+      unparsedEvent.lastIndexOf('><')
+    );
 
-        finalObject.players[playerIDFinder[userId3]] === undefined ? (finalObject.players[playerIDFinder[userId3]] = {
-            userName: unparsedEvent.slice(unparsedEvent.indexOf('"') + 1, unparsedEvent.indexOf('<')), //this needs to be better, if there is "<" in the name it wont read right
-            steamID3: userId3,
-            joinedGame: eventDateToSeconds(unparsedEvent),
-            playTime: 0,
-            leftGame: false,
-            rgl:{
-                userName: "unknown",
-                rank:"unknown",
-            },
-            team: unparsedEvent.includes('><Red>"') ? "red" : "blue",
-            class: unparsedEvent.slice(unparsedEvent.indexOf('spawned as "') + 12, unparsedEvent.lastIndexOf('"')),
-            classStats: {
-                changedClass: eventDateToSeconds(unparsedEvent),
-                [unparsedEvent.slice(unparsedEvent.indexOf('spawned as "') + 12, unparsedEvent.lastIndexOf('"'))]: {
-                    kills: 0,
-                    assists: 0,
-                    deaths: 0,
-                    damage: 0,
-                    weapons: {},
-                    time: 0,
-                }
-            },
-            combatScore: 0,
-            kills: 0,
-            deaths: 0,
-            assists: 0,
-            suicides: 0,
-            killAssistPerDeath: 0,
-            killsPerDeath: 0,
-            medicPicks: 0,
-            medicDrops: 0,
-            damageDivision: {
-                damageTo:{},
-                damageFrom:{},
-            },
-            damage : 0,
-            damageReal : 0,
-            damagePerMinute: 0,
-            damageTaken : 0,
-            damageTakenReal: 0,
-            damageTakenPerMinute: 0,
-            deathScreenTime: 0,
-            crossbowHealing: 0,
-            medicStats: {
-                uberTypes:{},
-                ubers: 0,
-                drops: 0,
-                uberLength: 0,
-                nearFullDeaths: 0,
-                healAfterSpawn: 0,
-            },
-            uberHits: 0,
-            resup: {
-                medkit: 0,
-                medkitsHealingDone: 0,
-                ammo: 0,
-            },
-            pointCaps: 0,
-            capturesBlocked: 0,
-            extinguished: 0,
-            dominated: 0,
-            revenged: 0,
-            buildingKills: 0,
-            buildings: 0,
-            heals: 0,
-            healsPerMinute: 0,
-            airshots: 0,
-            headshots: 0,
-            headshotKills: 0,
-            backstabs: 0,
-        }) : classSwaps(unparsedEvent, finalObject, playerIDFinder);
-    }
-
-    
-    if(userId3 === ""){
-        let currentId1 =  unparsedEvent.slice(unparsedEvent.indexOf('<STEAM_')+7, unparsedEvent.lastIndexOf('><'));
-        
-        const y = parseInt(currentId1.split(":")[1])
-        const z = parseInt(currentId1.split(":")[2])
-        let steamAccount = z * 2 + y;
-        userId3 = "[U:1:" + steamAccount + "]";
-     }
-    if (lastDeathTime[playerIDFinder[userId3]] !== undefined && lastDeathTime[playerIDFinder[userId3]] !== 1){
-        finalObject.players[playerIDFinder[userId3]].deathScreenTime += (eventDateToSeconds(unparsedEvent) - (((lastDeathTime[playerIDFinder[userId3]] < finalObject.rounds[finalObject.rounds.length-1].roundBegin) ? finalObject.rounds[finalObject.rounds.length-1].roundBegin : lastDeathTime[playerIDFinder[userId3]])));
-        lastDeathTime[playerIDFinder[userId3]] = 1 ;
-    }
+    const y = parseInt(currentId1.split(':')[1]);
+    const z = parseInt(currentId1.split(':')[2]);
+    let steamAccount = z * 2 + y;
+    userId3 = '[U:1:' + steamAccount + ']';
+  }
+  if (
+    lastDeathTime[playerIDFinder[userId3]] !== undefined &&
+    lastDeathTime[playerIDFinder[userId3]] !== 1
+  ) {
+    finalObject.players[playerIDFinder[userId3]].deathScreenTime +=
+      eventDateToSeconds(unparsedEvent) -
+      (lastDeathTime[playerIDFinder[userId3]] <
+      finalObject.rounds[finalObject.rounds.length - 1].roundBegin
+        ? finalObject.rounds[finalObject.rounds.length - 1].roundBegin
+        : lastDeathTime[playerIDFinder[userId3]]);
+    lastDeathTime[playerIDFinder[userId3]] = 1;
+  }
 }
 
-function ID3toID64Converter(playerIDFinder, userId3){
-    let steamid64ent1 = 7656, steamid64ent2 = 1197960265728, cleanId3 = userId3.replace(/\]/g, '').split(":")[2];
-    let userid64 = steamid64ent1 + String(parseInt(cleanId3)+steamid64ent2);
-    playerIDFinder[userId3] = userid64;
-    return(userid64);
+function ID3toID64Converter(playerIDFinder, userId3) {
+  let steamid64ent1 = 7656,
+    steamid64ent2 = 1197960265728,
+    cleanId3 = userId3.replace(/\]/g, '').split(':')[2];
+  let userid64 = steamid64ent1 + String(parseInt(cleanId3) + steamid64ent2);
+  playerIDFinder[userId3] = userid64;
+  return userid64;
 }
 
-function eventDateToSeconds(unparsedEvent){
-    dateArray = unparsedEvent.split(' ')[1].split('/');
-    finalDate= dateArray[2]+ "-" + dateArray[0]+ "-" + dateArray[1] + "T" + unparsedEvent.split(' ')[3].slice(0,-1) + "Z";
-    return( new Date(finalDate).getTime()/1000);
+function eventDateToSeconds(unparsedEvent) {
+  dateArray = unparsedEvent.split(' ')[1].split('/');
+  finalDate =
+    dateArray[2] +
+    '-' +
+    dateArray[0] +
+    '-' +
+    dateArray[1] +
+    'T' +
+    unparsedEvent.split(' ')[3].slice(0, -1) +
+    'Z';
+  return new Date(finalDate).getTime() / 1000;
 }
 
-module.exports = {nonTriggeredEvent, playerConnected};
+module.exports = { nonTriggeredEvent, playerConnected };

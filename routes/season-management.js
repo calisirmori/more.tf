@@ -35,15 +35,21 @@ router.get('/seasons', async (req, res) => {
 router.get('/seasons/league/:league', async (req, res) => {
   try {
     const { league } = req.params;
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       SELECT seasonid, seasonname, league, format, active, displayCard
       FROM season_metadata
       WHERE league = $1
       ORDER BY format, seasonid DESC
-    `, [league]);
+    `,
+      [league]
+    );
     res.json(result.rows);
   } catch (err) {
-    logger.error('Get seasons by league error', { error: err.message, league: req.params.league });
+    logger.error('Get seasons by league error', {
+      error: err.message,
+      league: req.params.league,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -52,18 +58,21 @@ router.get('/seasons/league/:league', async (req, res) => {
 router.get('/seasons/league/:league/format/:format', async (req, res) => {
   try {
     const { league, format } = req.params;
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       SELECT seasonid, seasonname, league, format, active, displayCard
       FROM season_metadata
       WHERE league = $1 AND format = $2
       ORDER BY seasonid DESC
-    `, [league, format]);
+    `,
+      [league, format]
+    );
     res.json(result.rows);
   } catch (err) {
     logger.error('Get seasons by league and format error', {
       error: err.message,
       league: req.params.league,
-      format: req.params.format
+      format: req.params.format,
     });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
@@ -89,11 +98,14 @@ router.get('/seasons/active', async (req, res) => {
 router.get('/seasons/:seasonid', async (req, res) => {
   try {
     const { seasonid } = req.params;
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       SELECT seasonid, seasonname, league, format, active, displayCard
       FROM season_metadata
       WHERE seasonid = $1
-    `, [seasonid]);
+    `,
+      [seasonid]
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Season not found' });
@@ -101,7 +113,10 @@ router.get('/seasons/:seasonid', async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (err) {
-    logger.error('Get season by ID error', { error: err.message, seasonid: req.params.seasonid });
+    logger.error('Get season by ID error', {
+      error: err.message,
+      seasonid: req.params.seasonid,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -114,7 +129,7 @@ router.post('/seasons', async (req, res) => {
     // Validate required fields
     if (!seasonid || !seasonname || !league || !format) {
       return res.status(400).json({
-        error: 'Missing required fields: seasonid, seasonname, league, format'
+        error: 'Missing required fields: seasonid, seasonname, league, format',
       });
     }
 
@@ -130,26 +145,32 @@ router.post('/seasons', async (req, res) => {
 
     // If setting as active, deactivate other seasons for the same league/format
     if (active) {
-      await pool.query(`
+      await pool.query(
+        `
         UPDATE season_metadata
         SET active = false
         WHERE league = $1 AND format = $2 AND active = true
-      `, [league, format]);
+      `,
+        [league, format]
+      );
     }
 
     // Insert new season
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       INSERT INTO season_metadata (seasonid, seasonname, league, format, active, displayCard)
       VALUES ($1, $2, $3, $4, $5, false)
       RETURNING seasonid, seasonname, league, format, active, displayCard
-    `, [seasonid, seasonname, league, format, active || false]);
+    `,
+      [seasonid, seasonname, league, format, active || false]
+    );
 
     logger.info('Season created', {
       seasonid,
       seasonname,
       league,
       format,
-      admin: req.cookies.adminUser || 'unknown'
+      admin: req.cookies.adminUser || 'unknown',
     });
 
     // Invalidate cache
@@ -184,11 +205,14 @@ router.put('/seasons/:seasonid', async (req, res) => {
 
     // If setting as active, deactivate other seasons for the same league/format
     if (active === true) {
-      await pool.query(`
+      await pool.query(
+        `
         UPDATE season_metadata
         SET active = false
         WHERE league = $1 AND format = $2 AND seasonid != $3 AND active = true
-      `, [targetLeague, targetFormat, seasonid]);
+      `,
+        [targetLeague, targetFormat, seasonid]
+      );
     }
 
     // Build dynamic update query
@@ -231,7 +255,7 @@ router.put('/seasons/:seasonid', async (req, res) => {
     logger.info('Season updated', {
       seasonid,
       updates: Object.keys(req.body),
-      admin: req.cookies.adminUser || 'unknown'
+      admin: req.cookies.adminUser || 'unknown',
     });
 
     // Invalidate cache
@@ -239,7 +263,11 @@ router.put('/seasons/:seasonid', async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (err) {
-    logger.error('Update season error', { error: err.message, seasonid: req.params.seasonid, body: req.body });
+    logger.error('Update season error', {
+      error: err.message,
+      seasonid: req.params.seasonid,
+      body: req.body,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -264,25 +292,31 @@ router.patch('/seasons/:seasonid/toggle-active', async (req, res) => {
 
     // If activating, deactivate others for same league/format
     if (newActiveState) {
-      await pool.query(`
+      await pool.query(
+        `
         UPDATE season_metadata
         SET active = false
         WHERE league = $1 AND format = $2 AND seasonid != $3 AND active = true
-      `, [season.league, season.format, seasonid]);
+      `,
+        [season.league, season.format, seasonid]
+      );
     }
 
     // Toggle the season
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       UPDATE season_metadata
       SET active = $1
       WHERE seasonid = $2
       RETURNING seasonid, seasonname, league, format, active, displayCard
-    `, [newActiveState, seasonid]);
+    `,
+      [newActiveState, seasonid]
+    );
 
     logger.info('Season active status toggled', {
       seasonid,
       newActiveState,
-      admin: req.cookies.adminUser || 'unknown'
+      admin: req.cookies.adminUser || 'unknown',
     });
 
     // Invalidate cache
@@ -290,7 +324,10 @@ router.patch('/seasons/:seasonid/toggle-active', async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (err) {
-    logger.error('Toggle season active error', { error: err.message, seasonid: req.params.seasonid });
+    logger.error('Toggle season active error', {
+      error: err.message,
+      seasonid: req.params.seasonid,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -315,25 +352,31 @@ router.patch('/seasons/:seasonid/toggle-displaycard', async (req, res) => {
 
     // If setting as displayCard, deactivate others for same league/format
     if (newDisplayCardState) {
-      await pool.query(`
+      await pool.query(
+        `
         UPDATE season_metadata
         SET displayCard = false
         WHERE league = $1 AND format = $2 AND seasonid != $3 AND displayCard = true
-      `, [season.league, season.format, seasonid]);
+      `,
+        [season.league, season.format, seasonid]
+      );
     }
 
     // Toggle the season displayCard
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       UPDATE season_metadata
       SET displayCard = $1
       WHERE seasonid = $2
       RETURNING seasonid, seasonname, league, format, active, displayCard
-    `, [newDisplayCardState, seasonid]);
+    `,
+      [newDisplayCardState, seasonid]
+    );
 
     logger.info('Season displayCard status toggled', {
       seasonid,
       newDisplayCardState,
-      admin: req.cookies.adminUser || 'unknown'
+      admin: req.cookies.adminUser || 'unknown',
     });
 
     // Invalidate cache
@@ -341,7 +384,10 @@ router.patch('/seasons/:seasonid/toggle-displaycard', async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (err) {
-    logger.error('Toggle season displayCard error', { error: err.message, seasonid: req.params.seasonid });
+    logger.error('Toggle season displayCard error', {
+      error: err.message,
+      seasonid: req.params.seasonid,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -362,12 +408,14 @@ router.delete('/seasons/:seasonid', async (req, res) => {
     }
 
     // Delete the season
-    await pool.query('DELETE FROM season_metadata WHERE seasonid = $1', [seasonid]);
+    await pool.query('DELETE FROM season_metadata WHERE seasonid = $1', [
+      seasonid,
+    ]);
 
     logger.info('Season deleted', {
       seasonid,
       seasonname: existingCheck.rows[0].seasonname,
-      admin: req.cookies.adminUser || 'unknown'
+      admin: req.cookies.adminUser || 'unknown',
     });
 
     // Invalidate cache
@@ -375,7 +423,10 @@ router.delete('/seasons/:seasonid', async (req, res) => {
 
     res.json({ message: 'Season deleted successfully', seasonid });
   } catch (err) {
-    logger.error('Delete season error', { error: err.message, seasonid: req.params.seasonid });
+    logger.error('Delete season error', {
+      error: err.message,
+      seasonid: req.params.seasonid,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -389,7 +440,7 @@ router.get('/leagues', async (req, res) => {
       WHERE league IS NOT NULL
       ORDER BY league
     `);
-    res.json(result.rows.map(row => row.league));
+    res.json(result.rows.map((row) => row.league));
   } catch (err) {
     logger.error('Get leagues error', { error: err.message });
     res.status(500).json({ error: 'An internal server error occurred' });
@@ -405,7 +456,7 @@ router.get('/formats', async (req, res) => {
       WHERE format IS NOT NULL
       ORDER BY format
     `);
-    res.json(result.rows.map(row => row.format));
+    res.json(result.rows.map((row) => row.format));
   } catch (err) {
     logger.error('Get formats error', { error: err.message });
     res.status(500).json({ error: 'An internal server error occurred' });

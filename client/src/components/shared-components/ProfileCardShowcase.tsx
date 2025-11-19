@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import PlayerCard from "./PlayerCard";
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
+import React, { useEffect, useState } from 'react';
+import PlayerCard from './PlayerCard';
+import { fetch, FetchResultTypes } from '@sapphire/fetch';
 
 interface ShowcaseCard {
   id: number;
@@ -12,13 +12,18 @@ interface ShowcaseCard {
   class: string;
   overall: number;
   favorite_slot: number;
+  gifted_from: string | null;
+  gifter_name: string | null;
+  gifter_avatar: string | null;
 }
 
 interface ProfileCardShowcaseProps {
   steamid: string;
 }
 
-const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) => {
+const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({
+  steamid,
+}) => {
   const [favoritedCards, setFavoritedCards] = useState<ShowcaseCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState<ShowcaseCard | null>(null);
@@ -35,10 +40,25 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
         FetchResultTypes.JSON
       );
 
-      if (response && response.cards) {
-        setFavoritedCards(response.cards);
+      if (response && response.favorites && response.favorites.length > 0) {
+        // Sort by favorite_slot to display in correct order
+        const sortedFavorites = response.favorites.sort(
+          (a: ShowcaseCard, b: ShowcaseCard) =>
+            a.favorite_slot - b.favorite_slot
+        );
+        setFavoritedCards(sortedFavorites);
       } else {
-        setFavoritedCards([]);
+        // If no favorited cards, fetch the 5 most recent cards
+        const inventoryResponse: any = await fetch(
+          `/api/card-inventory/inventory/${steamid}?limit=5&offset=0&sort=acquired_desc`,
+          FetchResultTypes.JSON
+        );
+
+        if (inventoryResponse && inventoryResponse.cards) {
+          setFavoritedCards(inventoryResponse.cards);
+        } else {
+          setFavoritedCards([]);
+        }
       }
     } catch (error) {
       console.error('Failed to fetch favorited cards:', error);
@@ -54,7 +74,7 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
     epic: 'border-purple-500',
     rare: 'border-blue-500',
     uncommon: 'border-green-500',
-    common: 'border-gray-600'
+    common: 'border-gray-600',
   };
 
   const rarityBackgroundColors: Record<string, string> = {
@@ -62,7 +82,7 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
     epic: 'bg-gradient-to-br from-purple-900/20 to-pink-900/20',
     rare: 'bg-gradient-to-br from-blue-900/20 to-cyan-900/20',
     uncommon: 'bg-gradient-to-br from-green-900/20 to-emerald-900/20',
-    common: 'bg-warmscale-7'
+    common: 'bg-warmscale-7',
   };
 
   const rarityColors: Record<string, string> = {
@@ -70,7 +90,7 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
     epic: 'from-purple-400 to-pink-500',
     rare: 'from-blue-400 to-cyan-500',
     uncommon: 'from-green-400 to-emerald-500',
-    common: 'from-gray-400 to-gray-500'
+    common: 'from-gray-400 to-gray-500',
   };
 
   if (loading) {
@@ -103,7 +123,7 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
           </a>
         </div>
 
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
           {favoritedCards.map((card) => (
             <div
               key={card.id}
@@ -111,24 +131,35 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
               onClick={() => setSelectedCard(card)}
             >
               {/* Rarity border glow on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${rarityColors[card.rarity]} opacity-0 group-hover:opacity-30 rounded-lg blur-sm transition-opacity duration-200`}></div>
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${rarityColors[card.rarity]} opacity-0 group-hover:opacity-30 rounded-lg blur-sm transition-opacity duration-200`}
+              ></div>
 
               {/* Card container with colored border and background */}
-              <div className={`relative ${rarityBackgroundColors[card.rarity]} rounded-lg p-2 border-2 ${rarityBorderColors[card.rarity]} transition-all duration-200 transform group-hover:scale-105`}>
+              <div
+                className={`relative ${rarityBackgroundColors[card.rarity]} rounded-lg p-2 border-2 ${rarityBorderColors[card.rarity]} transition-all duration-200 transform group-hover:scale-105`}
+              >
+                {/* Gift indicator */}
+                {card.gifted_from && (
+                  <div
+                    className="absolute top-1 left-1 z-10 p-1 rounded-full bg-purple-600/90 text-white"
+                    title={`Gift from ${card.gifter_name || card.gifted_from}`}
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                    </svg>
+                  </div>
+                )}
                 <PlayerCard
                   cardUrl={card.cardUrl}
                   holo={card.holo}
                   enable3DTilt={false}
                   imageClassName="w-full h-auto rounded"
                 />
-
-                {/* Card info */}
-                <div className="mt-2 text-xs">
-                  <div className="text-warmscale-2 truncate text-center">{card.seasonname}</div>
-                  <div className="flex justify-center items-center mt-1">
-                    <span className="text-warmscale-1 font-bold">{card.overall}</span>
-                  </div>
-                </div>
               </div>
             </div>
           ))}
@@ -138,14 +169,35 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
       {/* Selected Card Modal */}
       {selectedCard && (
         <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 overflow-y-auto"
           onClick={() => setSelectedCard(null)}
         >
           <div
-            className="bg-warmscale-7 rounded-lg p-6 max-w-4xl w-full border border-warmscale-5"
+            className="bg-warmscale-7 rounded-lg p-4 sm:p-6 max-w-4xl w-full border border-warmscale-5 my-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="grid md:grid-cols-2 gap-6">
+            {/* Close button - always visible */}
+            <button
+              onClick={() => setSelectedCard(null)}
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 text-warmscale-3 hover:text-warmscale-1 transition-colors z-10"
+              aria-label="Close"
+            >
+              <svg
+                className="w-6 h-6 sm:w-8 sm:h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
               {/* Card Image */}
               <div>
                 <PlayerCard
@@ -158,37 +210,68 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({ steamid }) =>
               </div>
 
               {/* Card Details */}
-              <div>
-                <h2 className="text-3xl font-bold text-warmscale-1 mb-4 font-cantarell">
+              <div className="pr-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-warmscale-1 mb-3 sm:mb-4 font-cantarell">
                   {selectedCard.seasonname}
                 </h2>
-                <div className="space-y-3 font-cantarell">
-                  <div>
+                <div className="space-y-2 sm:space-y-3 font-cantarell">
+                  <div className="text-sm sm:text-base">
                     <span className="text-warmscale-3">Class:</span>
-                    <span className="text-warmscale-1 ml-2 capitalize">{selectedCard.class}</span>
+                    <span className="text-warmscale-1 ml-2 capitalize">
+                      {selectedCard.class}
+                    </span>
                   </div>
-                  <div>
+                  <div className="text-sm sm:text-base">
                     <span className="text-warmscale-3">Division:</span>
-                    <span className="text-warmscale-1 ml-2 capitalize">{selectedCard.division}</span>
+                    <span className="text-warmscale-1 ml-2 capitalize">
+                      {selectedCard.division}
+                    </span>
                   </div>
-                  <div>
+                  <div className="text-sm sm:text-base">
                     <span className="text-warmscale-3">Rarity:</span>
-                    <span className={`ml-2 font-bold bg-gradient-to-r ${rarityColors[selectedCard.rarity]} bg-clip-text text-transparent capitalize`}>
+                    <span
+                      className={`ml-2 font-bold bg-gradient-to-r ${rarityColors[selectedCard.rarity]} bg-clip-text text-transparent capitalize`}
+                    >
                       {selectedCard.rarity}
                     </span>
                   </div>
-                  <div>
+                  <div className="text-sm sm:text-base">
                     <span className="text-warmscale-3">Overall Rating:</span>
-                    <span className="text-warmscale-1 ml-2 font-bold text-xl">{selectedCard.overall}</span>
+                    <span className="text-warmscale-1 ml-2 font-bold text-lg sm:text-xl">
+                      {selectedCard.overall}
+                    </span>
                   </div>
+                  {selectedCard.gifted_from && (
+                    <div className="flex items-center gap-3 p-3 bg-purple-900/20 border border-purple-600/30 rounded mt-3">
+                      <svg
+                        className="w-5 h-5 text-purple-400 flex-shrink-0"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                      </svg>
+                      {selectedCard.gifter_avatar && (
+                        <img
+                          src={`https://avatars.cloudflare.steamstatic.com/${selectedCard.gifter_avatar}_medium.jpg`}
+                          alt=""
+                          className="w-8 h-8 rounded flex-shrink-0"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <div className="text-purple-300 text-sm">
+                          Gift from{' '}
+                          <a
+                            href={`/profile/${selectedCard.gifted_from}`}
+                            className="text-purple-400 hover:text-purple-300 font-semibold"
+                          >
+                            {selectedCard.gifter_name ||
+                              selectedCard.gifted_from}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-
-                <button
-                  onClick={() => setSelectedCard(null)}
-                  className="mt-6 bg-warmscale-6 hover:bg-warmscale-5 text-warmscale-1 px-6 py-2 rounded border border-warmscale-4 transition-colors font-cantarell"
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div>

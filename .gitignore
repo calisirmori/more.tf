@@ -23,6 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.claude/
+
+# Backup files
+*.bak
+*~
+*.swp
+*.tmp
 
 # Terraform
 terraform/.terraform/
@@ -57,6 +64,10 @@ scripts/create-card-inventory-system.js
 scripts/create-player-card-metadata-table.js
 scripts/create-season-metadata-table.js
 scripts/find-all-divisions.js
+
+# Parser V2 (work in progress)
+parser-v2/
+routes/v2/
 
 # AWS safety
 .aws-config/

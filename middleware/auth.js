@@ -8,12 +8,12 @@ const requireAuth = (req, res, next) => {
 
   logger.warn('Unauthorized access attempt', {
     path: req.path,
-    ip: req.ip
+    ip: req.ip,
   });
 
   return res.status(401).json({
     error: 'Unauthorized',
-    message: 'You must be logged in to access this resource'
+    message: 'You must be logged in to access this resource',
   });
 };
 
@@ -25,7 +25,10 @@ const getSessionUser = (req, res, next) => {
       id: req.user.id,
       steamId: req.user.id,
       displayName: req.user.displayName,
-      avatar: req.user.photos && req.user.photos.length > 0 ? req.user.photos[0].value : null
+      avatar:
+        req.user.photos && req.user.photos.length > 0
+          ? req.user.photos[0].value
+          : null,
     };
   }
   next();
@@ -33,5 +36,5 @@ const getSessionUser = (req, res, next) => {
 
 module.exports = {
   requireAuth,
-  getSessionUser
+  getSessionUser,
 };

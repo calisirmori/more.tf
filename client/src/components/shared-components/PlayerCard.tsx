@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import HoloEffect from "./HoloEffect";
+import React, { useRef, useEffect, useState } from 'react';
+import HoloEffect from './HoloEffect';
 
 interface PlayerCardProps {
   // Card data
@@ -43,9 +43,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   useCanvas = false,
   canvasRenderer,
   canvasRef,
-  className = "",
-  imageClassName = "",
-  containerClassName = "",
+  className = '',
+  imageClassName = '',
+  containerClassName = '',
   onClick,
   onError,
   enable3DTilt = true,
@@ -81,33 +81,43 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   };
 
   // Calculate 3D tilt (same calculation as HoloEffect)
-  const calculateTilt = () => {
+  const [tiltTransform, setTiltTransform] = useState(
+    'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+  );
+
+  useEffect(() => {
+    let newTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+
     if (!enable3DTilt) {
-      return 'none';
+      newTransform = 'none';
+    } else {
+      const card = tiltWrapperRef.current;
+      if (!card) {
+        newTransform = 'none';
+      } else {
+        const rect = card.getBoundingClientRect();
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // If no mouse position yet, use neutral (no tilt)
+        if (mousePosition.x !== 0 || mousePosition.y !== 0) {
+          const rotateX = ((mousePosition.y - centerY) / centerY) * -10;
+          const rotateY = ((mousePosition.x - centerX) / centerX) * 10;
+          newTransform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+      }
     }
 
-    const card = tiltWrapperRef.current;
-    if (!card) return 'none';
-
-    const rect = card.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // If no mouse position yet, return neutral (no tilt)
-    if (mousePosition.x === 0 && mousePosition.y === 0) {
-      return 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    }
-
-    const rotateX = ((mousePosition.y - centerY) / centerY) * -10;
-    const rotateY = ((mousePosition.x - centerX) / centerX) * 10;
-
-    return `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  };
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTiltTransform(newTransform);
+  }, [enable3DTilt, mousePosition]);
 
   // Canvas rendering
   if (useCanvas) {
     if (!canvasRef) {
-      console.error('PlayerCard: useCanvas is true but canvasRef is not provided');
+      console.error(
+        'PlayerCard: useCanvas is true but canvasRef is not provided'
+      );
       return null;
     }
 
@@ -117,12 +127,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
           <div
             ref={tiltWrapperRef}
             style={{
-              transform: calculateTilt(),
+              transform: tiltTransform,
               transformStyle: 'preserve-3d',
               transition: 'transform 0.1s ease-out',
-              background: "none",
-              width: "100%",
-              height: "100%",
+              background: 'none',
+              width: '100%',
+              height: '100%',
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -160,9 +170,6 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
     />
   );
 
-  // Calculate transform based on current mouse position
-  const tiltTransform = calculateTilt();
-
   // Wrap in tilt container if enabled
   const tiltWrapper = (content: React.ReactNode) => {
     if (!enable3DTilt) return content;
@@ -174,8 +181,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
           transform: tiltTransform,
           transformStyle: 'preserve-3d',
           transition: 'transform 0.1s ease-out',
-          width: "100%",
-          height: "100%",
+          width: '100%',
+          height: '100%',
         }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -196,9 +203,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
     const content = tiltWrapper(holoContent);
 
     return (
-      <div className={`${containerClassName} ${className}`}>
-        {content}
-      </div>
+      <div className={`${containerClassName} ${className}`}>{content}</div>
     );
   } else if (holo && !enable3DTilt) {
     // Grid view: HoloEffect visible with disableTilt=true (no tilt, only visual effects)
@@ -214,16 +219,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
     const content = tiltWrapper(cardImage);
 
     return (
-      <div className={`${containerClassName} ${className}`}>
-        {content}
-      </div>
+      <div className={`${containerClassName} ${className}`}>{content}</div>
     );
   } else {
     // Grid view: Non-holo card without tilt
     return (
-      <div className={`${containerClassName} ${className}`}>
-        {cardImage}
-      </div>
+      <div className={`${containerClassName} ${className}`}>{cardImage}</div>
     );
   }
 };

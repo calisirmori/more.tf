@@ -7,19 +7,24 @@ const seasonCache = require('../utils/seasonCache');
 // Database query routes for player stats
 router.get('/activity/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`select date from logs
+  pool
+    .query(
+      `select date from logs
   left join players on players.logid=logs.logid where id64=${playerId}
-  order by logs.date desc`)
+  order by logs.date desc`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
       logger.error('Activity query error', { error: err.message, playerId });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/calendar/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`
+  pool
+    .query(
+      `
   WITH DateSeries AS (
     SELECT generate_series(
       DATE '2018-01-01',
@@ -72,17 +77,20 @@ router.get('/calendar/:id', (req, response) => {
   ORDER BY
     ds.match_date;
 
-  `)
+  `
+    )
     .then((res) => response.send(res))
     .catch((err) => {
       logger.error('Calendar query error', { error: err.message, playerId });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/per-class-stats/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`SELECT class,
+  pool
+    .query(
+      `SELECT class,
   Avg(dpm) as dpm,
   COALESCE(sum(match_length), 0) as time,
   COUNT(match_result) filter (WHERE match_result = 'W') as W,
@@ -96,32 +104,46 @@ router.get('/per-class-stats/:id', (req, response) => {
     ON T1.logid = T2.logid
   )
   GROUP BY class
-  ORDER BY COUNT(match_result) DESC`)
+  ORDER BY COUNT(match_result) DESC`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Per-class stats query error', { error: err.message, playerId });
+      logger.error('Per-class stats query error', {
+        error: err.message,
+        playerId,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/per-class-stats-new/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`select * from class_stats where id64=${playerId}`)
+  pool
+    .query(`select * from class_stats where id64=${playerId}`)
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Per-class stats new query error', { error: err.message, playerId });
+      logger.error('Per-class stats new query error', {
+        error: err.message,
+        playerId,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/per-format-stats/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`select * from format_stats where id64=${playerId} ORDER BY format_played DESC`)
+  pool
+    .query(
+      `select * from format_stats where id64=${playerId} ORDER BY format_played DESC`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Per-format stats query error', { error: err.message, playerId });
+      logger.error('Per-format stats query error', {
+        error: err.message,
+        playerId,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/leaderboard-stats/:format', async (req, response) => {
@@ -147,7 +169,10 @@ router.get('/leaderboard-stats/:format', async (req, response) => {
       response.json(result.rows);
     }
   } catch (err) {
-    logger.error('Leaderboard stats query error', { error: err.message, format });
+    logger.error('Leaderboard stats query error', {
+      error: err.message,
+      format,
+    });
     response.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -160,8 +185,13 @@ router.get('/playercard-stats/:id', async (req, response) => {
     const displayCardSeasons = await seasonCache.getDisplayCardSeasons();
 
     // Extract season IDs for RGL (primary league)
-    const hlSeasonId = displayCardSeasons.RGL?.HL?.seasonid || displayCardSeasons.RGL?.Highlander?.seasonid;
-    const sixesSeasonId = displayCardSeasons.RGL?.['6s']?.seasonid || displayCardSeasons.RGL?.['6S']?.seasonid || displayCardSeasons.RGL?.Sixes?.seasonid;
+    const hlSeasonId =
+      displayCardSeasons.RGL?.HL?.seasonid ||
+      displayCardSeasons.RGL?.Highlander?.seasonid;
+    const sixesSeasonId =
+      displayCardSeasons.RGL?.['6s']?.seasonid ||
+      displayCardSeasons.RGL?.['6S']?.seasonid ||
+      displayCardSeasons.RGL?.Sixes?.seasonid;
 
     // Build season filter - use display card seasons if available, otherwise fall back to hardcoded
     let seasonFilter = '';
@@ -172,7 +202,8 @@ router.get('/playercard-stats/:id', async (req, response) => {
 
     // Fallback to hardcoded seasons if no display card seasons are set
     if (seasonIds.length === 0) {
-      seasonFilter = '(seasonid = 163 OR seasonid = 164 OR seasonid = 165 OR seasonid = 166)';
+      seasonFilter =
+        '(seasonid = 163 OR seasonid = 164 OR seasonid = 165 OR seasonid = 166)';
     } else if (seasonIds.length === 1) {
       seasonFilter = `seasonid = ${seasonIds[0]}`;
     } else {
@@ -191,29 +222,40 @@ router.get('/playercard-stats/:id', async (req, response) => {
       response.json(result.rows);
     }
   } catch (err) {
-    logger.error('Playercard stats query error', { error: err.message, playerId: req.params.id });
+    logger.error('Playercard stats query error', {
+      error: err.message,
+      playerId: req.params.id,
+    });
     response.status(500).json({ error: 'An internal server error occurred' });
   }
 });
 
 router.get('/per-map-stats/:id', (req, response) => {
   let playerId = req.params.id;
-  pool.query(`select * from map_stats where id64=${playerId} order by map_count desc`)
+  pool
+    .query(
+      `select * from map_stats where id64=${playerId} order by map_count desc`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Per-map stats query error', { error: err.message, playerId });
+      logger.error('Per-map stats query error', {
+        error: err.message,
+        playerId,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/peers-page/:id', (req, response) => {
   // Extract parameters from the request
   let playerId = req.params.id;
-  let playerClass = req.query.class === "none" ? "class" : "'" + req.query.class + "'"; // Parameter for class
-  let map = req.query.map === "none" ? "" : req.query.map;         // Parameter for map
+  let playerClass =
+    req.query.class === 'none' ? 'class' : "'" + req.query.class + "'"; // Parameter for class
+  let map = req.query.map === 'none' ? '' : req.query.map; // Parameter for map
   let startDate = req.query.startDate; // Parameter for start date
-  let endDate = req.query.endDate === 0 ? "class" : '3000000000';   // Parameter for end date
-  let format = req.query.format === "none" ? "format" : "'" + req.query.format + "'";     // Parameter for format
+  let endDate = req.query.endDate === 0 ? 'class' : '3000000000'; // Parameter for end date
+  let format =
+    req.query.format === 'none' ? 'format' : "'" + req.query.format + "'"; // Parameter for format
 
   // The SQL query with placeholders for parameters
   let query = `with enemy_count as (
@@ -285,7 +327,8 @@ router.get('/peers-page/:id', (req, response) => {
     teamate_count.count DESC
     `;
   // Execute the query with parameters
-  pool.query(query)
+  pool
+    .query(query)
     .then((res) => response.send(res))
     .catch((err) => {
       logger.error('Peers page query error', { error: err.message, playerId });

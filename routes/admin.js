@@ -10,7 +10,9 @@ router.post('/admin/login', (req, res) => {
 
     if (!adminPassword) {
       logger.error('ADMIN_PASSWORD not set in environment variables');
-      return res.status(500).json({ success: false, message: 'Server configuration error' });
+      return res
+        .status(500)
+        .json({ success: false, message: 'Server configuration error' });
     }
 
     if (password === adminPassword) {
@@ -19,14 +21,16 @@ router.post('/admin/login', (req, res) => {
         maxAge: 86400000, // 24 hours
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
+        sameSite: 'strict',
       });
 
       logger.info('Admin logged in successfully');
       return res.json({ success: true, message: 'Login successful' });
     } else {
       logger.warn('Failed admin login attempt');
-      return res.status(401).json({ success: false, message: 'Invalid password' });
+      return res
+        .status(401)
+        .json({ success: false, message: 'Invalid password' });
     }
   } catch (error) {
     logger.error('Admin login error', { error: error.message });

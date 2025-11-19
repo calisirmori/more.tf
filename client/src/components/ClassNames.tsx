@@ -1,39 +1,38 @@
-
 export const classList: any = {
-  'scout': {
+  scout: {
     key: 'scout',
-    name: 'Scout'
+    name: 'Scout',
   },
-  'heavyweapons': {
+  heavyweapons: {
     key: 'heavyweapons',
-    name: 'Heavy'
+    name: 'Heavy',
   },
-  'sniper': {
+  sniper: {
     key: 'sniper',
-    name: 'Sniper'
+    name: 'Sniper',
   },
-  'medic': {
+  medic: {
     key: 'medic',
-    name: 'Medic'
+    name: 'Medic',
   },
-  'spy': {
+  spy: {
     key: 'spy',
-    name: 'Spy'
+    name: 'Spy',
   },
-  'soldier': {
+  soldier: {
     key: 'soldier',
-    name: 'Soldier'
+    name: 'Soldier',
   },
-  'demoman': {
+  demoman: {
     key: 'demo',
-    name: 'Demoman'
+    name: 'Demoman',
   },
-  'engineer': {
+  engineer: {
     key: 'engineer',
-    name: 'Engineer'
+    name: 'Engineer',
   },
-  'pyro': {
+  pyro: {
     key: 'pyro',
-    name: 'Pyro'
-  }
-}
+    name: 'Pyro',
+  },
+};

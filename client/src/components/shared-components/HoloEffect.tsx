@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 interface HoloEffectProps {
   isActive: boolean;
@@ -9,9 +9,9 @@ interface HoloEffectProps {
 
 const HoloEffect: React.FC<HoloEffectProps> = ({
   isActive,
-  maskUrl = "/player cards/8rqqgH01 (2).svg",
+  maskUrl = '/player cards/8rqqgH01 (2).svg',
   children,
-  disableTilt = false
+  disableTilt = false,
 }) => {
   const [mousePosition, setMousePosition] = useState({ x: 120, y: 168 });
 
@@ -40,9 +40,10 @@ const HoloEffect: React.FC<HoloEffectProps> = ({
   const centerY = rect.height / 2;
   const rotateX = ((mousePosition.y - centerY) / centerY) * -10;
   const rotateY = ((mousePosition.x - centerX) / centerX) * 10;
-  const cardTransform = (isActive && !disableTilt)
-    ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-    : 'none';
+  const cardTransform =
+    isActive && !disableTilt
+      ? `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+      : 'none';
 
   return (
     <div
@@ -50,7 +51,7 @@ const HoloEffect: React.FC<HoloEffectProps> = ({
       onMouseMove={isActive ? handleMouseMove : undefined}
       onMouseLeave={isActive ? handleMouseLeave : undefined}
       style={{
-        transformStyle: (isActive && !disableTilt) ? 'preserve-3d' : undefined,
+        transformStyle: isActive && !disableTilt ? 'preserve-3d' : undefined,
         transform: cardTransform,
         transition: disableTilt ? undefined : 'transform 0.1s ease-out',
       }}

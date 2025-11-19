@@ -1,72 +1,72 @@
-import Navbar from "../shared-components/Navbar";
-import Footer from "../shared-components/Footer";
-import { useState } from "react";
+import Navbar from '../shared-components/Navbar';
+import Footer from '../shared-components/Footer';
+import { useState } from 'react';
 
 const Profile = () => {
-  const [steamId, setSteamId] = useState("");
-  const [badgeId, setBadgeId] = useState("");
-  const [newBadgeId, setNewBadgeId] = useState("");
+  const [steamId, setSteamId] = useState('');
+  const [badgeId, setBadgeId] = useState('');
+  const [newBadgeId, setNewBadgeId] = useState('');
   const [badges, setBadges] = useState([]);
 
   const validateInput = (steamId: any, badgeId: any) => {
     const isValidSteamId = /^\d+$/.test(steamId); // Steam ID should be numeric
-    const isValidBadgeId = badgeId.trim() !== ""; // Badge ID should not be empty
+    const isValidBadgeId = badgeId.trim() !== ''; // Badge ID should not be empty
     return isValidSteamId && isValidBadgeId;
   };
 
   const handleGetBadges = async () => {
     if (!validateInput(steamId, badgeId)) {
-      alert("Invalid input");
+      alert('Invalid input');
       return;
     }
     try {
       const response = await fetch(`/api/badges/user?id64=${steamId}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
       const data = await response.json();
-      if (!response.ok) throw new Error("Failed to retrieve badges");
+      if (!response.ok) throw new Error('Failed to retrieve badges');
       setBadges(data);
-      alert("Badges retrieved successfully");
+      alert('Badges retrieved successfully');
     } catch (error) {
-      console.error("Error retrieving badges:", error);
-      alert("Error retrieving badges");
+      console.error('Error retrieving badges:', error);
+      alert('Error retrieving badges');
     }
   };
 
   const handleAddBadge = async () => {
     if (!validateInput(steamId, badgeId)) {
-      alert("Invalid input");
+      alert('Invalid input');
       return;
     }
     try {
-      const response = await fetch("/api/badges", {
-        method: "POST",
+      const response = await fetch('/api/badges', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ id64: steamId, badge_id: badgeId }),
       });
-      if (!response.ok) throw new Error("Failed to add badge");
-      alert("Badge added successfully");
+      if (!response.ok) throw new Error('Failed to add badge');
+      alert('Badge added successfully');
     } catch (error) {
-      console.error("Error adding badge:", error);
-      alert("Error adding badge");
+      console.error('Error adding badge:', error);
+      alert('Error adding badge');
     }
   };
 
   const handleUpdateBadge = async (newBadgeId: any) => {
     if (!validateInput(steamId, badgeId)) {
-      alert("Invalid input");
+      alert('Invalid input');
       return;
     }
     try {
-      const response = await fetch("/api/badges", {
-        method: "PUT",
+      const response = await fetch('/api/badges', {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id64: steamId,
@@ -74,39 +74,41 @@ const Profile = () => {
           new_badge_id: newBadgeId,
         }),
       });
-      if (!response.ok) throw new Error("Failed to update badge");
-      alert("Badge updated successfully");
+      if (!response.ok) throw new Error('Failed to update badge');
+      alert('Badge updated successfully');
     } catch (error) {
-      console.error("Error updating badge:", error);
-      alert("Error updating badge");
+      console.error('Error updating badge:', error);
+      alert('Error updating badge');
     }
   };
 
   const handleDeleteBadge = async () => {
     try {
-      const response = await fetch("/api/badges", {
+      const response = await fetch('/api/badges', {
         // Adjusted URL if needed
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ id64: steamId, badge_id: badgeId }), // Ensure these names match the server's expected parameters
       });
-      if (!response.ok) throw new Error("Failed to delete badge");
-      alert("Badge deleted successfully");
+      if (!response.ok) throw new Error('Failed to delete badge');
+      alert('Badge deleted successfully');
     } catch (error) {
-      console.error("Error deleting badge:", error);
-      alert("Error deleting badge");
+      console.error('Error deleting badge:', error);
+      alert('Error deleting badge');
     }
   };
-  
+
   const convertToCSV = (data: any) => {
     const array = [Object.keys(data[0])].concat(data);
 
-    return array.map(it => {
+    return array
+      .map((it) => {
         return Object.values(it).toString();
-    }).join('\n');
-  }
+      })
+      .join('\n');
+  };
 
   const downloadCSV = (data: any) => {
     const csvString = convertToCSV(data);
@@ -118,20 +120,23 @@ const Profile = () => {
     document.body.appendChild(link); // Required for FF
     link.click();
     document.body.removeChild(link);
-  }
+  };
 
   const handleDownloadReport = () => {
-    const reportData = badges.map((badge:any) => ({
-        SteamID: steamId,
-        BadgeID: badge.badge_id,
-        DateRetrieved: new Date().toLocaleString(),
+    const reportData = badges.map((badge: any) => ({
+      SteamID: steamId,
+      BadgeID: badge.badge_id,
+      DateRetrieved: new Date().toLocaleString(),
     }));
 
     downloadCSV(reportData);
-};
+  };
 
   return (
-    <div className="bg-warmscale-7 min-h-screen" data-testid="admin-badge-container">
+    <div
+      className="bg-warmscale-7 min-h-screen"
+      data-testid="admin-badge-container"
+    >
       <Navbar />
       <div className=" flex justify-center items-center text-white h-[68vh]">
         <div>
@@ -206,9 +211,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <button onClick={handleDownloadReport} className="bg-gray-500 text-white px-4 py-2">
-                Download Report
-            </button>
+        <button
+          onClick={handleDownloadReport}
+          className="bg-gray-500 text-white px-4 py-2"
+        >
+          Download Report
+        </button>
       </div>
       <Footer />
     </div>

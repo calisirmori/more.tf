@@ -1,6 +1,6 @@
-import moretfWhiteLogo from "../../assets/moretf-white-medium.png";
-import { useState, useEffect, useRef } from 'react';
-import SearchBox from "./searchUsername";
+import moretfWhiteLogo from '../../assets/moretf-white-medium.png';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import SearchBox from './searchUsername';
 
 interface ActiveSeasons {
   RGL: {
@@ -19,13 +19,49 @@ interface UserProfile {
   avatarfull: string;
 }
 
+// Define NavLink and MobileNavLink outside component to avoid recreation on every render
+const NavLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => (
+  <a
+    href={href}
+    className="text-lightscale-4 text-sm font-semibold hover:text-lightscale-0 transition-colors duration-200"
+  >
+    {children}
+  </a>
+);
+
+const MobileNavLink = ({
+  href,
+  children,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => (
+  <a
+    href={href}
+    onClick={onClick}
+    className="block text-lightscale-3 text-lg font-semibold hover:text-lightscale-0 transition-colors duration-200 py-3 text-center"
+  >
+    {children}
+  </a>
+);
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [profileID, setProfileID] = useState<any>({});
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
-  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const isDevelopment =
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1';
   const backendUrl = isDevelopment ? 'http://localhost:3000' : '';
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -41,7 +77,11 @@ const Navbar = () => {
         setIsProfileMenuOpen(false);
       }
 
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(target) && !target.closest('.mobile-menu-button')) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(target) &&
+        !target.closest('.mobile-menu-button')
+      ) {
         setIsMenuOpen(false);
       }
     };
@@ -51,44 +91,18 @@ const Navbar = () => {
   }, []);
 
   const getCookies = () => {
-    const cookies = document.cookie.split(';').reduce((cookieObject: any, cookieString) => {
-      const [cookieName, cookieValue] = cookieString.trim().split('=');
-      cookieObject[cookieName] = cookieValue;
-      return cookieObject;
-    }, {});
+    const cookies = document.cookie
+      .split(';')
+      .reduce((cookieObject: any, cookieString) => {
+        const [cookieName, cookieValue] = cookieString.trim().split('=');
+        cookieObject[cookieName] = cookieValue;
+        return cookieObject;
+      }, {});
     setProfileID(cookies);
     return cookies;
   };
 
-  const fetchCurrentUser = async () => {
-    try {
-      const response = await fetch('/api/me');
-      const data = await response.json();
-
-      if (data.authenticated && data.user) {
-        setProfileID({ userid: data.user.id });
-        setUserProfile({
-          userid: data.user.id,
-          personaname: data.user.displayName,
-          avatarfull: data.user.avatar
-        });
-      } else {
-        const cookies = getCookies();
-        if (cookies.userid) {
-          setProfileID({ userid: cookies.userid });
-          fetchUserProfileFallback(cookies.userid);
-        }
-      }
-    } catch (error) {
-      console.error('Failed to fetch current user:', error);
-      const cookies = getCookies();
-      if (cookies.userid) {
-        fetchUserProfileFallback(cookies.userid);
-      }
-    }
-  };
-
-  const fetchUserProfileFallback = async (userid: string) => {
+  const fetchUserProfileFallback = useCallback(async (userid: string) => {
     const cachedProfile = localStorage.getItem(`userProfile_${userid}`);
     if (cachedProfile) {
       try {
@@ -110,47 +124,61 @@ const Navbar = () => {
         const profile = {
           userid,
           personaname: data.response.players[0].personaname,
-          avatarfull: data.response.players[0].avatarfull
+          avatarfull: data.response.players[0].avatarfull,
         };
         setUserProfile(profile);
-        localStorage.setItem(`userProfile_${userid}`, JSON.stringify({
-          data: profile,
-          timestamp: Date.now()
-        }));
+        localStorage.setItem(
+          `userProfile_${userid}`,
+          JSON.stringify({
+            data: profile,
+            timestamp: Date.now(),
+          })
+        );
       }
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
     }
-  };
+  }, []);
+
+  const fetchCurrentUser = useCallback(async () => {
+    try {
+      const response = await fetch('/api/me');
+      const data = await response.json();
+
+      if (data.authenticated && data.user) {
+        setProfileID({ userid: data.user.id });
+        setUserProfile({
+          userid: data.user.id,
+          personaname: data.user.displayName,
+          avatarfull: data.user.avatar,
+        });
+      } else {
+        const cookies = getCookies();
+        if (cookies.userid) {
+          setProfileID({ userid: cookies.userid });
+          fetchUserProfileFallback(cookies.userid);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch current user:', error);
+      const cookies = getCookies();
+      if (cookies.userid) {
+        fetchUserProfileFallback(cookies.userid);
+      }
+    }
+  }, [fetchUserProfileFallback]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCurrentUser();
-  }, []);
+  }, [fetchCurrentUser]);
 
   useEffect(() => {
     if (profileID.userid && !userProfile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchCurrentUser();
     }
-  }, [profileID]);
-
-  const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-    <a
-      href={href}
-      className="text-lightscale-4 text-sm font-semibold hover:text-lightscale-0 transition-colors duration-200"
-    >
-      {children}
-    </a>
-  );
-
-  const MobileNavLink = ({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) => (
-    <a
-      href={href}
-      onClick={onClick}
-      className="block text-lightscale-3 text-lg font-semibold hover:text-lightscale-0 transition-colors duration-200 py-3 text-center"
-    >
-      {children}
-    </a>
-  );
+  }, [profileID, userProfile, fetchCurrentUser]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-14 bg-warmscale-9 border-b border-warmscale-7/70 shadow-sm">
@@ -173,13 +201,20 @@ const Navbar = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                  d={
+                    isMenuOpen
+                      ? 'M6 18L18 6M6 6l12 12'
+                      : 'M4 6h16M4 12h16M4 18h16'
+                  }
                 />
               </svg>
             </button>
 
             {/* Logo */}
-            <a href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity duration-200">
+            <a
+              href="/"
+              className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity duration-200"
+            >
               <img
                 className="h-8 object-contain"
                 src="/new-logo-big.png"
@@ -210,10 +245,16 @@ const Navbar = () => {
             {profileID.userid === undefined ? (
               <a href={`${backendUrl}/api/auth/steam`}>
                 <button className="flex items-center gap-2 px-4 py-2 rounded-md border border-warmscale-5 bg-warmscale-7/30 hover:bg-warmscale-6/50 hover:border-warmscale-4 transition-all duration-200">
-                  <svg height="16" viewBox="0 0 24 24" className="fill-lightscale-3">
+                  <svg
+                    height="16"
+                    viewBox="0 0 24 24"
+                    className="fill-lightscale-3"
+                  >
                     <path d="M23.938 12c0 6.595-5.353 11.938-11.957 11.938A11.95 11.95 0 0 1 .476 15.254l4.583 1.892a3.382 3.382 0 0 0 6.696-.823l4.067-2.898a4.512 4.512 0 0 0 4.611-4.5 4.511 4.511 0 0 0-9.02 0v.057l-2.85 4.125a3.37 3.37 0 0 0-2.094.583L.062 11.042C.553 4.895 5.7.062 11.981.062 18.585.062 23.938 5.405 23.938 12zm-16.38 6.176l-1.469-.607a2.541 2.541 0 0 0 1.31 1.242 2.544 2.544 0 0 0 3.32-1.367 2.51 2.51 0 0 0 .005-1.94A2.53 2.53 0 0 0 7.48 14.1l1.516.625a1.862 1.862 0 0 1 1.006 2.44 1.87 1.87 0 0 1-2.445 1.012zm8.365-6.253c-1.656 0-3.004-1.348-3.004-2.999s1.348-2.999 3.004-2.999 3.004 1.348 3.004 3-1.343 2.998-3.004 2.998zm.005-.75a2.254 2.254 0 0 0 0-4.505 2.257 2.257 0 0 0-2.258 2.251 2.263 2.263 0 0 0 2.258 2.253z"></path>
                   </svg>
-                  <span className="text-lightscale-2 font-semibold text-xs">LOGIN</span>
+                  <span className="text-lightscale-2 font-semibold text-xs">
+                    LOGIN
+                  </span>
                 </button>
               </a>
             ) : (
@@ -277,17 +318,25 @@ const Navbar = () => {
       <div
         ref={mobileMenuRef}
         className={`md:hidden absolute top-14 left-0 right-0 bg-warmscale-9 border-b border-warmscale-7 shadow-lg transition-all duration-300 ease-in-out ${
-          isMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          isMenuOpen
+            ? 'max-h-[400px] opacity-100'
+            : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
         <div className="px-4 py-4 space-y-2">
           <div className="mb-4">
             <SearchBox />
           </div>
-          <MobileNavLink href="/season-summaries" onClick={() => setIsMenuOpen(false)}>
+          <MobileNavLink
+            href="/season-summaries"
+            onClick={() => setIsMenuOpen(false)}
+          >
             SEASON SUMMARIES
           </MobileNavLink>
-          <MobileNavLink href="/leaderboard" onClick={() => setIsMenuOpen(false)}>
+          <MobileNavLink
+            href="/leaderboard"
+            onClick={() => setIsMenuOpen(false)}
+          >
             LEADERBOARD
           </MobileNavLink>
         </div>

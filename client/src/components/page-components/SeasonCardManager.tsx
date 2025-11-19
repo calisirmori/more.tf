@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import Navbar from "../shared-components/Navbar";
-import Footer from "../shared-components/Footer";
+import { useState, useEffect } from 'react';
+import Navbar from '../shared-components/Navbar';
+import Footer from '../shared-components/Footer';
 
 interface HistoryItem {
   backgroundPosition: { x: number; y: number };
@@ -43,7 +43,9 @@ interface PlayerData {
 
 const SeasonCardManager = () => {
   // Step workflow
-  const [currentStep, setCurrentStep] = useState<'design' | 'selection' | 'preview'>('design');
+  const [currentStep, setCurrentStep] = useState<
+    'design' | 'selection' | 'preview'
+  >('design');
 
   // Selection state
   const [leagues, setLeagues] = useState<League[]>([]);
@@ -56,7 +58,10 @@ const SeasonCardManager = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerData | null>(null);
 
   // Design state
-  const [backgroundPosition, setBackgroundPosition] = useState({ x: 50, y: 50 });
+  const [backgroundPosition, setBackgroundPosition] = useState({
+    x: 50,
+    y: 50,
+  });
   const [primaryColor, setPrimaryColor] = useState('#D4822A');
   const [darkColor, setDarkColor] = useState('#2C2418');
   const [lightColor, setLightColor] = useState('#E8DCC4');
@@ -66,7 +71,10 @@ const SeasonCardManager = () => {
 
   // Generation state
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generationProgress, setGenerationProgress] = useState({ current: 0, total: 0 });
+  const [generationProgress, setGenerationProgress] = useState({
+    current: 0,
+    total: 0,
+  });
 
   // Bucket status state
   const [bucketStatus, setBucketStatus] = useState<{
@@ -103,7 +111,7 @@ const SeasonCardManager = () => {
       accentColor,
     };
 
-    setHistory(prev => [currentState, ...prev].slice(0, 14));
+    setHistory((prev) => [currentState, ...prev].slice(0, 14));
 
     // Randomize position
     const newPosition = {
@@ -113,7 +121,11 @@ const SeasonCardManager = () => {
     setBackgroundPosition(newPosition);
 
     // Generate random primary color and auto-generate scheme
-    const randomHex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+    const randomHex =
+      '#' +
+      Math.floor(Math.random() * 16777215)
+        .toString(16)
+        .padStart(6, '0');
     setPrimaryColor(randomHex);
     generateColorScheme(randomHex);
   };
@@ -179,7 +191,9 @@ const SeasonCardManager = () => {
 
   const fetchSeasons = async (league: string, format: string) => {
     try {
-      const response = await fetch(`/api/season-cards/seasons/${league}/${format}`);
+      const response = await fetch(
+        `/api/season-cards/seasons/${league}/${format}`
+      );
       const data = await response.json();
       setSeasons(data);
     } catch (err) {
@@ -187,7 +201,11 @@ const SeasonCardManager = () => {
     }
   };
 
-  const fetchPlayerData = async (league: string, format: string, seasonid: number) => {
+  const fetchPlayerData = async (
+    league: string,
+    format: string,
+    seasonid: number
+  ) => {
     try {
       // Load player data
       const response = await fetch(`/api/season-cards/player-data/${seasonid}`);
@@ -207,7 +225,9 @@ const SeasonCardManager = () => {
 
       // Try to load saved design for this season
       try {
-        const designResponse = await fetch(`/api/season-cards/design/${league}/${format}/${seasonid}`);
+        const designResponse = await fetch(
+          `/api/season-cards/design/${league}/${format}/${seasonid}`
+        );
         const designData = await designResponse.json();
 
         // Check if this is a saved design (has updated_at) or just default values
@@ -222,21 +242,27 @@ const SeasonCardManager = () => {
           setAccentColor(designData.accent_color);
           setBackgroundPosition({
             x: designData.bg_position_x,
-            y: designData.bg_position_y
+            y: designData.bg_position_y,
           });
           console.log('Loaded saved design for this season');
         } else {
-          console.log('No saved design found for this season, keeping current design');
+          console.log(
+            'No saved design found for this season, keeping current design'
+          );
           setSavedDesign(null);
         }
       } catch (designErr) {
-        console.log('No saved design found for this season, keeping current design');
+        console.log(
+          'No saved design found for this season, keeping current design'
+        );
         setSavedDesign(null);
       }
 
       // Fetch bucket status
       try {
-        const bucketResponse = await fetch(`/api/season-cards/bucket-status/${seasonid}`);
+        const bucketResponse = await fetch(
+          `/api/season-cards/bucket-status/${seasonid}`
+        );
         const bucketData = await bucketResponse.json();
         setBucketStatus(bucketData);
       } catch (bucketErr) {
@@ -246,28 +272,39 @@ const SeasonCardManager = () => {
     } catch (err) {
       console.error('Error fetching player data:', err);
       setPlayerData([]);
-      alert('Failed to load player data. Please check the console for details.');
+      alert(
+        'Failed to load player data. Please check the console for details.'
+      );
     }
   };
 
   const clearBucket = async () => {
     if (!selectedSeason) return;
 
-    if (!confirm(`Are you sure you want to delete all ${bucketStatus?.cardCount || 0} generated cards for this season? This cannot be undone.`)) {
+    if (
+      !confirm(
+        `Are you sure you want to delete all ${bucketStatus?.cardCount || 0} generated cards for this season? This cannot be undone.`
+      )
+    ) {
       return;
     }
 
     try {
-      const response = await fetch(`/api/season-cards/clear-bucket/${selectedSeason}`, {
-        method: 'DELETE'
-      });
+      const response = await fetch(
+        `/api/season-cards/clear-bucket/${selectedSeason}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       const data = await response.json();
 
       if (data.success) {
         alert(data.message);
         // Refresh bucket status
-        const bucketResponse = await fetch(`/api/season-cards/bucket-status/${selectedSeason}`);
+        const bucketResponse = await fetch(
+          `/api/season-cards/bucket-status/${selectedSeason}`
+        );
         const bucketData = await bucketResponse.json();
         setBucketStatus(bucketData);
       } else {
@@ -312,19 +349,21 @@ const SeasonCardManager = () => {
 
     try {
       // Prepare player data for the server
-      const playerData = showMockData ? {
-        id64: 'mock_player',
-        division: selectedPlayer?.division || 'advanced',
-        class: selectedPlayer?.class || 'soldier',
-        format: selectedPlayer?.format || 'highlander',
-        cbt: selectedPlayer?.cbt || 85,
-        eff: selectedPlayer?.eff || 88,
-        eva: selectedPlayer?.eva || 79,
-        imp: selectedPlayer?.imp || 91,
-        spt: selectedPlayer?.spt || 78,
-        srv: selectedPlayer?.srv || 92,
-        rglname: selectedPlayer?.rglname || 'PLAYER'
-      } : selectedPlayer;
+      const playerData = showMockData
+        ? {
+            id64: 'mock_player',
+            division: selectedPlayer?.division || 'advanced',
+            class: selectedPlayer?.class || 'soldier',
+            format: selectedPlayer?.format || 'highlander',
+            cbt: selectedPlayer?.cbt || 85,
+            eff: selectedPlayer?.eff || 88,
+            eva: selectedPlayer?.eva || 79,
+            imp: selectedPlayer?.imp || 91,
+            spt: selectedPlayer?.spt || 78,
+            srv: selectedPlayer?.srv || 92,
+            rglname: selectedPlayer?.rglname || 'PLAYER',
+          }
+        : selectedPlayer;
 
       // Send request to server to generate PNG
       const response = await fetch('/api/generate/generate-single-card', {
@@ -340,12 +379,17 @@ const SeasonCardManager = () => {
           accentColor,
           bgPositionX: backgroundPosition.x,
           bgPositionY: backgroundPosition.y,
-          seasonInfo: selectedLeague && selectedFormat && selectedSeason ? {
-            league: selectedLeague,
-            format: selectedFormat,
-            seasonid: selectedSeason,
-            seasonname: seasons.find(s => s.seasonid === selectedSeason)?.seasonname || ''
-          } : null,
+          seasonInfo:
+            selectedLeague && selectedFormat && selectedSeason
+              ? {
+                  league: selectedLeague,
+                  format: selectedFormat,
+                  seasonid: selectedSeason,
+                  seasonname:
+                    seasons.find((s) => s.seasonid === selectedSeason)
+                      ?.seasonname || '',
+                }
+              : null,
         }),
       });
 
@@ -366,7 +410,6 @@ const SeasonCardManager = () => {
       link.href = URL.createObjectURL(blob);
       link.click();
       URL.revokeObjectURL(link.href);
-
     } catch (error) {
       console.error('Error downloading card:', error);
       alert('Failed to download card as PNG. Check console for details.');
@@ -431,12 +474,13 @@ const SeasonCardManager = () => {
         throw new Error('No response body');
       }
 
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n').filter(line => line.trim());
+        const lines = chunk.split('\n').filter((line) => line.trim());
 
         for (const line of lines) {
           try {
@@ -444,28 +488,43 @@ const SeasonCardManager = () => {
 
             if (data.status === 'progress' || data.status === 'error') {
               // Update progress
-              setGenerationProgress({ current: data.current, total: data.total });
+              setGenerationProgress({
+                current: data.current,
+                total: data.total,
+              });
 
               // Mark player as generated
               if (data.player) {
-                setPlayerData(prev => prev.map(p =>
-                  p.id64 === data.player.id64
-                    ? { ...p, generated: data.status === 'progress', generatedUrl: data.player.url }
-                    : p
-                ));
+                setPlayerData((prev) =>
+                  prev.map((p) =>
+                    p.id64 === data.player.id64
+                      ? {
+                          ...p,
+                          generated: data.status === 'progress',
+                          generatedUrl: data.player.url,
+                        }
+                      : p
+                  )
+                );
               }
             } else if (data.status === 'completed') {
-              alert(`Card generation completed! ${data.successCount} cards generated successfully.`);
+              alert(
+                `Card generation completed! ${data.successCount} cards generated successfully.`
+              );
               setIsGenerating(false);
 
               // Refresh bucket status and saved design after completion
               if (selectedSeason && selectedLeague && selectedFormat) {
                 try {
-                  const bucketResponse = await fetch(`/api/season-cards/bucket-status/${selectedSeason}`);
+                  const bucketResponse = await fetch(
+                    `/api/season-cards/bucket-status/${selectedSeason}`
+                  );
                   const bucketData = await bucketResponse.json();
                   setBucketStatus(bucketData);
 
-                  const designResponse = await fetch(`/api/season-cards/design/${selectedLeague}/${selectedFormat}/${selectedSeason}`);
+                  const designResponse = await fetch(
+                    `/api/season-cards/design/${selectedLeague}/${selectedFormat}/${selectedSeason}`
+                  );
                   const designData = await designResponse.json();
                   if (designData && designData.updated_at) {
                     setSavedDesign(designData);
@@ -493,7 +552,9 @@ const SeasonCardManager = () => {
     <div className="bg-warmscale-7 min-h-screen">
       <Navbar />
       <div className="container mx-auto px-4 py-8 min-h-[68vh]">
-        <h1 className="text-white text-4xl font-bold mb-8">Season Card Manager</h1>
+        <h1 className="text-white text-4xl font-bold mb-8">
+          Season Card Manager
+        </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* LEFT SECTION */}
@@ -501,99 +562,125 @@ const SeasonCardManager = () => {
             {/* STEP 1: Design */}
             {currentStep === 'design' && (
               <>
-                <h2 className="text-white text-2xl font-bold mb-4">Design Card</h2>
-            <div className="flex flex-col gap-4">
-              <button
-                onClick={randomizeBackground}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors text-lg"
-              >
-                Randomize Background
-              </button>
-              <div className="text-warmscale-2 text-sm">
-                <p>Position: {backgroundPosition.x}%, {backgroundPosition.y}%</p>
-              </div>
-
-              <div className="border-t border-warmscale-5 pt-4 mt-2">
-                <h3 className="text-white text-lg font-semibold mb-3">Color Scheme</h3>
-
-                {/* Auto-generate from primary */}
-                <div className="mb-4 p-3 bg-warmscale-7 rounded-lg">
-                  <label className="text-warmscale-2 text-sm mb-2 block">Quick Generate (Primary Color)</label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={primaryColor}
-                      onChange={(e) => {
-                        setPrimaryColor(e.target.value);
-                        generateColorScheme(e.target.value);
-                      }}
-                      className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
-                    />
-                    <span className="text-warmscale-2 text-xs">Pick a color to auto-generate scheme</span>
+                <h2 className="text-white text-2xl font-bold mb-4">
+                  Design Card
+                </h2>
+                <div className="flex flex-col gap-4">
+                  <button
+                    onClick={randomizeBackground}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors text-lg"
+                  >
+                    Randomize Background
+                  </button>
+                  <div className="text-warmscale-2 text-sm">
+                    <p>
+                      Position: {backgroundPosition.x}%, {backgroundPosition.y}%
+                    </p>
                   </div>
+
+                  <div className="border-t border-warmscale-5 pt-4 mt-2">
+                    <h3 className="text-white text-lg font-semibold mb-3">
+                      Color Scheme
+                    </h3>
+
+                    {/* Auto-generate from primary */}
+                    <div className="mb-4 p-3 bg-warmscale-7 rounded-lg">
+                      <label className="text-warmscale-2 text-sm mb-2 block">
+                        Quick Generate (Primary Color)
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="color"
+                          value={primaryColor}
+                          onChange={(e) => {
+                            setPrimaryColor(e.target.value);
+                            generateColorScheme(e.target.value);
+                          }}
+                          className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
+                        />
+                        <span className="text-warmscale-2 text-xs">
+                          Pick a color to auto-generate scheme
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Individual color controls */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="color"
+                          value={darkColor}
+                          onChange={(e) => setDarkColor(e.target.value)}
+                          className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
+                        />
+                        <div className="flex flex-col flex-1">
+                          <span className="text-warmscale-2 text-xs">
+                            Dark Background
+                          </span>
+                          <span className="text-white font-mono text-sm">
+                            {darkColor}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="color"
+                          value={lightColor}
+                          onChange={(e) => setLightColor(e.target.value)}
+                          className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
+                        />
+                        <div className="flex flex-col flex-1">
+                          <span className="text-warmscale-2 text-xs">
+                            Character Icons
+                          </span>
+                          <span className="text-white font-mono text-sm">
+                            {lightColor}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="color"
+                          value={accentColor}
+                          onChange={(e) => setAccentColor(e.target.value)}
+                          className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
+                        />
+                        <div className="flex flex-col flex-1">
+                          <span className="text-warmscale-2 text-xs">
+                            Confetti Items
+                          </span>
+                          <span className="text-white font-mono text-sm">
+                            {accentColor}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentStep('selection')}
+                    className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg mt-4"
+                  >
+                    Next: Select Season
+                  </button>
                 </div>
-
-                {/* Individual color controls */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="color"
-                      value={darkColor}
-                      onChange={(e) => setDarkColor(e.target.value)}
-                      className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
-                    />
-                    <div className="flex flex-col flex-1">
-                      <span className="text-warmscale-2 text-xs">Dark Background</span>
-                      <span className="text-white font-mono text-sm">{darkColor}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="color"
-                      value={lightColor}
-                      onChange={(e) => setLightColor(e.target.value)}
-                      className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
-                    />
-                    <div className="flex flex-col flex-1">
-                      <span className="text-warmscale-2 text-xs">Character Icons</span>
-                      <span className="text-white font-mono text-sm">{lightColor}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="color"
-                      value={accentColor}
-                      onChange={(e) => setAccentColor(e.target.value)}
-                      className="w-12 h-12 rounded cursor-pointer border-2 border-warmscale-5"
-                    />
-                    <div className="flex flex-col flex-1">
-                      <span className="text-warmscale-2 text-xs">Confetti Items</span>
-                      <span className="text-white font-mono text-sm">{accentColor}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setCurrentStep('selection')}
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg mt-4"
-              >
-                Next: Select Season
-              </button>
-            </div>
               </>
             )}
 
             {/* STEP 2: League/Format/Season Selection */}
             {currentStep === 'selection' && (
               <>
-                <h2 className="text-white text-2xl font-bold mb-4">Select Season</h2>
+                <h2 className="text-white text-2xl font-bold mb-4">
+                  Select Season
+                </h2>
                 <div className="flex flex-col gap-4">
                   {/* League Selection */}
                   <div>
-                    <label className="text-warmscale-2 text-sm mb-2 block">League</label>
+                    <label className="text-warmscale-2 text-sm mb-2 block">
+                      League
+                    </label>
                     <select
                       value={selectedLeague}
                       onChange={(e) => setSelectedLeague(e.target.value)}
@@ -610,7 +697,9 @@ const SeasonCardManager = () => {
 
                   {/* Format Selection */}
                   <div>
-                    <label className="text-warmscale-2 text-sm mb-2 block">Format</label>
+                    <label className="text-warmscale-2 text-sm mb-2 block">
+                      Format
+                    </label>
                     <select
                       value={selectedFormat}
                       onChange={(e) => setSelectedFormat(e.target.value)}
@@ -628,10 +717,14 @@ const SeasonCardManager = () => {
 
                   {/* Season Selection */}
                   <div>
-                    <label className="text-warmscale-2 text-sm mb-2 block">Season</label>
+                    <label className="text-warmscale-2 text-sm mb-2 block">
+                      Season
+                    </label>
                     <select
                       value={selectedSeason || ''}
-                      onChange={(e) => setSelectedSeason(Number(e.target.value))}
+                      onChange={(e) =>
+                        setSelectedSeason(Number(e.target.value))
+                      }
                       disabled={!selectedFormat}
                       className="w-full px-4 py-2 bg-warmscale-7 text-white border border-warmscale-5 rounded-lg focus:outline-none focus:border-orange-500 disabled:opacity-50"
                     >
@@ -672,67 +765,103 @@ const SeasonCardManager = () => {
 
                 {/* Bucket Status and Saved Settings */}
                 <div className="mb-4 p-4 bg-warmscale-7 rounded-lg space-y-3">
-                  <div className="text-white font-semibold text-lg">Season Information</div>
+                  <div className="text-white font-semibold text-lg">
+                    Season Information
+                  </div>
 
                   {/* S3 Bucket Status */}
                   <div className="flex items-center justify-between p-3 bg-warmscale-6 rounded">
                     <div>
-                      <div className="text-warmscale-2 text-sm">S3 Bucket Status</div>
+                      <div className="text-warmscale-2 text-sm">
+                        S3 Bucket Status
+                      </div>
                       <div className="text-white font-semibold">
                         {bucketStatus?.bucketExists ? (
                           <span className="text-green-400">
                             {bucketStatus.cardCount} cards generated
                           </span>
                         ) : (
-                          <span className="text-gray-400">No cards generated yet</span>
+                          <span className="text-gray-400">
+                            No cards generated yet
+                          </span>
                         )}
                       </div>
                     </div>
-                    {bucketStatus?.bucketExists && bucketStatus.cardCount > 0 && (
-                      <button
-                        onClick={clearBucket}
-                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
-                      >
-                        Clear Bucket
-                      </button>
-                    )}
+                    {bucketStatus?.bucketExists &&
+                      bucketStatus.cardCount > 0 && (
+                        <button
+                          onClick={clearBucket}
+                          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+                        >
+                          Clear Bucket
+                        </button>
+                      )}
                   </div>
 
                   {/* Saved Card Design Settings */}
                   <div className="p-3 bg-warmscale-6 rounded">
                     <div className="flex items-center justify-between mb-2">
-                      <div className="text-warmscale-2 text-sm">Saved Card Design</div>
+                      <div className="text-warmscale-2 text-sm">
+                        Saved Card Design
+                      </div>
                       {savedDesign?.updated_at && (
                         <div className="text-xs text-warmscale-3">
-                          Last saved: {new Date(savedDesign.updated_at).toLocaleString()}
+                          Last saved:{' '}
+                          {new Date(savedDesign.updated_at).toLocaleString()}
                         </div>
                       )}
                     </div>
                     {savedDesign ? (
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded border border-warmscale-5" style={{ backgroundColor: savedDesign.primary_color }}></div>
-                          <span className="text-warmscale-2">Primary: {savedDesign.primary_color}</span>
+                          <div
+                            className="w-6 h-6 rounded border border-warmscale-5"
+                            style={{
+                              backgroundColor: savedDesign.primary_color,
+                            }}
+                          ></div>
+                          <span className="text-warmscale-2">
+                            Primary: {savedDesign.primary_color}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded border border-warmscale-5" style={{ backgroundColor: savedDesign.dark_color }}></div>
-                          <span className="text-warmscale-2">Dark: {savedDesign.dark_color}</span>
+                          <div
+                            className="w-6 h-6 rounded border border-warmscale-5"
+                            style={{ backgroundColor: savedDesign.dark_color }}
+                          ></div>
+                          <span className="text-warmscale-2">
+                            Dark: {savedDesign.dark_color}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded border border-warmscale-5" style={{ backgroundColor: savedDesign.light_color }}></div>
-                          <span className="text-warmscale-2">Light: {savedDesign.light_color}</span>
+                          <div
+                            className="w-6 h-6 rounded border border-warmscale-5"
+                            style={{ backgroundColor: savedDesign.light_color }}
+                          ></div>
+                          <span className="text-warmscale-2">
+                            Light: {savedDesign.light_color}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded border border-warmscale-5" style={{ backgroundColor: savedDesign.accent_color }}></div>
-                          <span className="text-warmscale-2">Accent: {savedDesign.accent_color}</span>
+                          <div
+                            className="w-6 h-6 rounded border border-warmscale-5"
+                            style={{
+                              backgroundColor: savedDesign.accent_color,
+                            }}
+                          ></div>
+                          <span className="text-warmscale-2">
+                            Accent: {savedDesign.accent_color}
+                          </span>
                         </div>
                         <div className="col-span-2 text-warmscale-2">
-                          Background Position: {savedDesign.bg_position_x}%, {savedDesign.bg_position_y}%
+                          Background Position: {savedDesign.bg_position_x}%,{' '}
+                          {savedDesign.bg_position_y}%
                         </div>
                       </div>
                     ) : (
                       <div className="text-warmscale-3 text-xs">
-                        No saved design yet. Generate cards to save the current design.
+                        No saved design yet. Generate cards to save the current
+                        design.
                       </div>
                     )}
                   </div>
@@ -746,57 +875,68 @@ const SeasonCardManager = () => {
                   <>
                     <div className="flex flex-col gap-2 max-h-[600px] overflow-y-auto">
                       {playerData.map((player) => (
-                      <div
-                        key={player.id64}
-                        className={`p-3 rounded-lg transition-colors flex items-center gap-3 ${
-                          selectedPlayer?.id64 === player.id64
-                            ? 'bg-orange-500 text-white'
-                            : 'bg-warmscale-7 text-warmscale-2'
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={player.generated || false}
-                          readOnly
-                          className="w-5 h-5 pointer-events-none"
-                        />
-                        <button
-                          onClick={() => setSelectedPlayer(player)}
-                          className="flex-1 text-left"
+                        <div
+                          key={player.id64}
+                          className={`p-3 rounded-lg transition-colors flex items-center gap-3 ${
+                            selectedPlayer?.id64 === player.id64
+                              ? 'bg-orange-500 text-white'
+                              : 'bg-warmscale-7 text-warmscale-2'
+                          }`}
                         >
-                          <div className="font-bold">{player.rglname || player.player_name || `Player ${player.id64}`}</div>
-                          <div className="text-xs">{player.division} - {player.class}</div>
-                        </button>
-                        {player.generated && player.generatedUrl && (
-                          <a
-                            href={player.generatedUrl}
-                            download={`${player.rglname || player.id64}_card.png`}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold transition-colors"
-                            onClick={(e) => e.stopPropagation()}
+                          <input
+                            type="checkbox"
+                            checked={player.generated || false}
+                            readOnly
+                            className="w-5 h-5 pointer-events-none"
+                          />
+                          <button
+                            onClick={() => setSelectedPlayer(player)}
+                            className="flex-1 text-left"
                           >
-                            Download
-                          </a>
-                        )}
-                      </div>
-                    ))}
+                            <div className="font-bold">
+                              {player.rglname ||
+                                player.player_name ||
+                                `Player ${player.id64}`}
+                            </div>
+                            <div className="text-xs">
+                              {player.division} - {player.class}
+                            </div>
+                          </button>
+                          {player.generated && player.generatedUrl && (
+                            <a
+                              href={player.generatedUrl}
+                              download={`${player.rglname || player.id64}_card.png`}
+                              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Download
+                            </a>
+                          )}
+                        </div>
+                      ))}
                     </div>
 
                     {isGenerating && (
                       <div className="mt-4 p-4 bg-warmscale-7 rounded-lg">
                         <div className="text-warmscale-2 text-sm mb-2">
-                          Generating cards: {generationProgress.current} / {generationProgress.total}
+                          Generating cards: {generationProgress.current} /{' '}
+                          {generationProgress.total}
                         </div>
                         <div className="w-full bg-warmscale-5 rounded-full h-2">
                           <div
                             className="bg-orange-500 h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${(generationProgress.current / generationProgress.total) * 100}%` }}
+                            style={{
+                              width: `${(generationProgress.current / generationProgress.total) * 100}%`,
+                            }}
                           />
                         </div>
                       </div>
                     )}
 
                     {/* Generation buttons */}
-                    {bucketStatus?.bucketExists && bucketStatus.cardCount > 0 && savedDesign ? (
+                    {bucketStatus?.bucketExists &&
+                    bucketStatus.cardCount > 0 &&
+                    savedDesign ? (
                       <div className="mt-4 space-y-3">
                         <div className="text-warmscale-2 text-sm text-center">
                           Cards already exist. Choose an option:
@@ -807,18 +947,23 @@ const SeasonCardManager = () => {
                             disabled={isGenerating}
                             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {isGenerating ? 'Generating...' : 'Regenerate with Same Design'}
+                            {isGenerating
+                              ? 'Generating...'
+                              : 'Regenerate with Same Design'}
                           </button>
                           <button
                             onClick={() => generateAllCards(false)}
                             disabled={isGenerating}
                             className="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {isGenerating ? 'Generating...' : 'Regenerate with New Design'}
+                            {isGenerating
+                              ? 'Generating...'
+                              : 'Regenerate with New Design'}
                           </button>
                         </div>
                         <div className="text-xs text-warmscale-3 text-center">
-                          Same Design uses the saved design from database. New Design uses your current preview settings.
+                          Same Design uses the saved design from database. New
+                          Design uses your current preview settings.
                         </div>
                       </div>
                     ) : (
@@ -827,7 +972,9 @@ const SeasonCardManager = () => {
                         disabled={isGenerating}
                         className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors mt-4 w-full disabled:opacity-50 disabled:cursor-not-allowed text-lg"
                       >
-                        {isGenerating ? 'Generating Cards...' : 'Generate All Cards'}
+                        {isGenerating
+                          ? 'Generating Cards...'
+                          : 'Generate All Cards'}
                       </button>
                     )}
                   </>
@@ -894,7 +1041,10 @@ const SeasonCardManager = () => {
               Download as PNG
             </button>
             <div className="flex justify-center items-center">
-              <div className="relative" style={{ width: '300px', height: '410px' }}>
+              <div
+                className="relative"
+                style={{ width: '300px', height: '410px' }}
+              >
                 <svg
                   viewBox="0 0 900 1227"
                   className="w-full h-full"
@@ -942,23 +1092,37 @@ const SeasonCardManager = () => {
                     {/* Color replacement filter */}
                     <filter id="colorTint" colorInterpolationFilters="sRGB">
                       {/* Step 1: Convert to grayscale to detect brightness levels */}
-                      <feColorMatrix type="matrix"
+                      <feColorMatrix
+                        type="matrix"
                         values="0.2126 0.7152 0.0722 0 0
                                 0.2126 0.7152 0.0722 0 0
                                 0.2126 0.7152 0.0722 0 0
                                 0      0      0      1 0"
-                        result="grayscale" />
+                        result="grayscale"
+                      />
 
                       {/* Step 2: Use discrete to separate into 3 brightness ranges */}
-                      <feComponentTransfer in="SourceGraphic" result="originalAlpha">
+                      <feComponentTransfer
+                        in="SourceGraphic"
+                        result="originalAlpha"
+                      >
                         <feFuncA type="identity" />
                       </feComponentTransfer>
 
                       {/* Remap grayscale values to our three colors */}
                       <feComponentTransfer in="grayscale">
-                        <feFuncR type="discrete" tableValues={`${parseInt(darkColor.slice(1, 3), 16)/255} ${parseInt(accentColor.slice(1, 3), 16)/255} ${parseInt(lightColor.slice(1, 3), 16)/255}`} />
-                        <feFuncG type="discrete" tableValues={`${parseInt(darkColor.slice(3, 5), 16)/255} ${parseInt(accentColor.slice(3, 5), 16)/255} ${parseInt(lightColor.slice(3, 5), 16)/255}`} />
-                        <feFuncB type="discrete" tableValues={`${parseInt(darkColor.slice(5, 7), 16)/255} ${parseInt(accentColor.slice(5, 7), 16)/255} ${parseInt(lightColor.slice(5, 7), 16)/255}`} />
+                        <feFuncR
+                          type="discrete"
+                          tableValues={`${parseInt(darkColor.slice(1, 3), 16) / 255} ${parseInt(accentColor.slice(1, 3), 16) / 255} ${parseInt(lightColor.slice(1, 3), 16) / 255}`}
+                        />
+                        <feFuncG
+                          type="discrete"
+                          tableValues={`${parseInt(darkColor.slice(3, 5), 16) / 255} ${parseInt(accentColor.slice(3, 5), 16) / 255} ${parseInt(lightColor.slice(3, 5), 16) / 255}`}
+                        />
+                        <feFuncB
+                          type="discrete"
+                          tableValues={`${parseInt(darkColor.slice(5, 7), 16) / 255} ${parseInt(accentColor.slice(5, 7), 16) / 255} ${parseInt(lightColor.slice(5, 7), 16) / 255}`}
+                        />
                       </feComponentTransfer>
                     </filter>
 
@@ -968,8 +1132,18 @@ const SeasonCardManager = () => {
                       <feColorMatrix type="saturate" values="0" result="gray" />
                       {/* Then apply primary color */}
                       <feFlood floodColor={primaryColor} result="flood" />
-                      <feComposite in="flood" in2="SourceAlpha" operator="in" result="color" />
-                      <feBlend in="color" in2="gray" mode="multiply" result="tinted" />
+                      <feComposite
+                        in="flood"
+                        in2="SourceAlpha"
+                        operator="in"
+                        result="color"
+                      />
+                      <feBlend
+                        in="color"
+                        in2="gray"
+                        mode="multiply"
+                        result="tinted"
+                      />
                       {/* Lighten it a bit */}
                       <feComponentTransfer in="tinted">
                         <feFuncR type="linear" slope="1.5" />
@@ -993,7 +1167,13 @@ const SeasonCardManager = () => {
 
                     {/* Dark overlay for better text readability */}
                     {showMockData && (
-                      <rect x="0" y="0" width="900" height="1227" fill="rgba(0, 0, 0, 0.5)" />
+                      <rect
+                        x="0"
+                        y="0"
+                        width="900"
+                        height="1227"
+                        fill="rgba(0, 0, 0, 0.5)"
+                      />
                     )}
                   </g>
 
@@ -1001,71 +1181,312 @@ const SeasonCardManager = () => {
                   {showMockData && (
                     <g>
                       {/* Border Image - Advanced */}
-                      <image href={`/player cards/borders/${selectedPlayer?.division || 'advanced'}.png`} x="0" y="0" width="900" height="1227" preserveAspectRatio="xMidYMid meet" />
+                      <image
+                        href={`/player cards/borders/${selectedPlayer?.division || 'advanced'}.png`}
+                        x="0"
+                        y="0"
+                        width="900"
+                        height="1227"
+                        preserveAspectRatio="xMidYMid meet"
+                      />
 
                       {/* Class Portrait */}
-                      <image href={`/player cards/class-portraits/${selectedPlayer?.class || 'soldier'}.png`} x="0" y="0" width="900" height="1227" preserveAspectRatio="xMidYMid meet" />
+                      <image
+                        href={`/player cards/class-portraits/${selectedPlayer?.class || 'soldier'}.png`}
+                        x="0"
+                        y="0"
+                        width="900"
+                        height="1227"
+                        preserveAspectRatio="xMidYMid meet"
+                      />
 
                       {/* Gradient Overlay */}
-                      <image href="/player cards/gradients.png" x="0" y="0" width="900" height="1227" preserveAspectRatio="xMidYMid meet" />
+                      <image
+                        href="/player cards/gradients.png"
+                        x="0"
+                        y="0"
+                        width="900"
+                        height="1227"
+                        preserveAspectRatio="xMidYMid meet"
+                      />
 
                       {/* Class Icon (centered bottom) */}
-                      <image href={`/player cards/class-icons/${selectedPlayer?.class || 'soldier'}.png`} x="410" y="1090" width="80" height="80" />
+                      <image
+                        href={`/player cards/class-icons/${selectedPlayer?.class || 'soldier'}.png`}
+                        x="410"
+                        y="1090"
+                        width="80"
+                        height="80"
+                      />
 
                       {/* Logo */}
-                      <image href="/player cards/logo.png" x="0" y="0" width="900" height="1227" preserveAspectRatio="xMidYMid meet" />
+                      <image
+                        href="/player cards/logo.png"
+                        x="0"
+                        y="0"
+                        width="900"
+                        height="1227"
+                        preserveAspectRatio="xMidYMid meet"
+                      />
 
                       {/* Crystals Overlay for Invite Division */}
                       {selectedPlayer?.division === 'invite' && (
-                        <image href="/player cards/crystals.png" x="0" y="0" width="900" height="1227" preserveAspectRatio="xMidYMid meet" filter="url(#primaryTint)" />
+                        <image
+                          href="/player cards/crystals.png"
+                          x="0"
+                          y="0"
+                          width="900"
+                          height="1227"
+                          preserveAspectRatio="xMidYMid meet"
+                          filter="url(#primaryTint)"
+                        />
                       )}
 
                       {/* Division Medal */}
-                      <image href={`/player cards/division-medals/${selectedPlayer?.division || 'invite'}.png`} x="180" y="460" width="120" height="120" />
+                      <image
+                        href={`/player cards/division-medals/${selectedPlayer?.division || 'invite'}.png`}
+                        x="180"
+                        y="460"
+                        width="120"
+                        height="120"
+                      />
 
                       {/* Overall Badge */}
-                      <text x="240" y="280" fontSize="35" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">OVERALL</text>
-                      <text x="240" y="315" fontSize="26" fill="#CCCCCC" textAnchor="middle" fontFamily="Roboto Mono">{(selectedPlayer?.format || 'HIGHLANDER').toUpperCase()}</text>
-                      <text x="240" y="420" fontSize="110" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">
-                        {selectedPlayer ? Math.round(((selectedPlayer.cbt*2) + (selectedPlayer.eff*0.5) + (selectedPlayer.eva*0.5) + (selectedPlayer.imp*2) + selectedPlayer.spt + selectedPlayer.srv) / 7.0) : 87}
+                      <text
+                        x="240"
+                        y="280"
+                        fontSize="35"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        OVERALL
+                      </text>
+                      <text
+                        x="240"
+                        y="315"
+                        fontSize="26"
+                        fill="#CCCCCC"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {(selectedPlayer?.format || 'HIGHLANDER').toUpperCase()}
+                      </text>
+                      <text
+                        x="240"
+                        y="420"
+                        fontSize="110"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer
+                          ? Math.round(
+                              (selectedPlayer.cbt * 2 +
+                                selectedPlayer.eff * 0.5 +
+                                selectedPlayer.eva * 0.5 +
+                                selectedPlayer.imp * 2 +
+                                selectedPlayer.spt +
+                                selectedPlayer.srv) /
+                                7.0
+                            )
+                          : 87}
                       </text>
 
                       {/* Division line under overall */}
-                      <line x1="175" y1="450" x2="305" y2="450" stroke="#FFFFFF" strokeWidth="6" />
+                      <line
+                        x1="175"
+                        y1="450"
+                        x2="305"
+                        y2="450"
+                        stroke="#FFFFFF"
+                        strokeWidth="6"
+                      />
 
                       {/* Player Name */}
-                      <text x="450" y="690" fontSize="100" fontWeight="900" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto">
+                      <text
+                        x="450"
+                        y="690"
+                        fontSize="100"
+                        fontWeight="900"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto"
+                      >
                         {selectedPlayer?.rglname?.toUpperCase() || 'PLAYER'}
                       </text>
 
                       {/* Horizontal divider */}
-                      <line x1="160" y1="720" x2="740" y2="720" stroke="#FFFFFF" strokeWidth="6" />
+                      <line
+                        x1="160"
+                        y1="720"
+                        x2="740"
+                        y2="720"
+                        stroke="#FFFFFF"
+                        strokeWidth="6"
+                      />
 
                       {/* Stats - Left Column */}
-                      <text x="360" y="820" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">{selectedPlayer?.cbt || 85}</text>
-                      <text x="212" y="820" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">CBT</text>
+                      <text
+                        x="360"
+                        y="820"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer?.cbt || 85}
+                      </text>
+                      <text
+                        x="212"
+                        y="820"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        CBT
+                      </text>
 
-                      <text x="360" y="920" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">{selectedPlayer?.spt || 78}</text>
-                      <text x="212" y="920" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">SPT</text>
+                      <text
+                        x="360"
+                        y="920"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer?.spt || 78}
+                      </text>
+                      <text
+                        x="212"
+                        y="920"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        SPT
+                      </text>
 
-                      <text x="360" y="1020" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">{selectedPlayer?.srv || 92}</text>
-                      <text x="212" y="1020" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">SRV</text>
+                      <text
+                        x="360"
+                        y="1020"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer?.srv || 92}
+                      </text>
+                      <text
+                        x="212"
+                        y="1020"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        SRV
+                      </text>
 
                       {/* Vertical divider */}
-                      <line x1="450" y1="740" x2="450" y2="1040" stroke="#FFFFFF" strokeWidth="6" />
+                      <line
+                        x1="450"
+                        y1="740"
+                        x2="450"
+                        y2="1040"
+                        stroke="#FFFFFF"
+                        strokeWidth="6"
+                      />
 
                       {/* Stats - Right Column */}
-                      <text x="560" y="820" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">EFF</text>
-                      <text x="712" y="820" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">{selectedPlayer?.eff || 88}</text>
+                      <text
+                        x="560"
+                        y="820"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        EFF
+                      </text>
+                      <text
+                        x="712"
+                        y="820"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer?.eff || 88}
+                      </text>
 
-                      <text x="560" y="920" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">DMG</text>
-                      <text x="712" y="920" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">{selectedPlayer?.imp || 91}</text>
+                      <text
+                        x="560"
+                        y="920"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        DMG
+                      </text>
+                      <text
+                        x="712"
+                        y="920"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer?.imp || 91}
+                      </text>
 
-                      <text x="560" y="1020" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">EVA</text>
-                      <text x="712" y="1020" fontSize="80" fontWeight="bold" fill="#FFFFFF" textAnchor="middle" fontFamily="Roboto Mono">{selectedPlayer?.eva || 79}</text>
+                      <text
+                        x="560"
+                        y="1020"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        EVA
+                      </text>
+                      <text
+                        x="712"
+                        y="1020"
+                        fontSize="80"
+                        fontWeight="bold"
+                        fill="#FFFFFF"
+                        textAnchor="middle"
+                        fontFamily="Roboto Mono"
+                      >
+                        {selectedPlayer?.eva || 79}
+                      </text>
 
                       {/* Bottom divider */}
-                      <line x1="300" y1="1060" x2="600" y2="1060" stroke="#FFFFFF" strokeWidth="6" />
+                      <line
+                        x1="300"
+                        y1="1060"
+                        x2="600"
+                        y2="1060"
+                        stroke="#FFFFFF"
+                        strokeWidth="6"
+                      />
                     </g>
                   )}
                 </svg>

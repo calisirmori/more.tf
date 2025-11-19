@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AdminBadge from './AdminBadge';
-import Calendar from './calendar';
+import Calendar from './Calendar';
 import Home from './Home';
 import Leaderboard from './leaderboard';
 import Logs from './Logs';

@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
-import Navbar from "../shared-components/Navbar";
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import Footer from "../shared-components/Footer";
+import React, { useEffect, useState, useRef } from 'react';
+import Navbar from '../shared-components/Navbar';
+import { fetch, FetchResultTypes } from '@sapphire/fetch';
+import Footer from '../shared-components/Footer';
 
-const calendar = () => {
+const Calendar = () => {
   const url = window.location.href;
-  const playerSteamID = url.substring(url.lastIndexOf("/") + 1);
+  const playerSteamID = url.substring(url.lastIndexOf('/') + 1);
 
   const [calendarArray, setCalendarArray] = useState<any>([]);
   const [playerSteamInfo, setPlayerSteamInfo] = useState<any>({});
@@ -35,15 +35,13 @@ const calendar = () => {
     } catch (error) {
       console.log(error);
       console.log(response);
-      response.personaname = "Steam Error";
-      response.avatarfull = "Steam Error";
+      response.personaname = 'Steam Error';
+      response.avatarfull = 'Steam Error';
       setPlayerSteamInfo(response);
     }
   }
 
-  useEffect(() => {
-
-  }, [calendarArray]);
+  useEffect(() => {}, [calendarArray]);
 
   async function calendarCall() {
     let response: any = {};
@@ -53,7 +51,9 @@ const calendar = () => {
         FetchResultTypes.JSON
       );
       setCalendarArray(response.rows);
-    } catch (error) {}
+    } catch (error) {
+      console.error('Failed to fetch calendar data:', error);
+    }
   }
 
   const countOfWeeks = 53;
@@ -62,13 +62,13 @@ const calendar = () => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 2017 }, (v, k) => k + 2018);
   const daysOfTheWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
   ];
 
   let leapYearCount = 0;
@@ -76,7 +76,10 @@ const calendar = () => {
   let yearlyCount = 0;
 
   return (
-    <div className="bg-warmscale-7 min-h-screen w "  data-testid="calendar-container">
+    <div
+      className="bg-warmscale-7 min-h-screen w "
+      data-testid="calendar-container"
+    >
       <div className=" absolute z-10 w-full top-0  ">
         <Navbar />
         <div className="flex justify-center max-w-full items-center mt-10 bg-warmscale-8 py-8">
@@ -89,9 +92,9 @@ const calendar = () => {
               />
               <div className="ml-5 mb-3  font-cantarell ">
                 <a href={`/profile/${playerSteamID}`}>
-                    <div className="text-lightscale-2 font-bold sm:text-5xl max-sm:text-3xl hover:underline hover:cursor-pointer">
-                      {playerSteamInfo.personaname}{" "}
-                    </div>
+                  <div className="text-lightscale-2 font-bold sm:text-5xl max-sm:text-3xl hover:underline hover:cursor-pointer">
+                    {playerSteamInfo.personaname}{' '}
+                  </div>
                 </a>
                 <div className="text-warmscale-1 font-semibold sm:text-lg sm:mt-2 flex">
                   #{rglInfo.name}
@@ -105,7 +108,7 @@ const calendar = () => {
                   >
                     {rglInfo.currentTeams !== undefined &&
                       rglInfo.currentTeams.highlander !== null &&
-                      "(" + rglInfo.currentTeams.highlander.tag + ")"}
+                      '(' + rglInfo.currentTeams.highlander.tag + ')'}
                   </a>
                   <a
                     href={`https://rgl.gg/Public/Team.aspx?t=${
@@ -117,7 +120,7 @@ const calendar = () => {
                   >
                     {rglInfo.currentTeams !== undefined &&
                       rglInfo.currentTeams.sixes !== null &&
-                      "(" + rglInfo.currentTeams.sixes.tag + ")"}
+                      '(' + rglInfo.currentTeams.sixes.tag + ')'}
                   </a>
                 </div>
               </div>
@@ -130,6 +133,7 @@ const calendar = () => {
                 target="_blank"
                 href={`https://steamcommunity.com/profiles/${playerSteamID}`}
                 className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                rel="noreferrer"
               >
                 Steam
               </a>
@@ -137,6 +141,7 @@ const calendar = () => {
                 target="_blank"
                 href={`https://demos.tf/profiles/${playerSteamID}`}
                 className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow px-3 text-lightscale-2 font-bold font-cantarell"
+                rel="noreferrer"
               >
                 demos.tf
               </a>
@@ -144,6 +149,7 @@ const calendar = () => {
                 target="_blank"
                 href={`https://etf2l.org/search/${playerSteamID}/`}
                 className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow text-lightscale-2 font-bold font-cantarell"
+                rel="noreferrer"
               >
                 <img
                   src="../../../site icons/etf2l.webp"
@@ -155,6 +161,7 @@ const calendar = () => {
                 target="_blank"
                 href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${playerSteamID}&r=24`}
                 className="rounded-sm flex items-center cursor-pointer hover:bg-warmscale-9 hover:border-tf-orange duration-75 border border-warmscale-85 bg-warmscale-85 h-10 drop-shadow p-2 text-lightscale-2 font-bold font-cantarell"
+                rel="noreferrer"
               >
                 <img src="../../../site icons/rgl.png" alt="" className="h-7" />
               </a>
@@ -173,7 +180,7 @@ const calendar = () => {
             </div>
             <div className=" border-2 mt-2 px-3 rounded-md border-opacity-20 drop-shadow-md border-warmscale-82 bg-warmscale-8">
               <div>
-                {years.map((currentYear: any, index) => {
+                {years.map((currentYear: any, index: number) => {
                   yearlyCount = 0;
                   const leapYear = currentYear % 4 === 0 ? 1 : 0;
                   const daysPerMonth = [
@@ -194,7 +201,7 @@ const calendar = () => {
                   const currentYearIndex = index * 365 + leapYearCount;
                   const currentYearDays = 365 + leapYear;
                   return (
-                    <div className="my-8">
+                    <div key={currentYear} className="my-8">
                       <div className="flex">
                         <div className="text-sm font-cantarell text-end text-lightscale-6 mr-1.5">
                           <div className="h-[14px]"></div>
@@ -207,8 +214,8 @@ const calendar = () => {
                           <div className="my-0.5">Sat</div>
                         </div>
                         <div className="flex">
-                          {Array.from({ length: 53 }).map((_, index) => {
-                            const currentWeekIndex = index * 7;
+                          {Array.from({ length: 53 }).map((_, weekIndex) => {
+                            const currentWeekIndex = weekIndex * 7;
                             let matchesPerDay = 0;
                             let dayIndex: any = 0;
                             let currentMonth: any;
@@ -290,7 +297,7 @@ const calendar = () => {
                                     </div>
                                   )}
                                 </div>
-                                {Array.from({ length: 7 }).map((_, index) => {
+                                {Array.from({ length: 7 }).map((_, index: number) => {
                                   const currentDayIndex = index + 1;
                                   let matchesPerDay = 0;
                                   let dayIndex: any = 0;
@@ -325,25 +332,26 @@ const calendar = () => {
                                     currentSpotCount++;
                                     return (
                                       <div
+                                        key={`day-${currentYearIndex}-${weekIndex}-${index}`}
                                         className={`border-[1px] border-warmscale-8   ${
                                           daysPerMonth[currentMonth] <
                                             currentDate + 7 &&
                                           currentMonth !== 11 &&
-                                          " border-r-lightscale-3"
+                                          ' border-r-lightscale-3'
                                         } ${
                                           daysPerMonth[currentMonth] ===
                                             currentDate &&
                                           index !== 6 &&
                                           currentMonth !== 11 &&
-                                          " border-b-lightscale-3"
+                                          ' border-b-lightscale-3'
                                         }`}
                                       >
                                         <div
                                           key={index}
                                           className={`border h-[20px] w-[20px] ${
-                                            currentOpacity === "0"
-                                              ? "border-warmscale-7 border-opacity-50"
-                                              : "border-warmscale-8 group"
+                                            currentOpacity === '0'
+                                              ? 'border-warmscale-7 border-opacity-50'
+                                              : 'border-warmscale-8 group'
                                           }  hover:border-white relative rounded-sm`}
                                           style={{
                                             backgroundColor: `rgba(240,129,73,${
@@ -353,7 +361,7 @@ const calendar = () => {
                                         >
                                           <div className="group-hover:scale-100 scale-0 absolute left-1/2 transform -translate-x-1/2 z-50 bottom-5 text-xs text-lightscale-1 font-cantarell ">
                                             <div className="w-48 h-5 bg-warmscale-2 border-2 border-warmscale-5 rounded-md flex justify-center items-center">
-                                              {matchesPerDay} GAMES ON{" "}
+                                              {matchesPerDay} GAMES ON{' '}
                                               {calendarArray[
                                                 currentSpotCount
                                               ] !== undefined &&
@@ -370,7 +378,7 @@ const calendar = () => {
                                   } else {
                                     yearlyCount--;
                                     return (
-                                      <div className="border border-warmscale-8">
+                                      <div key={`empty-${currentYearIndex}-${weekIndex}-${index}`} className="border border-warmscale-8">
                                         <div
                                           key={index}
                                           className={`h-[20px] w-[20px]`}
@@ -398,4 +406,4 @@ const calendar = () => {
   );
 };
 
-export default calendar;
+export default Calendar;

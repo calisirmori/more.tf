@@ -25,7 +25,7 @@ router.get('/profile-data/:id', async (req, res) => {
       perFormatStatsResult,
       perMapStatsResult,
       playerCardResult,
-      rglProfileResult
+      rglProfileResult,
     ] = await Promise.allSettled([
       // Steam info
       fetchSteamInfo(playerId),
@@ -90,46 +90,60 @@ router.get('/profile-data/:id', async (req, res) => {
       fetchPlayerCardStats(playerId),
 
       // RGL profile (external API)
-      fetchRGLProfile(playerId)
+      fetchRGLProfile(playerId),
     ]);
 
     // Process steam info for teammates/enemies
     let teamMatesSteamInfo = {};
 
     // Combine peers and enemies for bulk steam lookup
-    const peersData = peersResult.status === 'fulfilled' ? peersResult.value.rows : [];
-    const enemiesData = enemiesResult.status === 'fulfilled' ? enemiesResult.value.rows : [];
+    const peersData =
+      peersResult.status === 'fulfilled' ? peersResult.value.rows : [];
+    const enemiesData =
+      enemiesResult.status === 'fulfilled' ? enemiesResult.value.rows : [];
     const combinedPeers = [...peersData, ...enemiesData];
 
     if (combinedPeers.length > 0) {
-      const peerIds = combinedPeers.map(peer => peer.peer_id64).slice(0, 100); // Limit to first 100
+      const peerIds = combinedPeers.map((peer) => peer.peer_id64).slice(0, 100); // Limit to first 100
       const peerSteamInfo = await fetchSteamInfo(peerIds.join(','));
 
-      if (peerSteamInfo && peerSteamInfo.response && peerSteamInfo.response.players) {
-        teamMatesSteamInfo = peerSteamInfo.response.players.reduce((obj, item) => {
-          obj[item.steamid] = item;
-          return obj;
-        }, {});
+      if (
+        peerSteamInfo &&
+        peerSteamInfo.response &&
+        peerSteamInfo.response.players
+      ) {
+        teamMatesSteamInfo = peerSteamInfo.response.players.reduce(
+          (obj, item) => {
+            obj[item.steamid] = item;
+            return obj;
+          },
+          {}
+        );
       }
     }
 
     // Build response object with all data
     const response = {
-      playerSteamInfo: steamInfoResult.status === 'fulfilled' && steamInfoResult.value?.response?.players?.[0]
-        ? steamInfoResult.value.response.players[0]
-        : null,
+      playerSteamInfo:
+        steamInfoResult.status === 'fulfilled' &&
+        steamInfoResult.value?.response?.players?.[0]
+          ? steamInfoResult.value.response.players[0]
+          : null,
 
-      matchHistory: matchHistoryResult.status === 'fulfilled'
-        ? matchHistoryResult.value.rows || []
-        : [],
+      matchHistory:
+        matchHistoryResult.status === 'fulfilled'
+          ? matchHistoryResult.value.rows || []
+          : [],
 
-      activity: activityResult.status === 'fulfilled'
-        ? activityResult.value.rows || []
-        : [],
+      activity:
+        activityResult.status === 'fulfilled'
+          ? activityResult.value.rows || []
+          : [],
 
-      rglInfo: rglProfileResult.status === 'fulfilled'
-        ? rglProfileResult.value || {}
-        : {},
+      rglInfo:
+        rglProfileResult.status === 'fulfilled'
+          ? rglProfileResult.value || {}
+          : {},
 
       peers: peersData,
 
@@ -137,27 +151,33 @@ router.get('/profile-data/:id', async (req, res) => {
 
       teamMatesSteamInfo: teamMatesSteamInfo,
 
-      perClassStats: perClassStatsResult.status === 'fulfilled'
-        ? perClassStatsResult.value.rows || []
-        : [],
+      perClassStats:
+        perClassStatsResult.status === 'fulfilled'
+          ? perClassStatsResult.value.rows || []
+          : [],
 
-      perFormatStats: perFormatStatsResult.status === 'fulfilled'
-        ? perFormatStatsResult.value.rows || []
-        : [],
+      perFormatStats:
+        perFormatStatsResult.status === 'fulfilled'
+          ? perFormatStatsResult.value.rows || []
+          : [],
 
-      perMapStats: perMapStatsResult.status === 'fulfilled'
-        ? perMapStatsResult.value.rows || []
-        : [],
+      perMapStats:
+        perMapStatsResult.status === 'fulfilled'
+          ? perMapStatsResult.value.rows || []
+          : [],
 
-      playerCard: playerCardResult.status === 'fulfilled' && playerCardResult.value
-        ? playerCardResult.value
-        : []
+      playerCard:
+        playerCardResult.status === 'fulfilled' && playerCardResult.value
+          ? playerCardResult.value
+          : [],
     };
 
     res.json(response);
-
   } catch (error) {
-    logger.error('Profile data fetch error', { error: error.message, playerId });
+    logger.error('Profile data fetch error', {
+      error: error.message,
+      playerId,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -169,29 +189,43 @@ router.get('/profile-s3-card/:playerId/:seasonId', async (req, res) => {
   const { playerId, seasonId } = req.params;
 
   try {
+    // Check if player card exists for this season
     const query = `
-      SELECT card_url, holo
-      FROM card_inventory
-      WHERE steamid = $1 AND seasonid = $2
+      SELECT division
+      FROM player_card_info
+      WHERE id64 = $1 AND seasonid = $2
     `;
 
     const result = await pool.query(query, [playerId, seasonId]);
 
     if (result.rows.length > 0) {
+      const division = result.rows[0].division;
+      const BUCKET_NAME = 'moretf-season-cards';
+
+      // Determine if card should be holo based on division
+      const isHoloDivision = (division) => {
+        const holoDivisions = ['invite', 'Invite', 'advanced', 'Advanced'];
+        return holoDivisions.includes(division);
+      };
+
       res.json({
         exists: true,
-        cardUrl: result.rows[0].card_url,
-        holo: result.rows[0].holo || false
+        cardUrl: `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION || 'us-east-2'}.amazonaws.com/${seasonId}/${playerId}.png`,
+        holo: isHoloDivision(division),
       });
     } else {
       res.json({
         exists: false,
         cardUrl: null,
-        holo: false
+        holo: false,
       });
     }
   } catch (error) {
-    logger.error('S3 card fetch error', { error: error.message, playerId, seasonId });
+    logger.error('S3 card fetch error', {
+      error: error.message,
+      playerId,
+      seasonId,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -209,14 +243,19 @@ async function fetchSteamInfo(userIds, maxRetries = 5, attemptNumber = 1) {
     return response;
   } catch (error) {
     if (attemptNumber >= maxRetries) {
-      logger.error('Steam API call failed', { error: error.message, attemptNumber });
+      logger.error('Steam API call failed', {
+        error: error.message,
+        attemptNumber,
+      });
       return null;
     } else {
       const delayInSeconds = Math.pow(1.2, attemptNumber);
       const variance = 0.3;
       const randomFactor = 1 - variance / 2 + Math.random() * variance;
       const randomizedDelayInSeconds = delayInSeconds * randomFactor;
-      await new Promise((resolve) => setTimeout(resolve, randomizedDelayInSeconds * 1000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, randomizedDelayInSeconds * 1000)
+      );
       return fetchSteamInfo(userIds, maxRetries, attemptNumber + 1);
     }
   }
@@ -241,8 +280,13 @@ async function fetchPlayerCardStats(playerId) {
     const displayCardSeasons = await seasonCache.getDisplayCardSeasons();
 
     // Extract season IDs for RGL (primary league)
-    const hlSeasonId = displayCardSeasons.RGL?.HL?.seasonid || displayCardSeasons.RGL?.Highlander?.seasonid;
-    const sixesSeasonId = displayCardSeasons.RGL?.['6s']?.seasonid || displayCardSeasons.RGL?.['6S']?.seasonid || displayCardSeasons.RGL?.Sixes?.seasonid;
+    const hlSeasonId =
+      displayCardSeasons.RGL?.HL?.seasonid ||
+      displayCardSeasons.RGL?.Highlander?.seasonid;
+    const sixesSeasonId =
+      displayCardSeasons.RGL?.['6s']?.seasonid ||
+      displayCardSeasons.RGL?.['6S']?.seasonid ||
+      displayCardSeasons.RGL?.Sixes?.seasonid;
 
     // Build season filter - use display card seasons if available, otherwise fall back to hardcoded
     let seasonFilter = '';
@@ -253,7 +297,8 @@ async function fetchPlayerCardStats(playerId) {
 
     // Fallback to hardcoded seasons if no display card seasons are set
     if (seasonIds.length === 0) {
-      seasonFilter = '(seasonid = 163 OR seasonid = 164 OR seasonid = 165 OR seasonid = 166)';
+      seasonFilter =
+        '(seasonid = 163 OR seasonid = 164 OR seasonid = 165 OR seasonid = 166)';
     } else if (seasonIds.length === 1) {
       seasonFilter = `seasonid = ${seasonIds[0]}`;
     } else {
@@ -265,7 +310,10 @@ async function fetchPlayerCardStats(playerId) {
 
     return result.rows;
   } catch (error) {
-    logger.error('Player card stats fetch error', { error: error.message, playerId });
+    logger.error('Player card stats fetch error', {
+      error: error.message,
+      playerId,
+    });
     return [];
   }
 }

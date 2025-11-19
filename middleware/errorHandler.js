@@ -9,7 +9,7 @@ const errorHandler = (err, req, res, next) => {
     method: req.method,
     path: req.path,
     ip: req.ip,
-    userId: req.user?.id || null
+    userId: req.user?.id || null,
   });
 
   // Determine status code
@@ -20,8 +20,8 @@ const errorHandler = (err, req, res, next) => {
     error: {
       message: err.message || 'Internal Server Error',
       statusCode: statusCode,
-      ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
-    }
+      ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
+    },
   });
 };
 
@@ -30,14 +30,14 @@ const notFoundHandler = (req, res) => {
   logger.warn('Route not found', {
     method: req.method,
     path: req.path,
-    ip: req.ip
+    ip: req.ip,
   });
 
   res.status(404).json({
     error: {
       message: 'Route not found',
-      statusCode: 404
-    }
+      statusCode: 404,
+    },
   });
 };
 

@@ -43,10 +43,10 @@ class SeasonCache {
       // Transform into easy-to-use object
       const activeSeasons = {
         RGL: {},
-        OZF: {}
+        OZF: {},
       };
 
-      result.rows.forEach(season => {
+      result.rows.forEach((season) => {
         if (!activeSeasons[season.league]) {
           activeSeasons[season.league] = {};
         }
@@ -54,7 +54,7 @@ class SeasonCache {
         if (season.active) {
           activeSeasons[season.league][season.format] = {
             seasonid: season.seasonid,
-            seasonname: season.seasonname
+            seasonname: season.seasonname,
           };
         }
       });
@@ -62,7 +62,9 @@ class SeasonCache {
       logger.info('Active seasons fetched from database', { activeSeasons });
       return activeSeasons;
     } catch (err) {
-      logger.error('Failed to fetch active seasons from database', { error: err.message });
+      logger.error('Failed to fetch active seasons from database', {
+        error: err.message,
+      });
       return { RGL: {}, OZF: {} };
     }
   }
@@ -80,10 +82,10 @@ class SeasonCache {
 
       const displayCardSeasons = {
         RGL: {},
-        OZF: {}
+        OZF: {},
       };
 
-      result.rows.forEach(season => {
+      result.rows.forEach((season) => {
         if (!displayCardSeasons[season.league]) {
           displayCardSeasons[season.league] = {};
         }
@@ -91,15 +93,19 @@ class SeasonCache {
         if (season.displaycard) {
           displayCardSeasons[season.league][season.format] = {
             seasonid: season.seasonid,
-            seasonname: season.seasonname
+            seasonname: season.seasonname,
           };
         }
       });
 
-      logger.info('Display card seasons fetched from database', { displayCardSeasons });
+      logger.info('Display card seasons fetched from database', {
+        displayCardSeasons,
+      });
       return displayCardSeasons;
     } catch (err) {
-      logger.error('Failed to fetch display card seasons from database', { error: err.message });
+      logger.error('Failed to fetch display card seasons from database', {
+        error: err.message,
+      });
       return { RGL: {}, OZF: {} };
     }
   }

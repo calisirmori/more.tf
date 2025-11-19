@@ -1,24 +1,24 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../shared-components/Navbar";
-import Footer from "../shared-components/Footer";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../shared-components/Navbar';
+import Footer from '../shared-components/Footer';
 
 const AdminLogin = () => {
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/admin/login", {
-        method: "POST",
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ password }),
       });
@@ -27,13 +27,13 @@ const AdminLogin = () => {
 
       if (response.ok && data.success) {
         // Redirect to admin dashboard on successful login
-        navigate("/admin/dashboard");
+        navigate('/admin/dashboard');
       } else {
-        setError(data.message || "Invalid password");
+        setError(data.message || 'Invalid password');
       }
     } catch (err) {
-      console.error("Login error:", err);
-      setError("An error occurred. Please try again.");
+      console.error('Login error:', err);
+      setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -72,11 +72,11 @@ const AdminLogin = () => {
               disabled={isLoading}
               className={`w-full py-2 px-4 rounded font-semibold transition-colors ${
                 isLoading
-                  ? "bg-warmscale-5 text-warmscale-3 cursor-not-allowed"
-                  : "bg-orange-500 text-white hover:bg-orange-600"
+                  ? 'bg-warmscale-5 text-warmscale-3 cursor-not-allowed'
+                  : 'bg-orange-500 text-white hover:bg-orange-600'
               }`}
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>

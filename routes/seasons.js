@@ -6,7 +6,9 @@ const logger = require('../utils/logger');
 // Season summary routes
 router.get('/season-summary/:id', (req, response) => {
   let seasonID = req.params.id;
-  pool.query(`WITH rglinfo AS (
+  pool
+    .query(
+      `WITH rglinfo AS (
     SELECT tf2gamers.steamid, teams.teamname, teams.teamid, tf2gamers.rglname, playerteams.date_joined
     FROM playerteams
     INNER JOIN tf2gamers ON tf2gamers.steamid = playerteams.steamid
@@ -51,17 +53,23 @@ week_info AS (
 SELECT playerinfo.*, week_info.*
 FROM playerinfo
 INNER JOIN week_info
-ON playerinfo.steamid::BIGINT = week_info.id64`)
+ON playerinfo.steamid::BIGINT = week_info.id64`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Season summary query error', { error: err.message, seasonID });
+      logger.error('Season summary query error', {
+        error: err.message,
+        seasonID,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/season-summary-ozf/:id', (req, response) => {
   let seasonID = req.params.id;
-  pool.query(`select id64,
+  pool
+    .query(
+      `select id64,
         max(teamname) as teamname,
         max(teamid) as teamid,
         max(name) as ozfname,
@@ -90,17 +98,23 @@ router.get('/season-summary-ozf/:id', (req, response) => {
       where seasonid=${seasonID}
       --and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
       group by id64,classid,division
-      order by classid,division`)
+      order by classid,division`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Season summary OZF query error', { error: err.message, seasonID });
+      logger.error('Season summary OZF query error', {
+        error: err.message,
+        seasonID,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/lastweek-season-summary-ozf/:id', (req, response) => {
   let seasonID = req.params.id;
-  pool.query(`select id64,
+  pool
+    .query(
+      `select id64,
         max(teamname) as teamname,
         max(teamid) as teamid,
         max(name) as ozfname,
@@ -129,17 +143,23 @@ router.get('/lastweek-season-summary-ozf/:id', (req, response) => {
       where seasonid=${seasonID}
       and week_num!= (select max(week_num) from season_combined sc where seasonid=${seasonID})
       group by id64,classid,division
-      order by classid,division`)
+      order by classid,division`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Last week season summary OZF query error', { error: err.message, seasonID });
+      logger.error('Last week season summary OZF query error', {
+        error: err.message,
+        seasonID,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/lastweek-season-summary/:id', (req, response) => {
   let seasonID = req.params.id;
-  pool.query(`
+  pool
+    .query(
+      `
       select *
   from
       (SELECT tf2gamers.steamid, teams.teamname, teams.teamid, tf2gamers.rglname
@@ -175,22 +195,32 @@ INNER JOIN teams ON playerteams.teamid = teams.teamid
       group by id64,classid,division
       order by classid,division) as weekinfo
   on
-      playerinfo.steamid::BIGINT=weekinfo.id64`)
+      playerinfo.steamid::BIGINT=weekinfo.id64`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Last week season summary query error', { error: err.message, seasonID });
+      logger.error('Last week season summary query error', {
+        error: err.message,
+        seasonID,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 router.get('/current-week/:id', (req, response) => {
   let seasonID = req.params.id;
-  pool.query(`select max(week_num) from season_combined sc where seasonid=${seasonID}`)
+  pool
+    .query(
+      `select max(week_num) from season_combined sc where seasonid=${seasonID}`
+    )
     .then((res) => response.send(res))
     .catch((err) => {
-      logger.error('Current week query error', { error: err.message, seasonID });
+      logger.error('Current week query error', {
+        error: err.message,
+        seasonID,
+      });
       response.status(500).json({ error: 'An internal server error occurred' });
-    })
+    });
 });
 
 module.exports = router;

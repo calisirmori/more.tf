@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import Navbar from "../shared-components/Navbar";
-import Footer from "../shared-components/Footer";
-import PlayerCard from "../shared-components/PlayerCard";
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import Navbar from '../shared-components/Navbar';
+import Footer from '../shared-components/Footer';
+import PlayerCard from '../shared-components/PlayerCard';
 
 interface PlayerCardData {
   seasonid: number;
@@ -44,7 +44,9 @@ const CardCollection = () => {
       const data = await response.json();
 
       // Sort cards by seasonid ascending (oldest on left, most recent on right)
-      const sortedCards = [...data.cards].sort((a, b) => a.seasonid - b.seasonid);
+      const sortedCards = [...data.cards].sort(
+        (a, b) => a.seasonid - b.seasonid
+      );
       setCardData({ ...data, cards: sortedCards });
     } catch (err) {
       console.error('Error fetching player cards:', err);
@@ -77,7 +79,6 @@ const CardCollection = () => {
     );
   }
 
-
   return (
     <>
       <Navbar />
@@ -103,7 +104,7 @@ const CardCollection = () => {
               // Count how many cards are before this one in the deck (excluding selected)
               const cardsBeforeInDeck = cardData.cards
                 .slice(0, index)
-                .filter(c => selectedCard?.seasonid !== c.seasonid).length;
+                .filter((c) => selectedCard?.seasonid !== c.seasonid).length;
 
               deckIndex = cardsBeforeInDeck;
 
@@ -123,7 +124,7 @@ const CardCollection = () => {
               // Find the hovered card's position in the deck
               const hoveredDeckIndex = cardData.cards
                 .slice(0, hoveredCardIndex)
-                .filter(c => selectedCard?.seasonid !== c.seasonid).length;
+                .filter((c) => selectedCard?.seasonid !== c.seasonid).length;
 
               // Calculate distance from hovered card
               const distance = Math.abs(deckIndex - hoveredDeckIndex);
@@ -134,7 +135,8 @@ const CardCollection = () => {
               } else if (distance <= 3) {
                 // Push nearby cards away based on distance
                 const pushStrength = Math.max(0, 30 - distance * 10);
-                hoverOffset = deckIndex > hoveredDeckIndex ? pushStrength : -pushStrength;
+                hoverOffset =
+                  deckIndex > hoveredDeckIndex ? pushStrength : -pushStrength;
               }
             }
 
@@ -152,7 +154,9 @@ const CardCollection = () => {
                   bottom: isSelected ? 'auto' : `${100 + hoverLift}px`,
                   top: isSelected ? '35%' : 'auto',
                   width: isSelected ? '240px' : '140px',
-                  transform: isSelected ? 'translate(-50%, -50%)' : cardTransform,
+                  transform: isSelected
+                    ? 'translate(-50%, -50%)'
+                    : cardTransform,
                   zIndex: 100 + index,
                 }}
                 onMouseEnter={() => !isSelected && setHoveredCardIndex(index)}

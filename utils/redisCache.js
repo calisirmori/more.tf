@@ -47,11 +47,12 @@ class RedisCache {
    * @param {number} ttlSeconds - Time to live in seconds (default: 24 hours)
    * @returns {Promise<boolean>} - Success status
    */
-  async set(key, value, ttlSeconds = 86400) { // 24 hours default
+  async set(key, value, ttlSeconds = 86400) {
+    // 24 hours default
     // Always set in memory cache as fallback
     this.memoryCache[key] = {
       value,
-      expiresAt: Date.now() + (ttlSeconds * 1000)
+      expiresAt: Date.now() + ttlSeconds * 1000,
     };
 
     if (!this.redis || !this.redis.isOpen) {
@@ -124,7 +125,7 @@ class RedisCache {
    */
   async clearPattern(pattern) {
     // Clear from memory cache
-    Object.keys(this.memoryCache).forEach(key => {
+    Object.keys(this.memoryCache).forEach((key) => {
       if (key.startsWith(pattern.replace('*', ''))) {
         delete this.memoryCache[key];
       }
@@ -144,7 +145,10 @@ class RedisCache {
       logger.info('Redis pattern cleared', { pattern, count: keys.length });
       return keys.length;
     } catch (err) {
-      logger.error('Redis clear pattern error', { error: err.message, pattern });
+      logger.error('Redis clear pattern error', {
+        error: err.message,
+        pattern,
+      });
       return 0;
     }
   }

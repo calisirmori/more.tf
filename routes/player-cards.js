@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { S3Client, ListObjectsV2Command, HeadObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+const {
+  S3Client,
+  ListObjectsV2Command,
+  HeadObjectCommand,
+  GetObjectCommand,
+} = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION || 'us-east-2'
+  region: process.env.AWS_REGION || 'us-east-2',
 });
 
 const BUCKET_NAME = 'moretf-season-cards';
@@ -30,25 +35,27 @@ router.get('/player/:steamid', async (req, res) => {
       return res.json({
         steamid,
         totalCards: 0,
-        cards: []
+        cards: [],
       });
     }
 
     const seasons = seasonsResult.rows;
-    const seasonIds = seasons.map(s => s.seasonid);
+    const seasonIds = seasons.map((s) => s.seasonid);
 
     // Check S3 in batch and get metadata
     const cardChecks = await Promise.all(
       seasonIds.map(async (seasonid) => {
         const key = `${seasonid}/${steamid}.png`;
         try {
-          const headResponse = await s3Client.send(new HeadObjectCommand({
-            Bucket: BUCKET_NAME,
-            Key: key
-          }));
+          const headResponse = await s3Client.send(
+            new HeadObjectCommand({
+              Bucket: BUCKET_NAME,
+              Key: key,
+            })
+          );
           return {
             seasonid,
-            metadata: headResponse.Metadata || {}
+            metadata: headResponse.Metadata || {},
           };
         } catch (err) {
           return null; // Card doesn't exist
@@ -57,13 +64,17 @@ router.get('/player/:steamid', async (req, res) => {
     );
 
     // Filter out nulls (seasons without cards)
-    const cardsWithMetadata = cardChecks.filter(card => card !== null);
+    const cardsWithMetadata = cardChecks.filter((card) => card !== null);
 
     // Build cards array with metadata
     const cards = seasons
-      .filter(season => cardsWithMetadata.some(c => c.seasonid === season.seasonid))
-      .map(season => {
-        const cardMeta = cardsWithMetadata.find(c => c.seasonid === season.seasonid);
+      .filter((season) =>
+        cardsWithMetadata.some((c) => c.seasonid === season.seasonid)
+      )
+      .map((season) => {
+        const cardMeta = cardsWithMetadata.find(
+          (c) => c.seasonid === season.seasonid
+        );
         return {
           seasonid: season.seasonid,
           seasonName: season.seasonname,
@@ -75,18 +86,20 @@ router.get('/player/:steamid', async (req, res) => {
           holo: cardMeta?.metadata?.holo === 'true',
           rarity: cardMeta?.metadata?.rarity || 'common',
           division: cardMeta?.metadata?.division || 'unknown',
-          class: cardMeta?.metadata?.class || 'unknown'
+          class: cardMeta?.metadata?.class || 'unknown',
         };
       });
 
     res.json({
       steamid,
       totalCards: cards.length,
-      cards
+      cards,
     });
-
   } catch (err) {
-    logger.error('Get player cards error', { error: err.message, steamid: req.params.steamid });
+    logger.error('Get player cards error', {
+      error: err.message,
+      steamid: req.params.steamid,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -113,10 +126,12 @@ router.get('/player/:steamid/season/:seasonid', async (req, res) => {
 
     try {
       // Check if the card exists in S3 and get metadata
-      const headResponse = await s3Client.send(new HeadObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: key
-      }));
+      const headResponse = await s3Client.send(
+        new HeadObjectCommand({
+          Bucket: BUCKET_NAME,
+          Key: key,
+        })
+      );
 
       const metadata = headResponse.Metadata || {};
 
@@ -131,17 +146,19 @@ router.get('/player/:steamid/season/:seasonid', async (req, res) => {
         holo: metadata.holo === 'true',
         rarity: metadata.rarity || 'common',
         division: metadata.division || 'unknown',
-        class: metadata.class || 'unknown'
+        class: metadata.class || 'unknown',
       });
     } catch (headErr) {
       res.status(404).json({
         error: 'Card not found',
-        exists: false
+        exists: false,
       });
     }
-
   } catch (err) {
-    logger.error('Get player season card error', { error: err.message, params: req.params });
+    logger.error('Get player season card error', {
+      error: err.message,
+      params: req.params,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });

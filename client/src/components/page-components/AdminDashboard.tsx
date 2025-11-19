@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../shared-components/Navbar";
-import Footer from "../shared-components/Footer";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../shared-components/Navbar';
+import Footer from '../shared-components/Footer';
 
 const AdminDashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,9 +12,9 @@ const AdminDashboard = () => {
   useEffect(() => {
     const verifyAuth = async () => {
       try {
-        const response = await fetch("/api/admin/verify", {
-          method: "GET",
-          credentials: "include",
+        const response = await fetch('/api/admin/verify', {
+          method: 'GET',
+          credentials: 'include',
         });
         const data = await response.json();
 
@@ -22,11 +22,11 @@ const AdminDashboard = () => {
           setIsAuthenticated(true);
         } else {
           // Redirect to login if not authenticated
-          navigate("/admin/login");
+          navigate('/admin/login');
         }
       } catch (err) {
-        console.error("Auth verification error:", err);
-        navigate("/admin/login");
+        console.error('Auth verification error:', err);
+        navigate('/admin/login');
       } finally {
         setIsLoading(false);
       }
@@ -37,13 +37,13 @@ const AdminDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/admin/logout", {
-        method: "POST",
-        credentials: "include",
+      await fetch('/api/admin/logout', {
+        method: 'POST',
+        credentials: 'include',
       });
-      navigate("/admin/login");
+      navigate('/admin/login');
     } catch (err) {
-      console.error("Logout error:", err);
+      console.error('Logout error:', err);
     }
   };
 
@@ -84,10 +84,11 @@ const AdminDashboard = () => {
               Season Card Manager
             </h2>
             <p className="text-warmscale-2 mb-4">
-              Generate and manage player cards for seasons. Pick colors, randomize backgrounds, and upload to S3.
+              Generate and manage player cards for seasons. Pick colors,
+              randomize backgrounds, and upload to S3.
             </p>
             <button
-              onClick={() => navigate("/admin/season-cards")}
+              onClick={() => navigate('/admin/season-cards')}
               className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded font-semibold transition-colors"
             >
               Open Card Manager
@@ -103,7 +104,7 @@ const AdminDashboard = () => {
               Manage player badges and achievements.
             </p>
             <button
-              onClick={() => navigate("/admin-badge")}
+              onClick={() => navigate('/admin-badge')}
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded font-semibold transition-colors"
             >
               Open Badge Manager
@@ -116,10 +117,11 @@ const AdminDashboard = () => {
               Season Management
             </h2>
             <p className="text-warmscale-2 mb-4">
-              Add, edit, and manage seasons for RGL and OZF leagues. Mark seasons as active or inactive.
+              Add, edit, and manage seasons for RGL and OZF leagues. Mark
+              seasons as active or inactive.
             </p>
             <button
-              onClick={() => navigate("/admin/season-management")}
+              onClick={() => navigate('/admin/season-management')}
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-semibold transition-colors"
             >
               Manage Seasons

@@ -1,4 +1,4 @@
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
+import { fetch, FetchResultTypes } from '@sapphire/fetch';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 interface Player {
@@ -40,7 +40,7 @@ const TimeAgo: React.FC<TimeAgoProps> = ({ date }) => {
     timeAgo = new Intl.DateTimeFormat('en-US', {
       month: 'numeric',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     }).format(dateFromData);
   } else if (diffInHours >= 1) {
     timeAgo = `${diffInHours}hr${diffInHours > 1 ? 's' : ''} ago`;
@@ -85,10 +85,10 @@ const SearchBox: React.FC = () => {
       const logId = extractLogId(trimmedInput);
 
       if (logId && logId.length > 4 && logId.length <= 7) {
-        const response = await fetch(
+        const response = (await fetch(
           `/api/log-search/${logId}`,
           FetchResultTypes.JSON
-        ) as LogResponse;
+        )) as LogResponse;
 
         if (response?.rows?.length > 0) {
           setLogData(response.rows[0]);
@@ -101,10 +101,10 @@ const SearchBox: React.FC = () => {
       }
 
       // Search for players by username
-      const response = await fetch(
+      const response = (await fetch(
         `/api/username-search/${trimmedInput}`,
         FetchResultTypes.JSON
-      ) as SearchResponse;
+      )) as SearchResponse;
 
       if (response?.rows?.length > 0) {
         setPlayers(response.rows);
@@ -139,7 +139,9 @@ const SearchBox: React.FC = () => {
   };
 
   // Handle Enter key press
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
     if (event.key === 'Enter') {
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current);
@@ -151,7 +153,10 @@ const SearchBox: React.FC = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setPlayers([]);
         setLogData(null);
       }
@@ -214,11 +219,16 @@ const SearchBox: React.FC = () => {
           {/* Player Results */}
           {players.length > 0 && (
             <div>
-              <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">Players</div>
+              <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">
+                Players
+              </div>
               <div className="h-[1px] w-full bg-warmscale-7/70 my-1.5" />
               <div>
                 {players.map((player, index) => (
-                  <div className="p-2 hover:bg-warmscale-5/30 rounded-sm" key={`${player.id64}-${index}`}>
+                  <div
+                    className="p-2 hover:bg-warmscale-5/30 rounded-sm"
+                    key={`${player.id64}-${index}`}
+                  >
                     <a href={`/profile/${player.id64}`}>
                       <div className="flex items-center">
                         <img
@@ -240,24 +250,34 @@ const SearchBox: React.FC = () => {
           {/* Log Results */}
           {logData !== null && (
             <div>
-              <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">Logs</div>
+              <div className="text-sm text-lightscale-4 font-semibold pl-2 mt-1">
+                Logs
+              </div>
               <div className="h-[1px] w-full bg-warmscale-7/70 my-1.5" />
 
               {typeof logData === 'object' && logData.logid !== undefined ? (
-                <a href={`/log/${logData.logid}`} className="flex hover:bg-warmscale-5/30 rounded-sm p-2">
+                <a
+                  href={`/log/${logData.logid}`}
+                  className="flex hover:bg-warmscale-5/30 rounded-sm p-2"
+                >
                   <div className="w-full">
                     <div className="text-lightscale-2 text-sm font-semibold w-48 truncate">
                       {logData.title}
                     </div>
-                    <div className="text-lightscale-4 text-xs">map: {logData.map}</div>
+                    <div className="text-lightscale-4 text-xs">
+                      map: {logData.map}
+                    </div>
                     <TimeAgo date={logData.date} />
                   </div>
                 </a>
               ) : (
-                <a href={`/log/${logData}`} className="flex hover:bg-warmscale-5/30 rounded-sm p-2">
+                <a
+                  href={`/log/${logData}`}
+                  className="flex hover:bg-warmscale-5/30 rounded-sm p-2"
+                >
                   <div className="w-full">
                     <div className="text-lightscale-2 text-sm font-semibold w-48 truncate">
-                      # {logData}
+                      {`# ${logData}`}
                     </div>
                   </div>
                 </a>

@@ -12,7 +12,7 @@ const requestLogger = (req, res, next) => {
     userAgent: req.get('user-agent'),
     referer: req.get('referer'),
     contentType: req.get('content-type'),
-    userId: req.user?.id || null
+    userId: req.user?.id || null,
   });
 
   // Log response when finished
@@ -22,7 +22,7 @@ const requestLogger = (req, res, next) => {
       method: req.method,
       path: req.path,
       statusCode: res.statusCode,
-      duration: `${duration}ms`
+      duration: `${duration}ms`,
     });
   });
 

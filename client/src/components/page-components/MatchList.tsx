@@ -1,7 +1,7 @@
-import Navbar from "../shared-components/Navbar";
-import React, { useEffect, useState, useRef } from "react";
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
-import Footer from "../shared-components/Footer";
+import Navbar from '../shared-components/Navbar';
+import React, { useEffect, useState, useRef } from 'react';
+import { fetch, FetchResultTypes } from '@sapphire/fetch';
+import Footer from '../shared-components/Footer';
 
 interface DayInfo {
   day: string;
@@ -30,10 +30,10 @@ const MatchList = () => {
     for (let i = -3; i <= 3; i++) {
       const date = new Date(today.getTime() + i * oneDay);
       const dayName =
-        i === 0 ? "Today" : date.toLocaleString("en-US", { weekday: "short" });
-      const dateString = date.toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
+        i === 0 ? 'Today' : date.toLocaleString('en-US', { weekday: 'short' });
+      const dateString = date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
       });
       const epochTimeStart = Math.floor(
         date.setHours(0, 0, 0, 0) / 1000
@@ -75,13 +75,13 @@ const MatchList = () => {
 
   const formatDate = (epochTime: number): string => {
     const date = new Date(epochTime * 1000);
-    const day = date.toLocaleString("en-US", { weekday: "short" });
-    const monthDay = date.toLocaleString("en-US", { day: "numeric" });
+    const day = date.toLocaleString('en-US', { weekday: 'short' });
+    const monthDay = date.toLocaleString('en-US', { day: 'numeric' });
     const monthDayOrdinal = getOrdinalSuffix(monthDay);
-    const time = date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZoneName: "short",
+    const time = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short',
     });
 
     return `${day}, ${monthDayOrdinal} ${time}`;
@@ -103,32 +103,35 @@ const MatchList = () => {
   };
 
   const divisions = [
-    "Invite / Premiership",
-    "Advanced / Division 1",
-    "Main / Division 2A",
-    "Intermediate / Division 2B",
-    "Amateur / Mid",
-    "Newcomer / Low",
-    "Open"
+    'Invite / Premiership',
+    'Advanced / Division 1',
+    'Main / Division 2A',
+    'Intermediate / Division 2B',
+    'Amateur / Mid',
+    'Newcomer / Low',
+    'Open',
   ];
 
-  const divisionsPerLeauge = { rgl: [
-    "Invite",
-    "Advanced",
-    "Main",
-    "Intermediate",
-    "Amateur",
-    "Newcomer",
-    ""
-  ], etf2l: [
-    "Premiership",
-    "Division 1",
-    "Division 2A",
-    "Division 2B",
-    "Mid",
-    "Low",
-    "Open"
-  ]};
+  const divisionsPerLeauge = {
+    rgl: [
+      'Invite',
+      'Advanced',
+      'Main',
+      'Intermediate',
+      'Amateur',
+      'Newcomer',
+      '',
+    ],
+    etf2l: [
+      'Premiership',
+      'Division 1',
+      'Division 2A',
+      'Division 2B',
+      'Mid',
+      'Low',
+      'Open',
+    ],
+  };
 
   let matchIndex = 0;
   return (
@@ -143,8 +146,8 @@ const MatchList = () => {
                   key={index}
                   className={` py-0.5 cursor-pointer bg-warmscale-85 rounded-md duration-100 font-quicksand font-semibold ${
                     index === activeDate
-                      ? "border border-tf2orange text-lightscale-2"
-                      : "border border-warmscale-85 hover:scale-95 hover:border-warmscale-2 text-lightscale-8 opacity-70 hover:opacity-90"
+                      ? 'border border-tf2orange text-lightscale-2'
+                      : 'border border-warmscale-85 hover:scale-95 hover:border-warmscale-2 text-lightscale-8 opacity-70 hover:opacity-90'
                   }`}
                   onClick={() => setActiveDate(index)}
                 >
@@ -159,8 +162,8 @@ const MatchList = () => {
                   key={index}
                   className={`py-0.5 px-3 flex justify-center items-center cursor-pointer bg-warmscale-85 rounded-md duration-100 font-quicksand font-semibold text-sm ${
                     index === activeDiv
-                      ? "border border-tf2orange text-lightscale-2"
-                      : "border border-warmscale-85 hover:scale-95 hover:border-warmscale-2 text-lightscale-8 opacity-70 hover:opacity-90"
+                      ? 'border border-tf2orange text-lightscale-2'
+                      : 'border border-warmscale-85 hover:scale-95 hover:border-warmscale-2 text-lightscale-8 opacity-70 hover:opacity-90'
                   }`}
                   onClick={() => setActiveDiv(index)}
                 >
@@ -182,24 +185,26 @@ const MatchList = () => {
                   </div>
                 </div>
                 {officialsList.map((match: any, index: number) => {
-                  let matchTime = match.day_played - 14400;
+                  const matchTime = match.day_played - 14400;
                   if (
                     Number(dayInfoList[activeDate].epochTimeStart) <
                       matchTime &&
                     Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
                     match.division === divisionsPerLeauge.rgl[activeDiv] &&
-                    match.format === "6s"
+                    match.format === '6s'
                   ) {
-                    console.log(match)
+                    console.log(match);
                     matchIndex++;
                     return (
                       <a
+                        key={match.matchid}
                         href={`https://rgl.gg/Public/Match?m=${match.matchid}&r=24`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <div
                           className={` cursor-pointer hover:bg-tf2orange hover:bg-opacity-10 flex justify-center items-center h-12 ${
-                            matchIndex % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                            matchIndex % 2 === 0 ? 'bg-black bg-opacity-10' : ''
                           }`}
                         >
                           <div className="grid items-center grid-cols-[200px,1fr,20px,1fr,200px] w-full p-4 text-lightscale-4 font-quicksand font-semibold">
@@ -234,23 +239,25 @@ const MatchList = () => {
                   </div>
                 </div>
                 {officialsList.map((match: any, index: number) => {
-                  let matchTime = match.day_played - 14400;
+                  const matchTime = match.day_played - 14400;
                   if (
                     Number(dayInfoList[activeDate].epochTimeStart) <
                       matchTime &&
                     Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
                     match.division === divisionsPerLeauge.rgl[activeDiv] &&
-                    match.format === "HL" 
+                    match.format === 'HL'
                   ) {
                     matchIndex++;
                     return (
                       <a
+                        key={match.matchid}
                         href={`https://rgl.gg/Public/Match?m=${match.matchid}&r=24`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <div
                           className={` cursor-pointer hover:bg-tf2orange hover:bg-opacity-10 flex justify-center items-center h-12 ${
-                            matchIndex % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                            matchIndex % 2 === 0 ? 'bg-black bg-opacity-10' : ''
                           }`}
                         >
                           <div className="grid items-center grid-cols-[200px,1fr,20px,1fr,200px] w-full p-4 text-lightscale-4 font-quicksand font-semibold">
@@ -283,23 +290,25 @@ const MatchList = () => {
                   </div>
                 </div>
                 {officialsListEtf2l.map((match: any, index: number) => {
-                  let matchTime = match.day_played - 14400;
+                  const matchTime = match.day_played - 14400;
                   if (
                     Number(dayInfoList[activeDate].epochTimeStart) <
                       matchTime &&
                     Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
                     match.division === divisionsPerLeauge.etf2l[activeDiv] &&
-                    match.format === "6s" 
+                    match.format === '6s'
                   ) {
                     matchIndex++;
                     return (
                       <a
+                        key={match.matchid}
                         href={`https://rgl.gg/Public/Match?m=${match.matchid}&r=24`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <div
                           className={` cursor-pointer hover:bg-tf2orange hover:bg-opacity-10 flex justify-center items-center h-12 ${
-                            matchIndex % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                            matchIndex % 2 === 0 ? 'bg-black bg-opacity-10' : ''
                           }`}
                         >
                           <div className="grid items-center grid-cols-[200px,1fr,20px,1fr,200px] w-full p-4 text-lightscale-4 font-quicksand font-semibold">
@@ -332,24 +341,25 @@ const MatchList = () => {
                   </div>
                 </div>
                 {officialsListEtf2l.map((match: any, index: number) => {
-                  let matchTime = match.day_played - 14400;
+                  const matchTime = match.day_played - 14400;
                   if (
                     Number(dayInfoList[activeDate].epochTimeStart) <
                       matchTime &&
                     Number(dayInfoList[activeDate].epochTimeEnd) > matchTime &&
                     match.division === divisionsPerLeauge.etf2l[activeDiv] &&
-                    match.format === "HL"
+                    match.format === 'HL'
                   ) {
-                   
                     matchIndex++;
                     return (
                       <a
+                        key={match.matchid}
                         href={`https://rgl.gg/Public/Match?m=${match.matchid}&r=24`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         <div
                           className={` cursor-pointer hover:bg-tf2orange hover:bg-opacity-10 flex justify-center items-center h-12 ${
-                            matchIndex % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                            matchIndex % 2 === 0 ? 'bg-black bg-opacity-10' : ''
                           }`}
                         >
                           <div className="grid items-center grid-cols-[200px,1fr,20px,1fr,200px] w-full p-4 text-lightscale-4 font-quicksand font-semibold">

@@ -7,7 +7,7 @@ const RARITY_TIERS = {
   EPIC: 'epic',
   RARE: 'rare',
   UNCOMMON: 'uncommon',
-  COMMON: 'common'
+  COMMON: 'common',
 };
 
 // Division to rarity mapping
@@ -15,11 +15,11 @@ const RARITY_TIERS = {
 const DIVISION_RARITY_MAP = {
   // ============= LEGENDARY (Top Tier) =============
   // Invite divisions
-  'invite': RARITY_TIERS.LEGENDARY,
+  invite: RARITY_TIERS.LEGENDARY,
   'invite - powered by mannco.store': RARITY_TIERS.LEGENDARY,
 
   // Premier divisions
-  'premier': RARITY_TIERS.LEGENDARY,
+  premier: RARITY_TIERS.LEGENDARY,
 
   // Division 1 variants
   'division 1': RARITY_TIERS.LEGENDARY,
@@ -28,12 +28,12 @@ const DIVISION_RARITY_MAP = {
 
   // ============= EPIC (Second Tier) =============
   // Advanced divisions
-  'advanced': RARITY_TIERS.EPIC,
+  advanced: RARITY_TIERS.EPIC,
   'advanced-1': RARITY_TIERS.EPIC,
   'advanced-2': RARITY_TIERS.EPIC,
 
   // High divisions (OZF)
-  'high': RARITY_TIERS.EPIC,
+  high: RARITY_TIERS.EPIC,
 
   // Division 2 variants
   'division 2': RARITY_TIERS.EPIC,
@@ -42,7 +42,7 @@ const DIVISION_RARITY_MAP = {
 
   // ============= RARE (Third Tier) =============
   // Main divisions
-  'main': RARITY_TIERS.RARE,
+  main: RARITY_TIERS.RARE,
 
   // Division 3 variants
   'division 3': RARITY_TIERS.RARE,
@@ -51,7 +51,7 @@ const DIVISION_RARITY_MAP = {
 
   // ============= UNCOMMON (Fourth Tier) =============
   // Intermediate divisions
-  'intermediate': RARITY_TIERS.UNCOMMON,
+  intermediate: RARITY_TIERS.UNCOMMON,
   'intermediate (non-playoff teams)': RARITY_TIERS.UNCOMMON,
 
   // Division 4 variants
@@ -61,14 +61,14 @@ const DIVISION_RARITY_MAP = {
 
   // ============= COMMON (All other divisions) =============
   // Amateur divisions
-  'amateur': RARITY_TIERS.COMMON,
+  amateur: RARITY_TIERS.COMMON,
   'amateur prime': RARITY_TIERS.COMMON,
 
   // Newcomer divisions
-  'newcomer': RARITY_TIERS.COMMON,
+  newcomer: RARITY_TIERS.COMMON,
 
   // Open divisions
-  'open': RARITY_TIERS.COMMON,
+  open: RARITY_TIERS.COMMON,
   'fresh meat': RARITY_TIERS.COMMON,
 
   // Division 5+ variants
@@ -77,7 +77,7 @@ const DIVISION_RARITY_MAP = {
   'div-5': RARITY_TIERS.COMMON,
   'division 6': RARITY_TIERS.COMMON,
   'div 6': RARITY_TIERS.COMMON,
-  'div-6': RARITY_TIERS.COMMON
+  'div-6': RARITY_TIERS.COMMON,
 };
 
 // Fuzzy matching patterns for unknown divisions
@@ -104,7 +104,7 @@ const FUZZY_PATTERNS = [
   { pattern: /amateur/i, rarity: RARITY_TIERS.COMMON },
   { pattern: /newcomer/i, rarity: RARITY_TIERS.COMMON },
   { pattern: /open/i, rarity: RARITY_TIERS.COMMON },
-  { pattern: /fresh/i, rarity: RARITY_TIERS.COMMON }
+  { pattern: /fresh/i, rarity: RARITY_TIERS.COMMON },
 ];
 
 /**
@@ -129,7 +129,9 @@ function getRarityFromDivision(division, logUnknown = true) {
   for (const { pattern, rarity } of FUZZY_PATTERNS) {
     if (pattern.test(normalizedDivision)) {
       if (logUnknown) {
-        console.warn(`[RarityMapping] Unknown division "${division}" matched to ${rarity} via fuzzy pattern. Consider adding to DIVISION_RARITY_MAP.`);
+        console.warn(
+          `[RarityMapping] Unknown division "${division}" matched to ${rarity} via fuzzy pattern. Consider adding to DIVISION_RARITY_MAP.`
+        );
       }
       return rarity;
     }
@@ -137,7 +139,9 @@ function getRarityFromDivision(division, logUnknown = true) {
 
   // Default to common and log warning
   if (logUnknown) {
-    console.warn(`[RarityMapping] Unknown division "${division}" defaulted to ${RARITY_TIERS.COMMON}. Consider adding to DIVISION_RARITY_MAP.`);
+    console.warn(
+      `[RarityMapping] Unknown division "${division}" defaulted to ${RARITY_TIERS.COMMON}. Consider adding to DIVISION_RARITY_MAP.`
+    );
   }
   return RARITY_TIERS.COMMON;
 }
@@ -179,9 +183,9 @@ function normalizeDivisionForAssets(division) {
   // Available assets: invite, advanced, main, intermediate, amateur, newcomer
   const assetMapping = {
     // Invite variants -> invite (LEGENDARY tier)
-    'invite': 'invite',
+    invite: 'invite',
     'invite - powered by mannco.store': 'invite',
-    'premier': 'invite', // OZF equivalent of invite
+    premier: 'invite', // OZF equivalent of invite
 
     // Division 1 variants -> invite
     'div-1': 'invite',
@@ -189,10 +193,10 @@ function normalizeDivisionForAssets(division) {
     'div 1': 'invite',
 
     // Advanced variants -> advanced (EPIC tier)
-    'advanced': 'advanced',
+    advanced: 'advanced',
     'advanced-1': 'advanced',
     'advanced-2': 'advanced',
-    'high': 'advanced', // OZF equivalent of advanced
+    high: 'advanced', // OZF equivalent of advanced
 
     // Division 2 variants -> advanced
     'div-2': 'advanced',
@@ -200,31 +204,31 @@ function normalizeDivisionForAssets(division) {
     'div 2': 'advanced',
 
     // Main variants -> main (RARE tier)
-    'main': 'main',
+    main: 'main',
     'div-3': 'main',
     'division 3': 'main',
     'div 3': 'main',
 
     // Intermediate variants -> intermediate (UNCOMMON tier)
-    'intermediate': 'intermediate',
+    intermediate: 'intermediate',
     'intermediate (non-playoff teams)': 'intermediate',
     'div-4': 'intermediate',
     'division 4': 'intermediate',
     'div 4': 'intermediate',
 
     // Amateur variants -> amateur (COMMON tier)
-    'amateur': 'amateur',
+    amateur: 'amateur',
     'amateur prime': 'amateur',
     'div-5': 'amateur',
     'division 5': 'amateur',
     'div 5': 'amateur',
 
     // Newcomer/Open variants -> newcomer (COMMON tier)
-    'newcomer': 'newcomer',
-    'open': 'newcomer', // Map open to newcomer (both are entry level)
+    newcomer: 'newcomer',
+    open: 'newcomer', // Map open to newcomer (both are entry level)
     'div-6': 'newcomer',
     'division 6': 'newcomer',
-    'div 6': 'newcomer'
+    'div 6': 'newcomer',
   };
 
   return assetMapping[normalized] || 'amateur'; // Default to amateur instead of unknown
@@ -268,5 +272,5 @@ module.exports = {
   isHoloDivision,
   getDivisionsForRarity,
   getDivisionSortOrder,
-  normalizeDivisionForAssets
+  normalizeDivisionForAssets,
 };

@@ -4,11 +4,15 @@ const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 const { generatePlayerCard } = require('../utils/cardGenerator');
-const { getRarityFromDivision, isHoloDivision, getDivisionSortOrder } = require('../utils/rarityMapping');
+const {
+  getRarityFromDivision,
+  isHoloDivision,
+  getDivisionSortOrder,
+} = require('../utils/rarityMapping');
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION || 'us-east-2'
+  region: process.env.AWS_REGION || 'us-east-2',
 });
 
 const BUCKET_NAME = 'moretf-season-cards';
@@ -24,7 +28,7 @@ router.post('/generate-single-card', async (req, res) => {
       accentColor,
       bgPositionX,
       bgPositionY,
-      seasonInfo
+      seasonInfo,
     } = req.body;
 
     if (!player) {
@@ -39,16 +43,21 @@ router.post('/generate-single-card', async (req, res) => {
       accentColor,
       bgPositionX,
       bgPositionY,
-      seasonInfo
+      seasonInfo,
     });
 
     // Send PNG directly
     res.setHeader('Content-Type', 'image/png');
-    res.setHeader('Content-Disposition', `attachment; filename="${player.rglname || player.id64}_card.png"`);
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${player.rglname || player.id64}_card.png"`
+    );
     res.send(pngBuffer);
-
   } catch (err) {
-    logger.error('Generate single card error', { error: err.message, stack: err.stack });
+    logger.error('Generate single card error', {
+      error: err.message,
+      stack: err.stack,
+    });
     res.status(500).json({ error: 'Failed to generate card' });
   }
 });
@@ -65,12 +74,14 @@ router.post('/generate-season-cards', async (req, res) => {
       lightColor,
       accentColor,
       bgPositionX,
-      bgPositionY
+      bgPositionY,
     } = req.body;
 
     // Validate required fields
     if (!league || !format || !seasonid) {
-      return res.status(400).json({ error: 'Missing required fields: league, format, seasonid' });
+      return res
+        .status(400)
+        .json({ error: 'Missing required fields: league, format, seasonid' });
     }
 
     // Get season info for seasonname
@@ -101,13 +112,19 @@ router.post('/generate-season-cards', async (req, res) => {
       }
 
       // Within same division, sort by player rating
-      const ratingA = ((a.cbt*2) + (a.eff*0.5) + (a.eva*0.5) + (a.imp*2) + a.spt + a.srv) / 7.0;
-      const ratingB = ((b.cbt*2) + (b.eff*0.5) + (b.eva*0.5) + (b.imp*2) + b.spt + b.srv) / 7.0;
+      const ratingA =
+        (a.cbt * 2 + a.eff * 0.5 + a.eva * 0.5 + a.imp * 2 + a.spt + a.srv) /
+        7.0;
+      const ratingB =
+        (b.cbt * 2 + b.eff * 0.5 + b.eva * 0.5 + b.imp * 2 + b.spt + b.srv) /
+        7.0;
       return ratingB - ratingA; // Higher rating first
     });
 
     if (players.length === 0) {
-      return res.status(404).json({ error: 'No players found for this season' });
+      return res
+        .status(404)
+        .json({ error: 'No players found for this season' });
     }
 
     // Start streaming response
@@ -115,7 +132,9 @@ router.post('/generate-season-cards', async (req, res) => {
     res.setHeader('Transfer-Encoding', 'chunked');
 
     // Send initial response
-    res.write(JSON.stringify({ status: 'started', total: players.length }) + '\n');
+    res.write(
+      JSON.stringify({ status: 'started', total: players.length }) + '\n'
+    );
 
     let successCount = 0;
     let failedPlayers = [];
@@ -126,7 +145,7 @@ router.post('/generate-season-cards', async (req, res) => {
       lightColor: lightColor || '#E8DCC4',
       accentColor: accentColor || '#D4822A',
       bgPositionX: bgPositionX || 50,
-      bgPositionY: bgPositionY || 50
+      bgPositionY: bgPositionY || 50,
     };
 
     // Save the card design to database before generating
@@ -144,11 +163,30 @@ router.post('/generate-season-cards', async (req, res) => {
            bg_position_x = $8,
            bg_position_y = $9,
            updated_at = CURRENT_TIMESTAMP`,
-        [league, format, seasonid, colors.primaryColor, colors.darkColor, colors.lightColor, colors.accentColor, colors.bgPositionX, colors.bgPositionY]
+        [
+          league,
+          format,
+          seasonid,
+          colors.primaryColor,
+          colors.darkColor,
+          colors.lightColor,
+          colors.accentColor,
+          colors.bgPositionX,
+          colors.bgPositionY,
+        ]
       );
-      logger.info('Saved card design to database', { league, format, seasonid });
+      logger.info('Saved card design to database', {
+        league,
+        format,
+        seasonid,
+      });
     } catch (designErr) {
-      logger.error('Failed to save card design', { error: designErr.message, league, format, seasonid });
+      logger.error('Failed to save card design', {
+        error: designErr.message,
+        league,
+        format,
+        seasonid,
+      });
       // Continue with generation even if design save fails
     }
 
@@ -157,7 +195,10 @@ router.post('/generate-season-cards', async (req, res) => {
       const player = players[i];
 
       try {
-        logger.info('Generating card for player', { id64: player.id64, name: player.rglname });
+        logger.info('Generating card for player', {
+          id64: player.id64,
+          name: player.rglname,
+        });
 
         // Generate card using Canvas
         const pngBuffer = await generatePlayerCard(player, {
@@ -166,8 +207,8 @@ router.post('/generate-season-cards', async (req, res) => {
             league,
             format,
             seasonid,
-            seasonname
-          }
+            seasonname,
+          },
         });
         logger.info('Card generated', { size: pngBuffer.length });
 
@@ -177,81 +218,92 @@ router.post('/generate-season-cards', async (req, res) => {
 
         // Upload to S3 with metadata
         const key = `${seasonid}/${player.id64}.png`;
-        await s3Client.send(new PutObjectCommand({
-          Bucket: BUCKET_NAME,
-          Key: key,
-          Body: pngBuffer,
-          ContentType: 'image/png',
-          Metadata: {
-            holo: isHolo.toString(),
-            rarity: rarity,
-            division: player.division || 'unknown',
-            class: player.class || 'unknown',
-            format: format,
-            league: league
-          }
-        }));
+        await s3Client.send(
+          new PutObjectCommand({
+            Bucket: BUCKET_NAME,
+            Key: key,
+            Body: pngBuffer,
+            ContentType: 'image/png',
+            Metadata: {
+              holo: isHolo.toString(),
+              rarity: rarity,
+              division: player.division || 'unknown',
+              class: player.class || 'unknown',
+              format: format,
+              league: league,
+            },
+          })
+        );
 
         successCount++;
 
         // Send progress update
-        res.write(JSON.stringify({
-          status: 'progress',
-          current: i + 1,
-          total: players.length,
-          player: {
-            id64: player.id64,
-            name: player.rglname || `Player ${player.id64}`,
-            url: `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`
-          }
-        }) + '\n');
-
+        res.write(
+          JSON.stringify({
+            status: 'progress',
+            current: i + 1,
+            total: players.length,
+            player: {
+              id64: player.id64,
+              name: player.rglname || `Player ${player.id64}`,
+              url: `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`,
+            },
+          }) + '\n'
+        );
       } catch (error) {
         logger.error('Card generation error', {
           error: error.message,
           stack: error.stack,
           player: player.id64,
-          seasonid
+          seasonid,
         });
 
         failedPlayers.push({
           id64: player.id64,
           name: player.rglname || `Player ${player.id64}`,
-          error: error.message
+          error: error.message,
         });
 
         // Send error update
-        res.write(JSON.stringify({
-          status: 'error',
-          current: i + 1,
-          total: players.length,
-          player: {
-            id64: player.id64,
-            name: player.rglname || `Player ${player.id64}`,
-            error: error.message
-          }
-        }) + '\n');
+        res.write(
+          JSON.stringify({
+            status: 'error',
+            current: i + 1,
+            total: players.length,
+            player: {
+              id64: player.id64,
+              name: player.rglname || `Player ${player.id64}`,
+              error: error.message,
+            },
+          }) + '\n'
+        );
       }
     }
 
     // Send final response
-    res.write(JSON.stringify({
-      status: 'completed',
-      successCount,
-      failedCount: failedPlayers.length,
-      total: players.length,
-      failedPlayers,
-      bucketUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${seasonid}/`
-    }) + '\n');
+    res.write(
+      JSON.stringify({
+        status: 'completed',
+        successCount,
+        failedCount: failedPlayers.length,
+        total: players.length,
+        failedPlayers,
+        bucketUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${seasonid}/`,
+      }) + '\n'
+    );
 
     res.end();
-
   } catch (err) {
-    logger.error('Generate season cards error', { error: err.message, body: req.body });
+    logger.error('Generate season cards error', {
+      error: err.message,
+      body: req.body,
+    });
     if (!res.headersSent) {
       res.status(500).json({ error: 'An internal server error occurred' });
     } else {
-      res.write(JSON.stringify({ status: 'fatal_error', error: err.message }) + '\n');
+      res.write(
+        JSON.stringify({ status: 'fatal_error', error: err.message }) + '\n'
+      );
       res.end();
     }
   }

@@ -24,6 +24,7 @@ const seasonCache = require('./utils/seasonCache');
 
 // Import routes
 const apiRoutes = require('./routes/api');
+const { setRedisCache: setV2LogRedisCache } = require('./routes/v2/log');
 
 // Server configuration
 const port = process.env.PORT || 3000;
@@ -43,7 +44,9 @@ if (process.env.REDIS_HOST) {
     password: process.env.REDIS_PASSWORD || undefined,
   });
 
-  redisClient.on('error', (err) => logger.error('Redis Client Error', { error: err.message }));
+  redisClient.on('error', (err) =>
+    logger.error('Redis Client Error', { error: err.message })
+  );
   redisClient.on('connect', () => logger.info('Redis Client Connected'));
 
   // Connect to Redis
@@ -59,8 +62,14 @@ if (process.env.REDIS_HOST) {
   const redisCacheInstance = new RedisCache(redisClient);
   seasonCache.setRedisCache(redisCacheInstance);
   logger.info('Season cache initialized with Redis (24-hour TTL)');
+
+  // Initialize Redis cache for parser v2
+  setV2LogRedisCache(redisCacheInstance);
+  logger.info('Parser V2 cache initialized with Redis (7-day TTL)');
 } else {
-  logger.warn('No Redis configuration found, using memory store (not recommended for production)');
+  logger.warn(
+    'No Redis configuration found, using memory store (not recommended for production)'
+  );
   sessionStore = undefined; // Will use default memory store
 }
 
@@ -68,26 +77,31 @@ if (process.env.REDIS_HOST) {
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
-app.use(session({
-  store: sessionStore,
-  secret: process.env.SESSION_SECRET || 'Whatever_You_Want',
-  saveUninitialized: false, // Don't save empty sessions
-  resave: false, // Don't save session if unmodified
-  cookie: {
-    secure: isProduction, // Only use secure cookies in production (HTTPS)
-    httpOnly: true, // Prevent XSS attacks
-    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-    sameSite: isProduction ? 'none' : 'lax', // CSRF protection
-  }
-}));
+app.use(
+  session({
+    store: sessionStore,
+    secret: process.env.SESSION_SECRET || 'Whatever_You_Want',
+    saveUninitialized: false, // Don't save empty sessions
+    resave: false, // Don't save session if unmodified
+    cookie: {
+      secure: isProduction, // Only use secure cookies in production (HTTPS)
+      httpOnly: true, // Prevent XSS attacks
+      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+      sameSite: isProduction ? 'none' : 'lax', // CSRF protection
+    },
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 
 // CORS headers
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   next();
 });
 
@@ -106,26 +120,31 @@ passport.deserializeUser((user, done) => {
 // Use localhost for development, production URL otherwise
 const baseURL = isProduction ? 'https://more.tf' : 'http://localhost:3000';
 
-passport.use(new SteamStrategy({
-  returnURL: `${baseURL}/api/auth/steam/return`,
-  realm: baseURL,
-  apiKey: `${process.env.STEAMKEY}`
-}, function (identifier, profile, done) {
-  process.nextTick(function () {
-    profile.identifier = identifier;
-    return done(null, profile);
-  });
-}));
+passport.use(
+  new SteamStrategy(
+    {
+      returnURL: `${baseURL}/api/auth/steam/return`,
+      realm: baseURL,
+      apiKey: `${process.env.STEAMKEY}`,
+    },
+    function (identifier, profile, done) {
+      process.nextTick(function () {
+        profile.identifier = identifier;
+        return done(null, profile);
+      });
+    }
+  )
+);
 
 // Mount API routes
 app.use('/api', apiRoutes);
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 // Catch-all route for SPA
-app.get("*", (_, res) => {
-  res.sendFile(path.join(__dirname, "/client/dist", "index.html"));
+app.get('*', (_, res) => {
+  res.sendFile(path.join(__dirname, '/client/dist', 'index.html'));
 });
 
 // Error handling middleware (must be last)
@@ -135,6 +154,6 @@ app.use(errorHandler);
 app.listen(port, function () {
   logger.info('Server started', {
     port: this.address().port,
-    env: app.settings.env
+    env: app.settings.env,
   });
 });

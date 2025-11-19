@@ -5,14 +5,29 @@ const { normalizeDivisionForAssets } = require('./rarityMapping');
 // Path to assets
 const ASSETS_PATH = path.join(__dirname, '../client/public/player cards');
 const PATTERN_PATH = path.join(__dirname, '../client/pattern.jpg');
-const MASK_PATH = path.join(__dirname, '../client/public/player cards/image.png');
+const MASK_PATH = path.join(
+  __dirname,
+  '../client/public/player cards/image.png'
+);
 const FONTS_PATH = path.join(__dirname, '../assets/fonts');
 
 // Register fonts
-registerFont(path.join(FONTS_PATH, 'Roboto-Black.ttf'), { family: 'Roboto', weight: '900' });
-registerFont(path.join(FONTS_PATH, 'Roboto-Bold.ttf'), { family: 'Roboto', weight: 'bold' });
-registerFont(path.join(FONTS_PATH, 'RobotoMono-Bold.ttf'), { family: 'Roboto Mono', weight: 'bold' });
-registerFont(path.join(FONTS_PATH, 'RobotoMono-Regular.ttf'), { family: 'Roboto Mono', weight: 'normal' });
+registerFont(path.join(FONTS_PATH, 'Roboto-Black.ttf'), {
+  family: 'Roboto',
+  weight: '900',
+});
+registerFont(path.join(FONTS_PATH, 'Roboto-Bold.ttf'), {
+  family: 'Roboto',
+  weight: 'bold',
+});
+registerFont(path.join(FONTS_PATH, 'RobotoMono-Bold.ttf'), {
+  family: 'Roboto Mono',
+  weight: 'bold',
+});
+registerFont(path.join(FONTS_PATH, 'RobotoMono-Regular.ttf'), {
+  family: 'Roboto Mono',
+  weight: 'normal',
+});
 
 /**
  * Generate a player card as a PNG buffer
@@ -28,7 +43,7 @@ async function generatePlayerCard(player, colors) {
     accentColor = '#D4822A',
     bgPositionX = 50,
     bgPositionY = 50,
-    seasonInfo = null
+    seasonInfo = null,
   } = colors;
 
   // Create canvas
@@ -37,8 +52,13 @@ async function generatePlayerCard(player, colors) {
 
   // Calculate player overall rating
   const overall = Math.round(
-    ((player.cbt * 2) + (player.eff * 0.5) + (player.eva * 0.5) +
-     (player.imp * 2) + player.spt + player.srv) / 7.0
+    (player.cbt * 2 +
+      player.eff * 0.5 +
+      player.eva * 0.5 +
+      player.imp * 2 +
+      player.spt +
+      player.srv) /
+      7.0
   );
 
   try {
@@ -49,43 +69,64 @@ async function generatePlayerCard(player, colors) {
       player: player.rglname || player.id64,
       division: player.division,
       normalizedDivision: normalizedDivision,
-      class: player.class
+      class: player.class,
     });
 
     // Load all images
-    const [pattern, mask, border, classPortrait, gradient, classIcon, logo, divisionMedal] = await Promise.all([
-      loadImage(PATTERN_PATH).catch(err => {
+    const [
+      pattern,
+      mask,
+      border,
+      classPortrait,
+      gradient,
+      classIcon,
+      logo,
+      divisionMedal,
+    ] = await Promise.all([
+      loadImage(PATTERN_PATH).catch((err) => {
         console.error('Failed to load pattern:', err.message);
         throw new Error(`Pattern not found: ${PATTERN_PATH}`);
       }),
-      loadImage(MASK_PATH).catch(err => {
+      loadImage(MASK_PATH).catch((err) => {
         console.error('Failed to load mask:', err.message);
         throw new Error(`Mask not found: ${MASK_PATH}`);
       }),
-      loadImage(path.join(ASSETS_PATH, `borders/${normalizedDivision}.png`)).catch(err => {
+      loadImage(
+        path.join(ASSETS_PATH, `borders/${normalizedDivision}.png`)
+      ).catch((err) => {
         console.error('Failed to load border:', err.message);
-        throw new Error(`Border not found for division: ${player.division} (normalized: ${normalizedDivision})`);
+        throw new Error(
+          `Border not found for division: ${player.division} (normalized: ${normalizedDivision})`
+        );
       }),
-      loadImage(path.join(ASSETS_PATH, `class-portraits/${player.class}.png`)).catch(err => {
+      loadImage(
+        path.join(ASSETS_PATH, `class-portraits/${player.class}.png`)
+      ).catch((err) => {
         console.error('Failed to load class portrait:', err.message);
         throw new Error(`Class portrait not found for class: ${player.class}`);
       }),
-      loadImage(path.join(ASSETS_PATH, 'gradients.png')).catch(err => {
+      loadImage(path.join(ASSETS_PATH, 'gradients.png')).catch((err) => {
         console.error('Failed to load gradients:', err.message);
         throw new Error('Gradients image not found');
       }),
-      loadImage(path.join(ASSETS_PATH, `class-icons/${player.class}.png`)).catch(err => {
+      loadImage(
+        path.join(ASSETS_PATH, `class-icons/${player.class}.png`)
+      ).catch((err) => {
         console.error('Failed to load class icon:', err.message);
         throw new Error(`Class icon not found for class: ${player.class}`);
       }),
-      loadImage(path.join(ASSETS_PATH, 'logo.png')).catch(err => {
+      loadImage(path.join(ASSETS_PATH, 'logo.png')).catch((err) => {
         console.error('Failed to load logo:', err.message);
         throw new Error('Logo image not found');
       }),
-      loadImage(path.join(ASSETS_PATH, `division-medals/${normalizedDivision}.png`)).catch(err => {
+      loadImage(
+        path.join(ASSETS_PATH, `division-medals/${normalizedDivision}.png`)
+      ).catch((err) => {
         console.error('Failed to load division medal:', err.message);
-        throw new Error(`Division medal not found for division: ${player.division} (normalized: ${normalizedDivision})`);
-      })
+        throw new Error(
+          `Division medal not found for division: ${player.division} (normalized: ${normalizedDivision})`
+        );
+      }),
     ]);
 
     console.log('All images loaded successfully');
@@ -120,7 +161,12 @@ async function generatePlayerCard(player, colors) {
     patternCtx.drawImage(pattern, offsetX, offsetY, scaledWidth, scaledHeight);
 
     // Get image data for color replacement
-    const imageData = patternCtx.getImageData(0, 0, TARGET_WIDTH, TARGET_HEIGHT);
+    const imageData = patternCtx.getImageData(
+      0,
+      0,
+      TARGET_WIDTH,
+      TARGET_HEIGHT
+    );
     const data = imageData.data;
 
     // Parse colors
@@ -142,7 +188,7 @@ async function generatePlayerCard(player, colors) {
       const b = data[i + 2];
 
       // Calculate brightness (0-255)
-      const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+      const brightness = r * 0.299 + g * 0.587 + b * 0.114;
 
       // Map brightness to our color scheme
       let newColor;
@@ -223,7 +269,7 @@ async function generatePlayerCard(player, colors) {
       const primaryRgb = {
         r: parseInt(primaryColor.slice(1, 3), 16),
         g: parseInt(primaryColor.slice(3, 5), 16),
-        b: parseInt(primaryColor.slice(5, 7), 16)
+        b: parseInt(primaryColor.slice(5, 7), 16),
       };
 
       // Apply desaturation and primary color tint (matching SVG filter logic)
@@ -303,7 +349,9 @@ async function generatePlayerCard(player, colors) {
 
     // Player name with responsive font size
     ctx.fillStyle = '#FFFFFF';
-    const playerName = (player.rglname || `Player ${player.id64}`).toUpperCase();
+    const playerName = (
+      player.rglname || `Player ${player.id64}`
+    ).toUpperCase();
 
     // Calculate font size to fit within card width (580px max width for text)
     const maxTextWidth = 580; // Maximum width for player name
@@ -364,7 +412,6 @@ async function generatePlayerCard(player, colors) {
 
     // Return PNG buffer
     return canvas.toBuffer('image/png');
-
   } catch (error) {
     console.error('Card generation error:', error);
     throw error;

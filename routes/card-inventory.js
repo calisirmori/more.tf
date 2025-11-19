@@ -3,11 +3,14 @@ const router = express.Router();
 const { S3Client, HeadObjectCommand } = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
-const { getRarityFromDivision, isHoloDivision } = require('../utils/rarityMapping');
+const {
+  getRarityFromDivision,
+  isHoloDivision,
+} = require('../utils/rarityMapping');
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region: process.env.AWS_REGION || 'us-east-2'
+  region: process.env.AWS_REGION || 'us-east-2',
 });
 
 const BUCKET_NAME = 'moretf-season-cards';
@@ -16,9 +19,28 @@ const BUCKET_NAME = 'moretf-season-cards';
 router.get('/inventory/:steamid', async (req, res) => {
   try {
     const { steamid } = req.params;
-    const { season, league, format, rarity, search, sort = 'acquired_desc', limit = 50, offset = 0 } = req.query;
+    const {
+      season,
+      league,
+      format,
+      rarity,
+      search,
+      sort = 'acquired_desc',
+      limit = 50,
+      offset = 0,
+    } = req.query;
 
-    logger.info('Fetching inventory', { steamid, season, league, format, rarity, search, sort, limit, offset });
+    logger.info('Fetching inventory', {
+      steamid,
+      season,
+      league,
+      format,
+      rarity,
+      search,
+      sort,
+      limit,
+      offset,
+    });
 
     // Build WHERE clause for filters
     let whereClause = 'ci.owner_steamid = $1';
@@ -45,10 +67,10 @@ router.get('/inventory/:steamid', async (req, res) => {
 
     if (rarity) {
       const rarityDivisions = {
-        'legendary': ['invite', 'Invite'],
-        'epic': ['advanced', 'Advanced'],
-        'rare': ['main', 'Main'],
-        'uncommon': ['intermediate', 'Intermediate']
+        legendary: ['invite', 'Invite'],
+        epic: ['advanced', 'Advanced'],
+        rare: ['main', 'Main'],
+        uncommon: ['intermediate', 'Intermediate'],
       };
       if (rarityDivisions[rarity]) {
         paramCount++;
@@ -74,7 +96,8 @@ router.get('/inventory/:steamid', async (req, res) => {
         outerOrderByClause = 'acquired_at ASC';
         break;
       case 'rating_desc':
-        outerOrderByClause = '((cbt*2) + (eff*0.5) + (eva*0.5) + (dmg*2) + spt + srv) / 7.0 DESC';
+        outerOrderByClause =
+          '((cbt*2) + (eff*0.5) + (eva*0.5) + (dmg*2) + spt + srv) / 7.0 DESC';
         break;
       case 'season_desc':
         outerOrderByClause = 'seasonid DESC';
@@ -102,7 +125,8 @@ router.get('/inventory/:steamid', async (req, res) => {
 
     // Get paginated cards (using subquery to handle duplicate seasons and preserve sort order)
     params.push(limit, offset);
-    const cardsResult = await pool.query(`
+    const cardsResult = await pool.query(
+      `
       SELECT * FROM (
         SELECT DISTINCT ON (ci.id)
           ci.id,
@@ -111,6 +135,9 @@ router.get('/inventory/:steamid', async (req, res) => {
           ci.acquired_at,
           ci.is_favorited,
           ci.favorite_slot,
+          ci.gifted_from,
+          gifter_tg.rglname as gifter_name,
+          gifter_si.avatar as gifter_avatar,
           pci.class,
           pci.division,
           pci.format,
@@ -127,48 +154,38 @@ router.get('/inventory/:steamid', async (req, res) => {
         JOIN player_card_info pci ON ci.card_steamid = pci.id64::text AND ci.seasonid = pci.seasonid
         JOIN seasons s ON ci.seasonid = s.seasonid
         LEFT JOIN tf2gamers tg ON pci.id64 = tg.steamid
+        LEFT JOIN tf2gamers gifter_tg ON ci.gifted_from = gifter_tg.steamid::text
+        LEFT JOIN steam_info gifter_si ON ci.gifted_from = gifter_si.id64::text
         WHERE ${whereClause}
         ORDER BY ${innerOrderByClause}
       ) AS distinct_cards
       ORDER BY ${outerOrderByClause}
       LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}
-    `, params);
-
-    // Fetch S3 metadata for each card
-    const cardsWithMetadata = await Promise.all(
-      cardsResult.rows.map(async (card) => {
-        const key = `${card.seasonid}/${card.card_steamid}.png`;
-        try {
-          const headResponse = await s3Client.send(new HeadObjectCommand({
-            Bucket: BUCKET_NAME,
-            Key: key
-          }));
-
-          const metadata = headResponse.Metadata || {};
-
-          return {
-            ...card,
-            cardUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`,
-            holo: metadata.holo === 'true',
-            rarity: metadata.rarity || 'common',
-            overall: Math.round(
-              (card.cbt * 2 + card.spt + card.srv + card.eff * 0.5 + card.dmg * 2 + card.eva * 0.5) / 7
-            )
-          };
-        } catch (err) {
-          // Card doesn't exist in S3 - use centralized rarity mapping
-          return {
-            ...card,
-            cardUrl: null,
-            holo: isHoloDivision(card.division),
-            rarity: getRarityFromDivision(card.division),
-            overall: Math.round(
-              (card.cbt * 2 + card.spt + card.srv + card.eff * 0.5 + card.dmg * 2 + card.eva * 0.5) / 7
-            )
-          };
-        }
-      })
+    `,
+      params
     );
+
+    // Add S3 URL and card metadata
+    const cardsWithMetadata = cardsResult.rows.map((card) => {
+      const key = `${card.seasonid}/${card.card_steamid}.png`;
+
+      return {
+        ...card,
+        // Always provide the S3 URL - let the frontend handle if it doesn't exist
+        cardUrl: `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION || 'us-east-2'}.amazonaws.com/${key}`,
+        holo: isHoloDivision(card.division),
+        rarity: getRarityFromDivision(card.division),
+        overall: Math.round(
+          (card.cbt * 2 +
+            card.spt +
+            card.srv +
+            card.eff * 0.5 +
+            card.dmg * 2 +
+            card.eva * 0.5) /
+            7
+        ),
+      };
+    });
 
     res.json({
       steamid,
@@ -177,17 +194,19 @@ router.get('/inventory/:steamid', async (req, res) => {
       pagination: {
         limit: parseInt(limit),
         offset: parseInt(offset),
-        hasMore: totalCards > (parseInt(offset) + parseInt(limit))
-      }
+        hasMore: totalCards > parseInt(offset) + parseInt(limit),
+      },
     });
-
   } catch (err) {
     logger.error('Get inventory error', {
       error: err.message,
       stack: err.stack,
-      steamid: req.params.steamid
+      steamid: req.params.steamid,
     });
-    res.status(500).json({ error: 'An internal server error occurred', details: err.message });
+    res.status(500).json({
+      error: 'An internal server error occurred',
+      details: err.message,
+    });
   }
 });
 
@@ -196,12 +215,16 @@ router.get('/favorites/:steamid', async (req, res) => {
   try {
     const { steamid } = req.params;
 
-    const favoritesResult = await pool.query(`
+    const favoritesResult = await pool.query(
+      `
       SELECT DISTINCT ON (ci.id)
         ci.id,
         ci.card_steamid,
         ci.seasonid,
         ci.favorite_slot,
+        ci.gifted_from,
+        gifter_tg.rglname as gifter_name,
+        gifter_si.avatar as gifter_avatar,
         pci.class,
         pci.division,
         pci.format,
@@ -212,47 +235,36 @@ router.get('/favorites/:steamid', async (req, res) => {
       JOIN player_card_info pci ON ci.card_steamid = pci.id64::text AND ci.seasonid = pci.seasonid
       JOIN seasons s ON ci.seasonid = s.seasonid
       LEFT JOIN tf2gamers tg ON pci.id64 = tg.steamid
+      LEFT JOIN tf2gamers gifter_tg ON ci.gifted_from = gifter_tg.steamid::text
+      LEFT JOIN steam_info gifter_si ON ci.gifted_from = gifter_si.id64::text
       WHERE ci.owner_steamid = $1 AND ci.is_favorited = true
       ORDER BY ci.id, ci.favorite_slot ASC NULLS LAST
       LIMIT 5
-    `, [steamid]);
-
-    // Fetch S3 metadata
-    const favoritesWithMetadata = await Promise.all(
-      favoritesResult.rows.map(async (card) => {
-        const key = `${card.seasonid}/${card.card_steamid}.png`;
-        try {
-          const headResponse = await s3Client.send(new HeadObjectCommand({
-            Bucket: BUCKET_NAME,
-            Key: key
-          }));
-
-          const metadata = headResponse.Metadata || {};
-
-          return {
-            ...card,
-            cardUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`,
-            holo: metadata.holo === 'true',
-            rarity: metadata.rarity || 'common'
-          };
-        } catch (err) {
-          return {
-            ...card,
-            cardUrl: null,
-            holo: isHoloDivision(card.division),
-            rarity: getRarityFromDivision(card.division)
-          };
-        }
-      })
+    `,
+      [steamid]
     );
+
+    // Add S3 URL and metadata
+    const favoritesWithMetadata = favoritesResult.rows.map((card) => {
+      const key = `${card.seasonid}/${card.card_steamid}.png`;
+
+      return {
+        ...card,
+        cardUrl: `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION || 'us-east-2'}.amazonaws.com/${key}`,
+        holo: isHoloDivision(card.division),
+        rarity: getRarityFromDivision(card.division),
+      };
+    });
 
     res.json({
       steamid,
-      favorites: favoritesWithMetadata
+      favorites: favoritesWithMetadata,
     });
-
   } catch (err) {
-    logger.error('Get favorites error', { error: err.message, steamid: req.params.steamid });
+    logger.error('Get favorites error', {
+      error: err.message,
+      steamid: req.params.steamid,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -292,7 +304,9 @@ router.patch('/favorite/:inventoryId', async (req, res) => {
       );
 
       if (parseInt(favCountResult.rows[0].count) >= 5) {
-        return res.status(400).json({ error: 'Maximum 5 favorites allowed. Unfavorite a card first.' });
+        return res.status(400).json({
+          error: 'Maximum 5 favorites allowed. Unfavorite a card first.',
+        });
       }
 
       // Determine slot
@@ -303,7 +317,9 @@ router.patch('/favorite/:inventoryId', async (req, res) => {
           'SELECT favorite_slot FROM card_inventory WHERE owner_steamid = $1 AND is_favorited = true ORDER BY favorite_slot',
           [card.owner_steamid]
         );
-        const usedSlots = usedSlotsResult.rows.map(r => r.favorite_slot).filter(s => s !== null);
+        const usedSlots = usedSlotsResult.rows
+          .map((r) => r.favorite_slot)
+          .filter((s) => s !== null);
         for (let i = 1; i <= 5; i++) {
           if (!usedSlots.includes(i)) {
             slot = i;
@@ -320,7 +336,9 @@ router.patch('/favorite/:inventoryId', async (req, res) => {
         );
 
         if (slotCheckResult.rows.length > 0) {
-          return res.status(400).json({ error: `Favorite slot ${slot} is already taken` });
+          return res
+            .status(400)
+            .json({ error: `Favorite slot ${slot} is already taken` });
         }
       }
 
@@ -331,9 +349,11 @@ router.patch('/favorite/:inventoryId', async (req, res) => {
 
       res.json({ success: true, is_favorited: true, favorite_slot: slot });
     }
-
   } catch (err) {
-    logger.error('Toggle favorite error', { error: err.message, inventoryId: req.params.inventoryId });
+    logger.error('Toggle favorite error', {
+      error: err.message,
+      inventoryId: req.params.inventoryId,
+    });
     res.status(500).json({ error: 'An internal server error occurred' });
   }
 });
@@ -343,7 +363,8 @@ router.get('/stats/:steamid', async (req, res) => {
   try {
     const { steamid } = req.params;
 
-    const statsResult = await pool.query(`
+    const statsResult = await pool.query(
+      `
       SELECT
         COUNT(*) as total_cards,
         COUNT(DISTINCT ci.seasonid) as unique_seasons,
@@ -356,16 +377,116 @@ router.get('/stats/:steamid', async (req, res) => {
       FROM card_inventory ci
       JOIN player_card_info pci ON ci.card_steamid = pci.id64::text AND ci.seasonid = pci.seasonid
       WHERE ci.owner_steamid = $1
-    `, [steamid]);
+    `,
+      [steamid]
+    );
 
     res.json({
       steamid,
-      stats: statsResult.rows[0]
+      stats: statsResult.rows[0],
+    });
+  } catch (err) {
+    logger.error('Get inventory stats error', {
+      error: err.message,
+      steamid: req.params.steamid,
+    });
+    res.status(500).json({ error: 'An internal server error occurred' });
+  }
+});
+
+// Share/gift a card to another user (creates a copy)
+router.post('/gift/:inventoryId', async (req, res) => {
+  try {
+    const { inventoryId } = req.params;
+    const { recipientSteamId } = req.body;
+
+    if (!recipientSteamId) {
+      return res.status(400).json({ error: 'Recipient Steam ID is required' });
+    }
+
+    // Get the card to be shared
+    const cardResult = await pool.query(
+      `SELECT ci.*, pci.class, pci.division, pci.format, s.seasonname
+       FROM card_inventory ci
+       JOIN player_card_info pci ON ci.card_steamid = pci.id64::text AND ci.seasonid = pci.seasonid
+       JOIN seasons s ON ci.seasonid = s.seasonid
+       WHERE ci.id = $1`,
+      [inventoryId]
+    );
+
+    if (cardResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Card not found in inventory' });
+    }
+
+    const card = cardResult.rows[0];
+
+    // Check if the user is authenticated and owns this card in their inventory
+    if (!req.isAuthenticated() || req.user.id !== card.owner_steamid) {
+      return res.status(403).json({ error: 'You do not own this card' });
+    }
+
+    // Check if the card belongs to the player (only the player on the card can gift it)
+    if (card.card_steamid !== req.user.id) {
+      return res.status(403).json({
+        error: 'You can only gift cards that have your name on them'
+      });
+    }
+
+    // Check if recipient exists
+    const recipientCheck = await pool.query(
+      'SELECT steamid FROM tf2gamers WHERE steamid = $1',
+      [recipientSteamId]
+    );
+
+    if (recipientCheck.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ error: 'Recipient not found in the database' });
+    }
+
+    // Check if recipient already has this exact card (same card_steamid and seasonid)
+    const duplicateCheck = await pool.query(
+      'SELECT id FROM card_inventory WHERE owner_steamid = $1 AND card_steamid = $2 AND seasonid = $3',
+      [recipientSteamId, card.card_steamid, card.seasonid]
+    );
+
+    if (duplicateCheck.rows.length > 0) {
+      return res.status(400).json({
+        error: 'Recipient already owns this card',
+      });
+    }
+
+    // Create a new card entry for the recipient (sharing/copying)
+    const giftResult = await pool.query(
+      `INSERT INTO card_inventory (owner_steamid, card_steamid, seasonid, acquired_at, gifted_from)
+       VALUES ($1, $2, $3, NOW(), $4)
+       RETURNING id`,
+      [recipientSteamId, card.card_steamid, card.seasonid, card.owner_steamid]
+    );
+
+    logger.info('Card shared', {
+      from: card.owner_steamid,
+      to: recipientSteamId,
+      cardId: inventoryId,
+      newCardId: giftResult.rows[0].id,
+      season: card.seasonname,
     });
 
+    res.json({
+      success: true,
+      message: 'Card successfully shared',
+      newCardId: giftResult.rows[0].id,
+    });
   } catch (err) {
-    logger.error('Get inventory stats error', { error: err.message, steamid: req.params.steamid });
-    res.status(500).json({ error: 'An internal server error occurred' });
+    logger.error('Share card error', {
+      error: err.message,
+      stack: err.stack,
+      inventoryId: req.params.inventoryId,
+    });
+    res.status(500).json({
+      error: 'An internal server error occurred',
+      details: err.message,
+    });
   }
 });
 
