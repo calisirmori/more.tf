@@ -49,23 +49,31 @@ if (process.env.REDIS_HOST) {
   );
   redisClient.on('connect', () => logger.info('Redis Client Connected'));
 
-  // Connect to Redis
-  redisClient.connect().catch((err) => {
-    logger.error('Failed to connect to Redis', { error: err.message });
-  });
+  // Connect to Redis (non-blocking)
+  redisClient
+    .connect()
+    .then(() => {
+      logger.info('Redis Client Connected Successfully');
+      // Initialize Redis session store only after successful connection
+      sessionStore = new RedisStore({ client: redisClient });
+      logger.info('Using Redis session store');
 
-  // Initialize Redis session store
-  sessionStore = new RedisStore({ client: redisClient });
-  logger.info('Using Redis session store');
+      // Initialize Redis cache for season data
+      const redisCacheInstance = new RedisCache(redisClient);
+      seasonCache.setRedisCache(redisCacheInstance);
+      logger.info('Season cache initialized with Redis (24-hour TTL)');
 
-  // Initialize Redis cache for season data
-  const redisCacheInstance = new RedisCache(redisClient);
-  seasonCache.setRedisCache(redisCacheInstance);
-  logger.info('Season cache initialized with Redis (24-hour TTL)');
-
-  // Initialize Redis cache for parser v2
-  setV2LogRedisCache(redisCacheInstance);
-  logger.info('Parser V2 cache initialized with Redis (7-day TTL)');
+      // Initialize Redis cache for parser v2
+      setV2LogRedisCache(redisCacheInstance);
+      logger.info('Parser V2 cache initialized with Redis (7-day TTL)');
+    })
+    .catch((err) => {
+      logger.error('Failed to connect to Redis', { error: err.message });
+      logger.warn(
+        'Continuing without Redis - sessions will use memory store (not recommended for production)'
+      );
+      sessionStore = undefined; // Use memory store
+    });
 } else {
   logger.warn(
     'No Redis configuration found, using memory store (not recommended for production)'
