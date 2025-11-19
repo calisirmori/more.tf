@@ -24,17 +24,25 @@ router.get(
     const isProduction = process.env.NODE_ENV === 'production';
     try {
       // User is now authenticated via session (managed by Passport)
-      // No need to set userid cookie - session handles everything
-      logger.info('User logged in', {
-        userId: req.user.id,
-        sessionId: req.sessionID,
-      });
+      // Force session save before redirect to ensure cookie is set
+      req.session.save((err) => {
+        if (err) {
+          logger.error('Session save error', { error: err.message });
+        }
 
-      // In development, redirect to Vite dev server; in production, use relative path
-      const redirectUrl = isProduction
-        ? `/profile/${req.user.id}`
-        : `http://localhost:5173/profile/${req.user.id}`;
-      res.redirect(redirectUrl);
+        logger.info('User logged in', {
+          userId: req.user.id,
+          sessionId: req.sessionID,
+          sessionSaved: !err,
+          cookie: req.session.cookie,
+        });
+
+        // In development, redirect to Vite dev server; in production, use relative path
+        const redirectUrl = isProduction
+          ? `/profile/${req.user.id}`
+          : `http://localhost:5173/profile/${req.user.id}`;
+        res.redirect(redirectUrl);
+      });
     } catch (error) {
       logger.error('Login error', { error: error.message });
       const redirectUrl = isProduction

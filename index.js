@@ -81,6 +81,9 @@ if (process.env.REDIS_HOST) {
   sessionStore = undefined; // Will use default memory store
 }
 
+// Trust proxy (required for cookies to work behind CloudFlare)
+app.set('trust proxy', 1);
+
 // Middleware setup
 app.use(bodyParser.json());
 app.use(express.json());
@@ -96,12 +99,12 @@ app.use(
     secret: process.env.SESSION_SECRET || 'Whatever_You_Want',
     saveUninitialized: false, // Don't save empty sessions
     resave: false, // Don't save session if unmodified
+    proxy: isProduction, // Trust the reverse proxy (CloudFlare)
     cookie: {
       secure: isProduction, // Only use secure cookies in production (HTTPS)
       httpOnly: true, // Prevent XSS attacks
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-      sameSite: isProduction ? 'none' : 'lax', // CSRF protection
-      domain: isProduction ? '.more.tf' : undefined, // Allow cookie across subdomains in production
+      sameSite: isProduction ? 'lax' : 'lax', // Changed from 'none' to 'lax' - CloudFlare might be blocking 'none'
       path: '/', // Cookie available for all paths
     },
   })
