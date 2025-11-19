@@ -3,6 +3,7 @@ import PageContainer from '../shared-components/PageContainer';
 import React, { useEffect, useState } from 'react';
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
 import Footer from '../shared-components/Footer';
+import AdSense from '../shared-components/AdSense';
 import {
   RGL_SEASONS,
   OZF_SEASONS,
@@ -226,8 +227,21 @@ const UnifiedSeasonSummary = () => {
   return (
     <div className="bg-warmscale-7 min-h-screen">
       <Navbar />
-      <PageContainer className="font-ubuntu">
-        <div className="bg-warmscale-8 rounded-md relative w-full shadow-lg">
+      <div className="flex justify-center gap-4">
+        {/* Left Sidebar Ad - Desktop only */}
+        <div className="hidden 2xl:block w-[160px] flex-shrink-0">
+          <div className="sticky top-20">
+            <AdSense
+              adSlot="9931975737"
+              adFormat="vertical"
+              className="mb-4"
+            />
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <PageContainer className="font-ubuntu">
+          <div className="bg-warmscale-8 rounded-md relative w-full shadow-lg">
           {/* Filters Section */}
           <div className="px-3 py-4 md:px-8 md:py-6 border-b border-warmscale-7">
             <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-stretch md:items-center">
@@ -678,9 +692,22 @@ const UnifiedSeasonSummary = () => {
           </div>
         </div>
       </PageContainer>
-      <div className="mt-6 md:mt-10">
-        <Footer />
+
+      {/* Right Sidebar Ad - Desktop only */}
+      <div className="hidden 2xl:block w-[160px] flex-shrink-0">
+        <div className="sticky top-20">
+          <AdSense
+            adSlot="7268770481"
+            adFormat="vertical"
+            className="mb-4"
+          />
+        </div>
       </div>
+    </div>
+
+    <div className="mt-6 md:mt-10">
+      <Footer />
+    </div>
     </div>
   );
 

@@ -383,7 +383,7 @@ const Profile = () => {
           <div className="hidden 2xl:block w-[160px] flex-shrink-0">
             <div className="sticky top-20">
               <AdSense
-                adSlot="REPLACE_WITH_PROFILE_LEFT_SIDEBAR_SLOT_ID"
+                adSlot="1011866785"
                 adFormat="vertical"
                 className="mb-4"
               />
@@ -749,7 +749,7 @@ const Profile = () => {
           <div className="hidden 2xl:block w-[160px] flex-shrink-0">
             <div className="sticky top-20">
               <AdSense
-                adSlot="REPLACE_WITH_PROFILE_RIGHT_SIDEBAR_SLOT_ID"
+                adSlot="9803983225"
                 adFormat="vertical"
                 className="mb-4"
               />
