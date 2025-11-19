@@ -88,17 +88,19 @@ const SeasonManagement = () => {
     let filtered = [...seasons];
 
     if (filterLeague !== 'all') {
-      filtered = filtered.filter((s) => s.league === filterLeague);
+      filtered = filtered.filter((s) => s.league.toUpperCase() === filterLeague.toUpperCase());
     }
 
     if (filterFormat !== 'all') {
-      filtered = filtered.filter((s) => s.format === filterFormat);
+      filtered = filtered.filter((s) => s.format.toUpperCase() === filterFormat.toUpperCase());
     }
 
     if (filterActive === 'active') {
       filtered = filtered.filter((s) => s.active === true);
     } else if (filterActive === 'inactive') {
       filtered = filtered.filter((s) => s.active === false);
+    } else if (filterActive === 'displaycard') {
+      filtered = filtered.filter((s) => s.displaycard === true);
     }
 
     setFilteredSeasons(filtered);
@@ -353,6 +355,7 @@ const SeasonManagement = () => {
                 <option value="all">All Seasons</option>
                 <option value="active">Active Only</option>
                 <option value="inactive">Inactive Only</option>
+                <option value="displaycard">Display Card Only</option>
               </select>
             </div>
 
@@ -533,7 +536,9 @@ const SeasonManagement = () => {
                   filteredSeasons.map((season) => (
                     <tr
                       key={season.seasonid}
-                      className="hover:bg-warmscale-5/50 transition-colors"
+                      className={`hover:bg-warmscale-5/50 transition-colors ${
+                        season.displaycard ? 'bg-accent-500/10 border-l-4 border-accent-500' : ''
+                      }`}
                     >
                       <td className="px-6 py-4 text-warmscale-1 font-mono">
                         {season.seasonid}

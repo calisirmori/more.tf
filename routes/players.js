@@ -148,8 +148,24 @@ router.get('/per-format-stats/:id', (req, response) => {
 
 router.get('/leaderboard-stats/:format', async (req, response) => {
   const format = req.params.format;
-  const seasonid = format === 'HL' ? 163 : 164;
+
   try {
+    // Get display card seasons from cache
+    const displayCardSeasons = await seasonCache.getDisplayCardSeasons();
+
+    // Determine which season to use based on format
+    let seasonid;
+    if (format === 'HL' || format === 'Highlander') {
+      seasonid = displayCardSeasons.RGL?.HL?.seasonid ||
+                 displayCardSeasons.RGL?.Highlander?.seasonid ||
+                 163; // Fallback
+    } else {
+      seasonid = displayCardSeasons.RGL?.['6s']?.seasonid ||
+                 displayCardSeasons.RGL?.['6S']?.seasonid ||
+                 displayCardSeasons.RGL?.Sixes?.seasonid ||
+                 164; // Fallback
+    }
+
     const queryText = `
     select *
     FROM
@@ -166,7 +182,12 @@ router.get('/leaderboard-stats/:format', async (req, response) => {
     if (result.rows.length === 0) {
       response.status(404).json({ error: 'Player not found' });
     } else {
-      response.json(result.rows);
+      // Include season info in response
+      response.json({
+        players: result.rows,
+        seasonid: seasonid,
+        format: format
+      });
     }
   } catch (err) {
     logger.error('Leaderboard stats query error', {
