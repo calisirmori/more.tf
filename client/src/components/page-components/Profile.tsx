@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../shared-components/Navbar';
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
-import { useSpring } from 'react-spring';
 import Footer from '../shared-components/Footer';
 import PlayerCard from '../shared-components/PlayerCard';
 import ProfileCardShowcase from '../shared-components/ProfileCardShowcase';
@@ -35,35 +34,9 @@ const Profile = () => {
   const [multiDiv, setMultiDiv] = useState<any>(true);
   const [highlander, setIsHighlander] = useState<boolean>(true);
   const [s3CardUrl, setS3CardUrl] = useState<string | null>(null);
-  const [useS3Card, setUseS3Card] = useState<boolean>(false);
   const [cardHolo, setCardHolo] = useState<boolean>(false);
   const [inventoryCount, setInventoryCount] = useState(0);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
-
-  const cardRef: any = useRef(null);
-  const [animatedProps, setAnimatedProps] = useSpring(() => ({
-    xys: [0, 0, 1],
-    config: { mass: 15, tension: 500, friction: 60 },
-  }));
-
-  // Capture mouse move and translate it to card coordinates
-  const handleMouseMove = (e: any) => {
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - (rect.left + rect.width / 2)) / 20;
-    const y = (e.clientY - (rect.top + rect.height / 2)) / -20;
-    setAnimatedProps({ xys: [x, y, 1.1] });
-  };
-
-  // Reset the card transform when the mouse leaves
-  const handleMouseLeave = () => {
-    setAnimatedProps({ xys: [0, 0, 1] });
-  };
-
-  // Interpolate values from the spring for the transform
-  const transform = animatedProps.xys.to(
-    (x, y, s) =>
-      `perspective(1000px) rotateX(${y}deg) rotateY(${x}deg) scale(${s})`
-  );
 
   useEffect(() => {
     fetchAllProfileData();
@@ -115,163 +88,12 @@ const Profile = () => {
   useEffect(() => {
     if (playerCardData && playerCardData.seasonid) {
       fetchS3Card();
+    } else {
+      setS3CardUrl(null);
+      setCardHolo(false);
     }
   }, [playerCardData]);
 
-  const canvasRef = useRef(null);
-  const [images, setImages] = useState<any>({});
-
-  // Load images only once or when playerCardData changes
-  useEffect(() => {
-    // Only load images if we have valid playerCardData and not using S3 card
-    if (
-      !playerCardData ||
-      !playerCardData.class ||
-      !playerCardData.division ||
-      useS3Card
-    ) {
-      return;
-    }
-
-    const imageSources: any = {
-      background: '/player cards/background-orange.png',
-      classPortrait: `/player cards/class-portraits/${playerCardData.class}.png`,
-      border: `/player cards/borders/${playerCardData.division}.png`,
-      gradient: '/player cards/gradients.png',
-      classIcon: `/player cards/class-icons/${playerCardData.class}.png`,
-      logo: `/player cards/logo.png`,
-      medal: `/player cards/division-medals/${playerCardData.division}.png`,
-    };
-
-    let loadedImages: any = 0;
-    const tempImages: any = {};
-    for (const src in imageSources) {
-      tempImages[src] = new Image();
-      tempImages[src].src = imageSources[src];
-      tempImages[src].onload = () => {
-        loadedImages++;
-        if (loadedImages === Object.keys(imageSources).length) {
-          setImages(tempImages);
-        }
-      };
-    }
-  }, [playerCardData, highlander, useS3Card]); // Depend on playerCardData to reload images when it changes
-
-  useEffect(() => {
-    if (Object.keys(images).length > 0 && !useS3Card && canvasRef.current) {
-      drawCanvas();
-    }
-  }, [images, rglInfo, useS3Card]); // Redraw when images or rglInfo change, but not if using S3 card
-
-  function drawCanvas() {
-    const canvas: any = canvasRef.current;
-    if (!canvas) {
-      console.log('Canvas ref not available');
-      return;
-    }
-    const ctx = canvas.getContext('2d');
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before redrawing
-
-    // Draw the background
-    ctx.drawImage(images.background, 0, 0);
-
-    // Draw other images
-    ctx.drawImage(images.border, 0, 0);
-    ctx.drawImage(images.classPortrait, 0, 0);
-    ctx.drawImage(images.gradient, 0, 0);
-    ctx.drawImage(
-      images.classIcon,
-      canvas.width / 2 - 20,
-      canvas.height - 90,
-      40,
-      40
-    );
-    ctx.drawImage(images.logo, 0, 0);
-    ctx.drawImage(
-      images.medal,
-      90,
-      250,
-      images.medal.width * 0.6,
-      images.medal.height * 0.6
-    );
-
-    // Reset scale for text
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset the transform matrix
-    ctx.fillStyle = 'white';
-    ctx.textAlign = 'center';
-
-    ctx.font = "bold 60px 'Roboto'";
-    ctx.fillText(rglInfo.name, canvas.width / 2, 440);
-
-    ctx.font = "bold 46px 'Roboto Mono'";
-    ctx.fillText('CBT', 206, 512);
-    ctx.fillText('SPT', 206, 562);
-    ctx.fillText('SRV', 206, 612);
-    ctx.fillText('EFF', 406, 512);
-    ctx.fillText('DMG', 406, 562);
-    ctx.fillText('EVA', 406, 612);
-
-    ctx.fillText(playerCardData.cbt, 130, 512);
-    ctx.fillText(playerCardData.spt, 130, 562);
-    ctx.fillText(playerCardData.srv, 130, 612);
-    ctx.fillText(playerCardData.eff, 330, 512);
-    ctx.fillText(playerCardData.imp, 330, 562);
-    ctx.fillText(playerCardData.eva, 330, 612);
-
-    ctx.font = "bold 20px 'Roboto Mono'";
-    ctx.fillText('OVERALL', 144, 150);
-
-    ctx.font = "bold 13px 'Roboto Mono'";
-    ctx.fillText(
-      `${playerCardData.format === 'HL' ? 'HIGHLANDER' : 'SIXES'}`,
-      144,
-      165
-    );
-
-    ctx.font = "bold 68px 'Roboto Mono'";
-    ctx.fillText(
-      Math.round(
-        (playerCardData.cbt * 2 +
-          playerCardData.spt +
-          playerCardData.srv +
-          playerCardData.eff * 0.5 +
-          playerCardData.imp * 2 +
-          playerCardData.eva * 0.5) /
-          7
-      ),
-      144,
-      225
-    );
-
-    ctx.beginPath();
-    ctx.moveTo(80, 456);
-    ctx.lineTo(470, 456);
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2, 466);
-    ctx.lineTo(canvas.width / 2, 630);
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(200, 640);
-    ctx.lineTo(350, 640);
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(105, 250);
-    ctx.lineTo(185, 250);
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
 
   async function fetchAllProfileData() {
     try {
@@ -325,6 +147,13 @@ const Profile = () => {
   }
 
   function handlePlayerCardData(cardData: any) {
+    // Don't set player card data if array is empty or invalid
+    if (!cardData || cardData.length === 0) {
+      setPlayerCardData([]);
+      setMultiDiv(false);
+      return;
+    }
+
     if (cardData.length === 2) {
       setMultiDiv(true);
       if (highlander) {
@@ -347,7 +176,8 @@ const Profile = () => {
     try {
       const seasonId = playerCardData.seasonid;
       if (!seasonId) {
-        setUseS3Card(false);
+        setS3CardUrl(null);
+        setCardHolo(false);
         return;
       }
 
@@ -358,17 +188,14 @@ const Profile = () => {
 
       if (response && response.exists && response.cardUrl) {
         setS3CardUrl(response.cardUrl);
-        setUseS3Card(true);
         setCardHolo(response.holo || false);
       } else {
         setS3CardUrl(null);
-        setUseS3Card(false);
         setCardHolo(false);
       }
     } catch (error) {
-      console.log('S3 card not available, using canvas rendering', error);
+      console.log('S3 card not available', error);
       setS3CardUrl(null);
-      setUseS3Card(false);
       setCardHolo(false);
     }
   }
@@ -571,7 +398,7 @@ const Profile = () => {
             </div>
             <div className="xl:w-1/3 w-full max-xl:mt-4">
               <div className="w-full">
-                {playerCardData.length !== 0 && (
+                {playerCardData.length !== 0 && s3CardUrl && (
                   <div className="w-full py-2 bg-warmscale-8 px-3.5 rounded-md mb-4 font-cantarell">
                     <div className="flex justify-between">
                       <div className="text-lg text-lightscale-1 mb-1 font-semibold">
@@ -612,20 +439,9 @@ const Profile = () => {
                     <div className="w-full justify-center flex h-[440px]">
                       <div className=" flex items-center justify-center min-w-[20rem] w-[20rem] px-3.5">
                         <PlayerCard
-                          cardUrl={
-                            useS3Card ? s3CardUrl || undefined : undefined
-                          }
+                          cardUrl={s3CardUrl}
                           holo={cardHolo}
-                          useCanvas={!useS3Card}
-                          canvasRef={!useS3Card ? canvasRef : undefined}
                           enable3DTilt={true}
-                          imageClassName={useS3Card ? '' : '-ml-1.5 mt-3'}
-                          onError={() => {
-                            console.log(
-                              'Failed to load S3 card, falling back to canvas'
-                            );
-                            setUseS3Card(false);
-                          }}
                         />
                       </div>
                     </div>

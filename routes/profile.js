@@ -308,7 +308,25 @@ async function fetchPlayerCardStats(playerId) {
     const queryText = `SELECT * FROM player_card_info WHERE id64 = $1 AND ${seasonFilter}`;
     const result = await pool.query(queryText, [playerId]);
 
-    return result.rows;
+    // Only return cards that exist in the card_inventory (meaning they have been generated)
+    // This prevents showing placeholder cards for players who have stats but no generated card
+    if (result.rows.length === 0) {
+      return [];
+    }
+
+    // Filter to only include cards that exist in card_inventory
+    const cardsWithInventory = await Promise.all(
+      result.rows.map(async (card) => {
+        const inventoryCheck = await pool.query(
+          'SELECT 1 FROM card_inventory WHERE card_steamid = $1 AND seasonid = $2 LIMIT 1',
+          [playerId, card.seasonid]
+        );
+        return inventoryCheck.rows.length > 0 ? card : null;
+      })
+    );
+
+    // Filter out null values (cards that don't exist in inventory)
+    return cardsWithInventory.filter((card) => card !== null);
   } catch (error) {
     logger.error('Player card stats fetch error', {
       error: error.message,
