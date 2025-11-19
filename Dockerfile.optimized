@@ -1,4 +1,6 @@
-# Multi-stage Dockerfile for more.tf
+# syntax=docker/dockerfile:1.4
+# Multi-stage Dockerfile for more.tf with BuildKit cache optimization
+
 # Stage 1: Build frontend
 FROM node:19-alpine AS frontend-build
 
@@ -7,8 +9,9 @@ WORKDIR /app/client
 # Copy frontend package files first for better layer caching
 COPY client/package*.json ./
 
-# Install frontend dependencies
-RUN npm ci
+# Install frontend dependencies with cache mount
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 # Copy frontend source
 COPY client/ ./
@@ -22,7 +25,6 @@ FROM node:19-alpine AS dependencies
 WORKDIR /app
 
 # Install build dependencies for canvas and other native modules
-# These are needed both for building and runtime
 RUN apk add --no-cache \
     python3 \
     make \
@@ -40,8 +42,9 @@ RUN apk add --no-cache \
 # Copy package files first for better layer caching
 COPY package*.json ./
 
-# Install ALL dependencies (including devDependencies needed for native builds)
-RUN npm ci
+# Install dependencies with cache mount for faster rebuilds
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 # Stage 3: Final production image
 FROM node:19-alpine
