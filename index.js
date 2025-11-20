@@ -143,8 +143,8 @@ app.use(
       secure: isProduction, // Only use secure cookies in production (HTTPS)
       httpOnly: true, // Prevent XSS attacks
       maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-      sameSite: isProduction ? 'lax' : 'lax', // Changed from 'none' to 'lax' - CloudFlare might be blocking 'none'
-      domain: isProduction ? '.more.tf' : undefined, // Explicit domain for production
+      sameSite: isProduction ? 'lax' : 'lax', // Lax mode for OAuth compatibility
+      // No domain setting - let browser use default (current host only)
       path: '/', // Cookie available for all paths
     },
   })
