@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import Navbar from '../shared-components/Navbar';
 import Footer from '../shared-components/Footer';
 import PageContainer from '../shared-components/PageContainer';
@@ -7,6 +7,10 @@ import LogHeader from './log-v2/LogHeader';
 import StatsTable from './log-v2/StatsTable';
 import TeamSummaryTable from './log-v2/TeamSummaryTable';
 import RoundSection from './log-v2/RoundSection';
+import MedicStatsSection from './log-v2/MedicStatsSection';
+import KillsByClassSection from './log-v2/KillsByClassSection';
+
+type TabType = 'box-score' | 'charts' | 'play-by-play';
 
 interface TeamSummary {
   team: 'red' | 'blue';
@@ -47,9 +51,17 @@ interface LogV2Data {
 
 const LogV2 = () => {
   const { id } = useParams<{ id: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [logData, setLogData] = useState<LogV2Data | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Get active tab from URL, default to 'box-score'
+  const activeTab = (searchParams.get('tab') as TabType) || 'box-score';
+
+  const handleTabChange = (tab: TabType) => {
+    setSearchParams({ tab });
+  };
 
   useEffect(() => {
     const fetchLogData = async () => {
@@ -114,10 +126,15 @@ const LogV2 = () => {
                 blueScore={logData.summary.finalScore.blue}
                 redScore={logData.summary.finalScore.red}
                 winner={logData.summary.winner as 'Red' | 'Blue' | undefined}
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
               />
 
-              {/* Stats Table */}
-              <StatsTable
+              {/* Box Score Content */}
+              {activeTab === 'box-score' && (
+                <>
+                  {/* Stats Table */}
+                  <StatsTable
                 players={logData.gameTotals.players.map((p: any) => ({
                   steamId: p.steamId,
                   name: p.name,
@@ -142,7 +159,7 @@ const LogV2 = () => {
 
               {/* Team Summary Table */}
               {logData.summary?.teams && (
-                <div className="w-full md:w-auto md:mx-auto bg-warmscale-8/30 border-y border-warmscale-5 p-4">
+                <div className="bg-warmscale-8/40 border-b border-warmscale-5 p-4">
                   <TeamSummaryTable
                     redTeam={{
                       team: 'Red',
@@ -151,7 +168,7 @@ const LogV2 = () => {
                       charges: logData.summary.teams.red.ubers,
                       drops: logData.summary.teams.red.drops,
                       caps: 0, // TODO: Add caps data when available
-                      midfights: 0, // TODO: Add midfights data when available
+                      midfights: logData.otherData?.rounds?.filter((r: any) => r.midfight === 'red').length || 0,
                     }}
                     blueTeam={{
                       team: 'Blue',
@@ -160,7 +177,7 @@ const LogV2 = () => {
                       charges: logData.summary.teams.blue.ubers,
                       drops: logData.summary.teams.blue.drops,
                       caps: 0, // TODO: Add caps data when available
-                      midfights: 0, // TODO: Add midfights data when available
+                      midfights: logData.otherData?.rounds?.filter((r: any) => r.midfight === 'blue').length || 0,
                     }}
                   />
                 </div>
@@ -168,13 +185,36 @@ const LogV2 = () => {
 
               {/* Rounds Section */}
               {logData.otherData?.rounds && logData.otherData.rounds.length > 0 && (
-                <div className="w-fit mx-auto">
+                <div className="bg-warmscale-8 border-b border-warmscale-5 p-4">
                   <RoundSection
                     rounds={logData.otherData.rounds}
                     playerNames={logData.playerNames || {}}
                     gameTotalPlayers={logData.gameTotals.players}
                   />
                 </div>
+              )}
+
+              {/* Medic Statistics Section */}
+              {logData.otherData?.medicStats && (
+                <div className="bg-warmscale-8/40 border-b border-warmscale-5 p-4">
+                  <MedicStatsSection
+                    medicStats={logData.otherData.medicStats}
+                    players={logData.gameTotals.players}
+                    playerNames={logData.playerNames || {}}
+                    matchups={logData.matchups}
+                  />
+                </div>
+              )}
+
+              {/* Kills By Class Section */}
+              {logData.matchups && (
+                <KillsByClassSection
+                  matchups={logData.matchups}
+                  players={logData.gameTotals.players}
+                  playerNames={logData.playerNames || {}}
+                />
+              )}
+                </>
               )}
 
               {/* Debug JSON (Collapsible) */}

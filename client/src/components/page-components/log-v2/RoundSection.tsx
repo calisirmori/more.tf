@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
-import MedicStats from './MedicStats';
+import React from 'react';
 
 interface RoundTeamStats {
   score: number;
   kills: number;
   damage: number;
   ubers: number;
-}
-
-interface RoundPlayerPerformance {
-  kills: number;
-  deaths: number;
-  damage: number;
-  heals: number;
 }
 
 interface RoundData {
@@ -29,8 +21,6 @@ interface RoundData {
     red: RoundTeamStats;
     blue: RoundTeamStats;
   };
-  playerPerformance?: Record<string, RoundPlayerPerformance>;
-  firstCap?: 'red' | 'blue' | null;
   midfight?: 'red' | 'blue' | null;
   overtime?: boolean;
 }
@@ -48,185 +38,136 @@ const formatDuration = (seconds?: number): string => {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 };
 
-const RoundRow: React.FC<{
-  round: RoundData;
-  playerNames: Record<string, string>;
-  gameTotalPlayers?: any[];
-}> = ({ round, playerNames, gameTotalPlayers }) => {
-  const [expanded, setExpanded] = useState(false);
-
-  const getWinnerBg = (winner?: string) => {
-    if (winner === 'red') return 'bg-tf-red';
-    if (winner === 'blue') return 'bg-tf-blue';
-    return 'bg-warmscale-7';
-  };
-
-  const getMidfightBg = (midfight?: string | null) => {
-    if (midfight === 'red') return 'bg-tf-red';
-    if (midfight === 'blue') return 'bg-tf-blue';
-    return 'bg-warmscale-7';
-  };
-
-  const getWinnerText = (winner?: string) => {
-    if (winner === 'red') return 'RED';
-    if (winner === 'blue') return 'BLU';
-    return '-';
-  };
-
-  const getMidfightText = (midfight?: string | null) => {
-    if (midfight === 'red') return 'RED';
-    if (midfight === 'blue') return 'BLU';
-    return '-';
-  };
-
-  // Get player performance sorted by kills
-  const playerPerformance = round.playerPerformance
-    ? Object.entries(round.playerPerformance)
-        .map(([steamId, stats]) => ({
-          steamId,
-          name: playerNames[steamId] || 'Unknown',
-          team: gameTotalPlayers?.find((p) => p.steamId === steamId)?.team || 'unknown',
-          ...stats,
-        }))
-        .sort((a, b) => b.kills - a.kills)
-    : [];
-
-  return (
-    <div className="mb-1">
-      {/* Collapsed Header */}
-      <div
-        className="grid grid-cols-[60px_70px_90px_60px_60px_50px_50px_80px_80px_80px_40px] gap-1 px-2 py-2 cursor-pointer transition-colors bg-warmscale-8 hover:bg-warmscale-7 text-sm"
-        onClick={() => setExpanded(!expanded)}
-      >
-        <div className="text-center font-semibold text-lightscale-0">{round.roundNumber}</div>
-        <div className="text-center text-lightscale-1">{formatDuration(round.duration)}</div>
-        <div className={`text-center font-bold text-lightscale-0 px-1 py-0.5 rounded ${getWinnerBg(round.winner)}`}>
-          {round.score.blue} - {round.score.red}
-        </div>
-        <div className="text-center text-lightscale-1">{round.teamStats?.blue.kills || 0}</div>
-        <div className="text-center text-lightscale-1">{round.teamStats?.red.kills || 0}</div>
-        <div className="text-center text-lightscale-1">{round.teamStats?.blue.ubers || 0}</div>
-        <div className="text-center text-lightscale-1">{round.teamStats?.red.ubers || 0}</div>
-        <div className="text-center text-lightscale-1">{round.teamStats?.blue.damage || 0}</div>
-        <div className="text-center text-lightscale-1">{round.teamStats?.red.damage || 0}</div>
-        <div className={`text-center font-bold text-lightscale-0 px-1 py-0.5 rounded ${getMidfightBg(round.midfight)}`}>
-          {getMidfightText(round.midfight)}
-        </div>
-        <div className="text-center text-lightscale-2 text-xs">{expanded ? '\u25BC' : '\u25B6'}</div>
-      </div>
-
-      {/* Expanded Content */}
-      {expanded && (
-        <div className="bg-warmscale-8/50 border-l-4 border-orange-500 px-6 py-4">
-          {/* Player Stats Table */}
-          {playerPerformance.length > 0 && (
-            <div className="mb-6">
-              <table className="w-full text-sm">
-                <thead className="border-b border-warmscale-6">
-                  <tr className="text-lightscale-2">
-                    <th className="text-left py-2 px-3">Team</th>
-                    <th className="text-left py-2 px-3">Name</th>
-                    <th className="text-center py-2 px-3">Kills</th>
-                    <th className="text-center py-2 px-3">Deaths</th>
-                    <th className="text-center py-2 px-3">Damage</th>
-                    <th className="text-center py-2 px-3">Heals</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {playerPerformance.map((player, idx) => (
-                    <tr
-                      key={idx}
-                      className={`${
-                        player.team === 'red'
-                          ? 'bg-tf-red/30'
-                          : player.team === 'blue'
-                          ? 'bg-tf-blue/30'
-                          : 'bg-warmscale-7/30'
-                      } border-b border-warmscale-7/50`}
-                    >
-                      <td className="py-2 px-3">
-                        <span
-                          className={`inline-block px-2 py-1 rounded text-xs font-bold ${
-                            player.team === 'red'
-                              ? 'bg-tf-red text-white'
-                              : player.team === 'blue'
-                              ? 'bg-tf-blue text-white'
-                              : 'bg-warmscale-6 text-lightscale-0'
-                          }`}
-                        >
-                          {player.team.toUpperCase()}
-                        </span>
-                      </td>
-                      <td className="py-2 px-3 text-lightscale-0">{player.name}</td>
-                      <td className="py-2 px-3 text-center text-lightscale-1 font-semibold">
-                        {player.kills}
-                      </td>
-                      <td className="py-2 px-3 text-center text-lightscale-1">{player.deaths}</td>
-                      <td className="py-2 px-3 text-center text-lightscale-1">{player.damage}</td>
-                      <td className="py-2 px-3 text-center text-lightscale-1">{player.heals}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* Medic Statistics */}
-          <MedicStats
-            roundNumber={round.roundNumber}
-            duration={round.duration}
-            playerPerformance={round.playerPerformance}
-            teamStats={round.teamStats}
-            playerNames={playerNames}
-            gameTotalPlayers={gameTotalPlayers}
-          />
-
-          {/* Events Section - Placeholder */}
-          <div className="mt-4">
-            <h4 className="text-lg font-bold text-lightscale-0 mb-3 border-b border-warmscale-6 pb-2">
-              Events
-            </h4>
-            <div className="text-lightscale-2 text-sm italic">
-              Event timeline coming soon...
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+const getScoreBg = (winner?: string) => {
+  if (winner === 'red') return 'bg-tf-red';
+  if (winner === 'blue') return 'bg-tf-blue';
+  return 'bg-warmscale-7';
 };
 
-const RoundSection: React.FC<RoundSectionProps> = ({ rounds, playerNames, gameTotalPlayers }) => {
+const getMidfightBg = (midfight?: string | null) => {
+  if (midfight === 'red') return 'bg-tf-red';
+  if (midfight === 'blue') return 'bg-tf-blue';
+  return 'bg-warmscale-7';
+};
+
+const getMidfightText = (midfight?: string | null) => {
+  if (midfight === 'red') return 'RED';
+  if (midfight === 'blue') return 'BLU';
+  return '-';
+};
+
+const RoundSection: React.FC<RoundSectionProps> = ({ rounds }) => {
   if (!rounds || rounds.length === 0) {
     return null;
   }
 
   return (
-    <div>
-      {/* Header */}
-      <div className="grid grid-cols-[60px_70px_90px_60px_60px_50px_50px_80px_80px_80px_40px] gap-1 px-2 py-2 mb-1 bg-warmscale-7 rounded border-b-2 border-orange-500 text-xs">
-        <div className="text-center font-bold text-lightscale-0">Round</div>
-        <div className="text-center font-bold text-lightscale-0">Length</div>
-        <div className="text-center font-bold text-lightscale-0">Score</div>
-        <div className="text-center font-bold text-blue-300">BLU K</div>
-        <div className="text-center font-bold text-red-300">RED K</div>
-        <div className="text-center font-bold text-blue-300">BLU UC</div>
-        <div className="text-center font-bold text-red-300">RED UC</div>
-        <div className="text-center font-bold text-blue-300">BLU DA</div>
-        <div className="text-center font-bold text-red-300">RED DA</div>
-        <div className="text-center font-bold text-lightscale-0">Midfights</div>
-        <div className="text-center font-bold text-lightscale-0"></div>
-      </div>
+    <div className="rounded overflow-hidden flex justify-center">
+      <div className="overflow-x-auto custom-scrollbar">
+        <table className="w-[80%] border-collapse bg-warmscale-82 relative text-xs mx-auto">
+          {/* Header */}
+          <thead className="bg-warmscale-9 border-b border-warmscale-7">
+            <tr>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
+                Round
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
+                Length
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
+                Score
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-blue-300">
+                BLU K
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-red-300">
+                RED K
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-blue-300">
+                BLU UC
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-red-300">
+                RED UC
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-blue-300">
+                BLU DA
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-red-300">
+                RED DA
+              </th>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-warmscale-2">
+                Midfights
+              </th>
+            </tr>
+          </thead>
 
-      {/* Rounds */}
-      {rounds.map((round) => (
-        <RoundRow
-          key={round.roundNumber}
-          round={round}
-          playerNames={playerNames}
-          gameTotalPlayers={gameTotalPlayers}
-        />
-      ))}
+          {/* Rounds */}
+          <tbody>
+            {rounds.map((round, index) => {
+              const rowBg = index % 2 === 0 ? '' : 'bg-warmscale-8/50';
+
+              return (
+                <tr
+                  key={round.roundNumber}
+                  className="border-b border-warmscale-8 transition-colors hover:bg-warmscale-7/30"
+                >
+                  {/* Round Number */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.roundNumber}
+                  </td>
+
+                  {/* Length */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {formatDuration(round.duration)}
+                  </td>
+
+                  {/* Score */}
+                  <td className={`px-2 py-1 font-bold text-white text-xs text-center border-r border-warmscale-5/30 ${getScoreBg(round.winner)}`}>
+                    {round.score.blue} - {round.score.red}
+                  </td>
+
+                  {/* BLU Kills */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.teamStats?.blue.kills || 0}
+                  </td>
+
+                  {/* RED Kills */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.teamStats?.red.kills || 0}
+                  </td>
+
+                  {/* BLU Ubers */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.teamStats?.blue.ubers || 0}
+                  </td>
+
+                  {/* RED Ubers */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.teamStats?.red.ubers || 0}
+                  </td>
+
+                  {/* BLU Damage */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.teamStats?.blue.damage || 0}
+                  </td>
+
+                  {/* RED Damage */}
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
+                    {round.teamStats?.red.damage || 0}
+                  </td>
+
+                  {/* Midfights */}
+                  <td className={`px-2 py-1 text-center ${getMidfightBg(round.midfight)}`}>
+                    <span className="text-[10px] font-bold text-white uppercase">
+                      {getMidfightText(round.midfight)}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

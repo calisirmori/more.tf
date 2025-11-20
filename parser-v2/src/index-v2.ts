@@ -18,6 +18,7 @@ import { ComparativeStatsAggregator } from './aggregators/comparative-stats';
 import { MatchupStatsAggregator } from './aggregators/matchup-stats';
 import { UberTracker } from './aggregators/uber-tracker';
 import { KillstreakTracker } from './aggregators/killstreak-tracker';
+import { MedicStatsAggregator } from './aggregators/medic-stats';
 import { createTimeBuckets, formatRelativeTime, BUCKET_INTERVAL_SECONDS } from './utils/time-buckets';
 import { generateIntervalStats } from './utils/interval-stats';
 import { ParseResult, ParsedLog, TimeBucket } from './types/output';
@@ -115,6 +116,7 @@ export async function parseLog(
     const matchupStatsAgg = new MatchupStatsAggregator();
     const uberTracker = new UberTracker();
     const killstreakTracker = new KillstreakTracker();
+    const medicStatsAgg = new MedicStatsAggregator();
 
     // Step 6: Process all events
     for (const event of events) {
@@ -125,6 +127,7 @@ export async function parseLog(
         matchupStatsAgg.processEvent(event);
         uberTracker.processEvent(event);
         killstreakTracker.processEvent(event);
+        medicStatsAgg.processEvent(event);
       } catch (err) {
         errors.push({
           level: 'warning',
@@ -164,6 +167,10 @@ export async function parseLog(
         otherData.rounds[i].overtime = detailedRound.overtime;
       }
     }
+
+    // Step 8.3: Filter out incomplete rounds (those without teamStats)
+    // These are rounds that started but never completed or weren't tracked by RoundAggregator
+    otherData.rounds = otherData.rounds.filter(round => round.teamStats !== undefined);
 
     // Step 8.1: Filter out players who didn't actually participate
     // Players who connect but never spawn show up with:
@@ -337,6 +344,7 @@ export async function parseLog(
         ...otherData,
         ubers: uberTracker.getUbers(),
         killstreaks: killstreakTracker.getKillstreaks(),
+        medicStats: medicStatsAgg.getAllMedicStats(),
       },
 
       // Errors and warnings

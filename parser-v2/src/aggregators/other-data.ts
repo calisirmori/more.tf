@@ -176,6 +176,7 @@ export class OtherDataAggregator {
       chat: this.chat,
       ubers: [], // Populated separately by UberTracker
       killstreaks: [], // Populated separately by KillstreakTracker
+      medicStats: [], // Populated separately by MedicStatsAggregator
     };
   }
 }

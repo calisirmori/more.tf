@@ -409,6 +409,44 @@ export interface ChatMessage {
   isTeamChat: boolean;
 }
 
+// ==================== MEDIC STATS ====================
+
+export interface MedicUberCycle {
+  medicSteamId: string;
+  chargeStartTime: number;
+  chargeReadyTime?: number;
+  chargeUsedTime?: number;
+  chargeEndTime?: number;
+  timeToBuild?: number;
+  timeBeforeUsing?: number;
+  uberDuration?: number;
+  deathDuringBuild?: {
+    timestamp: number;
+    chargePercent: number;
+    nearFullCharge: boolean;
+  };
+  deathAfterUse?: {
+    timestamp: number;
+    secondsAfterPop: number;
+  };
+}
+
+export interface MedicStats {
+  medicSteamId: string;
+  medicName: string;
+  team: Team;
+  totalUbersBuilt: number;
+  avgTimeToBuild: number;
+  totalUbersUsed: number;
+  avgTimeBeforeUsing: number;
+  avgUberLength: number;
+  nearFullChargeDeaths: number;
+  deathsAfterCharge: number;
+  majorAdvantagesLost: number;
+  biggestAdvantageLost: number;
+  uberCycles: MedicUberCycle[];
+}
+
 export interface OtherData {
   // Player roster
   players: PlayerDetails[];
@@ -424,6 +462,9 @@ export interface OtherData {
 
   // Killstreak tracking (3+ kills within 30 seconds)
   killstreaks: Killstreak[];
+
+  // Medic statistics (detailed medic performance)
+  medicStats: MedicStats[];
 
   // Server info
   serverInfo?: {

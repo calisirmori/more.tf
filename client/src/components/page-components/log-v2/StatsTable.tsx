@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { getClassOrder } from '../../../constants/tf2';
-import Tooltip from '../../common/Tooltip';
 
 interface PlayerStats {
   steamId: string;
@@ -32,6 +31,7 @@ type SortKey = keyof PlayerStats | null;
 const StatsTable: React.FC<StatsTableProps> = ({ players }) => {
   const [sortKey, setSortKey] = useState<SortKey>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [tooltipData, setTooltipData] = useState<{ text: string; x: number; y: number } | null>(null);
 
   const getClassIcon = (className: string) => {
     const normalizedClass = className.toLowerCase();
@@ -115,85 +115,121 @@ const StatsTable: React.FC<StatsTableProps> = ({ players }) => {
     const isActive = sortKey === key;
     const isSortable = key !== undefined;
 
-    const content = (
-      <div className="flex items-center justify-center gap-1">
-        <span>{label}</span>
-        {isSortable && (
-          <div className="flex flex-col w-3 items-center justify-center">
-            {isActive ? (
-              sortDirection === 'asc' ? (
-                <span className="text-orange-400 text-[10px]">▲</span>
-              ) : (
-                <span className="text-orange-400 text-[10px]">▼</span>
-              )
-            ) : (
-              <span className="text-warmscale-5 opacity-50 text-[10px]">⇅</span>
-            )}
-          </div>
-        )}
-      </div>
-    );
+    const handleMouseEnter = (e: React.MouseEvent<HTMLTableCellElement>) => {
+      if (tooltip) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setTooltipData({
+          text: tooltip,
+          x: rect.left + rect.width / 2,
+          y: rect.top - 8,
+        });
+      }
+    };
+
+    const handleMouseLeave = () => {
+      setTooltipData(null);
+    };
 
     return (
       <th
-        className={`relative px-2 py-2 text-center text-xs font-semibold uppercase tracking-wide transition-all ${className} ${
+        className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide transition-all border-r border-warmscale-5/30 ${className} ${
           isSortable ? 'cursor-pointer hover:text-orange-400' : ''
         } ${isActive ? 'text-orange-400' : 'text-warmscale-3'}`}
-        onClick={() => key && handleSort(key)}
+        onClick={() => {
+          console.log('CLICKED!', key);
+          if (key) handleSort(key);
+        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {tooltip ? (
-          <Tooltip content={tooltip}>{content}</Tooltip>
-        ) : (
-          content
-        )}
+        {label} {isSortable && (isActive ? (sortDirection === 'asc' ? '▲' : '▼') : '⇅')}
       </th>
     );
   };
 
   const getCellClassName = (columnKey: SortKey, rowIndex: number) => {
-    const baseClass = "px-2 py-2 text-white text-sm tabular-nums transition-colors";
+    const baseClass = "px-2 py-1 text-white text-xs tabular-nums transition-colors text-center border-r border-warmscale-5/30";
     const isActive = sortKey === columnKey;
 
     if (isActive) {
-      return `${baseClass} bg-orange-500/10`;
+      // Alternating orange background for sorted column
+      const orangeBg = rowIndex % 2 === 0 ? 'bg-tf-orange/[4%]' : 'bg-tf-orange/[5%]';
+      return `${baseClass} ${orangeBg}`;
     }
 
-    // Alternating row background only when not in sorted column
+    // Alternating row background when not in sorted column
     const rowBg = rowIndex % 2 === 0 ? '' : 'bg-warmscale-8/50';
     return `${baseClass} ${rowBg}`;
   };
 
   return (
-    <div className="bg-warmscale-8 p-6">
+    <>
+      <div className="bg-warmscale-8 border-b border-warmscale-5 p-4">
         <div className="overflow-x-auto custom-scrollbar relative">
-          <table className="w-full border-collapse bg-warmscale-82 relative">
+          <table className="w-[90%] border-collapse bg-warmscale-82 relative text-xs mx-auto">
             <thead className="bg-warmscale-9 border-b border-warmscale-7">
               <tr>
-                <HeaderCell label="TEAM" sortKey="team" className="w-16" tooltip="Team" />
-                <HeaderCell label="PLAYER" className="min-w-[140px]" tooltip="Player Name" />
-                <HeaderCell label="C" sortKey="primaryClass" className="w-10" tooltip="Class" />
-                <HeaderCell label="K" sortKey="kills" tooltip="Kills" />
-                <HeaderCell label="D" sortKey="deaths" tooltip="Deaths" />
-                <HeaderCell label="A" sortKey="assists" tooltip="Assists" />
-                <HeaderCell label="BA" sortKey="damage" tooltip="Damage Dealt" />
-                <HeaderCell label="DPM" sortKey="dpm" tooltip="Damage Per Minute" />
-                <HeaderCell label="K+A/D" sortKey="kda" tooltip="Kills + Assists / Deaths" />
-                <HeaderCell label="K/D" sortKey="kd" tooltip="Kill/Death Ratio" />
-                <HeaderCell label="DT" sortKey="damageTaken" tooltip="Damage Taken" />
-                <HeaderCell label="DTM" sortKey="dtm" tooltip="Damage Taken Per Minute" />
-                <HeaderCell label="HS" sortKey="headshots" tooltip="Headshots" />
-                <HeaderCell label="OB" sortKey="backstabs" tooltip="Backstabs" />
+                <th onClick={() => handleSort('team')} className={`relative px-2 py-1 text-left text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'team' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  TEAM
+                  {sortKey === 'team' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th className="px-2 py-1 text-left text-[10px] font-semibold uppercase border-r border-warmscale-5/30 text-warmscale-2">PLAYER</th>
+                <th onClick={() => handleSort('primaryClass')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'primaryClass' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  C
+                  {sortKey === 'primaryClass' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('kills')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'kills' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  K
+                  {sortKey === 'kills' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('deaths')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'deaths' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  D
+                  {sortKey === 'deaths' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('assists')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'assists' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  A
+                  {sortKey === 'assists' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('damage')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'damage' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  BA
+                  {sortKey === 'damage' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('dpm')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'dpm' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  DPM
+                  {sortKey === 'dpm' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('kda')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'kda' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  K+A/D
+                  {sortKey === 'kda' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('kd')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'kd' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  K/D
+                  {sortKey === 'kd' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('damageTaken')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'damageTaken' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  DT
+                  {sortKey === 'damageTaken' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('dtm')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'dtm' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  DTM
+                  {sortKey === 'dtm' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('headshots')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'headshots' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  HS
+                  {sortKey === 'headshots' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
+                <th onClick={() => handleSort('backstabs')} className={`relative px-2 py-1 text-center text-[10px] font-semibold uppercase cursor-pointer border-r border-warmscale-5/30 hover:text-orange-400 ${sortKey === 'backstabs' ? 'text-orange-400' : 'text-warmscale-2'}`}>
+                  OB
+                  {sortKey === 'backstabs' && <span className="absolute right-0.5 top-1/2 -translate-y-1/2 text-[8px]">{sortDirection === 'asc' ? '▲' : '▼'}</span>}
+                </th>
               </tr>
             </thead>
             <tbody>
               {sortedPlayers.map((player, index) => {
                 const rowBg = index % 2 === 0 ? '' : 'bg-warmscale-8/50';
-                const teamCellClass = sortKey === 'team'
-                  ? 'px-2 py-2 transition-colors bg-orange-500/10'
-                  : `px-2 py-2 transition-colors ${rowBg}`;
                 const classCellClass = sortKey === 'primaryClass'
-                  ? 'px-2 py-2 text-center transition-colors bg-orange-500/10'
-                  : `px-2 py-2 text-center transition-colors ${rowBg}`;
+                  ? `px-2 py-1 text-center transition-colors border-r border-warmscale-5/30 ${index % 2 === 0 ? 'bg-orange-500/5' : 'bg-orange-500/8'}`
+                  : `px-2 py-1 text-center transition-colors border-r border-warmscale-5/30 ${rowBg}`;
 
                 return (
                   <tr
@@ -202,18 +238,18 @@ const StatsTable: React.FC<StatsTableProps> = ({ players }) => {
                   >
                     {/* Team */}
                     <td
-                      className={`px-2 py-2 text-center transition-colors ${
-                        player.team === 'Blue' ? 'bg-[#5885A2]' : 'bg-[#B8383B]'
+                      className={`px-2 py-1 text-center transition-colors border-r border-warmscale-5/30 ${
+                        player.team === 'Blue' ? 'bg-tf-blue' : 'bg-tf-red'
                       } ${sortKey === 'team' ? 'ring-2 ring-inset ring-orange-400' : ''}`}
                     >
-                      <span className="text-xs font-bold text-white uppercase">
+                      <span className="text-[10px] font-bold text-white uppercase">
                         {player.team === 'Blue' ? 'BLU' : 'RED'}
                       </span>
                     </td>
 
                     {/* Player Name */}
-                    <td className={`px-2 py-2 transition-colors ${rowBg}`}>
-                      <span className="text-white font-medium text-sm truncate block">
+                    <td className={`px-2 py-1 transition-colors border-r border-warmscale-5/30 text-left ${rowBg}`}>
+                      <span className="text-white font-medium text-xs truncate block">
                         {player.name}
                       </span>
                     </td>
@@ -223,7 +259,7 @@ const StatsTable: React.FC<StatsTableProps> = ({ players }) => {
                       <img
                         src={getClassIcon(player.primaryClass)}
                         alt={player.primaryClass}
-                        className="w-5 h-5 mx-auto"
+                        className="w-4 h-4 mx-auto"
                       />
                     </td>
 
@@ -245,7 +281,10 @@ const StatsTable: React.FC<StatsTableProps> = ({ players }) => {
             </tbody>
           </table>
         </div>
-    </div>
+      </div>
+
+
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface LogHeaderProps {
   logId: number;
@@ -9,6 +9,8 @@ interface LogHeaderProps {
   blueScore: number;
   redScore: number;
   winner?: 'Red' | 'Blue';
+  activeTab: 'box-score' | 'charts' | 'play-by-play';
+  onTabChange: (tab: 'box-score' | 'charts' | 'play-by-play') => void;
 }
 
 type TabType = 'box-score' | 'charts' | 'play-by-play';
@@ -22,8 +24,9 @@ const LogHeader: React.FC<LogHeaderProps> = ({
   blueScore,
   redScore,
   winner,
+  activeTab,
+  onTabChange,
 }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('charts');
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -61,59 +64,59 @@ const LogHeader: React.FC<LogHeaderProps> = ({
   const isRedWinner = winner?.toLowerCase() === 'red';
 
   return (
-    <div className="bg-warmscale-85 rounded-t-lg overflow-hidden p-4 md:p-0">
+    <div className="bg-warmscale-85 rounded-t-lg overflow-hidden p-2 md:p-0">
       {/* Title Section */}
-      <div className="text-center py-3 md:py-6 md:px-6 mb-4 md:mb-0">
-        <h1 className="text-sm md:text-lg font-bold text-orange-500 tracking-wide mb-2 uppercase">
+      <div className="text-center py-2 md:py-3 md:px-4 mb-2 md:mb-0">
+        <h1 className="text-xs md:text-base font-bold text-orange-500 tracking-wide mb-1 uppercase">
           {title || `LOG #${logId}: BLU VS RED`}
         </h1>
-        <p className="text-gray-400 text-xs md:text-sm font-normal">
+        <p className="text-gray-400 text-[10px] md:text-xs font-normal">
           {map.toUpperCase()} • {formatDateTime(startTime)} • {formatDuration(duration)}
         </p>
       </div>
 
       {/* Score Section */}
-      <div className="mb-4 md:px-6 md:pb-6 md:mb-0">
+      <div className="mb-2 md:px-4 md:pb-3 md:mb-0">
         <div className="flex items-stretch rounded overflow-hidden">
           {/* Blue Team */}
-          <div className="flex-1 bg-[#5885A2] px-2 py-3 md:px-8 md:py-5 flex flex-col md:flex-row items-center justify-center md:justify-between border-b-4 border-[#3D5A6E] gap-1 md:gap-0">
-            <div className="flex items-center gap-2 md:gap-4">
-              <div className="hidden md:flex w-12 h-12 rounded-full border-4 border-white/40 items-center justify-center">
-                <div className="w-6 h-6 bg-white/60 rounded-full"></div>
+          <div className="flex-1 bg-tf-blue px-2 py-2 md:px-6 md:py-3 flex flex-col md:flex-row items-center justify-center md:justify-between border-b-2 border-[#3D5A6E] gap-1 md:gap-0">
+            <div className="flex items-center gap-1 md:gap-3">
+              <div className="hidden md:flex w-8 h-8 rounded-full border-2 border-white/40 items-center justify-center">
+                <div className="w-4 h-4 bg-white/60 rounded-full"></div>
               </div>
               <div className="flex flex-col">
-                <span className="text-base md:text-3xl font-bold text-white tracking-wider">BLU</span>
+                <span className="text-sm md:text-xl font-bold text-white tracking-wider">BLU</span>
                 {isBlueWinner && (
-                  <span className="text-[9px] md:text-xs font-bold text-yellow-300 tracking-wide">WINNER</span>
+                  <span className="text-[8px] md:text-[10px] font-bold text-yellow-300 tracking-wide">WINNER</span>
                 )}
               </div>
             </div>
-            <span className="text-3xl md:text-7xl font-bold text-white tabular-nums">
+            <span className="text-2xl md:text-4xl font-bold text-white tabular-nums">
               {blueScore}
             </span>
           </div>
 
           {/* FINAL Label */}
-          <div className="px-2 py-3 md:px-10 md:py-5 bg-warmscale-85 flex items-center justify-center">
-            <span className="text-gray-400 font-bold text-[9px] md:text-sm tracking-[0.2em] whitespace-nowrap">
+          <div className="px-2 py-2 md:px-6 md:py-3 bg-warmscale-85 flex items-center justify-center">
+            <span className="text-gray-400 font-bold text-[8px] md:text-xs tracking-[0.2em] whitespace-nowrap">
               FINAL
             </span>
           </div>
 
           {/* Red Team */}
-          <div className="flex-1 bg-[#B8383B] px-2 py-3 md:px-8 md:py-5 flex flex-col md:flex-row items-center justify-center md:justify-between border-b-4 border-[#8B2C2E] gap-1 md:gap-0">
-            <span className="text-3xl md:text-7xl font-bold text-white tabular-nums order-2 md:order-1">
+          <div className="flex-1 bg-tf-red px-2 py-2 md:px-6 md:py-3 flex flex-col md:flex-row items-center justify-center md:justify-between border-b-2 border-[#8B2C2E] gap-1 md:gap-0">
+            <span className="text-2xl md:text-4xl font-bold text-white tabular-nums order-2 md:order-1">
               {redScore}
             </span>
-            <div className="flex items-center gap-2 md:gap-4 order-1 md:order-2">
+            <div className="flex items-center gap-1 md:gap-3 order-1 md:order-2">
               <div className="flex flex-col items-end">
-                <span className="text-base md:text-3xl font-bold text-white tracking-wider">RED</span>
+                <span className="text-sm md:text-xl font-bold text-white tracking-wider">RED</span>
                 {isRedWinner && (
-                  <span className="text-[9px] md:text-xs font-bold text-yellow-300 tracking-wide">WINNER</span>
+                  <span className="text-[8px] md:text-[10px] font-bold text-yellow-300 tracking-wide">WINNER</span>
                 )}
               </div>
-              <div className="hidden md:flex w-12 h-12 rounded-full border-4 border-white/40 items-center justify-center">
-                <div className="w-6 h-6 bg-white/60 rounded-full"></div>
+              <div className="hidden md:flex w-8 h-8 rounded-full border-2 border-white/40 items-center justify-center">
+                <div className="w-4 h-4 bg-white/60 rounded-full"></div>
               </div>
             </div>
           </div>
@@ -126,8 +129,8 @@ const LogHeader: React.FC<LogHeaderProps> = ({
         <div className="md:hidden">
           <select
             value={activeTab}
-            onChange={(e) => setActiveTab(e.target.value as TabType)}
-            className="w-full bg-warmscale-7 border border-warmscale-6 text-lightscale-2 text-sm font-bold py-3 px-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+            onChange={(e) => onTabChange(e.target.value as TabType)}
+            className="w-full bg-warmscale-7 border border-warmscale-6 text-lightscale-2 text-xs font-bold py-2 px-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option value="box-score">BOX SCORE</option>
             <option value="charts">CHARTS</option>
@@ -138,8 +141,8 @@ const LogHeader: React.FC<LogHeaderProps> = ({
         {/* Desktop Tabs */}
         <div className="hidden md:flex">
           <button
-            onClick={() => setActiveTab('box-score')}
-            className={`flex-1 py-5 text-sm font-bold tracking-wider uppercase transition-colors relative ${
+            onClick={() => onTabChange('box-score')}
+            className={`flex-1 py-3 text-xs font-bold tracking-wider uppercase transition-colors relative ${
               activeTab === 'box-score'
                 ? 'text-white'
                 : 'text-gray-500 hover:text-gray-300'
@@ -151,8 +154,8 @@ const LogHeader: React.FC<LogHeaderProps> = ({
             )}
           </button>
           <button
-            onClick={() => setActiveTab('charts')}
-            className={`flex-1 py-5 text-sm font-bold tracking-wider uppercase transition-colors relative ${
+            onClick={() => onTabChange('charts')}
+            className={`flex-1 py-3 text-xs font-bold tracking-wider uppercase transition-colors relative ${
               activeTab === 'charts'
                 ? 'text-white'
                 : 'text-gray-500 hover:text-gray-300'
@@ -164,8 +167,8 @@ const LogHeader: React.FC<LogHeaderProps> = ({
             )}
           </button>
           <button
-            onClick={() => setActiveTab('play-by-play')}
-            className={`flex-1 py-5 text-sm font-bold tracking-wider uppercase transition-colors relative ${
+            onClick={() => onTabChange('play-by-play')}
+            className={`flex-1 py-3 text-xs font-bold tracking-wider uppercase transition-colors relative ${
               activeTab === 'play-by-play'
                 ? 'text-white'
                 : 'text-gray-500 hover:text-gray-300'

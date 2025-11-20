@@ -20,67 +20,70 @@ const TeamSummaryTable: React.FC<TeamSummaryTableProps> = ({ redTeam, blueTeam }
 
   return (
     <div className="rounded overflow-hidden flex justify-center">
-      <div className="overflow-x-auto custom-scrollbar w-full md:w-auto">
-        <table className="border-collapse w-full md:w-auto">
-          <thead className="bg-warmscale-7/30">
-            <tr className="bg-warmscale-82">
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+      <div className="overflow-x-auto custom-scrollbar">
+        <table className="w-[60%] border-collapse bg-warmscale-82 relative text-xs mx-auto">
+          <thead className="bg-warmscale-9 border-b border-warmscale-7">
+            <tr>
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
                 Team
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
                 Kills
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
                 Damage
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
                 Charges
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
                 Drops
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide border-r border-warmscale-5/30 text-warmscale-2">
                 Caps
               </th>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-center text-[10px] md:text-xs font-semibold uppercase tracking-wide text-warmscale-1">
+              <th className="px-2 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-warmscale-2">
                 Midfights
               </th>
             </tr>
           </thead>
-          <tbody className="bg-warmscale-8">
+          <tbody>
             {teams.map((teamData, index) => {
               // Use TF2 team colors
               const teamBgClass = teamData.team === 'Red'
-                ? 'bg-[#B8383B]' // TF2 Red
-                : 'bg-[#5885A2]'; // TF2 Blue
+                ? 'bg-tf-red'
+                : 'bg-tf-blue';
+              const rowBg = index % 2 === 0 ? '' : 'bg-warmscale-8/50';
 
               return (
                 <tr
                   key={teamData.team}
-                  className="border-b border-warmscale-7 last:border-b-0"
+                  className="border-b border-warmscale-8 transition-colors hover:bg-warmscale-7/30"
                 >
                   {/* Team Cell */}
-                  <td className={`px-2 md:px-4 py-2 md:py-3 font-bold text-white text-xs md:text-sm text-center ${teamBgClass}`}>
-                    {teamData.team === 'Red' ? 'RED' : 'BLU'}
+                  <td className={`px-2 py-1 text-center border-r border-warmscale-5/30 ${teamBgClass}`}>
+                    <span className="text-[10px] font-bold text-white uppercase">
+                      {teamData.team === 'Red' ? 'RED' : 'BLU'}
+                    </span>
                   </td>
 
                   {/* Stats Cells */}
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-white text-xs md:text-sm tabular-nums text-center">
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
                     {teamData.kills}
                   </td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-white text-xs md:text-sm tabular-nums text-center">
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
                     {teamData.damage}
                   </td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-white text-xs md:text-sm tabular-nums text-center">
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
                     {teamData.charges}
                   </td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-white text-xs md:text-sm tabular-nums text-center">
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
                     {teamData.drops}
                   </td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-white text-xs md:text-sm tabular-nums text-center">
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center border-r border-warmscale-5/30 ${rowBg}`}>
                     {teamData.caps}
                   </td>
-                  <td className="px-2 md:px-4 py-2 md:py-3 text-white text-xs md:text-sm tabular-nums text-center">
+                  <td className={`px-2 py-1 text-white text-xs tabular-nums text-center ${rowBg}`}>
                     {teamData.midfights}
                   </td>
                 </tr>
