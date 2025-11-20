@@ -761,15 +761,9 @@ const Logs = () => {
                           'Death Screen Time'
                         )}
                         {scoreboardCollapsed === false &&
-                          statTitle('damageTakenPerMinute', 'HP', 'HP resup')}
-                        {scoreboardCollapsed === false &&
                           statTitle('backstabs', 'BS', 'Backstabs')}
                         {scoreboardCollapsed === false &&
                           statTitle('headshots', 'HS', 'Headshots')}
-                        {scoreboardCollapsed === false &&
-                          statTitle('airshots', 'AS', 'Airshots')}
-                        {scoreboardCollapsed === false &&
-                          statTitle('pointCaps', 'PC', 'Points Capped')}
                         {scoreboardCollapsed === false &&
                           statTitle('buildingKills', 'BK', 'Building Kills')}
                       </div>
@@ -1046,22 +1040,10 @@ const Logs = () => {
                                     ? '0' + (playerObject.deathScreenTime % 60)
                                     : playerObject.deathScreenTime % 60}
                                 </div>
-                                {scoreboardCollapsed === false && (
-                                  <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
-                                    {playerObject.resup.medkit}
-                                  </div>
-                                )}
                                 {scoreboardCollapsed === false &&
                                   stat('backstabs')}
                                 {scoreboardCollapsed === false &&
                                   stat('headshots')}
-                                {scoreboardCollapsed === false &&
-                                  stat('airshots')}
-                                {scoreboardCollapsed === false && (
-                                  <div className="flex items-center justify-center font-cantarell text-lightscale-1 border-l border-warmscale-6">
-                                    {playerObject.pointCaps}
-                                  </div>
-                                )}
                                 {scoreboardCollapsed === false &&
                                   stat('buildingKills')}
                               </div>

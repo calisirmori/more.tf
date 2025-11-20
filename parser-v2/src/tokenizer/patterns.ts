@@ -8,10 +8,10 @@
 export const TIMESTAMP_PATTERN =
   /^L (\d{2})\/(\d{2})\/(\d{4}) - (\d{2}):(\d{2}):(\d{2}):/;
 
-// Player identifier: "PlayerName<75><[U:1:123456789]><Team>"
+// Player identifier: "PlayerName<75><[U:1:123456789]><Team>" or "BotName<75><BOT><Team>"
 // Note: Player names can contain < and > characters, so we use non-greedy match
 export const PLAYER_PATTERN =
-  /"(.+?)<(\d+)><(\[U:1:\d+\])><(Red|Blue|Spectator|unknown)>"/g;
+  /"(.+?)<(\d+)><(BOT|\[U:1:\d+\])><(Red|Blue|Spectator|unknown)>"/g;
 
 // Position: (attacker_position "x y z")
 export const POSITION_PATTERN = /\((?:attacker|victim|assister)_position "([^"]+)"\)/g;
@@ -39,7 +39,7 @@ export const ENTERED_PATTERN = /entered the game/;
 // Combat events
 // Note: Player names can contain < and > characters, so we use non-greedy match
 export const KILL_PATTERN =
-  /"(.+?)<(\d+)><(\[U:1:\d+\])><([^"]+)>" killed "(.+?)<(\d+)><(\[U:1:\d+\])><([^"]+)>" with "([^"]+)"/;
+  /"(.+?)<(\d+)><(BOT|\[U:1:\d+\])><([^"]+)>" killed "(.+?)<(\d+)><(BOT|\[U:1:\d+\])><([^"]+)>" with "([^"]+)"/;
 
 export const DAMAGE_PATTERN = /triggered "damage"/;
 export const SUICIDE_PATTERN = /committed suicide with "([^"]+)"/;
@@ -73,8 +73,8 @@ export const POINT_CAPTURED_PATTERN =
 // Item pickup
 export const ITEM_PICKUP_PATTERN = /picked up item "([^"]+)"/;
 
-// Chat
-export const CHAT_PATTERN = /say "([^"]+)"/;
+// Chat (both all chat and team chat)
+export const CHAT_PATTERN = /say(?:_team)? "([^"]+)"/;
 
 // Pause
 export const PAUSE_PATTERN = /pause/;
@@ -188,6 +188,11 @@ export function hasPattern(line: string, pattern: RegExp): boolean {
  * Convert Steam ID3 to ID64
  */
 export function steamId3ToId64(id3: string): string {
+  // Handle BOT players
+  if (id3 === 'BOT') {
+    return 'BOT';
+  }
+
   const cleanId3 = id3.replace(/\[U:1:(\d+)\]/, '$1');
   const accountId = parseInt(cleanId3);
   const steamId64Base = 76561197960265728n;

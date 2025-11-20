@@ -268,6 +268,7 @@ export interface ChatMessageEvent extends BaseEvent {
   type: 'chat';
   player: PlayerIdentifier;
   message: string;
+  isTeamChat: boolean;
 }
 
 export interface PauseEvent extends BaseEvent {

@@ -218,15 +218,26 @@ async function worldEvents(unparsedEvent, finalObject) {
       };
 
       let currentScoreSum = 0;
-      let mapName;
 
-      if (statPercentiles.highlander[currentClass][mapName] === undefined) {
+      // Set mapName first from the actual map
+      let mapName = finalObject.info.map ? finalObject.info.map.split('_')[0] : 'koth';
+
+      // Check if currentClass exists and if the stat data exists for this class/map combination
+      if (!currentClass ||
+          !statPercentiles.highlander[currentClass] ||
+          !statPercentiles.highlander[currentClass][mapName]) {
+        // Fallback to koth if the specific map stats don't exist
         mapName = 'koth';
-      } else {
-        mapName = finalObject.info.map.split('_')[0];
       }
 
-      const statWeightsForMap = statWeights.highlander[currentClass][mapName];
+      const statWeightsForMap = statWeights.highlander[currentClass]
+        ? statWeights.highlander[currentClass][mapName]
+        : null;
+
+      // Skip scoring if we don't have valid data
+      if (!statWeightsForMap) {
+        continue;
+      }
 
       for (let statIndex = 0; statIndex < stats.length; statIndex++) {
         let currentStatName = stats[statIndex];
@@ -234,6 +245,12 @@ async function worldEvents(unparsedEvent, finalObject) {
 
         let currentStatArray =
           statPercentiles.highlander[currentClass][mapName][currentStatName];
+
+        // Skip if stat array doesn't exist
+        if (!currentStatArray || !Array.isArray(currentStatArray)) {
+          continue;
+        }
+
         for (
           let spotIndex = 0;
           spotIndex < currentStatArray.length;
@@ -674,8 +691,14 @@ function shotEvents(unparsedEvent, finalObject, playerIDFinder) {
 
   let currentClass = finalObject.players[playerIDFinder[userId3]].class;
 
+  // Skip if currentClass is not defined
+  if (!currentClass) {
+    return;
+  }
+
   //weapon classification is made here
   if (
+    finalObject.players[playerIDFinder[userId3]].classStats[currentClass] &&
     finalObject.players[playerIDFinder[userId3]].classStats[currentClass]
       .weapons[weaponUsed] !== undefined
   ) {
@@ -803,6 +826,12 @@ function damageEvent(unparsedEvent, finalObject, playerIDFinder) {
 
   // player weapon specific damage
   let currentClass = finalObject.players[playerIDFinder[damageDealerId3]].class;
+
+  // Skip if currentClass is not defined
+  if (!currentClass || !finalObject.players[playerIDFinder[damageDealerId3]].classStats[currentClass]) {
+    return;
+  }
+
   finalObject.players[playerIDFinder[damageDealerId3]].classStats[
     currentClass
   ].damage += damageDealt;

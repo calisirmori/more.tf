@@ -116,11 +116,12 @@ export function parseMiscEvent(token: RawToken):
     }
   }
 
-  // Chat message
-  if (rawLine.includes('say "')) {
+  // Chat message (both all chat and team chat)
+  if (rawLine.includes('say "') || rawLine.includes('say_team "')) {
     if (players.length >= 1) {
       const player = createPlayerIdentifier(players[0]);
-      const messageMatch = rawLine.match(/say "([^"]+)"/);
+      const isTeamChat = rawLine.includes('say_team "');
+      const messageMatch = rawLine.match(/say(?:_team)? "([^"]+)"/);
       const message = messageMatch ? messageMatch[1] : '';
 
       return {
@@ -128,6 +129,7 @@ export function parseMiscEvent(token: RawToken):
         type: 'chat',
         player,
         message,
+        isTeamChat,
       };
     }
   }

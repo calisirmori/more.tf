@@ -9,6 +9,7 @@ import {
   hasPattern,
   TRIGGERED_PATTERN,
   WORLD_TRIGGER_PATTERN,
+  TEAM_SCORE_PATTERN,
   KILL_PATTERN,
   DAMAGE_PATTERN,
   SUICIDE_PATTERN,
@@ -53,8 +54,8 @@ export enum TokenCategory {
  * Categorize a log line based on its content
  */
 function categorizeL(line: string): TokenCategory {
-  // World events (Round_Start, Game_Over, etc.)
-  if (hasPattern(line, WORLD_TRIGGER_PATTERN)) {
+  // World events (Round_Start, Game_Over, Team scores, etc.)
+  if (hasPattern(line, WORLD_TRIGGER_PATTERN) || hasPattern(line, TEAM_SCORE_PATTERN)) {
     return TokenCategory.WORLD_EVENT;
   }
 

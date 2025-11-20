@@ -114,6 +114,21 @@ export class RoundAggregator {
    * Process an event for the current round
    */
   processEvent(event: GameEvent): void {
+    // Handle round control events first
+    switch (event.type) {
+      case 'round_start':
+        this.startRound(event.timestamp);
+        return;
+
+      case 'round_win':
+        this.endRound(event.timestamp, event.winner);
+        return;
+
+      case 'round_length':
+        this.setRoundDuration(event.seconds);
+        return;
+    }
+
     if (!this.currentRound) return;
 
     // Add event to round

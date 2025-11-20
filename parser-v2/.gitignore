@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.js.map
+
+# Testing and discovery tools (temporary)
+discovered-events.json
+unknown-patterns.txt
+event-discovery-tool.js
+analyze-log-events.js
+auto-add-patterns.js
+test-v2-parser.js
+test-*.js
+compare-*.js
+debug-*.js
+inspect-*.js
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+test-output.json
+
+# OS
+.DS_Store
+Thumbs.db
