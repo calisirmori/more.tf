@@ -23,7 +23,8 @@ import SeasonCardManager from './components/page-components/SeasonCardManager';
 import CardCollection from './components/page-components/CardCollection';
 import SeasonManagement from './components/page-components/SeasonManagement';
 import CardInventory from './components/page-components/CardInventory';
-import LogV2 from './components/page-components/LogV2';
+import LogV2 from './components/page-components/v2/log';
+import ProfileV2 from './components/page-components/v2/profile';
 import ReactGA from 'react-ga4';
 import { useEffect } from 'react';
 
@@ -57,6 +58,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/profile/:id/matches" element={<Matches />} />
+        <Route path="/v2/profile/:playerId" element={<ProfileV2 />} />
+        <Route path="/v2/profile/:playerId/:tab" element={<ProfileV2 />} />
         <Route path="/peers/:id" element={<Peers />} />
         <Route path="/calendar/:id" element={<Calendar />} />
         <Route path="/log/:id" element={<Logs />} />

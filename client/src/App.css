@@ -18,3 +18,36 @@
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1; /* Example color */
 }
+
+/* Fun bouncy loading animation */
+@keyframes bounce-pulse {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.1) translateY(-8px);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.95) translateY(0);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.05) translateY(-4px);
+    opacity: 0.95;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(240, 129, 73, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(240, 129, 73, 0.8));
+  }
+}
+
+.animate-bounce-pulse {
+  animation: bounce-pulse 1.8s ease-in-out infinite, glow-pulse 1.8s ease-in-out infinite;
+}

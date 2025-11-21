@@ -1,6 +1,7 @@
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const path = require('path');
 const { normalizeDivisionForAssets } = require('./rarityMapping');
+const { calculateOverall, shouldDisplayHealing } = require('./classWeights');
 
 // Path to assets
 const ASSETS_PATH = path.join(__dirname, '../client/public/player cards');
@@ -50,16 +51,9 @@ async function generatePlayerCard(player, colors) {
   const canvas = createCanvas(900, 1227);
   const ctx = canvas.getContext('2d');
 
-  // Calculate player overall rating
-  const overall = Math.round(
-    (player.cbt * 2 +
-      player.eff * 0.5 +
-      player.eva * 0.5 +
-      player.imp * 2 +
-      player.spt +
-      player.srv) /
-      7.0
-  );
+  // Calculate player overall rating using class-specific weights
+  // Round to whole number for card display
+  const overall = Math.round(calculateOverall(player));
 
   try {
     // Normalize division name for asset loading
@@ -398,7 +392,9 @@ async function generatePlayerCard(player, colors) {
     ctx.fillText('EFF', 560, 820);
     ctx.fillText(player.eff.toString(), 712, 820);
 
-    ctx.fillText('DMG', 560, 920);
+    // Display "HLG" for Medic, "DMG" for all other classes
+    const damageLabel = shouldDisplayHealing(player.class) ? 'HLG' : 'DMG';
+    ctx.fillText(damageLabel, 560, 920);
     ctx.fillText(player.imp.toString(), 712, 920);
 
     ctx.fillText('EVA', 560, 1020);

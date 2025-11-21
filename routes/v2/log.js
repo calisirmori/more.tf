@@ -432,6 +432,55 @@ router.get('/log/:id/otherdata', async (req, res) => {
   }
 });
 
+/**
+ * DELETE /v2/log/:id/cache
+ * Invalidate cache for a specific log (for testing/debugging)
+ */
+router.delete('/log/:id/cache', async (req, res) => {
+  let matchId = req.params.id;
+  matchId = parseInt(matchId);
+
+  if (isNaN(matchId) || matchId > Number.MAX_SAFE_INTEGER) {
+    return res.status(400).json({
+      errorCode: 400,
+      message: 'Bad logs ID',
+      error: 'Bad Request',
+    });
+  }
+
+  try {
+    const { invalidateLog } = require('../../parser-v2/dist/cache/parser-cache');
+
+    if (redisCache) {
+      const result = await invalidateLog(redisCache, matchId);
+      logger.info('Cache invalidated', { logId: matchId, success: result });
+
+      return res.json({
+        success: true,
+        message: `Cache invalidated for log ${matchId}`,
+        logId: matchId,
+      });
+    } else {
+      return res.status(503).json({
+        errorCode: 503,
+        message: 'Redis cache not available',
+      });
+    }
+  } catch (error) {
+    logger.error('Error invalidating cache', {
+      error: error.message,
+      stack: error.stack,
+      logId: matchId,
+    });
+
+    return res.status(500).json({
+      errorCode: 500,
+      message: 'Failed to invalidate cache',
+      error: error.message,
+    });
+  }
+});
+
 module.exports = {
   router,
   setRedisCache,

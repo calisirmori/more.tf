@@ -5,6 +5,7 @@ import Footer from '../shared-components/Footer';
 import PlayerCard from '../shared-components/PlayerCard';
 import Toast from '../shared-components/Toast';
 import { trackCollectionView, trackCardClick, trackEvent } from '../../utils/analytics';
+import { calculateOverall } from '../../utils/classWeights';
 
 interface InventoryCard {
   id: number;
@@ -66,6 +67,7 @@ const CardInventory = () => {
     message: string;
     type: 'success' | 'error' | 'info' | 'warning';
   } | null>(null);
+  const [showFormulaTooltip, setShowFormulaTooltip] = useState(false);
   const playerSearchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -891,10 +893,74 @@ const CardInventory = () => {
                     </div>
 
                     {/* Overall rating - more prominent */}
-                    <div className="mb-3 p-2 sm:p-3 bg-warmscale-8 rounded border border-warmscale-6 text-center">
-                      <div className="text-warmscale-4 text-xs sm:text-sm">Overall Rating</div>
+                    <div className="mb-3 p-2 sm:p-3 bg-warmscale-8 rounded border border-warmscale-6 text-center relative">
+                      <div className="flex items-end justify-center gap-2 text-warmscale-4 text-xs sm:text-sm">
+                        <span>Overall Rating</span>
+                        <div className="relative">
+                          <button
+                            onMouseEnter={() => setShowFormulaTooltip(true)}
+                            onMouseLeave={() => setShowFormulaTooltip(false)}
+                            onClick={() => setShowFormulaTooltip(!showFormulaTooltip)}
+                            className="text-warmscale-4 hover:text-warmscale-2 transition-colors"
+                            aria-label="Rating formula info"
+                          >
+                            <svg
+                              className="w-4 h-4 -mb-0.5 -ml-1"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                          {showFormulaTooltip && (
+                            <div className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-[calc(100vw-2rem)] max-w-xs sm:max-w-sm p-3 bg-warmscale-9 border border-warmscale-6 rounded shadow-lg text-left">
+                              <div className="text-warmscale-1 font-bold text-xs mb-2">
+                                Overall Rating
+                              </div>
+                              <div className="text-warmscale-3 text-xs leading-relaxed mb-3">
+                                The overall rating is calculated using all six stats, with each stat weighted differently based on its impact on competitive performance.
+                              </div>
+                              <div className="text-warmscale-3 text-xs leading-relaxed">
+                                <div className="font-semibold text-warmscale-2 mb-1">Stats:</div>
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <span className="font-medium text-warmscale-2">CBT</span> = {selectedCard.class !== 'medic' ? 'Kills' : 'Assists'}
+                                  </div>
+                                  <div>
+                                    <span className="font-medium text-warmscale-2">EFF</span> = {selectedCard.class !== 'medic' ? 'K/D' : 'A/D'}
+                                  </div>
+                                  <div>
+                                    <span className="font-medium text-warmscale-2">SPT</span> = {selectedCard.class !== 'medic' ? 'Assists' : 'Ubers'}
+                                  </div>
+                                  <div>
+                                    <span className="font-medium text-warmscale-2">{selectedCard.class !== 'medic' ? 'DMG' : 'HLG'}</span> = {selectedCard.class !== 'medic' ? 'Damage' : 'Healing'}
+                                  </div>
+                                  <div>
+                                    <span className="font-medium text-warmscale-2">SRV</span> = Deaths
+                                  </div>
+                                  <div>
+                                    <span className="font-medium text-warmscale-2">EVA</span> = DTM
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                       <div className="text-warmscale-1 text-3xl sm:text-4xl font-bold">
-                        {selectedCard.overall}
+                        {calculateOverall({
+                          class: selectedCard.class,
+                          cbt: selectedCard.cbt,
+                          eff: selectedCard.eff,
+                          eva: selectedCard.eva,
+                          imp: selectedCard.dmg,
+                          spt: selectedCard.spt,
+                          srv: selectedCard.srv
+                        }).toFixed(1)}
                       </div>
                     </div>
 
@@ -954,7 +1020,7 @@ const CardInventory = () => {
                           </span>
                         </div>
                         <div>
-                          <span className="text-warmscale-3">DMG:</span>{' '}
+                          <span className="text-warmscale-3">{selectedCard.class !== 'medic' ? 'DMG' : 'HLG'}:</span>{' '}
                           <span className="text-warmscale-1 font-bold">
                             {selectedCard.dmg}
                           </span>

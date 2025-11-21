@@ -1010,11 +1010,15 @@ export class GameTotalsAggregator {
     const redWins = validRounds.filter(r => r.winner === 'red').length;
     const blueWins = validRounds.filter(r => r.winner === 'blue').length;
 
+    // Calculate duration as sum of round durations (matches logs.tf behavior)
+    // This excludes warmup, between-round time, and post-game cleanup
+    const matchDuration = Math.round(validRounds.reduce((sum, round) => sum + round.roundDuration, 0));
+
     return {
       logId: this.logId,
       map: this.map,
       title: this.title,
-      duration: this.matchEndTime - this.matchStartTime,
+      duration: matchDuration,
       startTime: this.matchStartTime,
       endTime: this.matchEndTime,
       winner,

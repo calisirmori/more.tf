@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../shared-components/Navbar';
 import Footer from '../shared-components/Footer';
+import { calculateOverall, shouldDisplayHealing } from '../../utils/classWeights';
 
 interface HistoryItem {
   backgroundPosition: { x: number; y: number };
@@ -22,6 +23,32 @@ interface Season {
   seasonid: number;
   seasonname: string;
   active: boolean;
+}
+
+interface SeasonWithStats {
+  seasonid: number;
+  seasonname: string;
+  league: string;
+  format: string;
+  active: boolean;
+  design: {
+    primary_color: string;
+    dark_color: string;
+    light_color: string;
+    accent_color: string;
+    bg_position_x: number;
+    bg_position_y: number;
+    updated_at: string;
+  };
+  stats: {
+    totalPlayers: number;
+    existingCards: number;
+  };
+  progress?: {
+    current: number;
+    total: number;
+    status: 'pending' | 'generating' | 'completed' | 'error';
+  };
 }
 
 interface PlayerData {
@@ -56,6 +83,7 @@ const SeasonCardManager = () => {
   const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
   const [playerData, setPlayerData] = useState<PlayerData[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerData | null>(null);
+  const [seasonsWithStats, setSeasonsWithStats] = useState<SeasonWithStats[]>([]);
 
   // Design state
   const [backgroundPosition, setBackgroundPosition] = useState({
@@ -75,6 +103,7 @@ const SeasonCardManager = () => {
     current: 0,
     total: 0,
   });
+  const [regenerateOnly, setRegenerateOnly] = useState(false);
 
   // Bucket status state
   const [bucketStatus, setBucketStatus] = useState<{
@@ -157,10 +186,16 @@ const SeasonCardManager = () => {
   // Fetch seasons when format is selected
   useEffect(() => {
     if (selectedLeague && selectedFormat && currentStep === 'selection') {
-      fetchSeasons(selectedLeague, selectedFormat);
+      if (regenerateOnly) {
+        // When regenerate-only mode is on, fetch all seasons with stats
+        fetchSeasonsWithStats(selectedLeague, selectedFormat);
+      } else {
+        // Normal mode - fetch seasons for selection
+        fetchSeasons(selectedLeague, selectedFormat);
+      }
       setSelectedSeason(null);
     }
-  }, [selectedFormat]);
+  }, [selectedFormat, regenerateOnly]);
 
   // Load player data when season is selected (but don't auto-navigate)
   useEffect(() => {
@@ -198,6 +233,19 @@ const SeasonCardManager = () => {
       setSeasons(data);
     } catch (err) {
       console.error('Error fetching seasons:', err);
+    }
+  };
+
+  const fetchSeasonsWithStats = async (league: string, format: string) => {
+    try {
+      const response = await fetch(
+        `/api/generate/seasons-with-designs?league=${league}&format=${format}`
+      );
+      const data = await response.json();
+      setSeasonsWithStats(data.seasons || []);
+    } catch (err) {
+      console.error('Error fetching seasons with stats:', err);
+      setSeasonsWithStats([]);
     }
   };
 
@@ -460,6 +508,7 @@ const SeasonCardManager = () => {
           format: selectedFormat,
           seasonid: selectedSeason,
           ...designToUse,
+          regenerateOnly,
         }),
       });
 
@@ -545,6 +594,269 @@ const SeasonCardManager = () => {
       console.error('Card generation error:', error);
       alert('Failed to generate cards. Please try again.');
       setIsGenerating(false);
+    }
+  };
+
+  const regenerateAllSeasons = async () => {
+    if (!selectedLeague || !selectedFormat || seasonsWithStats.length === 0) {
+      alert('No seasons available to regenerate');
+      return;
+    }
+
+    setIsGenerating(true);
+
+    // Initialize progress for all seasons
+    setSeasonsWithStats((prev) =>
+      prev.map((season) => ({
+        ...season,
+        progress: {
+          current: 0,
+          total: season.stats.existingCards,
+          status: 'pending' as const,
+        },
+      }))
+    );
+
+    try {
+      // Process each season sequentially
+      for (let i = 0; i < seasonsWithStats.length; i++) {
+        const season = seasonsWithStats[i];
+
+        // Mark this season as generating
+        setSeasonsWithStats((prev) =>
+          prev.map((s) =>
+            s.seasonid === season.seasonid
+              ? { ...s, progress: { ...s.progress!, status: 'generating' as const } }
+              : s
+          )
+        );
+
+        try {
+          const response = await fetch('/api/generate/generate-season-cards', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              league: selectedLeague,
+              format: selectedFormat,
+              seasonid: season.seasonid,
+              primaryColor: season.design.primary_color,
+              darkColor: season.design.dark_color,
+              lightColor: season.design.light_color,
+              accentColor: season.design.accent_color,
+              bgPositionX: season.design.bg_position_x,
+              bgPositionY: season.design.bg_position_y,
+              regenerateOnly: true,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to start card generation');
+          }
+
+          const reader = response.body?.getReader();
+          const decoder = new TextDecoder();
+
+          if (!reader) {
+            throw new Error('No response body');
+          }
+
+          // Process the streaming response
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n').filter((line) => line.trim());
+
+            for (const line of lines) {
+              try {
+                const data = JSON.parse(line);
+
+                if (data.status === 'progress' || data.status === 'error') {
+                  // Update progress for this season
+                  setSeasonsWithStats((prev) =>
+                    prev.map((s) =>
+                      s.seasonid === season.seasonid
+                        ? {
+                            ...s,
+                            progress: {
+                              current: data.current,
+                              total: data.total,
+                              status: 'generating' as const,
+                            },
+                          }
+                        : s
+                    )
+                  );
+                } else if (data.status === 'completed') {
+                  // Mark this season as completed
+                  setSeasonsWithStats((prev) =>
+                    prev.map((s) =>
+                      s.seasonid === season.seasonid
+                        ? {
+                            ...s,
+                            progress: {
+                              current: data.total,
+                              total: data.total,
+                              status: 'completed' as const,
+                            },
+                          }
+                        : s
+                    )
+                  );
+                }
+              } catch (parseError) {
+                console.error('Error parsing stream data:', parseError);
+              }
+            }
+          }
+        } catch (error) {
+          console.error(`Error regenerating season ${season.seasonid}:`, error);
+          // Mark this season as error
+          setSeasonsWithStats((prev) =>
+            prev.map((s) =>
+              s.seasonid === season.seasonid
+                ? {
+                    ...s,
+                    progress: {
+                      ...s.progress!,
+                      status: 'error' as const,
+                    },
+                  }
+                : s
+            )
+          );
+        }
+      }
+
+      alert('All seasons regenerated successfully!');
+      setIsGenerating(false);
+    } catch (err) {
+      console.error('Bulk regeneration error:', err);
+      alert('Failed to complete bulk regeneration. Check console for details.');
+      setIsGenerating(false);
+    }
+  };
+
+  const regenerateSingleSeason = async (season: SeasonWithStats) => {
+    // Initialize progress for this season
+    setSeasonsWithStats((prev) =>
+      prev.map((s) =>
+        s.seasonid === season.seasonid
+          ? {
+              ...s,
+              progress: {
+                current: 0,
+                total: season.stats.existingCards,
+                status: 'generating' as const,
+              },
+            }
+          : s
+      )
+    );
+
+    try {
+      const response = await fetch('/api/generate/generate-season-cards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          league: selectedLeague,
+          format: selectedFormat,
+          seasonid: season.seasonid,
+          primaryColor: season.design.primary_color,
+          darkColor: season.design.dark_color,
+          lightColor: season.design.light_color,
+          accentColor: season.design.accent_color,
+          bgPositionX: season.design.bg_position_x,
+          bgPositionY: season.design.bg_position_y,
+          regenerateOnly: true,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to start card generation');
+      }
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      if (!reader) {
+        throw new Error('No response body');
+      }
+
+      // Process the streaming response
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n').filter((line) => line.trim());
+
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+
+            if (data.status === 'progress' || data.status === 'error') {
+              // Update progress for this season
+              setSeasonsWithStats((prev) =>
+                prev.map((s) =>
+                  s.seasonid === season.seasonid
+                    ? {
+                        ...s,
+                        progress: {
+                          current: data.current,
+                          total: data.total,
+                          status: 'generating' as const,
+                        },
+                      }
+                    : s
+                )
+              );
+            } else if (data.status === 'completed') {
+              // Mark this season as completed
+              setSeasonsWithStats((prev) =>
+                prev.map((s) =>
+                  s.seasonid === season.seasonid
+                    ? {
+                        ...s,
+                        progress: {
+                          current: data.total,
+                          total: data.total,
+                          status: 'completed' as const,
+                        },
+                      }
+                    : s
+                )
+              );
+            }
+          } catch (parseError) {
+            console.error('Error parsing stream data:', parseError);
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`Error regenerating season ${season.seasonid}:`, error);
+      // Mark this season as error
+      setSeasonsWithStats((prev) =>
+        prev.map((s) =>
+          s.seasonid === season.seasonid
+            ? {
+                ...s,
+                progress: {
+                  ...s.progress!,
+                  status: 'error' as const,
+                },
+              }
+            : s
+        )
+      );
+      alert(`Failed to regenerate ${season.seasonname}. Check console for details.`);
     }
   };
 
@@ -715,43 +1027,194 @@ const SeasonCardManager = () => {
                     </select>
                   </div>
 
-                  {/* Season Selection */}
-                  <div>
-                    <label className="text-warmscale-2 text-sm mb-2 block">
-                      Season
-                    </label>
-                    <select
-                      value={selectedSeason || ''}
-                      onChange={(e) =>
-                        setSelectedSeason(Number(e.target.value))
-                      }
-                      disabled={!selectedFormat}
-                      className="w-full px-4 py-2 bg-warmscale-7 text-white border border-warmscale-5 rounded-lg focus:outline-none focus:border-orange-500 disabled:opacity-50"
-                    >
-                      <option value="">Select Season</option>
-                      {seasons.map((season) => (
-                        <option key={season.seasonid} value={season.seasonid}>
-                          {season.seasonname} {season.active && '(Active)'}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  {/* Regenerate Only Checkbox */}
+                  {selectedFormat && (
+                    <div className="p-3 bg-warmscale-7 rounded-lg border border-warmscale-5">
+                      <label className="flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={regenerateOnly}
+                          onChange={(e) => setRegenerateOnly(e.target.checked)}
+                          className="w-4 h-4 text-orange-500 bg-warmscale-6 border-warmscale-4 rounded focus:ring-orange-500 focus:ring-2"
+                        />
+                        <span className="ml-2 text-warmscale-1 text-sm font-medium">
+                          Bulk regenerate all seasons with existing designs
+                        </span>
+                      </label>
+                      <p className="mt-1 ml-6 text-xs text-warmscale-3">
+                        Show all seasons for this league/format and regenerate them sequentially
+                      </p>
+                    </div>
+                  )}
 
-                  <div className="flex gap-3 mt-4">
-                    <button
-                      onClick={() => setCurrentStep('design')}
-                      className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1"
-                    >
-                      Back to Design
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep('preview')}
-                      disabled={!selectedSeason}
-                      className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Continue to Preview
-                    </button>
-                  </div>
+                  {/* Conditional: Season Selection or Season List */}
+                  {!regenerateOnly ? (
+                    <>
+                      {/* Normal Mode: Season Selection */}
+                      <div>
+                        <label className="text-warmscale-2 text-sm mb-2 block">
+                          Season
+                        </label>
+                        <select
+                          value={selectedSeason || ''}
+                          onChange={(e) =>
+                            setSelectedSeason(Number(e.target.value))
+                          }
+                          disabled={!selectedFormat}
+                          className="w-full px-4 py-2 bg-warmscale-7 text-white border border-warmscale-5 rounded-lg focus:outline-none focus:border-orange-500 disabled:opacity-50"
+                        >
+                          <option value="">Select Season</option>
+                          {seasons.map((season) => (
+                            <option key={season.seasonid} value={season.seasonid}>
+                              {season.seasonname} {season.active && '(Active)'}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="flex gap-3 mt-4">
+                        <button
+                          onClick={() => setCurrentStep('design')}
+                          className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1"
+                        >
+                          Back to Design
+                        </button>
+                        <button
+                          onClick={() => setCurrentStep('preview')}
+                          disabled={!selectedSeason}
+                          className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Continue to Preview
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Regenerate Mode: Season List with Stats */}
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-white text-lg font-semibold">
+                            Seasons with Existing Designs ({seasonsWithStats.length})
+                          </h3>
+                        </div>
+
+                        {seasonsWithStats.length === 0 ? (
+                          <div className="text-center p-8 bg-warmscale-7 rounded-lg border border-warmscale-5">
+                            <p className="text-warmscale-3">
+                              No seasons found with existing designs for {selectedLeague} {selectedFormat}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="space-y-3 max-h-[500px] overflow-y-auto">
+                            {seasonsWithStats.map((season) => (
+                              <div
+                                key={season.seasonid}
+                                className="p-4 bg-warmscale-7 rounded-lg border border-warmscale-5"
+                              >
+                                <div className="flex justify-between items-start mb-2">
+                                  <div>
+                                    <h4 className="text-white font-semibold">
+                                      {season.seasonname}
+                                      {season.active && (
+                                        <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded">
+                                          Active
+                                        </span>
+                                      )}
+                                    </h4>
+                                    <p className="text-xs text-warmscale-3 mt-1">
+                                      Season ID: {season.seasonid}
+                                    </p>
+                                  </div>
+                                  <div className="text-right text-sm">
+                                    <div className="text-warmscale-2">
+                                      {season.stats.existingCards} / {season.stats.totalPlayers} cards
+                                    </div>
+                                    <div className="text-xs text-warmscale-3">
+                                      {Math.round((season.stats.existingCards / season.stats.totalPlayers) * 100)}% complete
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Progress Bar */}
+                                <div className="w-full bg-warmscale-8 rounded-full h-2.5 mb-2">
+                                  <div
+                                    className={`h-2.5 rounded-full transition-all duration-300 ${
+                                      season.progress?.status === 'completed'
+                                        ? 'bg-green-500'
+                                        : season.progress?.status === 'generating'
+                                        ? 'bg-blue-500'
+                                        : season.progress?.status === 'error'
+                                        ? 'bg-red-500'
+                                        : 'bg-orange-500'
+                                    }`}
+                                    style={{
+                                      width: season.progress
+                                        ? `${(season.progress.current / season.progress.total) * 100}%`
+                                        : `${(season.stats.existingCards / season.stats.totalPlayers) * 100}%`,
+                                    }}
+                                  ></div>
+                                </div>
+
+                                {/* Status Text */}
+                                <div className="flex justify-between items-center">
+                                  {season.progress && (
+                                    <div className="text-xs text-warmscale-3">
+                                      {season.progress.status === 'generating' && (
+                                        <span className="text-blue-400">
+                                          Generating: {season.progress.current} / {season.progress.total}
+                                        </span>
+                                      )}
+                                      {season.progress.status === 'completed' && (
+                                        <span className="text-green-400">✓ Completed</span>
+                                      )}
+                                      {season.progress.status === 'error' && (
+                                        <span className="text-red-400">✗ Error occurred</span>
+                                      )}
+                                      {season.progress.status === 'pending' && (
+                                        <span className="text-warmscale-3">Waiting...</span>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  {/* Individual Regenerate Button */}
+                                  <button
+                                    onClick={() => regenerateSingleSeason(season)}
+                                    disabled={
+                                      isGenerating ||
+                                      season.progress?.status === 'generating'
+                                    }
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ml-auto"
+                                  >
+                                    {season.progress?.status === 'generating'
+                                      ? 'Regenerating...'
+                                      : 'Regenerate'}
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-3 mt-4">
+                          <button
+                            onClick={() => setCurrentStep('design')}
+                            disabled={isGenerating}
+                            className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            Back to Design
+                          </button>
+                          <button
+                            onClick={regenerateAllSeasons}
+                            disabled={seasonsWithStats.length === 0 || isGenerating}
+                            className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {isGenerating ? 'Regenerating...' : 'Regenerate All Seasons'}
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             )}
@@ -932,6 +1395,24 @@ const SeasonCardManager = () => {
                         </div>
                       </div>
                     )}
+
+                    {/* Regenerate Only Checkbox */}
+                    <div className="mt-4 p-3 bg-warmscale-7 rounded-lg border border-warmscale-5">
+                      <label className="flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={regenerateOnly}
+                          onChange={(e) => setRegenerateOnly(e.target.checked)}
+                          className="w-4 h-4 text-orange-500 bg-warmscale-6 border-warmscale-4 rounded focus:ring-orange-500 focus:ring-2"
+                        />
+                        <span className="ml-2 text-warmscale-1 text-sm font-medium">
+                          Regenerate existing cards only
+                        </span>
+                      </label>
+                      <p className="mt-1 ml-6 text-xs text-warmscale-3">
+                        Only regenerate cards that already exist in S3 (useful when updating the rating formula)
+                      </p>
+                    </div>
 
                     {/* Generation buttons */}
                     {bucketStatus?.bucketExists &&
@@ -1283,15 +1764,7 @@ const SeasonCardManager = () => {
                         fontFamily="Roboto Mono"
                       >
                         {selectedPlayer
-                          ? Math.round(
-                              (selectedPlayer.cbt * 2 +
-                                selectedPlayer.eff * 0.5 +
-                                selectedPlayer.eva * 0.5 +
-                                selectedPlayer.imp * 2 +
-                                selectedPlayer.spt +
-                                selectedPlayer.srv) /
-                                7.0
-                            )
+                          ? calculateOverall(selectedPlayer)
                           : 87}
                       </text>
 
@@ -1441,7 +1914,7 @@ const SeasonCardManager = () => {
                         textAnchor="middle"
                         fontFamily="Roboto Mono"
                       >
-                        DMG
+                        {shouldDisplayHealing(selectedPlayer?.class) ? 'HLG' : 'DMG'}
                       </text>
                       <text
                         x="712"

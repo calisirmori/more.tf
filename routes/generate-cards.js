@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3');
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 const { generatePlayerCard } = require('../utils/cardGenerator');
@@ -9,6 +9,7 @@ const {
   isHoloDivision,
   getDivisionSortOrder,
 } = require('../utils/rarityMapping');
+const { calculateOverall } = require('../utils/classWeights');
 
 // Initialize S3 client
 const s3Client = new S3Client({
@@ -16,6 +17,122 @@ const s3Client = new S3Client({
 });
 
 const BUCKET_NAME = 'moretf-season-cards';
+
+// Get all seasons with existing designs for a league/format, including stats
+router.get('/seasons-with-designs', async (req, res) => {
+  try {
+    const { league, format } = req.query;
+
+    if (!league || !format) {
+      return res.status(400).json({ error: 'Missing league or format' });
+    }
+
+    // Get all seasons with saved designs for this league/format
+    const designsResult = await pool.query(
+      `SELECT DISTINCT ON (scd.seasonid)
+        scd.seasonid,
+        scd.league,
+        scd.format,
+        scd.primary_color,
+        scd.dark_color,
+        scd.light_color,
+        scd.accent_color,
+        scd.bg_position_x,
+        scd.bg_position_y,
+        scd.updated_at,
+        s.seasonname,
+        s.active
+      FROM season_card_designs scd
+      JOIN seasons s ON scd.seasonid = s.seasonid
+      WHERE scd.league = $1 AND scd.format = $2
+      ORDER BY scd.seasonid DESC, scd.updated_at DESC`,
+      [league, format]
+    );
+
+    if (designsResult.rows.length === 0) {
+      return res.json({ seasons: [] });
+    }
+
+    // For each season, get player count and existing card count
+    const seasonsWithStats = await Promise.all(
+      designsResult.rows.map(async (design) => {
+        // Get total player count for this season
+        const playerCountResult = await pool.query(
+          `SELECT COUNT(*) as total
+           FROM player_card_info
+           WHERE seasonid = $1`,
+          [design.seasonid]
+        );
+
+        const totalPlayers = parseInt(playerCountResult.rows[0].total);
+
+        // Check how many cards exist in S3 by checking a sample
+        // For performance, we'll estimate based on database records
+        // In a real scenario, you might want to cache this or do periodic scans
+        let existingCardsCount = 0;
+
+        // Get all player IDs for this season
+        const playerIdsResult = await pool.query(
+          `SELECT id64 FROM player_card_info WHERE seasonid = $1 LIMIT 100`,
+          [design.seasonid]
+        );
+
+        // Check first 100 players to estimate
+        for (const player of playerIdsResult.rows) {
+          const key = `${design.seasonid}/${player.id64}.png`;
+          try {
+            await s3Client.send(
+              new HeadObjectCommand({
+                Bucket: BUCKET_NAME,
+                Key: key,
+              })
+            );
+            existingCardsCount++;
+          } catch (error) {
+            // Card doesn't exist
+          }
+        }
+
+        // If we checked less than total, estimate the full count
+        const sampledPlayers = playerIdsResult.rows.length;
+        if (sampledPlayers < totalPlayers) {
+          existingCardsCount = Math.round(
+            (existingCardsCount / sampledPlayers) * totalPlayers
+          );
+        }
+
+        return {
+          seasonid: design.seasonid,
+          seasonname: design.seasonname,
+          league: design.league,
+          format: design.format,
+          active: design.active,
+          design: {
+            primary_color: design.primary_color,
+            dark_color: design.dark_color,
+            light_color: design.light_color,
+            accent_color: design.accent_color,
+            bg_position_x: design.bg_position_x,
+            bg_position_y: design.bg_position_y,
+            updated_at: design.updated_at,
+          },
+          stats: {
+            totalPlayers,
+            existingCards: existingCardsCount,
+          },
+        };
+      })
+    );
+
+    res.json({ seasons: seasonsWithStats });
+  } catch (err) {
+    logger.error('Get seasons with designs error', {
+      error: err.message,
+      stack: err.stack,
+    });
+    res.status(500).json({ error: 'Failed to fetch seasons' });
+  }
+});
 
 // Generate a single card and return as PNG (for download preview)
 router.post('/generate-single-card', async (req, res) => {
@@ -75,6 +192,7 @@ router.post('/generate-season-cards', async (req, res) => {
       accentColor,
       bgPositionX,
       bgPositionY,
+      regenerateOnly,
     } = req.body;
 
     // Validate required fields
@@ -103,7 +221,7 @@ router.post('/generate-season-cards', async (req, res) => {
     );
 
     // Sort players using the dynamic division sorting from rarityMapping
-    const players = playerResult.rows.sort((a, b) => {
+    let players = playerResult.rows.sort((a, b) => {
       const orderA = getDivisionSortOrder(a.division);
       const orderB = getDivisionSortOrder(b.division);
 
@@ -111,20 +229,52 @@ router.post('/generate-season-cards', async (req, res) => {
         return orderA - orderB; // Sort by division tier first
       }
 
-      // Within same division, sort by player rating
-      const ratingA =
-        (a.cbt * 2 + a.eff * 0.5 + a.eva * 0.5 + a.imp * 2 + a.spt + a.srv) /
-        7.0;
-      const ratingB =
-        (b.cbt * 2 + b.eff * 0.5 + b.eva * 0.5 + b.imp * 2 + b.spt + b.srv) /
-        7.0;
+      // Within same division, sort by player rating using class-specific weights
+      const ratingA = calculateOverall(a);
+      const ratingB = calculateOverall(b);
       return ratingB - ratingA; // Higher rating first
     });
+
+    // If regenerateOnly is true, filter to only players with existing cards in S3
+    if (regenerateOnly) {
+      logger.info('Filtering for players with existing cards in S3', {
+        seasonid,
+        totalPlayers: players.length,
+      });
+
+      const existingPlayers = [];
+      for (const player of players) {
+        const key = `${seasonid}/${player.id64}.png`;
+        try {
+          await s3Client.send(
+            new HeadObjectCommand({
+              Bucket: BUCKET_NAME,
+              Key: key,
+            })
+          );
+          // Card exists, add to list
+          existingPlayers.push(player);
+        } catch (error) {
+          // Card doesn't exist or error occurred, skip this player
+          if (error.name !== 'NotFound') {
+            logger.warn('Error checking card existence', {
+              player: player.id64,
+              error: error.message,
+            });
+          }
+        }
+      }
+
+      players = existingPlayers;
+      logger.info('Filtered players with existing cards', {
+        existingCount: players.length,
+      });
+    }
 
     if (players.length === 0) {
       return res
         .status(404)
-        .json({ error: 'No players found for this season' });
+        .json({ error: regenerateOnly ? 'No existing cards found for this season' : 'No players found for this season' });
     }
 
     // Start streaming response

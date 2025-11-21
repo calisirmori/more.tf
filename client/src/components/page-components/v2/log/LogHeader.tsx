@@ -9,11 +9,11 @@ interface LogHeaderProps {
   blueScore: number;
   redScore: number;
   winner?: 'Red' | 'Blue';
-  activeTab: 'box-score' | 'charts' | 'play-by-play';
-  onTabChange: (tab: 'box-score' | 'charts' | 'play-by-play') => void;
+  activeTab: 'box-score' | 'charts' | 'play-by-play' | 'timeline';
+  onTabChange: (tab: 'box-score' | 'charts' | 'play-by-play' | 'timeline') => void;
 }
 
-type TabType = 'box-score' | 'charts' | 'play-by-play';
+type TabType = 'box-score' | 'charts' | 'play-by-play' | 'timeline';
 
 const LogHeader: React.FC<LogHeaderProps> = ({
   logId,
@@ -134,6 +134,7 @@ const LogHeader: React.FC<LogHeaderProps> = ({
           >
             <option value="box-score">BOX SCORE</option>
             <option value="charts">CHARTS</option>
+            <option value="timeline">TIMELINE</option>
             <option value="play-by-play">PLAY-BY-PLAY</option>
           </select>
         </div>
@@ -163,6 +164,19 @@ const LogHeader: React.FC<LogHeaderProps> = ({
           >
             CHARTS
             {activeTab === 'charts' && (
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></div>
+            )}
+          </button>
+          <button
+            onClick={() => onTabChange('timeline')}
+            className={`flex-1 py-3 text-xs font-bold tracking-wider uppercase transition-colors relative ${
+              activeTab === 'timeline'
+                ? 'text-white'
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            TIMELINE
+            {activeTab === 'timeline' && (
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-orange-500"></div>
             )}
           </button>

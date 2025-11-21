@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PlayerCard from './PlayerCard';
 import { fetch, FetchResultTypes } from '@sapphire/fetch';
+import { calculateOverall } from '../../utils/classWeights';
 
 interface ShowcaseCard {
   id: number;
@@ -15,6 +16,16 @@ interface ShowcaseCard {
   gifted_from: string | null;
   gifter_name: string | null;
   gifter_avatar: string | null;
+  // Individual stats
+  cbt: number;
+  eff: number;
+  eva: number;
+  dmg: number;
+  spt: number;
+  srv: number;
+  rglname: string;
+  format: string;
+  league: string;
 }
 
 interface ProfileCardShowcaseProps {
@@ -27,6 +38,7 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({
   const [favoritedCards, setFavoritedCards] = useState<ShowcaseCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState<ShowcaseCard | null>(null);
+  const [showFormulaTooltip, setShowFormulaTooltip] = useState(false);
 
   useEffect(() => {
     fetchFavoritedCards();
@@ -210,39 +222,129 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({
               </div>
 
               {/* Card Details */}
-              <div className="pr-8">
-                <h2 className="text-2xl sm:text-3xl font-bold text-warmscale-1 mb-3 sm:mb-4 font-cantarell">
-                  {selectedCard.seasonname}
+              <div className="md:pr-8 max-w-md mx-auto md:max-w-none md:mx-0">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-warmscale-1 mb-2 sm:mb-3">
+                  {selectedCard.rglname}
                 </h2>
-                <div className="space-y-2 sm:space-y-3 font-cantarell">
-                  <div className="text-sm sm:text-base">
-                    <span className="text-warmscale-3">Class:</span>
-                    <span className="text-warmscale-1 ml-2 capitalize">
+
+                {/* Compact info grid */}
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 sm:gap-y-2 text-xs sm:text-sm md:text-base mb-3">
+                  <div>
+                    <span className="text-warmscale-4">Season:</span>{' '}
+                    <span className="text-warmscale-1 font-medium">
+                      {selectedCard.seasonname}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-warmscale-4">League:</span>{' '}
+                    <span className="text-warmscale-1 font-medium">
+                      {selectedCard.league}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-warmscale-4">Format:</span>{' '}
+                    <span className="text-warmscale-1 font-medium">
+                      {selectedCard.format}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-warmscale-4">Class:</span>{' '}
+                    <span className="text-warmscale-1 font-medium capitalize">
                       {selectedCard.class}
                     </span>
                   </div>
-                  <div className="text-sm sm:text-base">
-                    <span className="text-warmscale-3">Division:</span>
-                    <span className="text-warmscale-1 ml-2 capitalize">
+                  <div>
+                    <span className="text-warmscale-4">Division:</span>{' '}
+                    <span className="text-warmscale-1 font-medium capitalize">
                       {selectedCard.division}
                     </span>
                   </div>
-                  <div className="text-sm sm:text-base">
-                    <span className="text-warmscale-3">Rarity:</span>
+                  <div>
+                    <span className="text-warmscale-4">Rarity:</span>{' '}
                     <span
-                      className={`ml-2 font-bold bg-gradient-to-r ${rarityColors[selectedCard.rarity]} bg-clip-text text-transparent capitalize`}
+                      className={`font-bold bg-gradient-to-r ${rarityColors[selectedCard.rarity]} bg-clip-text text-transparent capitalize`}
                     >
                       {selectedCard.rarity}
                     </span>
                   </div>
-                  <div className="text-sm sm:text-base">
-                    <span className="text-warmscale-3">Overall Rating:</span>
-                    <span className="text-warmscale-1 ml-2 font-bold text-lg sm:text-xl">
-                      {selectedCard.overall}
-                    </span>
+                </div>
+
+                {/* Overall rating - more prominent */}
+                <div className="mb-3 p-2 sm:p-3 bg-warmscale-8 rounded border border-warmscale-6 text-center relative">
+                  <div className="flex items-end justify-center gap-2 text-warmscale-4 text-xs sm:text-sm">
+                    <span>Overall Rating</span>
+                    <div className="relative">
+                      <button
+                        onMouseEnter={() => setShowFormulaTooltip(true)}
+                        onMouseLeave={() => setShowFormulaTooltip(false)}
+                        onClick={() => setShowFormulaTooltip(!showFormulaTooltip)}
+                        className="text-warmscale-4 hover:text-warmscale-2 transition-colors"
+                        aria-label="Rating formula info"
+                      >
+                        <svg
+                          className="w-4 h-4 -mb-0.5 -ml-1"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                      {showFormulaTooltip && (
+                        <div className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-[calc(100vw-2rem)] max-w-xs sm:max-w-sm p-3 bg-warmscale-9 border border-warmscale-6 rounded shadow-lg text-left">
+                          <div className="text-warmscale-1 font-bold text-xs mb-2">
+                            Overall Rating
+                          </div>
+                          <div className="text-warmscale-3 text-xs leading-relaxed mb-3">
+                            The overall rating is calculated using all six stats, with each stat weighted differently based on its impact on competitive performance.
+                          </div>
+                          <div className="text-warmscale-3 text-xs leading-relaxed">
+                            <div className="font-semibold text-warmscale-2 mb-1">Stats:</div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <span className="font-medium text-warmscale-2">CBT</span> = {selectedCard.class !== 'medic' ? 'Kills' : 'Assists'}
+                              </div>
+                              <div>
+                                <span className="font-medium text-warmscale-2">EFF</span> = {selectedCard.class !== 'medic' ? 'K/D' : 'A/D'}
+                              </div>
+                              <div>
+                                <span className="font-medium text-warmscale-2">SPT</span> = {selectedCard.class !== 'medic' ? 'Assists' : 'Ubers'}
+                              </div>
+                              <div>
+                                <span className="font-medium text-warmscale-2">{selectedCard.class !== 'medic' ? 'DMG' : 'HLG'}</span> = {selectedCard.class !== 'medic' ? 'Damage' : 'Healing'}
+                              </div>
+                              <div>
+                                <span className="font-medium text-warmscale-2">SRV</span> = Deaths
+                              </div>
+                              <div>
+                                <span className="font-medium text-warmscale-2">EVA</span> = DTM
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                  <div className="text-warmscale-1 text-3xl sm:text-4xl font-bold">
+                    {calculateOverall({
+                      class: selectedCard.class,
+                      cbt: selectedCard.cbt,
+                      eff: selectedCard.eff,
+                      eva: selectedCard.eva,
+                      imp: selectedCard.dmg,
+                      spt: selectedCard.spt,
+                      srv: selectedCard.srv
+                    }).toFixed(1)}
+                  </div>
+                </div>
+
+                <div>
+                  {/* Gift indicator */}
                   {selectedCard.gifted_from && (
-                    <div className="flex items-center gap-3 p-3 bg-purple-900/20 border border-purple-600/30 rounded mt-3">
+                    <div className="flex items-center gap-3 p-3 bg-purple-900/20 border border-purple-600/30 rounded">
                       <svg
                         className="w-5 h-5 text-purple-400 flex-shrink-0"
                         fill="currentColor"
@@ -263,6 +365,7 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({
                           <a
                             href={`/profile/${selectedCard.gifted_from}`}
                             className="text-purple-400 hover:text-purple-300 font-semibold"
+                            onClick={(e) => e.stopPropagation()}
                           >
                             {selectedCard.gifter_name ||
                               selectedCard.gifted_from}
@@ -271,6 +374,46 @@ const ProfileCardShowcase: React.FC<ProfileCardShowcaseProps> = ({
                       </div>
                     </div>
                   )}
+
+                  {/* Stats Grid - hidden on mobile since visible on card */}
+                  <div className="hidden md:grid grid-cols-2 gap-2 mt-4 p-4 bg-warmscale-8 rounded border border-warmscale-6 text-sm">
+                    <div>
+                      <span className="text-warmscale-3">CBT:</span>{' '}
+                      <span className="text-warmscale-1 font-bold">
+                        {selectedCard.cbt}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-warmscale-3">EFF:</span>{' '}
+                      <span className="text-warmscale-1 font-bold">
+                        {selectedCard.eff}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-warmscale-3">SPT:</span>{' '}
+                      <span className="text-warmscale-1 font-bold">
+                        {selectedCard.spt}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-warmscale-3">{selectedCard.class !== 'medic' ? 'DMG' : 'HLG'}:</span>{' '}
+                      <span className="text-warmscale-1 font-bold">
+                        {selectedCard.dmg}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-warmscale-3">SRV:</span>{' '}
+                      <span className="text-warmscale-1 font-bold">
+                        {selectedCard.srv}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-warmscale-3">EVA:</span>{' '}
+                      <span className="text-warmscale-1 font-bold">
+                        {selectedCard.eva}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

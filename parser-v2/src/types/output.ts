@@ -191,6 +191,7 @@ export interface MatchupStats {
 // Summary Stats - Overall player performance
 export interface PlayerComparativeStats {
   steamId: string;
+  steamId64: string;
   name: string;
   team: Team;
   primaryClass: TF2Class;

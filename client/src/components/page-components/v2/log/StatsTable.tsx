@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getClassOrder } from '../../../constants/tf2';
+import { getClassOrder } from '../../../../constants/tf2';
 
 interface PlayerStats {
   steamId: string;

@@ -391,15 +391,11 @@ const Profile = () => {
           </div>
 
           {/* Main Content */}
-          <div className="mx-auto max-w-[1200px] px-6 md:px-12 lg:px-16">
+          <div className="w-full max-w-[1200px] px-6 md:px-12 lg:px-16">
             <div className="w-full xl:flex xl:gap-4">
             <div id="summary" className="xl:w-2/3 w-full">
               {/* Card Showcase Section */}
-              <div className="flex justify-center">
-                <div className="w-full">
-                  <ProfileCardShowcase steamid={playerId} />
-                </div>
-              </div>
+              <ProfileCardShowcase steamid={playerId} />
 
               <ProfileStats
                 totalMatches={totalMatches}
@@ -489,7 +485,10 @@ const Profile = () => {
                           {playerCardData.class !== 'medic' ? 'K/D' : 'A/D'}
                         </div>
                         <div>
-                          DMG (DAMAGE) ={' '}
+                          {playerCardData.class !== 'medic'
+                            ? 'DMG (DAMAGE)'
+                            : 'HLG (HEALING)'}{' '}
+                          ={' '}
                           {playerCardData.class !== 'medic'
                             ? 'DAMAGE'
                             : 'HEALS'}

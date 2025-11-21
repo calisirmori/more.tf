@@ -8,6 +8,7 @@ const {
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 const { getDivisionSortOrder } = require('../utils/rarityMapping');
+const { calculateOverall } = require('../utils/classWeights');
 
 // Initialize S3 client
 const s3Client = new S3Client({
@@ -234,13 +235,9 @@ router.get('/player-data/:seasonid', async (req, res) => {
           return orderA - orderB; // Sort by division tier first
         }
 
-        // Within same division, sort by player rating
-        const ratingA =
-          (a.cbt * 2 + a.eff * 0.5 + a.eva * 0.5 + a.imp * 2 + a.spt + a.srv) /
-          7.0;
-        const ratingB =
-          (b.cbt * 2 + b.eff * 0.5 + b.eva * 0.5 + b.imp * 2 + b.spt + b.srv) /
-          7.0;
+        // Within same division, sort by player rating using class-specific weights
+        const ratingA = calculateOverall(a);
+        const ratingB = calculateOverall(b);
         return ratingB - ratingA; // Higher rating first
       });
 

@@ -5,9 +5,11 @@
 
 import { PlayerGameTotals } from '../types/output';
 import { Team, TF2Class } from '../types/events';
+import { steamId3ToId64 } from '../tokenizer/patterns';
 
 export interface PlayerComparativeStats {
   steamId: string;
+  steamId64: string;
   name: string;
   team: Team;
   primaryClass: TF2Class;
@@ -109,6 +111,7 @@ export class ComparativeStatsAggregator {
 
       return {
         steamId: player.steamId,
+        steamId64: steamId3ToId64(player.steamId),
         name: player.name,
         team: player.team,
         primaryClass: player.primaryClass,

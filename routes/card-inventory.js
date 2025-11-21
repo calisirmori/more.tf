@@ -228,6 +228,12 @@ router.get('/favorites/:steamid', async (req, res) => {
         pci.class,
         pci.division,
         pci.format,
+        pci.cbt,
+        pci.eff,
+        pci.eva,
+        pci.imp as dmg,
+        pci.spt,
+        pci.srv,
         s.seasonname,
         s.league,
         tg.rglname
