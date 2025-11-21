@@ -268,93 +268,13 @@ router.get('/per-map-stats/:id', (req, response) => {
 });
 
 router.get('/peers-page/:id', (req, response) => {
-  // Extract parameters from the request
-  let playerId = req.params.id;
-  let playerClass =
-    req.query.class === 'none' ? 'class' : "'" + req.query.class + "'"; // Parameter for class
-  let map = req.query.map === 'none' ? '' : req.query.map; // Parameter for map
-  let startDate = req.query.startDate; // Parameter for start date
-  let endDate = req.query.endDate === 0 ? 'class' : '3000000000'; // Parameter for end date
-  let format =
-    req.query.format === 'none' ? 'format' : "'" + req.query.format + "'"; // Parameter for format
-
-  // The SQL query with placeholders for parameters
-  let query = `with enemy_count as (
-    SELECT
-      players.id64 AS peer_id64,
-      COUNT(players.id64) AS count,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'W') AS W,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'L') AS L,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T
-    FROM (
-      SELECT players.id64, players.logid, players.match_result, players.team, players.class, logs."date", logs."map", logs.format
-      FROM players
-      INNER JOIN logs ON players.logid = logs.logid
-      WHERE players.id64 = ${playerId}
-      AND players.class = ${playerClass}
-      AND logs.map LIKE '%${map}%'
-      AND logs."date" > ${startDate}
-      AND logs."date" < ${endDate}
-      AND logs.format = ${format}
-    ) AS T1
-    INNER JOIN players ON T1.logid = players.logid AND T1.team <> players.team
-    WHERE players.id64 <> T1.id64
-    GROUP BY players.id64
-    ORDER BY count DESC
-  ),
-  teamate_count as (
-    SELECT
-      players.id64 AS peer_id64,
-      COUNT(players.id64) AS count,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'W') AS W,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'L') AS L,
-      COUNT(T1.match_result) FILTER (WHERE T1.match_result = 'T') AS T
-    FROM (
-      SELECT players.id64, players.logid, players.match_result, players.team, players.class, logs."date", logs."map", logs.format
-      FROM players
-      INNER JOIN logs ON players.logid = logs.logid
-      WHERE players.id64 = ${playerId}
-      AND players.class = ${playerClass}
-      AND logs.map LIKE '%${map}%'
-      AND logs."date" > ${startDate}
-      AND logs."date" < ${endDate}
-      AND logs.format = ${format}
-    ) AS T1
-    INNER JOIN players ON T1.logid = players.logid AND T1.team = players.team
-    WHERE players.id64 <> T1.id64
-    GROUP BY players.id64
-    ORDER BY count DESC
-  )
-  SELECT
-    si.name,
-    si.avatar,
-    teamate_count.peer_id64,
-    teamate_count.count as teamate_count,
-    teamate_count.peer_id64,
-    enemy_count.peer_id64,
-    teamate_count.W as teamate_wins,
-    teamate_count.L as teamate_lose,
-    teamate_count.T as teamate_tie,
-    enemy_count.count as enemy_count,
-    enemy_count.W as enemy_wins,
-    enemy_count.L as enemy_lose,
-    enemy_count.T as enemy_tie
-    FROM enemy_count
-    full outer JOIN teamate_count ON enemy_count.peer_id64 = teamate_count.peer_id64
-    inner  JOIN steam_info si ON si.id64 = teamate_count.peer_id64 or si.id64 = enemy_count.peer_id64
-    WHERE
-    COALESCE(teamate_count.count, 0) + COALESCE(enemy_count.count, 0) > 5
-    ORDER BY
-    teamate_count.count DESC
-    `;
-  // Execute the query with parameters
-  pool
-    .query(query)
-    .then((res) => response.send(res))
-    .catch((err) => {
-      logger.error('Peers page query error', { error: err.message, playerId });
-      response.status(500).send('Error executing the query');
-    });
+  // Temporarily disabled due to performance issues - under rework
+  logger.info('Peers page temporarily disabled', { playerId: req.params.id });
+  response.status(503).json({
+    error: 'This feature is temporarily unavailable while we optimize performance.',
+    message: 'The peers page is currently under rework. Please check back soon!',
+    underRework: true
+  });
 });
 
 module.exports = router;

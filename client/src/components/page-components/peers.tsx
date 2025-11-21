@@ -33,6 +33,7 @@ const Peers = () => {
   const [displayCount, setDisplayCount] = useState(100);
   const [searchedPlayer, setSearchedPlayer] = useState<any>([]);
   const [seachOpen, setSearchOpen] = useState(true);
+  const [underRework, setUnderRework] = useState(false);
 
   const formatNames: any = {
     none: 'Any',
@@ -178,6 +179,13 @@ const Peers = () => {
 
     try {
       const response: any = await fetch(url, FetchResultTypes.JSON);
+
+      // Check if the feature is under rework
+      if (response.underRework) {
+        setUnderRework(true);
+        return;
+      }
+
       const peersData = response.rows;
 
       // Calculate the maximum matches with and against
@@ -199,6 +207,7 @@ const Peers = () => {
       setShouldSort(true);
     } catch (error) {
       console.error('Error fetching peers:', error);
+      setUnderRework(true);
     }
   }
 
@@ -299,9 +308,9 @@ const Peers = () => {
   useEffect(() => {}, [searchedPlayer]);
 
   return (
-    <div className=" bg-warmscale-7 min-h-screen" data-testid="peers-container">
+    <div className="bg-warmscale-7 min-h-screen flex flex-col" data-testid="peers-container">
       <Navbar />
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-grow">
         <div className="relative w-full h-fit flex-grow">
           <div className="flex justify-center w-full items-center bg-warmscale-8 py-8">
             <div className="w-[76rem] justify-between px-2 md:flex">
@@ -369,7 +378,38 @@ const Peers = () => {
           </div>
           <div className="w-full mt-4 flex justify-center items-center">
             <div>
-              <div className="mb-4 flex flex-wrap justify-center gap-4 max-w-[90vw]">
+              {underRework && (
+                <div className="mb-4 flex justify-center">
+                  <div className="bg-warmscale-8 border-2 border-tf-orange rounded-lg p-8 max-w-2xl">
+                    <div className="flex items-center justify-center mb-4">
+                      <svg
+                        className="h-16 w-16 text-tf-orange"
+                        fill="none"
+                        strokeWidth={2}
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          stroke="currentColor"
+                          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h2 className="text-3xl font-bold text-lightscale-2 text-center mb-4 font-cantarell">
+                      Feature Under Rework
+                    </h2>
+                    <p className="text-lightscale-4 text-center text-lg font-cantarell">
+                      The peers page is temporarily unavailable while we optimize performance and improve the experience.
+                    </p>
+                    <p className="text-lightscale-5 text-center mt-4 font-cantarell">
+                      Please check back soon!
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className={`mb-4 flex flex-wrap justify-center gap-4 max-w-[90vw] ${underRework ? 'hidden' : ''}`}>
                 <div>
                   <div className="flex gap-4 justify-center flex-wrap">
                     <div>
@@ -648,7 +688,7 @@ const Peers = () => {
                   )}
                 </div>
               </div>
-              <div className=" max-w-[90vw] overflow-x-auto ">
+              <div className={`max-w-[90vw] overflow-x-auto ${underRework ? 'hidden' : ''}`}>
                 <table className=" bg-warmscale-8 rounded-t-md ">
                   <thead>
                     <tr className="font-cantarell">
@@ -835,7 +875,7 @@ const Peers = () => {
                 className={`w-full relative bg-warmscale-8 rounded-b-md flex justify-center items-center py-1 ${
                   displayCount !== peers.length &&
                   'hover:bg-warmscale-6 hover:cursor-pointer group'
-                }  `}
+                } ${underRework ? 'hidden' : ''}`}
               >
                 <svg
                   fill="none"
@@ -859,7 +899,7 @@ const Peers = () => {
             </div>
           </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-auto pt-6">
           <Footer />
         </div>
       </div>
